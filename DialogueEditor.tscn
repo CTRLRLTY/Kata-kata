@@ -1,11 +1,14 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://DialogueEditor.gd" type="Script" id=1]
 [ext_resource path="res://DialogueGraph.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Icons/Search.png" type="Texture" id=3]
+[ext_resource path="res://NodeSelection.gd" type="Script" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.239216, 0.227451, 0.270588, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=8]
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
@@ -34,6 +37,28 @@ VScrollBar/styles/grabber_highlight = null
 VScrollBar/styles/grabber_pressed = null
 VScrollBar/styles/scroll = SubResource( 4 )
 VScrollBar/styles/scroll_focus = SubResource( 5 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.152941, 0.172549, 0.223529, 1 )
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id=10]
+content_margin_left = 5.0
+content_margin_right = 5.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+bg_color = Color( 0.219608, 0.219608, 0.219608, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0.662745, 0.682353, 0.733333, 1 )
 
 [node name="DialogueEditor" type="PanelContainer"]
 anchor_right = 1.0
@@ -89,8 +114,11 @@ margin_right = 186.0
 margin_bottom = 213.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_styles/selected = SubResource( 8 )
 custom_constants/line_separation = 0
-items = [ "Item 0", null, false, "Item 1", null, false, "Item 2", null, false, "Item 3", null, false, "Item 4", null, false, "Item 5", null, false, "Item 6", null, false, "Item 7", null, false ]
+items = [ "Character", null, false, "Message", null, false, "Condition", null, false, "Pipe", null, false, "Setter", null, false, "Getter", null, false, "Portal", null, false ]
+icon_scale = 0.6
+script = ExtResource( 5 )
 
 [node name="LowerHalf" type="VBoxContainer" parent="HSplitContainer/LeftDock/VSplitContainer"]
 margin_top = 225.0
@@ -130,4 +158,111 @@ margin_left = 212.0
 margin_right = 1024.0
 margin_bottom = 600.0
 theme = SubResource( 6 )
+minimap_enabled = false
 script = ExtResource( 2 )
+
+[node name="ChoiceNode" type="GraphNode" parent="HSplitContainer/GraphEdit"]
+margin_left = 170.0
+margin_top = 178.0
+margin_right = 458.0
+margin_bottom = 328.0
+mouse_filter = 1
+custom_styles/frame = SubResource( 9 )
+custom_constants/separation = 0
+offset = Vector2( 170, 178 )
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+slot/1/left_enabled = true
+slot/1/left_type = 0
+slot/1/left_color = Color( 1, 1, 1, 1 )
+slot/1/right_enabled = true
+slot/1/right_type = 0
+slot/1/right_color = Color( 1, 1, 1, 1 )
+slot/2/left_enabled = false
+slot/2/left_type = 0
+slot/2/left_color = Color( 1, 1, 1, 1 )
+slot/2/right_enabled = false
+slot/2/right_type = 0
+slot/2/right_color = Color( 1, 1, 1, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Header" type="MarginContainer" parent="HSplitContainer/GraphEdit/ChoiceNode"]
+margin_right = 288.0
+margin_bottom = 71.0
+mouse_filter = 2
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 27
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/GraphEdit/ChoiceNode/Header"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 268.0
+margin_bottom = 44.0
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="HSplitContainer/GraphEdit/ChoiceNode/Header/HBoxContainer"]
+margin_top = 5.0
+margin_right = 50.0
+margin_bottom = 19.0
+text = "Choices"
+
+[node name="Button" type="Button" parent="HSplitContainer/GraphEdit/ChoiceNode/Header/HBoxContainer"]
+margin_left = 166.0
+margin_right = 248.0
+margin_bottom = 24.0
+size_flags_horizontal = 10
+custom_styles/normal = SubResource( 10 )
+text = "Add Choice"
+
+[node name="FlowPort" type="MarginContainer" parent="HSplitContainer/GraphEdit/ChoiceNode"]
+margin_top = 71.0
+margin_right = 288.0
+margin_bottom = 85.0
+mouse_filter = 2
+custom_constants/margin_right = 20
+custom_constants/margin_left = 20
+
+[node name="LabelHBox" type="HBoxContainer" parent="HSplitContainer/GraphEdit/ChoiceNode/FlowPort"]
+margin_left = 20.0
+margin_right = 268.0
+margin_bottom = 14.0
+mouse_filter = 2
+
+[node name="InPortLabel" type="Label" parent="HSplitContainer/GraphEdit/ChoiceNode/FlowPort/LabelHBox"]
+margin_right = 86.0
+margin_bottom = 14.0
+text = "Previous Line"
+
+[node name="OutPortLabel" type="Label" parent="HSplitContainer/GraphEdit/ChoiceNode/FlowPort/LabelHBox"]
+margin_left = 187.0
+margin_right = 248.0
+margin_bottom = 14.0
+size_flags_horizontal = 10
+text = "Next Line"
+
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/GraphEdit/ChoiceNode"]
+margin_top = 85.0
+margin_right = 288.0
+margin_bottom = 150.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 17
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="LineEdit" type="LineEdit" parent="HSplitContainer/GraphEdit/ChoiceNode/MarginContainer"]
+margin_left = 20.0
+margin_top = 17.0
+margin_right = 268.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 0, 28 )
+custom_styles/normal = SubResource( 11 )
+custom_constants/minimum_spaces = 0
+placeholder_text = "Your Choice"
