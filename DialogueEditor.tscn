@@ -130,5 +130,4 @@ margin_left = 212.0
 margin_right = 1024.0
 margin_bottom = 600.0
 theme = SubResource( 6 )
-scroll_offset = Vector2( -101, -14 )
 script = ExtResource( 2 )
