@@ -12,7 +12,7 @@ const Items = [
 		"icon": null
 	},
 	{
-		"name": "ShowMessage",
+		"name": "Message",
 		"icon": null
 	},
 	{
@@ -28,25 +28,16 @@ const Items = [
 		"icon": null
 	},
 	{
-		"name": "Getter",
-		"icon": null
-	},
-	{
-		"name": "Setter",
-		"icon": null
-	},
-	{
 		"name": "Emitter",
 		"icon": null
 	}
 ]
 
 func _enter_tree() -> void:
+	clear()
 	for item in Items:
 		add_item(item.name, item.icon)
 		
-func _exit_tree() -> void:
-	clear()
 
 func get_drag_data(position: Vector2):
 	var preview_control := PanelContainer.new()

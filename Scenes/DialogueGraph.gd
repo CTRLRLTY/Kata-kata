@@ -10,6 +10,7 @@ func _ready() -> void:
 			scrollbar[child.get_class().to_lower()] = child
 			child.connect("value_changed", self, "_on_%s_value_changed" % child.get_class(), [child])
 
+
 func _gui_input(event: InputEvent) -> void:
 	_previous_scroll_offset = scroll_offset
 	
@@ -26,7 +27,6 @@ func _gui_input(event: InputEvent) -> void:
 			zoom /= 1.2
 		
 
-	
 func get_graphfilter() -> Control:
 	return get_children()[0].get_children()
 	
