@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
+
+[node name="StartNode" type="GraphNode"]
+margin_left = 52.3925
+margin_top = 54.3947
+margin_right = 135.392
+margin_bottom = 98.3947
+mouse_filter = 1
+custom_styles/frame = ExtResource( 1 )
+custom_constants/port_offset = 14
+custom_constants/separation = 0
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Content" type="HBoxContainer" parent="."]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 67.0
+margin_bottom = 29.0
+mouse_filter = 2
+custom_constants/separation = 0
+
+[node name="Label" type="Label" parent="Content"]
+margin_right = 29.0
+margin_bottom = 14.0
+text = "Start"
+
+[node name="ReferenceRect" type="ReferenceRect" parent="Content"]
+margin_left = 32.0
+margin_right = 52.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 20, 0 )
+mouse_filter = 2
+size_flags_horizontal = 10

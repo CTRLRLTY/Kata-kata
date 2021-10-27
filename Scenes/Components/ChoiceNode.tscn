@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Resources/Styleboxes/ChoiceNodeBG.stylebox" type="StyleBox" id=1]
+[ext_resource path="res://Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 5.0
@@ -18,10 +18,13 @@ border_color = Color( 0, 0, 0, 1 )
 bg_color = Color( 0.662745, 0.682353, 0.733333, 1 )
 
 [node name="ChoiceNode" type="GraphNode"]
-margin_right = 288.0
-margin_bottom = 150.0
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 240.0
+margin_bottom = 165.0
 mouse_filter = 1
 custom_styles/frame = ExtResource( 1 )
+custom_constants/port_offset = 14
 custom_constants/separation = 0
 slot/0/left_enabled = false
 slot/0/left_type = 0
@@ -46,17 +49,17 @@ __meta__ = {
 }
 
 [node name="Header" type="MarginContainer" parent="."]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 268.0
-margin_bottom = 71.0
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 210.0
+margin_bottom = 66.0
 mouse_filter = 2
 custom_constants/margin_right = 0
 custom_constants/margin_left = 0
 custom_constants/margin_bottom = 27
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Header"]
-margin_right = 248.0
+margin_right = 195.0
 margin_bottom = 24.0
 mouse_filter = 2
 
@@ -67,37 +70,49 @@ margin_bottom = 19.0
 text = "Choices"
 
 [node name="Button" type="Button" parent="Header/HBoxContainer"]
-margin_left = 166.0
-margin_right = 248.0
+margin_left = 113.0
+margin_right = 195.0
 margin_bottom = 24.0
 size_flags_horizontal = 10
 custom_styles/normal = SubResource( 1 )
 text = "Add Choice"
 
 [node name="FlowPort" type="HBoxContainer" parent="."]
-margin_left = 20.0
-margin_top = 71.0
-margin_right = 268.0
-margin_bottom = 85.0
+margin_left = 15.0
+margin_top = 66.0
+margin_right = 210.0
+margin_bottom = 80.0
 mouse_filter = 2
 
+[node name="InPortRef" type="ReferenceRect" parent="FlowPort"]
+margin_right = 10.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 10, 0 )
+
 [node name="InPortLabel" type="Label" parent="FlowPort"]
-margin_right = 86.0
+margin_left = 14.0
+margin_right = 100.0
 margin_bottom = 14.0
 text = "Previous Line"
 
 [node name="OutPortLabel" type="Label" parent="FlowPort"]
-margin_left = 187.0
-margin_right = 248.0
+margin_left = 120.0
+margin_right = 181.0
 margin_bottom = 14.0
 size_flags_horizontal = 10
 text = "Next Line"
 
+[node name="OutPortRef" type="ReferenceRect" parent="FlowPort"]
+margin_left = 185.0
+margin_right = 195.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 10, 0 )
+
 [node name="Body" type="MarginContainer" parent="."]
-margin_left = 20.0
-margin_top = 85.0
-margin_right = 268.0
-margin_bottom = 130.0
+margin_left = 15.0
+margin_top = 80.0
+margin_right = 210.0
+margin_bottom = 125.0
 mouse_filter = 2
 custom_constants/margin_right = 0
 custom_constants/margin_top = 17
@@ -105,7 +120,7 @@ custom_constants/margin_left = 0
 
 [node name="LineEdit" type="LineEdit" parent="Body"]
 margin_top = 17.0
-margin_right = 248.0
+margin_right = 195.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 0, 28 )
 custom_styles/normal = SubResource( 2 )
