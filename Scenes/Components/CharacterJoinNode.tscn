@@ -1,0 +1,69 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Resources/Styleboxes/CharacterNodeBG.stylebox" type="StyleBox" id=1]
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.662745, 0.682353, 0.733333, 1 )
+
+[node name="CharacterJoin" type="GraphNode"]
+margin_left = 10.0
+margin_top = 113.0
+margin_right = 196.0
+margin_bottom = 202.0
+mouse_filter = 1
+custom_styles/frame = ExtResource( 1 )
+custom_constants/port_offset = 14
+custom_constants/separation = 0
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color( 1, 1, 1, 1 )
+slot/1/right_enabled = true
+slot/1/right_type = 0
+slot/1/right_color = Color( 1, 1, 1, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Header" type="MarginContainer" parent="."]
+margin_left = 15.0
+margin_top = 10.0
+margin_right = 181.0
+margin_bottom = 51.0
+mouse_filter = 2
+custom_constants/margin_right = 0
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 27
+
+[node name="Title" type="Label" parent="Header"]
+margin_right = 166.0
+margin_bottom = 14.0
+text = "Character Join"
+
+[node name="Body" type="HBoxContainer" parent="."]
+margin_left = 15.0
+margin_top = 51.0
+margin_right = 181.0
+margin_bottom = 79.0
+mouse_filter = 2
+
+[node name="LineEdit" type="LineEdit" parent="Body"]
+margin_right = 142.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 28 )
+size_flags_horizontal = 3
+custom_styles/normal = SubResource( 6 )
+custom_constants/minimum_spaces = 0
+placeholder_text = "Your Choice"
+
+[node name="PortReference" type="ReferenceRect" parent="Body"]
+margin_left = 146.0
+margin_right = 166.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 20, 0 )
+mouse_filter = 2
