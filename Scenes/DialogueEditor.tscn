@@ -1,0 +1,135 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Assets/Icons/Search.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/NodeSelection.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/DialogueGraph.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/DialogueEditor.gd" type="Script" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.239216, 0.227451, 0.270588, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="Theme" id=5]
+HScrollBar/icons/decrement = null
+HScrollBar/icons/decrement_highlight = null
+HScrollBar/icons/increment = null
+HScrollBar/icons/increment_highlight = null
+HScrollBar/styles/grabber = null
+HScrollBar/styles/grabber_highlight = null
+HScrollBar/styles/grabber_pressed = null
+HScrollBar/styles/scroll = null
+HScrollBar/styles/scroll_focus = SubResource( 3 )
+VScrollBar/icons/decrement = null
+VScrollBar/icons/decrement_highlight = null
+VScrollBar/icons/increment = null
+VScrollBar/icons/increment_highlight = null
+VScrollBar/styles/grabber = null
+VScrollBar/styles/grabber_highlight = null
+VScrollBar/styles/grabber_pressed = null
+VScrollBar/styles/scroll = null
+VScrollBar/styles/scroll_focus = SubResource( 4 )
+
+[node name="DialogueEditor" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeftDock" type="PanelContainer" parent="HSplitContainer"]
+margin_right = 200.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 200, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VSplitContainer" type="VSplitContainer" parent="HSplitContainer/LeftDock"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 193.0
+margin_bottom = 593.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpperHalf" type="VBoxContainer" parent="HSplitContainer/LeftDock/VSplitContainer"]
+margin_right = 186.0
+margin_bottom = 213.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.6
+
+[node name="Section" type="Label" parent="HSplitContainer/LeftDock/VSplitContainer/UpperHalf"]
+margin_right = 186.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Components"
+
+[node name="NodeSelection" type="ItemList" parent="HSplitContainer/LeftDock/VSplitContainer/UpperHalf"]
+margin_top = 18.0
+margin_right = 186.0
+margin_bottom = 213.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/selected = SubResource( 2 )
+custom_constants/line_separation = 0
+items = [ "CharacterJoin", null, false, "CharacterLeft", null, false, "ShowMessage", null, false, "Choices", null, false, "Pipe", null, false, "Setter", null, false, "Getter", null, false, "Setter", null, false, "Emitter", null, false ]
+script = ExtResource( 2 )
+
+[node name="LowerHalf" type="VBoxContainer" parent="HSplitContainer/LeftDock/VSplitContainer"]
+margin_top = 225.0
+margin_right = 186.0
+margin_bottom = 586.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Section" type="Label" parent="HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
+margin_right = 186.0
+margin_bottom = 14.0
+text = "Context State"
+
+[node name="LineEdit2" type="LineEdit" parent="HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
+margin_top = 18.0
+margin_right = 186.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+clear_button_enabled = true
+right_icon = ExtResource( 1 )
+placeholder_text = "Filter nodes"
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="Tree" type="Tree" parent="HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
+margin_top = 48.0
+margin_right = 186.0
+margin_bottom = 361.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GraphEdit" type="GraphEdit" parent="HSplitContainer"]
+margin_left = 212.0
+margin_right = 1024.0
+margin_bottom = 600.0
+theme = SubResource( 5 )
+minimap_enabled = false
+script = ExtResource( 3 )

@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="DialogueEditor"
-run/main_scene="res://DialogueEditor.tscn"
+run/main_scene="res://Scenes/DialogueEditor.tscn"
 config/icon="res://icon.png"
 
 [editor_plugins]
