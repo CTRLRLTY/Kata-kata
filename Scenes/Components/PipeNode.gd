@@ -46,6 +46,7 @@ func _add_attachment(attachment_name : String) -> void:
 	
 	add_child(attachment.instance())
 
+
 func _clear_attachment() -> void:
 	var attachments := get_children()
 	attachments.pop_front() # Exclude Header
