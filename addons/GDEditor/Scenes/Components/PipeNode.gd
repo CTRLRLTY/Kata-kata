@@ -38,7 +38,7 @@ func get_type() -> int:
 
 
 func _add_attachment(attachment_name : String) -> void:
-	var attachment_dir := "res://Scenes/Components/Attachments/"
+	var attachment_dir := "res://addons/GDEditor/Scenes/Components/Attachments/"
 	var attachment_path := attachment_dir + attachment_name + ".tscn"
 	var attachment : PackedScene = load(attachment_path)
 	

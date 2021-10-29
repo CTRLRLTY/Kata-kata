@@ -39,11 +39,3 @@ func _on_HScrollBar_value_changed(value: float, scrollbar : ScrollBar) -> void:
 func _on_VScrollBar_value_changed(value: float, scrollbar : ScrollBar) -> void:
 	if Input.is_key_pressed(KEY_CONTROL):
 		scrollbar.value = _previous_scroll_offset.y
-
-
-func _on_Pipe_close_request() -> void:
-	pass # Replace with function body.
-
-
-func _on_Pipe_hide() -> void:
-	pass # Replace with function body.

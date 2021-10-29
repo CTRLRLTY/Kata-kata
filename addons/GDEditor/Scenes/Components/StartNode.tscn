@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
+[ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
 
 [node name="StartNode" type="GraphNode"]
 margin_left = 52.3925

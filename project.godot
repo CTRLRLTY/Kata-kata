@@ -11,12 +11,12 @@ config_version=4
 [application]
 
 config/name="DialogueEditor"
-run/main_scene="res://Scenes/DialogueEditor.tscn"
+run/main_scene="res://addons/GDEditor/Scenes/DialogueEditor.tscn"
 config/icon="res://icon.png"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/explore-editor-theme/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/GDEditor/plugin.cfg", "res://addons/explore-editor-theme/plugin.cfg" )
 
 [input]
 
