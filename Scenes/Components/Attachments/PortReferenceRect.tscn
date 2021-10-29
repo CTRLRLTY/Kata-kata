@@ -1,0 +1,6 @@
+[gd_scene format=2]
+
+[node name="InPortRef" type="ReferenceRect"]
+margin_right = 10.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 10, 0 )

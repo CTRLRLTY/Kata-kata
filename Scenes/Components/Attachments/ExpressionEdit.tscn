@@ -1,0 +1,25 @@
+[gd_scene format=2]
+
+[node name="ExpressionEdit" type="HBoxContainer"]
+margin_left = 15.0
+margin_top = 62.0
+margin_right = 194.0
+margin_bottom = 86.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="LineEdit" parent="."]
+margin_right = 155.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="ValidIndicator" type="CheckBox" parent="."]
+margin_left = 155.0
+margin_right = 179.0
+margin_bottom = 24.0
+disabled = true

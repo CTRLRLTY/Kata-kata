@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.662745, 0.682353, 0.733333, 1 )
 
 [node name="Message" type="GraphNode"]
@@ -110,6 +110,6 @@ margin_top = 17.0
 margin_right = 195.0
 margin_bottom = 97.0
 rect_min_size = Vector2( 0, 80 )
-custom_styles/normal = SubResource( 1 )
+custom_styles/normal = SubResource( 6 )
 draw_tabs = true
 draw_spaces = true

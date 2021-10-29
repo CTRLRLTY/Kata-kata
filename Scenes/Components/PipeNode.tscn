@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Components/PipeNode.gd" type="Script" id=2]
+[ext_resource path="res://Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=3]
+
+[node name="Pipe" type="GraphNode"]
+margin_left = 1.0
+margin_right = 210.0
+margin_bottom = 67.0
+rect_min_size = Vector2( 209, 0 )
+mouse_filter = 1
+custom_styles/frame = ExtResource( 3 )
+custom_constants/port_offset = 14
+custom_constants/separation = 10
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Header" type="MarginContainer" parent="."]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 194.0
+margin_bottom = 52.0
+mouse_filter = 2
+custom_constants/margin_right = 0
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 17
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Header"]
+margin_right = 179.0
+margin_bottom = 20.0
+mouse_filter = 2
+custom_constants/separation = 20
+
+[node name="Title" type="Label" parent="Header/HBoxContainer"]
+margin_top = 3.0
+margin_right = 28.0
+margin_bottom = 17.0
+text = "Pipe"
+
+[node name="OptionTypeBtn" type="OptionButton" parent="Header/HBoxContainer"]
+margin_left = 48.0
+margin_right = 179.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Condition"
+align = 1
+items = [ "Condition", null, false, 0, null, "Expression", null, false, 1, null, "Wait for", null, false, 2, null, "Wait till", null, false, 3, null ]
+selected = 0
+
+[connection signal="item_selected" from="Header/HBoxContainer/OptionTypeBtn" to="." method="_on_OptionTypeBtn_item_selected"]

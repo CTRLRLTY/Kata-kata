@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/Components/Attachments/PortReferenceRect.tscn" type="PackedScene" id=1]
+
+[node name="TrueSection" type="HBoxContainer"]
+margin_left = 15.0
+margin_top = 96.0
+margin_right = 194.0
+margin_bottom = 110.0
+alignment = 2
+
+[node name="Label" type="Label" parent="."]
+margin_left = 137.0
+margin_right = 165.0
+margin_bottom = 14.0
+text = "True"
+
+[node name="OutPortRef" type="ReferenceRect" parent="." instance=ExtResource( 1 )]
+margin_left = 169.0
+margin_right = 179.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 10, 0 )
