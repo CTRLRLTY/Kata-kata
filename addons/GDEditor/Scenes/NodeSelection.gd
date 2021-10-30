@@ -2,45 +2,18 @@ tool
 
 extends ItemList
 
-const Items = [
-	{
-		"name": "CharacterJoin",
-		"icon": null
-	},
-	{
-		"name": "CharacterLeft",
-		"icon": null
-	},
-	{
-		"name": "Message",
-		"icon": null
-	},
-	{
-		"name": "Choices",
-		"icon": null
-	},
-	{
-		"name": "Pipe",
-		"icon": null
-	},
-	{
-		"name": "Setter",
-		"icon": null
-	},
-	{
-		"name": "Emitter",
-		"icon": null
-	}
-]
-
-func _enter_tree() -> void:
-	clear()
-	for item in Items:
-		add_item(item.name, item.icon)
-		
-
 func get_drag_data(position: Vector2):
-	var preview_control := PanelContainer.new()
-	var selected_item_id := get_item_at_position(position)
+	var component_dir = "res://addons/GDEditor/Scenes/Components/"
+	var selected_id := get_item_at_position(position)
+	var selected_text := get_item_text(selected_id)
+	var component_path : String = component_dir + selected_text + "Node.tscn"
+	var p : PackedScene = load(component_path)
+	var preview_control : GraphNode = p.instance()
+	
+	preview_control.rect_scale = Vector2(0.5, 0.5)
 	set_drag_preview(preview_control)
-	return "hello"
+	
+	return {
+		"value_type": "GDComponent",
+		"payload": p
+	}

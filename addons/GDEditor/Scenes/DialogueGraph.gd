@@ -25,7 +25,18 @@ func _gui_input(event: InputEvent) -> void:
 			zoom *= 1.2
 		elif event.button_index == BUTTON_WHEEL_DOWN:
 			zoom /= 1.2
+			
 		
+func can_drop_data(_position: Vector2, data) -> bool:
+	return data is Dictionary and data.get("value_type", "") == "GDComponent" 
+	
+	
+func drop_data(position: Vector2, data : Dictionary) -> void:
+	var gn : GraphNode = data.payload.instance()
+	
+	add_child(gn)
+	gn.offset = position
+	
 
 func get_graphfilter() -> Control:
 	return get_children()[0].get_children()
