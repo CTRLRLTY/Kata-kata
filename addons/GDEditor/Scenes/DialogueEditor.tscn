@@ -127,7 +127,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GraphEdit" type="GraphEdit" parent="HSplitContainer"]
+[node name="DGraph" type="GraphEdit" parent="HSplitContainer"]
 margin_left = 212.0
 margin_right = 1024.0
 margin_bottom = 600.0

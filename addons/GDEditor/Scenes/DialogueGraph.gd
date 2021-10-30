@@ -1,10 +1,11 @@
+tool
+
 extends GraphEdit
 
-onready var _previous_scroll_offset := scroll_offset
-onready var scrollbar := {}
-onready var ofs := Vector2.ZERO
+var _previous_scroll_offset := scroll_offset
+var scrollbar := {}
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	for child in get_graphfilter():
 		if child is ScrollBar:
 			scrollbar[child.get_class().to_lower()] = child
@@ -35,6 +36,7 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 	var gn : GraphNode = data.payload.instance()
 	
 	add_child(gn)
+	gn.owner = owner
 	gn.offset = position
 	
 
