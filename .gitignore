@@ -1,5 +1,13 @@
+# Default
 .import/
 *.translation
 export_presets.cfg
 .mono/
 build/
+
+# Ignore unrelated addons
+addons/**
+
+# Exclude
+!addons/GDEditor
+!addons/explore-editor-theme
