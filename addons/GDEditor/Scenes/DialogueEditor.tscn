@@ -89,8 +89,8 @@ margin_right = 186.0
 margin_bottom = 213.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/selected = SubResource( 2 )
 custom_constants/line_separation = 0
+custom_styles/selected = SubResource( 2 )
 items = [ "CharacterJoin", null, false, "CharacterLeft", null, false, "Message", null, false, "Choice", null, false, "Pipe", null, false, "Setter", null, false, "Emitter", null, false ]
 script = ExtResource( 4 )
 

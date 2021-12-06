@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/PortRect.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/PortRect.gd" type="Script" id=2]
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=3]
 
 [node name="Setter" type="GraphNode"]
@@ -10,16 +9,16 @@ margin_top = 39.0
 margin_right = 211.136
 margin_bottom = 113.0
 mouse_filter = 1
-custom_styles/frame = ExtResource( 3 )
 custom_constants/port_offset = 14
 custom_constants/separation = 0
+custom_styles/frame = ExtResource( 3 )
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color( 1, 1, 1, 1 )
 slot/0/right_enabled = false
 slot/0/right_type = 0
 slot/0/right_color = Color( 1, 1, 1, 1 )
-slot/1/left_enabled = true
+slot/1/left_enabled = false
 slot/1/left_type = 0
 slot/1/left_color = Color( 1, 1, 1, 1 )
 slot/1/right_enabled = false
@@ -52,15 +51,8 @@ margin_bottom = 59.0
 mouse_filter = 2
 custom_constants/separation = 0
 
-[node name="InPort" type="ReferenceRect" parent="FlowPort" instance=ExtResource( 1 )]
-margin_right = 10.0
+[node name="InPort" parent="FlowPort" instance=ExtResource( 1 )]
 margin_bottom = 20.0
-rect_min_size = Vector2( 10, 0 )
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-connector_type = 1
 
 [node name="OptionButton" type="OptionButton" parent="FlowPort"]
 margin_left = 10.0

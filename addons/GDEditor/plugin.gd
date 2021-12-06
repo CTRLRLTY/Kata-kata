@@ -9,6 +9,12 @@ func _enter_tree() -> void:
 	dialogue_editor = DialogueEditorScene.instance()
 	get_editor_interface().get_editor_viewport().add_child(dialogue_editor)
 	
+	add_custom_type(
+			"ComponentData", 
+			"Resource", 
+			load("res://addons/GDEditor/Resources/Custom/ComponentData.gd"), 
+			get_editor_interface().get_base_control().get_icon("ResourcePreloader", "EditorIcons"))
+	
 	# Prevent competing active main screen
 	make_visible(false)
 

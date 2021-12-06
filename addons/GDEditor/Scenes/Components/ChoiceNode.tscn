@@ -1,22 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/PortRect.tscn" type="PackedScene" id=2]
-
-[sub_resource type="StyleBoxFlat" id=1]
-content_margin_left = 5.0
-content_margin_right = 5.0
-content_margin_top = 5.0
-content_margin_bottom = 5.0
-bg_color = Color( 0.219608, 0.219608, 0.219608, 1 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color( 0, 0, 0, 1 )
-
-[sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 0.662745, 0.682353, 0.733333, 1 )
+[ext_resource path="res://addons/GDEditor/Scenes/Components/ChoiceNode.gd" type="Script" id=3]
+[ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ButtonDarkBG.stylebox" type="StyleBox" id=4]
+[ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/ChoiceEditRect.tscn" type="PackedScene" id=5]
 
 [node name="ChoiceNode" type="GraphNode"]
 margin_left = 15.0
@@ -24,16 +12,16 @@ margin_top = 15.0
 margin_right = 240.0
 margin_bottom = 165.0
 mouse_filter = 1
-custom_styles/frame = ExtResource( 1 )
 custom_constants/port_offset = 14
 custom_constants/separation = 0
+custom_styles/frame = ExtResource( 1 )
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color( 1, 1, 1, 1 )
 slot/0/right_enabled = false
 slot/0/right_type = 0
 slot/0/right_color = Color( 1, 1, 1, 1 )
-slot/1/left_enabled = true
+slot/1/left_enabled = false
 slot/1/left_type = 0
 slot/1/left_color = Color( 1, 1, 1, 1 )
 slot/1/right_enabled = true
@@ -45,6 +33,7 @@ slot/2/left_color = Color( 1, 1, 1, 1 )
 slot/2/right_enabled = false
 slot/2/right_type = 0
 slot/2/right_color = Color( 1, 1, 1, 1 )
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -70,59 +59,44 @@ margin_right = 50.0
 margin_bottom = 19.0
 text = "Choices"
 
-[node name="Button" type="Button" parent="Header/HBoxContainer"]
+[node name="AddChoice" type="Button" parent="Header/HBoxContainer"]
 margin_left = 113.0
 margin_right = 195.0
 margin_bottom = 24.0
 size_flags_horizontal = 10
-custom_styles/normal = SubResource( 1 )
+custom_styles/normal = ExtResource( 4 )
 text = "Add Choice"
 
-[node name="FlowPort" type="HBoxContainer" parent="."]
+[node name="MainFlowPort" type="HBoxContainer" parent="."]
 margin_left = 15.0
 margin_top = 66.0
 margin_right = 210.0
 margin_bottom = 80.0
 mouse_filter = 2
 
-[node name="InPort" parent="FlowPort" instance=ExtResource( 2 )]
+[node name="InPort" parent="MainFlowPort" instance=ExtResource( 2 )]
 margin_bottom = 14.0
-connector_type = 1
 
-[node name="InPortLabel" type="Label" parent="FlowPort"]
+[node name="InPortLabel" type="Label" parent="MainFlowPort"]
 margin_left = 14.0
 margin_right = 100.0
 margin_bottom = 14.0
 text = "Previous Line"
 
-[node name="OutPortLabel" type="Label" parent="FlowPort"]
+[node name="OutPortLabel" type="Label" parent="MainFlowPort"]
 margin_left = 120.0
 margin_right = 181.0
 margin_bottom = 14.0
 size_flags_horizontal = 10
 text = "Next Line"
 
-[node name="OutPort" parent="FlowPort" instance=ExtResource( 2 )]
+[node name="OutPort" parent="MainFlowPort" instance=ExtResource( 2 )]
 margin_left = 185.0
 margin_right = 195.0
 margin_bottom = 14.0
 connector_type = 2
 
-[node name="Body" type="MarginContainer" parent="."]
-margin_left = 15.0
-margin_top = 80.0
-margin_right = 210.0
-margin_bottom = 125.0
-mouse_filter = 2
-custom_constants/margin_right = 0
-custom_constants/margin_top = 17
-custom_constants/margin_left = 0
+[node name="MainChoice" parent="." instance=ExtResource( 5 )]
+custom_constants/margin_bottom = 0
 
-[node name="LineEdit" type="LineEdit" parent="Body"]
-margin_top = 17.0
-margin_right = 195.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 0, 28 )
-custom_styles/normal = SubResource( 6 )
-custom_constants/minimum_spaces = 0
-placeholder_text = "Your Choice"
+[connection signal="pressed" from="Header/HBoxContainer/AddChoice" to="." method="_on_AddChoice_pressed"]

@@ -32,15 +32,18 @@ func get_graph_owner() -> GraphNode:
 	
 	return grand_parent as GraphNode
 	
+	
 func get_slot() -> int:
 	var parent := get_parent()
 	assert(parent, "PortRect can't be a direct child of GraphNode")
 	
 	return parent.get_position_in_parent()
 	
+	
 func set_port_type(type : int) -> void:
 	port_type = type
 	_update_port()
+	
 	
 func set_connector_type(type : int) -> void:
 	connector_type = type

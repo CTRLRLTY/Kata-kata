@@ -8,6 +8,22 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Resource",
+"class": "ComponentData",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Resources/Custom/ComponentData.gd"
+}, {
+"base": "Reference",
+"class": "GDUtil",
+"language": "GDScript",
+"path": "res://addons/GDEditor/GDutil.gd"
+} ]
+_global_script_class_icons={
+"ComponentData": "",
+"GDUtil": ""
+}
+
 [application]
 
 config/name="DialogueEditor"
