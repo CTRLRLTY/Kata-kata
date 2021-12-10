@@ -37,7 +37,7 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 	
 	add_child(gn)
 	gn.owner = owner
-	gn.offset = position
+	gn.offset = position + scroll_offset
 	
 
 func get_graphfilter() -> Control:
