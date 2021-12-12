@@ -6,7 +6,7 @@ export_presets.cfg
 build/
 
 # Ignore unrelated addons
-addons/**
+addons/*/
 
 # Exclude
 !addons/GDEditor
