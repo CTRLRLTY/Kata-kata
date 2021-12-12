@@ -32,7 +32,7 @@ config/icon="res://icon.png"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/explore-editor-theme/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/GDEditor/plugin.cfg", "res://addons/explore-editor-theme/plugin.cfg" )
 
 [input]
 

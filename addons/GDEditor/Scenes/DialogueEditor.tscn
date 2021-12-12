@@ -1,80 +1,284 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.gd" type="Script" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueEditor.gd" type="Script" id=2]
-[ext_resource path="res://Assets/Icons/Search.png" type="Texture" id=3]
+[ext_resource path="res://addons/GDEditor/Resources/Icons/Search.png" type="Texture" id=3]
 [ext_resource path="res://addons/GDEditor/Scenes/NodeSelection.gd" type="Script" id=4]
+[ext_resource path="res://addons/GDEditor/Resources/Styleboxes/MainPanelBG.tres" type="StyleBox" id=5]
+[ext_resource path="res://addons/GDEditor/Scenes/Tabs.gd" type="Script" id=6]
+[ext_resource path="res://addons/GDEditor/Resources/Icons/Close.png" type="Texture" id=7]
+[ext_resource path="res://addons/GDEditor/Resources/Icons/GuiTabMenuHI.png" type="Texture" id=8]
+[ext_resource path="res://addons/GDEditor/Scenes/TabContainer.gd" type="Script" id=9]
+[ext_resource path="res://addons/GDEditor/Scenes/TabMenuPopup.gd" type="Script" id=10]
+[ext_resource path="res://addons/GDEditor/Scenes/DialogueNamePrompt.gd" type="Script" id=11]
+[ext_resource path="res://icon.png" type="Texture" id=12]
+[ext_resource path="res://addons/GDEditor/Resources/Icons/Edit.png" type="Texture" id=13]
+[ext_resource path="res://addons/GDEditor/Resources/Icons/Remove.png" type="Texture" id=14]
+[ext_resource path="res://addons/GDEditor/Scenes/CharacterItem.gd" type="Script" id=15]
+[ext_resource path="res://addons/GDEditor/Scenes/CharacterDefinitionWindow.gd" type="Script" id=16]
 
-[sub_resource type="StyleBoxFlat" id=3]
-border_width_bottom = 8
-border_color = Color( 0.8, 0.8, 0.8, 0 )
+[sub_resource type="StyleBoxEmpty" id=3]
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
 [node name="DialogueEditor" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_styles/panel = ExtResource( 5 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="TabContainer" type="TabContainer" parent="."]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 1017.0
-margin_bottom = 593.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_top = 12.0
+margin_right = 1024.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/tab_fg = SubResource( 3 )
+custom_constants/separation = 12
 
-[node name="HSplitContainer" type="HSplitContainer" parent="TabContainer"]
+[node name="TabContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+script = ExtResource( 9 )
+TabMenuPopupPath = NodePath("TabMenuBtn/TabMenuPopup")
+TabMenuBtnPath = NodePath("TabMenuBtn")
+
+[node name="Tabs" type="Tabs" parent="VBoxContainer/TabContainer"]
+margin_right = 992.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 3
+custom_icons/close = ExtResource( 7 )
+tab_close_display_policy = 1
+script = ExtResource( 6 )
+
+[node name="TabMenuBtn" type="ToolButton" parent="VBoxContainer/TabContainer"]
+margin_left = 996.0
+margin_right = 1024.0
+margin_bottom = 24.0
+custom_styles/focus = SubResource( 3 )
+icon = ExtResource( 8 )
+
+[node name="TabMenuPopup" type="PopupMenu" parent="VBoxContainer/TabContainer/TabMenuBtn"]
+visible = true
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -152.0
+margin_top = 12.0
+margin_right = -9.0
+margin_bottom = 177.0
+items = [ "New Dialogue", null, 0, false, false, 0, 0, null, "", false, "", null, 0, false, false, 9998, 0, null, "", true, "Open Dialogue", null, 0, false, false, 1, 0, null, "", false, "Open Definition", null, 0, false, false, 2, 0, null, "", false, "", null, 0, false, false, 9997, 0, null, "", true, "Save Dialogue", null, 0, false, false, 3, 0, null, "", false, "Save Dialogue As", null, 0, false, false, 4, 0, null, "", false, "", null, 0, false, false, 9996, 0, null, "", true, "Import Definition", null, 0, false, false, 5, 0, null, "", false ]
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DialogueNamePrompt" type="WindowDialog" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup"]
+margin_left = 124.0
+margin_top = -12.0
+margin_right = 324.0
+margin_bottom = 86.0
+mouse_filter = 2
+window_title = "Dialogue Name"
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NameEdit" type="LineEdit" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -92.0
+margin_top = -27.0
+margin_right = 92.0
+margin_bottom = -3.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt"]
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_top = -33.0
+margin_bottom = -12.0
+custom_constants/separation = 50
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CancelBtn" type="Button" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer"]
+margin_left = 17.0
+margin_right = 71.0
+margin_bottom = 21.0
+text = "Cancel"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConfirmBtn" type="Button" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer"]
+margin_left = 121.0
+margin_right = 183.0
+margin_bottom = 21.0
+text = "Confirm"
+
+[node name="CharacterDefinitionPopup" type="WindowDialog" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup"]
+visible = true
+margin_left = 398.0
+margin_top = -8.0
+margin_right = 758.0
+margin_bottom = 527.0
+mouse_filter = 2
+popup_exclusive = true
+window_title = "Character Definition"
+script = ExtResource( 16 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 350.0
+margin_bottom = 525.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 20
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="FilterEdit" type="LineEdit" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer"]
+margin_right = 340.0
+margin_bottom = 26.0
+right_icon = ExtResource( 3 )
+placeholder_text = "Filter"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer"]
+margin_top = 46.0
+margin_right = 340.0
+margin_bottom = 515.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer"]
+margin_right = 340.0
+margin_bottom = 469.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CharacterItem" type="PanelContainer" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+margin_right = 340.0
+margin_bottom = 78.0
+rect_min_size = Vector2( 0, 64 )
+script = ExtResource( 15 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/CharacterItem"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 333.0
+margin_bottom = 71.0
+custom_constants/separation = 30
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/CharacterItem/HBoxContainer"]
+margin_right = 64.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
+texture = ExtResource( 12 )
+
+[node name="NameLabel" type="Label" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/CharacterItem/HBoxContainer"]
+margin_left = 94.0
+margin_right = 268.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "asdasdsadsa"
+valign = 1
+autowrap = true
+clip_text = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/CharacterItem/HBoxContainer"]
+margin_left = 298.0
+margin_right = 326.0
+margin_bottom = 64.0
+alignment = 1
+
+[node name="EditBtn" type="ToolButton" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/CharacterItem/HBoxContainer/VBoxContainer"]
+margin_top = 6.0
+margin_right = 28.0
+margin_bottom = 30.0
+icon = ExtResource( 13 )
+
+[node name="DeleteBtn" type="ToolButton" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/CharacterItem/HBoxContainer/VBoxContainer"]
+margin_top = 34.0
+margin_right = 28.0
+margin_bottom = 58.0
+icon = ExtResource( 14 )
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup"]
+margin_right = 200.0
+margin_bottom = 70.0
+
+[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer"]
+margin_top = 36.0
+margin_right = 1024.0
+margin_bottom = 588.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LeftDock" type="PanelContainer" parent="TabContainer/HSplitContainer"]
+[node name="LeftDock" type="PanelContainer" parent="VBoxContainer/HSplitContainer"]
 margin_right = 200.0
-margin_bottom = 550.0
+margin_bottom = 552.0
 rect_min_size = Vector2( 200, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VSplitContainer" type="VSplitContainer" parent="TabContainer/HSplitContainer/LeftDock"]
+[node name="VSplitContainer" type="VSplitContainer" parent="VBoxContainer/HSplitContainer/LeftDock"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 193.0
-margin_bottom = 543.0
+margin_bottom = 545.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="UpperHalf" type="VBoxContainer" parent="TabContainer/HSplitContainer/LeftDock/VSplitContainer"]
+[node name="UpperHalf" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer"]
 margin_right = 186.0
 margin_bottom = 195.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.6
 
-[node name="Section" type="Label" parent="TabContainer/HSplitContainer/LeftDock/VSplitContainer/UpperHalf"]
+[node name="Section" type="Label" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/UpperHalf"]
 margin_right = 186.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Components"
 
-[node name="NodeSelection" type="ItemList" parent="TabContainer/HSplitContainer/LeftDock/VSplitContainer/UpperHalf"]
+[node name="NodeSelection" type="ItemList" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/UpperHalf"]
 margin_top = 18.0
 margin_right = 186.0
 margin_bottom = 195.0
@@ -85,19 +289,19 @@ custom_styles/selected = SubResource( 2 )
 items = [ "CharacterJoin", null, false, "CharacterLeft", null, false, "Message", null, false, "Choice", null, false, "Pipe", null, false, "Setter", null, false, "Emitter", null, false ]
 script = ExtResource( 4 )
 
-[node name="LowerHalf" type="VBoxContainer" parent="TabContainer/HSplitContainer/LeftDock/VSplitContainer"]
+[node name="LowerHalf" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer"]
 margin_top = 207.0
 margin_right = 186.0
-margin_bottom = 536.0
+margin_bottom = 538.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Section" type="Label" parent="TabContainer/HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
+[node name="Section" type="Label" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
 margin_right = 186.0
 margin_bottom = 14.0
 text = "Context State"
 
-[node name="LineEdit2" type="LineEdit" parent="TabContainer/HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
+[node name="LineEdit2" type="LineEdit" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
 margin_top = 18.0
 margin_right = 186.0
 margin_bottom = 44.0
@@ -108,20 +312,29 @@ placeholder_text = "Filter nodes"
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="Tree" type="Tree" parent="TabContainer/HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
+[node name="Tree" type="Tree" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
 margin_top = 48.0
 margin_right = 186.0
-margin_bottom = 329.0
+margin_bottom = 331.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DGraph" type="GraphEdit" parent="TabContainer/HSplitContainer"]
+[node name="DGraph" type="GraphEdit" parent="VBoxContainer/HSplitContainer"]
 margin_left = 212.0
-margin_right = 1002.0
-margin_bottom = 550.0
+margin_right = 1024.0
+margin_bottom = 552.0
 scroll_offset = Vector2( -14, -93 )
 minimap_enabled = false
 script = ExtResource( 1 )
+
+[connection signal="tab_close" from="VBoxContainer/TabContainer/Tabs" to="VBoxContainer/TabContainer/Tabs" method="_on_tab_close"]
+[connection signal="pressed" from="VBoxContainer/TabContainer/TabMenuBtn" to="VBoxContainer/TabContainer" method="_on_TabMenuBtn_pressed"]
+[connection signal="id_pressed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" method="_on_id_pressed"]
+[connection signal="new_dialogue" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TabContainer/Tabs" method="_on_TabMenuPopup_new_dialogue"]
+[connection signal="confirmed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" method="_on_DialogueNamePrompt_confirmed"]
+[connection signal="pressed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/CancelBtn" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_CancelBtn_pressed"]
+[connection signal="pressed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/ConfirmBtn" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_ConfirmBtn_pressed"]
+[connection signal="delete" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/CharacterItem" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup" method="_on_CharacterItem_delete"]

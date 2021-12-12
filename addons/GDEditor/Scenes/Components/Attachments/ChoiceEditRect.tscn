@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.662745, 0.682353, 0.733333, 1 )
+
+[node name="Body" type="MarginContainer"]
+margin_left = 15.0
+margin_top = 80.0
+margin_right = 210.0
+margin_bottom = 125.0
+mouse_filter = 2
+custom_constants/margin_top = 17
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="."]
+margin_top = 17.0
+margin_right = 195.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 0, 28 )
+custom_constants/minimum_spaces = 0
+custom_styles/normal = SubResource( 6 )
+placeholder_text = "Your Choice"

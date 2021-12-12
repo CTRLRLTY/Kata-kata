@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ButtonDarkBG.stylebox" type="StyleBox" id=1]
+[ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/ChoiceFlowPort.gd" type="Script" id=2]
+[ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/PortRect.tscn" type="PackedScene" id=3]
+
+[node name="ChoiceFlowport" type="HBoxContainer"]
+margin_top = 17.0
+margin_right = 195.0
+margin_bottom = 41.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RemoveChoice" type="Button" parent="."]
+margin_right = 80.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 80, 0 )
+custom_styles/normal = ExtResource( 1 )
+text = "Remove"
+
+[node name="Label" type="Label" parent="."]
+margin_left = 120.0
+margin_top = 5.0
+margin_right = 181.0
+margin_bottom = 19.0
+size_flags_horizontal = 10
+text = "Next Line"
+
+[node name="PortRect" parent="." instance=ExtResource( 3 )]
+margin_left = 185.0
+margin_right = 195.0
+
+[connection signal="pressed" from="RemoveChoice" to="." method="_on_RemoveChoice_pressed"]
