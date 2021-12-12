@@ -9,7 +9,6 @@ func can_drop_data(_position: Vector2, data) -> bool:
 	
 func drop_data(position: Vector2, data : Dictionary) -> void:
 	var gn : GraphNode = data.payload.instance()
-	
 	add_child(gn)
 	gn.owner = owner
-	gn.offset = position + scroll_offset
+	gn.offset = (scroll_offset + position) / zoom
