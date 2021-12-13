@@ -20,5 +20,15 @@ static func get_type(instance : Object) -> int:
 	return instance.get_meta("value_type")
 	
 	
+static func get_scene_dir() -> String:
+	return "res://addons/GDEditor/Scenes/"
+	
+	
 static func get_attachment_dir() -> String:
 	return "res://addons/GDEditor/Scenes/Components/Attachments/"
+	
+
+static func array_swap_elementidx(arr : Array, from_idx : int, to_idx : int) -> void:
+	var temp = arr[from_idx]
+	arr[from_idx] = arr[to_idx]
+	arr[to_idx] = temp
