@@ -14,7 +14,6 @@ func _enter_tree() -> void:
 		value_list = []
 
 
-
 func resize(num : int) -> void:
 	# Array is growing
 	if value_list.size() > num:
@@ -71,6 +70,10 @@ func clear() -> void:
 	for item in item_container.get_children():
 		item.queue_free()
 
+
+func _on_about_to_show() -> void:
+	if item_container.get_child_count() < 1:
+		add_item()
 
 
 func _on_value_edit_changed(new_value : String, item : Container) -> void:

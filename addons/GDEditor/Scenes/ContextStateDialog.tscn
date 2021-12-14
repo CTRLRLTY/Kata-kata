@@ -226,5 +226,6 @@ text = "Apply"
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/ArrayColumn/ArraySize" to="." method="_on_ArraySize_value_changed"]
 [connection signal="focus_exited" from="MarginContainer/VBoxContainer/GridContainer/ValueEdit" to="." method="_on_ValueEdit_focus_exited"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/GridContainer/ValueArray" to="." method="_on_ValueArray_pressed"]
+[connection signal="about_to_show" from="MarginContainer/VBoxContainer/GridContainer/ValueArray/ValueArrayDialog" to="MarginContainer/VBoxContainer/GridContainer/ValueArray/ValueArrayDialog" method="_on_about_to_show"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/CancelBtn" to="." method="_on_CancelBtn_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ConfirmBtn" to="." method="_on_ConfirmBtn_pressed"]
