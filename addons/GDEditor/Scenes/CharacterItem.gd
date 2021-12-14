@@ -45,7 +45,7 @@ func _on_CharacterEditDialog_popup_hide() -> void:
 	edit_btn.pressed = false
 
 
-func _on_NameEdit_text_entered(new_text: String) -> void:
+func _on_NameEdit_text_changed(new_text: String) -> void:
 	name_label.text = new_text
 	character_data.character_name = new_text
 	
@@ -81,3 +81,7 @@ func _on_CharacterEditDialog_expression_removed(expression_data : CharacterExpre
 
 func _on_CharacterEditDialog_expression_added(expression_data : CharacterExpressionData) -> void:
 	character_data.character_expressions.append(expression_data)
+
+
+func _on_CharacterStateTree_state_deleted(state : Dictionary) -> void:
+	pass # Replace with function body.
