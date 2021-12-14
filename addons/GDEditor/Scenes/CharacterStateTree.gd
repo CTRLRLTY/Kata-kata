@@ -5,7 +5,6 @@ extends Tree
 signal state_edited
 signal state_deleted(state)
 
-
 const ITEM_SUFFIX_SEPERATOR = "="
 
 var state_popup : PopupMenu
