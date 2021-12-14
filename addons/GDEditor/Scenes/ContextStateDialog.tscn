@@ -1,12 +1,55 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/ContextStateDialog.gd" type="Script" id=1]
+[ext_resource path="res://addons/GDEditor/Scenes/ValueArrayDialog.gd" type="Script" id=2]
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+content_margin_left = 2.0
+content_margin_right = 2.0
+content_margin_top = 2.0
+bg_color = Color( 0, 0, 0, 1 )
+border_width_bottom = 2
+border_color = Color( 0.619608, 0.619608, 0.619608, 1 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.603922, 0.603922, 0.603922, 1 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+content_margin_left = 2.0
+content_margin_right = 2.0
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+content_margin_left = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color( 0, 0, 0, 1 )
+border_width_top = 2
+border_color = Color( 0.611765, 0.611765, 0.611765, 1 )
+
+[sub_resource type="Theme" id=4]
+HBoxContainer/constants/separation = 0
+PanelContainer/styles/bottom_drop = SubResource( 7 )
+PanelContainer/styles/drop = SubResource( 6 )
+PanelContainer/styles/panel = SubResource( 8 )
+PanelContainer/styles/top_drop = SubResource( 9 )
 
 [node name="ContextStateDialog" type="WindowDialog"]
 margin_left = 326.0
 margin_top = 17.0
 margin_right = 632.0
-margin_bottom = 170.0
+margin_bottom = 163.0
+rect_min_size = Vector2( 0, 146 )
 window_title = "State Editor"
 script = ExtResource( 1 )
 __meta__ = {
@@ -28,31 +71,26 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 296.0
-margin_bottom = 143.0
+margin_bottom = 136.0
+custom_constants/separation = 10
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
 margin_right = 286.0
-margin_bottom = 109.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
-margin_right = 286.0
-margin_bottom = 109.0
+margin_bottom = 118.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 10
 custom_constants/hseparation = 0
 columns = 2
 
-[node name="TypeLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/GridContainer"]
+[node name="TypeLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_top = 3.0
 margin_right = 120.0
 margin_bottom = 17.0
 rect_min_size = Vector2( 120, 0 )
 text = "Type"
 
-[node name="TypeOption" type="OptionButton" parent="MarginContainer/VBoxContainer/ScrollContainer/GridContainer"]
+[node name="TypeOption" type="OptionButton" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 120.0
 margin_right = 286.0
 margin_bottom = 20.0
@@ -61,42 +99,111 @@ text = "string"
 items = [ "string", null, false, 0, null, "bool", null, false, 1, null, "int", null, false, 2, null, "float", null, false, 3, null ]
 selected = 0
 
-[node name="ArrayLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/GridContainer"]
+[node name="ArrayLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_top = 35.0
 margin_right = 120.0
 margin_bottom = 49.0
 text = "Array"
 
-[node name="ArrayCheck" type="CheckBox" parent="MarginContainer/VBoxContainer/ScrollContainer/GridContainer"]
+[node name="ArrayColumn" type="HBoxContainer" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 120.0
 margin_top = 30.0
 margin_right = 286.0
 margin_bottom = 54.0
+
+[node name="ArrayCheck" type="CheckBox" parent="MarginContainer/VBoxContainer/GridContainer/ArrayColumn"]
+margin_right = 24.0
+margin_bottom = 24.0
 flat = true
 
-[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer/GridContainer"]
+[node name="ArraySize" type="SpinBox" parent="MarginContainer/VBoxContainer/GridContainer/ArrayColumn"]
+margin_left = 28.0
+margin_right = 166.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 12.0
+value = 1.0
+rounded = true
+editable = false
+
+[node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_top = 69.0
 margin_right = 120.0
 margin_bottom = 83.0
+rect_min_size = Vector2( 120, 0 )
 text = "Value"
 
-[node name="ValueEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/ScrollContainer/GridContainer"]
+[node name="ValueEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/GridContainer"]
 margin_left = 120.0
 margin_top = 64.0
 margin_right = 286.0
 margin_bottom = 88.0
+size_flags_horizontal = 3
 
-[node name="ValueCheck" type="CheckBox" parent="MarginContainer/VBoxContainer/ScrollContainer/GridContainer"]
+[node name="ValueCheck" type="CheckBox" parent="MarginContainer/VBoxContainer/GridContainer"]
 visible = false
-margin_left = 120.0
-margin_top = 64.0
-margin_right = 286.0
-margin_bottom = 88.0
+margin_top = 98.0
+margin_right = 120.0
+margin_bottom = 122.0
+
+[node name="ValueArray" type="Button" parent="MarginContainer/VBoxContainer/GridContainer"]
+visible = false
+margin_top = 98.0
+margin_right = 120.0
+margin_bottom = 118.0
+text = "Array"
+
+[node name="ValueArrayDialog" type="WindowDialog" parent="MarginContainer/VBoxContainer/GridContainer/ValueArray"]
+visible = true
+margin_left = 196.0
+margin_top = -23.0
+margin_right = 415.0
+margin_bottom = 167.0
+window_title = "asdasdas"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/GridContainer/ValueArray/ValueArrayDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/GridContainer/ValueArray/ValueArrayDialog/MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 214.0
+margin_bottom = 185.0
+custom_styles/bg = SubResource( 10 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ItemContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/GridContainer/ValueArray/ValueArrayDialog/MarginContainer/ScrollContainer"]
+margin_right = 209.0
+margin_bottom = 180.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource( 4 )
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 113.0
+margin_top = 128.0
 margin_right = 286.0
-margin_bottom = 133.0
+margin_bottom = 148.0
 size_flags_vertical = 0
 custom_constants/separation = 20
 alignment = 1
@@ -113,8 +220,11 @@ margin_right = 204.0
 margin_bottom = 20.0
 text = "Apply"
 
-[connection signal="item_selected" from="MarginContainer/VBoxContainer/ScrollContainer/GridContainer/TypeOption" to="." method="_on_TypeOption_item_selected"]
-[connection signal="focus_exited" from="MarginContainer/VBoxContainer/ScrollContainer/GridContainer/ValueEdit" to="." method="_on_ValueEdit_focus_exited"]
-[connection signal="toggled" from="MarginContainer/VBoxContainer/ScrollContainer/GridContainer/ValueCheck" to="." method="_on_ValueCheck_toggled"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/GridContainer/TypeOption" to="." method="_on_TypeOption_item_selected"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/GridContainer/ArrayColumn/ArrayCheck" to="." method="_on_ArrayCheck_toggled"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/ArrayColumn/ArraySize" to="." method="_on_ArraySize_value_changed"]
+[connection signal="focus_exited" from="MarginContainer/VBoxContainer/GridContainer/ValueEdit" to="." method="_on_ValueEdit_focus_exited"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/GridContainer/ValueCheck" to="." method="_on_ValueCheck_toggled"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/GridContainer/ValueArray" to="." method="_on_ValueArray_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/CancelBtn" to="." method="_on_CancelBtn_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ConfirmBtn" to="." method="_on_ConfirmBtn_pressed"]
