@@ -66,6 +66,9 @@ func _on_TypeOption_item_selected(index: int) -> void:
 func _on_ArrayCheck_toggled(button_pressed: bool) -> void:
 	_update_value_inputnode(state_data.state_type, button_pressed)
 	array_size.editable = button_pressed
+	
+	if button_pressed:	
+		state_data.state_value = array_dialog.value_list
 
 
 func _on_ArraySize_value_changed(value: float) -> void:
@@ -73,26 +76,13 @@ func _on_ArraySize_value_changed(value: float) -> void:
 
 
 func _on_ValueEdit_focus_exited() -> void:
-	var value_data
 	match state_data.state_type:
-		ContextStateData.TYPE_STRING:
-			value_data = value_edit.text
 		ContextStateData.TYPE_INT:
 			if not value_edit.text.is_valid_integer():
 				value_edit.text = "0"
-			
-			value_data = int(value_edit.text)
 		ContextStateData.TYPE_FLOAT:
 			if not value_edit.text.is_valid_float():
 				value_edit.text = "0"
-			
-			value_data = float(value_edit.text)
-
-	state_data.state_value = [value_data]
-
-
-func _on_ValueCheck_toggled(button_pressed: bool) -> void:
-	state_data.state_value = [button_pressed]
 
 
 func _on_ValueArray_pressed() -> void:
@@ -105,4 +95,19 @@ func _on_CancelBtn_pressed() -> void:
 
 func _on_ConfirmBtn_pressed() -> void:
 	hide()
+	
+	if array_check.pressed:
+		state_data.state_value = array_dialog.value_list
+	else:
+		match state_data.state_type:
+			ContextStateData.TYPE_STRING:
+				state_data.state_value = [value_edit.text]
+			ContextStateData.TYPE_INT:
+				state_data.state_value = [int(value_edit.text)]
+			ContextStateData.TYPE_FLOAT:
+				state_data.state_value = [float(value_edit.text)]
+			ContextStateData.TYPE_BOOL:
+				state_data.state_value = [value_check.pressed]
+		
+	print_debug(state_data.state_value)
 	emit_signal("confirmed")

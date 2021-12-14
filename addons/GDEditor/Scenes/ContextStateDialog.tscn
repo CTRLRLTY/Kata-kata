@@ -128,9 +128,9 @@ rounded = true
 editable = false
 
 [node name="ValueLabel" type="Label" parent="MarginContainer/VBoxContainer/GridContainer"]
-margin_top = 69.0
+margin_top = 67.0
 margin_right = 120.0
-margin_bottom = 83.0
+margin_bottom = 81.0
 rect_min_size = Vector2( 120, 0 )
 text = "Value"
 
@@ -149,9 +149,10 @@ margin_bottom = 122.0
 
 [node name="ValueArray" type="Button" parent="MarginContainer/VBoxContainer/GridContainer"]
 visible = false
-margin_top = 98.0
-margin_right = 120.0
-margin_bottom = 118.0
+margin_left = 120.0
+margin_top = 64.0
+margin_right = 286.0
+margin_bottom = 84.0
 text = "Array"
 
 [node name="ValueArrayDialog" type="WindowDialog" parent="MarginContainer/VBoxContainer/GridContainer/ValueArray"]
@@ -224,7 +225,6 @@ text = "Apply"
 [connection signal="toggled" from="MarginContainer/VBoxContainer/GridContainer/ArrayColumn/ArrayCheck" to="." method="_on_ArrayCheck_toggled"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/ArrayColumn/ArraySize" to="." method="_on_ArraySize_value_changed"]
 [connection signal="focus_exited" from="MarginContainer/VBoxContainer/GridContainer/ValueEdit" to="." method="_on_ValueEdit_focus_exited"]
-[connection signal="toggled" from="MarginContainer/VBoxContainer/GridContainer/ValueCheck" to="." method="_on_ValueCheck_toggled"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/GridContainer/ValueArray" to="." method="_on_ValueArray_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/CancelBtn" to="." method="_on_CancelBtn_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ConfirmBtn" to="." method="_on_ConfirmBtn_pressed"]

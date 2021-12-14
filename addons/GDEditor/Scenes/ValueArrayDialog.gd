@@ -4,20 +4,15 @@ extends WindowDialog
 
 var item_container : Container
 
-var value_list : PoolStringArray
+var value_list : Array
 
 
 func _enter_tree() -> void:
 	item_container = find_node("ItemContainer")
 	
 	if not value_list:
-		value_list = PoolStringArray()
-		
-	add_item()
+		value_list = []
 
-
-func _exit_tree() -> void:
-	clear()
 
 
 func resize(num : int) -> void:
@@ -29,7 +24,6 @@ func resize(num : int) -> void:
 	elif value_list.size() < num:
 		for _i in range(num - value_list.size()):
 			add_item()
-	
 
 
 func add_item(value := "") -> void:
@@ -76,6 +70,7 @@ func pop_item() -> void:
 func clear() -> void:
 	for item in item_container.get_children():
 		item.queue_free()
+
 
 
 func _on_value_edit_changed(new_value : String, item : Container) -> void:
