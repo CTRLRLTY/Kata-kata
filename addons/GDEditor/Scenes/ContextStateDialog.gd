@@ -47,8 +47,11 @@ func _update_value_inputnode(state_type : int, is_array := false) -> void:
 		ContextStateData.TYPE_BOOL:
 			value_edit.hide()
 			value_check.show()
+			value_array.hide()
+			
 			value_check.pressed = false
 			array_check.disabled = true
+			array_check.pressed = false
 			
 		ContextStateData.TYPE_STRING:
 			value_edit.text = ""
@@ -61,7 +64,7 @@ func _update_value_inputnode(state_type : int, is_array := false) -> void:
 			continue
 			
 		ContextStateData.TYPE_FLOAT:
-			value_edit.text = "0"
+			value_edit.text = "0.0"
 			_edit_filter.compile("[-]?\\d*\\.?\\d+")
 			continue
 		_:
@@ -88,9 +91,6 @@ func _on_TypeOption_item_selected(index: int) -> void:
 func _on_ArrayCheck_toggled(button_pressed: bool) -> void:
 	_update_value_inputnode(state_data.state_type, button_pressed)
 	array_size.editable = button_pressed
-	
-	if button_pressed:	
-		state_data.state_value = array_dialog.value_list
 
 
 func _on_ArraySize_value_changed(value: float) -> void:
