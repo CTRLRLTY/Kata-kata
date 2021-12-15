@@ -79,6 +79,9 @@ func _update_value_inputnode(state_type : int, is_array := false) -> void:
 
 func _on_TypeOption_item_selected(index: int) -> void:
 	state_data.state_type = type_option.get_item_id(index)
+	array_size.value = array_size.min_value
+	array_dialog.clear()
+	
 	_update_value_inputnode(state_data.state_type, array_check.pressed)
 
 

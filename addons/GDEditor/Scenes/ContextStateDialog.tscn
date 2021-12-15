@@ -45,7 +45,6 @@ PanelContainer/styles/panel = SubResource( 8 )
 PanelContainer/styles/top_drop = SubResource( 9 )
 
 [node name="ContextStateDialog" type="WindowDialog"]
-visible = true
 margin_left = 326.0
 margin_top = 17.0
 margin_right = 632.0

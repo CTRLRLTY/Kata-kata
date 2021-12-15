@@ -73,6 +73,8 @@ func clear() -> void:
 	for item in item_container.get_children():
 		item.queue_free()
 		
+	value_list.clear()
+		
 
 func _update_value_list(item : Container, edit : LineEdit) -> void:
 	assert(value_list.size() - 1 >= item.get_position_in_parent())
