@@ -42,16 +42,19 @@ func _update_value_inputnode(state_type : int, is_array := false) -> void:
 				value_edit.show()
 				value_check.hide()
 				value_edit.text = ""
+				array_check.disabled = false
 				
 			ContextStateData.TYPE_BOOL:
 				value_edit.hide()
 				value_check.show()
 				value_check.pressed = false
+				array_check.disabled = true
 				
 			_:
 				value_edit.show()
 				value_check.hide()
 				value_edit.text = "0"
+				array_check.disabled = false
 	else:
 		value_edit.hide()
 		value_check.hide()
