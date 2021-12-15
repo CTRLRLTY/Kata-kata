@@ -2,6 +2,8 @@ tool
 
 extends WindowDialog
 
+signal item_edit_focus_exited(edit)
+
 var item_container : Container
 
 var value_list : Array
@@ -41,7 +43,8 @@ func add_item(value := "") -> void:
 	
 	value_edit.text = value
 	value_edit.size_flags_horizontal += SIZE_EXPAND
-	value_edit.connect("text_changed", self, "_on_value_edit_changed", [item])
+	value_edit.connect("hide", self, "_update_value_list", [item, value_edit])
+	value_edit.connect("focus_exited", self, "emit_signal", ["item_edit_focus_exited", value_edit])
 	
 	# Expand the list
 	value_list.append("")
@@ -69,14 +72,14 @@ func pop_item() -> void:
 func clear() -> void:
 	for item in item_container.get_children():
 		item.queue_free()
+		
+
+func _update_value_list(item : Container, edit : LineEdit) -> void:
+	assert(value_list.size() - 1 >= item.get_position_in_parent())
+
+	value_list[item.get_position_in_parent()] = edit.text
 
 
 func _on_about_to_show() -> void:
 	if item_container.get_child_count() < 1:
 		add_item()
-
-
-func _on_value_edit_changed(new_value : String, item : Container) -> void:
-	assert(value_list.size() - 1 >= item.get_position_in_parent())
-
-	value_list[item.get_position_in_parent()] = new_value

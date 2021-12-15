@@ -14,6 +14,8 @@ var value_array : Button
 
 var state_data : ContextStateData
 
+var _edit_filter := RegEx.new()
+
 
 func _enter_tree() -> void:
 	type_option = find_node("TypeOption")
@@ -29,36 +31,50 @@ func _enter_tree() -> void:
 	
 	if not state_data:
 		state_data = ContextStateData.new()
-		
+	
+	
+	value_edit.connect("focus_exited", self, "_on_ValueEdit_focus_exited", [value_edit])
+	
 	_update_value_inputnode(type_option.get_selected_id())
+	
+
+func _exit_tree() -> void:
+	value_edit.disconnect("focus_exited", self, "_on_ValueEdit_focus_exited")
 
 
 func _update_value_inputnode(state_type : int, is_array := false) -> void:
-	if not is_array:
-		value_array.hide()
-		
-		match state_type:
-			ContextStateData.TYPE_STRING:
-				value_edit.show()
-				value_check.hide()
-				value_edit.text = ""
-				array_check.disabled = false
-				
-			ContextStateData.TYPE_BOOL:
+	match state_type:
+		ContextStateData.TYPE_BOOL:
+			value_edit.hide()
+			value_check.show()
+			value_check.pressed = false
+			array_check.disabled = true
+			
+		ContextStateData.TYPE_STRING:
+			value_edit.text = ""
+			_edit_filter.compile(".*")
+			continue
+			
+		ContextStateData.TYPE_INT:
+			value_edit.text = "0"
+			_edit_filter.compile("[-]?\\d+")
+			continue
+			
+		ContextStateData.TYPE_FLOAT:
+			value_edit.text = "0"
+			_edit_filter.compile("[-]?\\d*\\.?\\d+")
+			continue
+		_:
+			array_check.disabled = false
+			
+			if array_check.pressed:
 				value_edit.hide()
-				value_check.show()
-				value_check.pressed = false
-				array_check.disabled = true
-				
-			_:
+				value_check.hide()
+				value_array.show()
+			else:
+				value_array.hide()
 				value_edit.show()
 				value_check.hide()
-				value_edit.text = "0"
-				array_check.disabled = false
-	else:
-		value_edit.hide()
-		value_check.hide()
-		value_array.show()
 
 
 func _on_TypeOption_item_selected(index: int) -> void:
@@ -78,19 +94,17 @@ func _on_ArraySize_value_changed(value: float) -> void:
 	array_dialog.resize(value)
 
 
-func _on_ValueEdit_focus_exited() -> void:
+func _on_ValueEdit_focus_exited(edit : LineEdit) -> void:
 	match state_data.state_type:
 		ContextStateData.TYPE_INT:
-			if not value_edit.text.is_valid_integer():
-				value_edit.text = "0"
+			GDUtil.filter_edit(_edit_filter, edit, "0")
 		ContextStateData.TYPE_FLOAT:
-			if not value_edit.text.is_valid_float():
-				value_edit.text = "0"
+			GDUtil.filter_edit(_edit_filter, edit, "0.0")
 
 
 func _on_ValueArray_pressed() -> void:
 	array_dialog.popup_centered()
-
+	
 
 func _on_CancelBtn_pressed() -> void:
 	hide()

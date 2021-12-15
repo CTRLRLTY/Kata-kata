@@ -32,6 +32,15 @@ static func get_scene_dir() -> String:
 static func get_attachment_dir() -> String:
 	return "res://addons/GDEditor/Scenes/Components/Attachments/"
 	
+	
+static func regex_match(s : String, rgx : RegEx) -> bool:
+	var result := rgx.search(s)
+	
+	if not result:
+		return false
+	else:	
+		return s == result.get_string()
+	
 
 static func array_swap_elementidx(arr : Array, from_idx : int, to_idx : int) -> void:
 	var temp = arr[from_idx]
@@ -107,3 +116,12 @@ static func character_state_data_set(state_property : int, state_data : Dictiona
 			state_data["name"] = value
 		CHARACTER_STATE_DATA_VALUE:
 			state_data["value"] = value
+
+
+static func filter_edit(rgx : RegEx, edit : LineEdit, rejected := "") -> void:
+	var result := rgx.search(edit.text)
+	
+	if not result:
+		edit.text = rejected
+	else:
+		edit.text = result.get_string()
