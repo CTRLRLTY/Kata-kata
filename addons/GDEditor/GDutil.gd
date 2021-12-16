@@ -23,7 +23,8 @@ static func resolve(res_name : String) -> String:
 		var managed := [
 			get_scene_dir(), 
 			get_icon_dir(), 
-			get_attachment_dir()
+			get_attachment_dir(),
+			get_component_dir()
 		]
 		
 		for path in managed:
@@ -55,6 +56,10 @@ static func get_type(instance : Object) -> int:
 static func get_scene_dir() -> String:
 	return "res://addons/GDEditor/Scenes/"
 	
+	
+static func get_component_dir() -> String:
+	return"res://addons/GDEditor/Scenes/Components/"
+
 	
 static func get_attachment_dir() -> String:
 	return "res://addons/GDEditor/Scenes/Components/Attachments/"
