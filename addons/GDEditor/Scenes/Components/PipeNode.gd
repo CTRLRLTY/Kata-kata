@@ -40,8 +40,7 @@ func get_type() -> int:
 
 
 func _add_attachment(attachment_name : String) -> void:
-	var attachment_dir := "res://addons/GDEditor/Scenes/Components/Attachments/"
-	var attachment_path := attachment_dir + attachment_name + ".tscn"
+	var attachment_path := GDUtil.get_attachment_dir() + attachment_name + ".tscn"
 	var attachment : PackedScene = load(attachment_path)
 	
 	assert(File.new().file_exists(attachment_path), "Attachment: %s does not exist" % attachment_path)

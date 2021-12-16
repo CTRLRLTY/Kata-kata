@@ -11,6 +11,7 @@ enum {
 	CHARACTER_STATE_DATA_VALUE
 }
 
+const _state := {}
 const _resolved_path_cache := {}
 
 
@@ -40,6 +41,14 @@ static func resolve(res_name : String) -> String:
 	return ret
 
 
+static func add_state(key : String, value) -> void:
+	_state[key] = value
+	
+
+static func erase_state(key : String) -> void:
+	_state.erase(key)
+
+
 static func is_valid_type(instance : Object) -> bool:
 	return instance.has_meta("value_type")
 
@@ -67,6 +76,17 @@ static func get_attachment_dir() -> String:
 	
 static func get_icon_dir() -> String:
 	return "res://addons/GDEditor/Resources/Icons/"
+	
+
+static func get_icon(icon_name : String) -> Texture:
+	var ret : Texture
+	
+	if _state.has("editor_interface"):
+		ret = _state["editor_interface"].get_base_control().get_icon(icon_name, "EditorIcons")
+	else:
+		ret = load(resolve(icon_name + ".png")) as Texture
+		
+	return ret
 	
 	
 static func regex_match(s : String, rgx : RegEx) -> bool:
