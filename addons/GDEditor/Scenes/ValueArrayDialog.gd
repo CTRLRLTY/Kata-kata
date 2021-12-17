@@ -4,18 +4,25 @@ extends WindowDialog
 
 signal item_edit_focus_exited(edit)
 
-var item_container : Container
+enum {
+	NONE = -2
+	GUIDE_TOP,
+	GUIDE_CENTER, 
+	GUIDE_BOTTOM,
+}
 
+var item_container : Container
 var value_list : Array
 
 
 func _enter_tree() -> void:
+
 	item_container = find_node("ItemContainer")
 	
 	if not value_list:
 		value_list = []
-
-
+	
+	
 func resize(num : int) -> void:
 	# Array is growing
 	if value_list.size() > num:
@@ -28,33 +35,25 @@ func resize(num : int) -> void:
 
 
 func add_item(value := "") -> void:
-	var item := PanelContainer.new()
-	var hbox = HBoxContainer.new()
-	var drag_btn := ToolButton.new()
-	var index_label := Label.new()
-	var value_edit := LineEdit.new()
+	var item : Control = load(GDUtil.resolve("ValueArrayItem.tscn")).instance()
 	
-	drag_btn.icon = load("res://addons/GDEditor/Resources/Icons/TripleBar.png")
-	index_label.text = str(value_list.size())
-	index_label.align = Label.ALIGN_CENTER
-	index_label.valign = Label.VALIGN_CENTER
-	index_label.size_flags_horizontal += SIZE_EXPAND 
-	index_label.size_flags_stretch_ratio = 0.4
-	
-	value_edit.text = value
-	value_edit.size_flags_horizontal += SIZE_EXPAND
-	value_edit.connect("hide", self, "_update_value_list", [item, value_edit])
-	value_edit.connect("focus_exited", self, "emit_signal", ["item_edit_focus_exited", value_edit])
-	
-	# Expand the list
-	value_list.append("")
-	
-	hbox.add_child(drag_btn)
-	hbox.add_child(index_label)
-	hbox.add_child(value_edit)
-	item.add_child(hbox)
+	item.connect("drag_start", self, "_on_item_drag_start")
+	item.connect("drag_end", self, "_on_item_drag_end")
 	
 	item_container.add_child(item)
+	
+	# In some cases, item may have not been added to the tree yet,
+	# which can make its property null.
+	if not item.is_inside_tree():
+		yield(item, "tree_entered")
+	
+	item.index_label.text = str(value_list.size())
+	item.value_edit.text = value
+	item.value_edit.connect("hide", self, "_update_value_list", [item, item.value_edit])
+	item.value_edit.connect("focus_exited", self, "emit_signal", ["item_edit_focus_exited", item.value_edit])
+	
+	# Expand the list
+	value_list.append(value)
 
 
 func pop_item() -> void:
@@ -75,6 +74,57 @@ func clear() -> void:
 		
 	value_list.clear()
 		
+		
+func can_drop_data_fw(position: Vector2, data : Control, from_control : Control) -> bool:
+	return item_container.is_a_parent_of(data)
+		
+		
+func get_drag_data_fw(position: Vector2, from_control : Control):
+	set_drag_preview(from_control.duplicate(0))
+	return from_control
+	
+	
+func drop_data_fw(position: Vector2, data : Control , from_control : Control) -> void:
+	# Okay, I am currently drunk, and I have to finish this shit fast. 
+	# I'll review it if any issues popup later in life, for now idk why 
+	# I wrote it like this...
+	
+	var from := data.get_position_in_parent()
+	var to := from_control.get_position_in_parent()
+	
+	# +1 downward, -1 upward
+	var direction = sign(to - from)
+	
+	# Dropping on same position
+	if direction == 0:
+		return
+	
+	match from_control.get_active_guide():
+		# Swap position
+		from_control.GUIDE_CENTER:
+			item_container.move_child(data, to)
+			item_container.move_child(from_control, from)
+			
+		from_control.GUIDE_TOP:
+			if direction == 1:
+				to = max(0, to - 1)
+				
+			continue
+
+		from_control.GUIDE_BOTTOM:
+			if direction == -1:
+				to += 1
+				
+			continue
+			
+		_:
+			item_container.move_child(data, to)
+			
+	# Readjust index label
+	for child in item_container.get_children():
+		child.index_label.text = str(child.get_position_in_parent())
+
+	
 
 func _update_value_list(item : Container, edit : LineEdit) -> void:
 	assert(value_list.size() - 1 >= item.get_position_in_parent())
@@ -85,3 +135,15 @@ func _update_value_list(item : Container, edit : LineEdit) -> void:
 func _on_about_to_show() -> void:
 	if item_container.get_child_count() < 1:
 		add_item()
+		
+
+func _on_item_drag_start() -> void:
+	for child in item_container.get_children():
+		child.set_drag_forwarding(self)
+		child.set_draw_guides(true)
+	
+	
+func _on_item_drag_end() -> void:
+	for child in item_container.get_children():
+		child.set_drag_forwarding(null)
+		child.set_draw_guides(false)

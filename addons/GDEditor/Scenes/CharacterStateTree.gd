@@ -25,7 +25,7 @@ func _enter_tree() -> void:
 		root.set_selectable(0, false)
 		root.disable_folding = true
 		root.set_text(0, "Character Properties")
-		root.add_button(0, load("res://addons/GDEditor/Resources/Icons/Add.png"))
+		root.add_button(0, GDUtil.get_icon("Add"))
 
 
 func _get_state(item : TreeItem) -> Dictionary:

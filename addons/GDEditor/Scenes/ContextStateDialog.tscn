@@ -1,48 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/ContextStateDialog.gd" type="Script" id=1]
-[ext_resource path="res://addons/GDEditor/Scenes/ValueArrayDialog.gd" type="Script" id=2]
-
-[sub_resource type="StyleBoxFlat" id=10]
-bg_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
-
-[sub_resource type="StyleBoxFlat" id=7]
-content_margin_left = 2.0
-content_margin_right = 2.0
-content_margin_top = 2.0
-bg_color = Color( 0, 0, 0, 1 )
-border_width_bottom = 2
-border_color = Color( 0.619608, 0.619608, 0.619608, 1 )
-
-[sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 0, 0, 0, 1 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.603922, 0.603922, 0.603922, 1 )
-
-[sub_resource type="StyleBoxFlat" id=8]
-content_margin_left = 2.0
-content_margin_right = 2.0
-content_margin_top = 2.0
-content_margin_bottom = 2.0
-bg_color = Color( 0, 0, 0, 1 )
-
-[sub_resource type="StyleBoxFlat" id=9]
-content_margin_left = 2.0
-content_margin_right = 2.0
-content_margin_bottom = 2.0
-bg_color = Color( 0, 0, 0, 1 )
-border_width_top = 2
-border_color = Color( 0.611765, 0.611765, 0.611765, 1 )
-
-[sub_resource type="Theme" id=4]
-HBoxContainer/constants/separation = 0
-PanelContainer/styles/bottom_drop = SubResource( 7 )
-PanelContainer/styles/drop = SubResource( 6 )
-PanelContainer/styles/panel = SubResource( 8 )
-PanelContainer/styles/top_drop = SubResource( 9 )
+[ext_resource path="res://addons/GDEditor/Scenes/ValueArrayDialog.tscn" type="PackedScene" id=2]
 
 [node name="ContextStateDialog" type="WindowDialog"]
 margin_left = 326.0
@@ -50,6 +9,7 @@ margin_top = 17.0
 margin_right = 632.0
 margin_bottom = 163.0
 rect_min_size = Vector2( 0, 146 )
+popup_exclusive = true
 window_title = "State Editor"
 script = ExtResource( 1 )
 __meta__ = {
@@ -150,56 +110,12 @@ margin_bottom = 122.0
 [node name="ValueArray" type="Button" parent="MarginContainer/VBoxContainer/GridContainer"]
 visible = false
 margin_left = 120.0
-margin_top = 64.0
+margin_top = 98.0
 margin_right = 286.0
-margin_bottom = 84.0
+margin_bottom = 122.0
 text = "Array"
 
-[node name="ValueArrayDialog" type="WindowDialog" parent="MarginContainer/VBoxContainer/GridContainer/ValueArray"]
-visible = true
-margin_left = 196.0
-margin_top = -23.0
-margin_right = 415.0
-margin_bottom = 167.0
-window_title = "asdasdas"
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/GridContainer/ValueArray/ValueArrayDialog"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 5
-custom_constants/margin_top = 5
-custom_constants/margin_left = 5
-custom_constants/margin_bottom = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/GridContainer/ValueArray/ValueArrayDialog/MarginContainer"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 214.0
-margin_bottom = 185.0
-custom_styles/bg = SubResource( 10 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="ItemContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/GridContainer/ValueArray/ValueArrayDialog/MarginContainer/ScrollContainer"]
-margin_right = 209.0
-margin_bottom = 180.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = SubResource( 4 )
-custom_constants/separation = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="ValueArrayDialog" parent="MarginContainer/VBoxContainer/GridContainer/ValueArray" instance=ExtResource( 2 )]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 margin_top = 106.0
@@ -225,7 +141,6 @@ text = "Apply"
 [connection signal="toggled" from="MarginContainer/VBoxContainer/GridContainer/ArrayColumn/ArrayCheck" to="." method="_on_ArrayCheck_toggled"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/ArrayColumn/ArraySize" to="." method="_on_ArraySize_value_changed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/GridContainer/ValueArray" to="." method="_on_ValueArray_pressed"]
-[connection signal="about_to_show" from="MarginContainer/VBoxContainer/GridContainer/ValueArray/ValueArrayDialog" to="MarginContainer/VBoxContainer/GridContainer/ValueArray/ValueArrayDialog" method="_on_about_to_show"]
 [connection signal="item_edit_focus_exited" from="MarginContainer/VBoxContainer/GridContainer/ValueArray/ValueArrayDialog" to="." method="_on_ValueEdit_focus_exited"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/CancelBtn" to="." method="_on_CancelBtn_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ConfirmBtn" to="." method="_on_ConfirmBtn_pressed"]

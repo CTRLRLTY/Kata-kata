@@ -24,8 +24,8 @@ static func resolve(res_name : String) -> String:
 		var managed := [
 			get_scene_dir(), 
 			get_icon_dir(), 
-			get_attachment_dir(),
-			get_component_dir()
+			get_component_dir(),
+			get_attachment_dir()
 		]
 		
 		for path in managed:
@@ -84,6 +84,7 @@ static func get_icon(icon_name : String) -> Texture:
 	if _state.has("editor_interface"):
 		ret = _state["editor_interface"].get_base_control().get_icon(icon_name, "EditorIcons")
 	else:
+		# All icons has to be a .png
 		ret = load(resolve(icon_name + ".png")) as Texture
 		
 	return ret
