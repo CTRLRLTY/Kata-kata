@@ -33,3 +33,4 @@ __meta__ = {
 [connection signal="delete_selected" from="CharacterStatePopup" to="." method="_on_StatePopup_delete_selected"]
 [connection signal="id_pressed" from="CharacterStatePopup" to="CharacterStatePopup" method="_on_id_pressed"]
 [connection signal="state_edited" from="CharacterStatePopup" to="." method="_on_StatePopup_state_edited"]
+[connection signal="confirmed" from="CharacterStateDialog" to="." method="_on_CharacterStateDialog_confirmed"]

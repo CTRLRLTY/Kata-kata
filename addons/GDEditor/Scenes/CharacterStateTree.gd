@@ -92,3 +92,8 @@ func _on_StatePopup_delete_selected() -> void:
 
 func _on_StatePopup_state_edited() -> void:
 	state_dialog.popup_centered()
+
+
+func _on_CharacterStateDialog_confirmed() -> void:
+	get_selected().set_suffix(0, 
+			"%s %s" % [ITEM_SUFFIX_SEPERATOR, str(state_dialog.state_data.state_value)])

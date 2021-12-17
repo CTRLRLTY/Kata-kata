@@ -1,3 +1,5 @@
+tool
+
 extends PanelContainer
 
 signal drag_start

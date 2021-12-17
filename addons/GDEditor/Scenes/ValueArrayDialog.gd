@@ -35,7 +35,7 @@ func resize(num : int) -> void:
 
 
 func add_item(value := "") -> void:
-	var item : Control = load(GDUtil.resolve("ValueArrayItem.tscn")).instance()
+	var item = load(GDUtil.resolve("ValueArrayItem.tscn")).instance()
 	
 	item.connect("drag_start", self, "_on_item_drag_start")
 	item.connect("drag_end", self, "_on_item_drag_end")

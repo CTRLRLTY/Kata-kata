@@ -128,6 +128,5 @@ func _on_ConfirmBtn_pressed() -> void:
 				state_data.state_value = [float(value_edit.text)]
 			ContextStateData.TYPE_BOOL:
 				state_data.state_value = [value_check.pressed]
-		
-	print_debug(state_data.state_value)
+
 	emit_signal("confirmed")
