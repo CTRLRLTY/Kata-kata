@@ -28,12 +28,16 @@ func _enter_tree() -> void:
 		root.add_button(0, GDUtil.get_icon("Add"))
 
 
-func _get_state(item : TreeItem) -> Dictionary:
+func _get_state(item : TreeItem) -> CharacterStateData:
 	return item.get_metadata(0)
 	
 
 func _has_state_name(state_name : String) -> bool:
-	return GDUtil.array_dictionary_has(state_list, "name", state_name)
+	for state in state_list:
+		if state.state_name == state_name:
+			return true
+			
+	return false
 
 
 func _on_button_pressed(item: TreeItem, column: int, id: int) -> void:
@@ -45,7 +49,8 @@ func _on_button_pressed(item: TreeItem, column: int, id: int) -> void:
 			
 		new_item.set_text(0, DEFAULT_NAME)
 		
-		var state = GDUtil.character_state_data(DEFAULT_NAME)
+		var state = CharacterStateData.new()
+		state.state_name = DEFAULT_NAME
 		
 		new_item.set_suffix(0, "%s Null" % [ITEM_SUFFIX_SEPERATOR])
 		new_item.set_metadata(0, state)
@@ -63,18 +68,17 @@ func _on_item_edited() -> void:
 		return
 	
 	var state := _get_state(edited)
-	var old_name = GDUtil.character_state_data_get(GDUtil.CHARACTER_STATE_DATA_NAME, state)
+	var old_name = state.state_name
 	var state_name := edited.get_text(0)
 	
-	GDUtil.character_state_data_set(GDUtil.CHARACTER_STATE_DATA_NAME, state, "")
+	state.state_name = ""
 	
 	# TODO: show a warning popup instead of a print
-	if GDUtil.array_dictionary_has(state_list, 
-			GDUtil.character_state_data_key(GDUtil.CHARACTER_STATE_DATA_NAME), state_name):
+	if _has_state_name(state_name):
 		print_debug("Name: '%s' is already in used" % [state_name])
 		state_name = old_name
 	
-	GDUtil.character_state_data_set(GDUtil.CHARACTER_STATE_DATA_NAME, state, state_name)
+	state.state_name = state_name
 
 	edited.set_text(0, state_name)
 
@@ -87,6 +91,7 @@ func _on_item_rmb_selected(position: Vector2) -> void:
 
 func _on_StatePopup_delete_selected() -> void:
 	emit_signal("state_deleted", _get_state(get_selected()))
+	state_list.erase(_get_state(get_selected()))
 	get_selected().free()
 
 
@@ -95,5 +100,10 @@ func _on_StatePopup_state_edited() -> void:
 
 
 func _on_CharacterStateDialog_confirmed() -> void:
+	_get_state(get_selected()).state_value = state_dialog.state_data.state_value
+	
+	for state in state_list:
+		print_debug(state.state_value)
+	
 	get_selected().set_suffix(0, 
 			"%s %s" % [ITEM_SUFFIX_SEPERATOR, str(state_dialog.state_data.state_value)])
