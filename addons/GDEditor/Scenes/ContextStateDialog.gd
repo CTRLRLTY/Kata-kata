@@ -33,14 +33,11 @@ func _enter_tree() -> void:
 		state_data = ContextStateData.new()
 	
 	
-	value_edit.connect("focus_exited", self, "_on_ValueEdit_focus_exited", [value_edit])
+	if not value_edit.is_connected("focus_exited", self, "_on_ValueEdit_focus_exited"):
+		value_edit.connect("focus_exited", self, "_on_ValueEdit_focus_exited", [value_edit])
 	
 	_update_value_inputnode(type_option.get_selected_id())
 	
-
-func _exit_tree() -> void:
-	value_edit.disconnect("focus_exited", self, "_on_ValueEdit_focus_exited")
-
 
 func _update_value_inputnode(state_type : int, is_array := false) -> void:
 	match state_type:
