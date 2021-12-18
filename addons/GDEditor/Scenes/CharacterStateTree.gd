@@ -10,15 +10,15 @@ const ITEM_SUFFIX_SEPERATOR = "="
 var state_popup : PopupMenu
 var state_dialog : WindowDialog
 
-var state_list : Array
+var _state_list : Array
  
 
 func _enter_tree() -> void:
 	state_popup = $CharacterStatePopup
 	state_dialog = $CharacterStateDialog
 	
-	if not state_list:
-		state_list = []
+	if not _state_list:
+		_state_list = []
 		
 	if not get_root():
 		var root := create_item()
@@ -26,6 +26,13 @@ func _enter_tree() -> void:
 		root.disable_folding = true
 		root.set_text(0, "Character Properties")
 		root.add_button(0, GDUtil.get_icon("Add"))
+		
+		
+func get_state_list() -> Array:
+	if not _state_list:
+		return []
+		
+	return _state_list
 
 
 func _get_state(item : TreeItem) -> CharacterStateData:
@@ -33,7 +40,7 @@ func _get_state(item : TreeItem) -> CharacterStateData:
 	
 
 func _has_state_name(state_name : String) -> bool:
-	for state in state_list:
+	for state in _state_list:
 		if state.state_name == state_name:
 			return true
 			
@@ -59,7 +66,7 @@ func _on_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		new_item.set_metadata(0, state)
 		new_item.set_editable(0, true)
 		
-		state_list.append(state)
+		_state_list.append(state)
 
 
 func _on_item_edited() -> void:
@@ -94,7 +101,7 @@ func _on_item_rmb_selected(position: Vector2) -> void:
 
 func _on_StatePopup_delete_selected() -> void:
 	emit_signal("state_deleted", _get_state(get_selected()))
-	state_list.erase(_get_state(get_selected()))
+	_state_list.erase(_get_state(get_selected()))
 	get_selected().free()
 
 
