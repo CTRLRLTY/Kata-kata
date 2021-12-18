@@ -12,25 +12,36 @@ enum {
 }
 
 var item_container : Container
-var value_list : Array
+
+var _value_list : Array
 
 
 func _enter_tree() -> void:
-
 	item_container = find_node("ItemContainer")
 	
-	if not value_list:
-		value_list = []
+	
+func get_value_list() -> Array:
+	if not _value_list:
+		return []
+		
+	return _value_list.duplicate()
 	
 	
+func set_value_list(list : Array) -> void:
+	_value_list = []
+	
+	for value in list:
+		add_item(value)
+
+
 func resize(num : int) -> void:
 	# Array is growing
-	if value_list.size() > num:
+	if _value_list.size() > num:
 		for _i in range(num):
 			pop_item()
 	# Array list shrinking
-	elif value_list.size() < num:
-		for _i in range(num - value_list.size()):
+	elif _value_list.size() < num:
+		for _i in range(num - _value_list.size()):
 			add_item()
 
 
@@ -47,13 +58,13 @@ func add_item(value := "") -> void:
 	if not item.is_inside_tree():
 		yield(item, "tree_entered")
 	
-	item.index_label.text = str(value_list.size())
+	item.index_label.text = str(_value_list.size())
 	item.value_edit.text = value
 	item.value_edit.connect("hide", self, "_update_value_list", [item, item.value_edit])
 	item.value_edit.connect("focus_exited", self, "emit_signal", ["item_edit_focus_exited", item.value_edit])
 	
 	# Expand the list
-	value_list.append(value)
+	_value_list.append(value)
 
 
 func pop_item() -> void:
@@ -65,14 +76,17 @@ func pop_item() -> void:
 		pop_item()
 	else:
 		last_child.queue_free()
-		value_list.remove(last_child.get_position_in_parent())
+		_value_list.remove(last_child.get_position_in_parent())
 
 
 func clear() -> void:
+	if _value_list.empty():
+		return
+	
 	for item in item_container.get_children():
 		item.queue_free()
 		
-	value_list.clear()
+	_value_list.clear()
 		
 		
 func can_drop_data_fw(position: Vector2, data : Control, from_control : Control) -> bool:
@@ -125,17 +139,18 @@ func drop_data_fw(position: Vector2, data : Control , from_control : Control) ->
 		child.index_label.text = str(child.get_position_in_parent())
 
 	
-
 func _update_value_list(item : Container, edit : LineEdit) -> void:
-	assert(value_list.size() - 1 >= item.get_position_in_parent())
+	assert(_value_list.size() - 1 >= item.get_position_in_parent())
 
-	value_list[item.get_position_in_parent()] = edit.text
+	_value_list[item.get_position_in_parent()] = edit.text
 
 
 func _on_about_to_show() -> void:
-	if item_container.get_child_count() < 1:
+	assert(_value_list != null)
+	
+	if _value_list.empty():
 		add_item()
-		
+
 
 func _on_item_drag_start() -> void:
 	for child in item_container.get_children():
@@ -147,3 +162,5 @@ func _on_item_drag_end() -> void:
 	for child in item_container.get_children():
 		child.set_drag_forwarding(null)
 		child.set_draw_guides(false)
+
+

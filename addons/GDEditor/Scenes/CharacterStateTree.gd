@@ -51,6 +51,9 @@ func _on_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		
 		var state = CharacterStateData.new()
 		state.state_name = DEFAULT_NAME
+		state.state_data = ContextStateData.new()
+#		state.state_data.state_value = [""]
+#		state.state_data.state_type = ContextStateData.TYPE_STRING
 		
 		new_item.set_suffix(0, "%s Null" % [ITEM_SUFFIX_SEPERATOR])
 		new_item.set_metadata(0, state)
@@ -96,14 +99,12 @@ func _on_StatePopup_delete_selected() -> void:
 
 
 func _on_StatePopup_state_edited() -> void:
-	state_dialog.popup_centered()
+	var state_data := _get_state(get_selected()).state_data as ContextStateData
+	state_dialog.open(state_data)
 
 
 func _on_CharacterStateDialog_confirmed() -> void:
-	_get_state(get_selected()).state_value = state_dialog.state_data.state_value
-	
-	for state in state_list:
-		print_debug(state.state_value)
-	
+	_get_state(get_selected()).state_data = state_dialog.state_data
+
 	get_selected().set_suffix(0, 
 			"%s %s" % [ITEM_SUFFIX_SEPERATOR, str(state_dialog.state_data.state_value)])

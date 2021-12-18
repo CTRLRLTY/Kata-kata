@@ -73,6 +73,7 @@ func _process(delta: float) -> void:
 	# It's a workaround, because calling we can't call set_process in enter_tree.
 	if not _draw_guides:
 		set_process(false)
+		return
 	
 	if not Input.is_mouse_button_pressed(BUTTON_LEFT):
 		emit_signal("drag_end")

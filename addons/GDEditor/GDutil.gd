@@ -158,30 +158,6 @@ static func array_dictionary_match(arr : Array, key, value : String) -> int:
 			acc += 1
 			
 	return acc
-	
-
-static func character_state_data(state_name : String, value = null) -> Dictionary:
-	return {"name": state_name, "value": value}
-
-
-static func character_state_data_key(state_property : int):
-	match state_property:
-		CHARACTER_STATE_DATA_NAME:
-			return "name"
-		CHARACTER_STATE_DATA_VALUE:
-			return "value"
-
-
-static func character_state_data_get(state_property : int, state_data : Dictionary):
-	return state_data[character_state_data_key(state_property)]
-
-
-static func character_state_data_set(state_property : int, state_data : Dictionary, value) -> void:
-	match state_property:
-		CHARACTER_STATE_DATA_NAME:
-			state_data["name"] = value
-		CHARACTER_STATE_DATA_VALUE:
-			state_data["value"] = value
 
 
 static func filter_edit(rgx : RegEx, edit : LineEdit, rejected := "") -> void:

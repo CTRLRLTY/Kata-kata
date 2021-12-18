@@ -27,26 +27,20 @@ func _enter_tree() -> void:
 	array_check = find_node("ArrayCheck")
 	array_size = find_node("ArraySize")
 	array_dialog = value_array.get_node("ValueArrayDialog")
-
-	
-	if not state_data:
-		state_data = ContextStateData.new()
 	
 	
 	if not value_edit.is_connected("focus_exited", self, "_on_ValueEdit_focus_exited"):
 		value_edit.connect("focus_exited", self, "_on_ValueEdit_focus_exited", [value_edit])
 	
-	_update_value_inputnode(type_option.get_selected_id())
-	
 
-func _update_value_inputnode(state_type : int, is_array := false) -> void:
+func _update_value_inputnode(state_type : int, value = null) -> void:
 	match state_type:
 		ContextStateData.TYPE_BOOL:
 			value_edit.hide()
 			value_check.show()
 			value_array.hide()
 			
-			value_check.pressed = false
+			value_check.pressed = value if value else false
 			array_check.disabled = true
 			array_check.pressed = false
 			
@@ -65,6 +59,9 @@ func _update_value_inputnode(state_type : int, is_array := false) -> void:
 			_edit_filter.compile("[-]?\\d*\\.?\\d+")
 			continue
 		_:
+			if value != null:
+				value_edit.text = str(value)
+		
 			array_check.disabled = false
 			
 			if array_check.pressed:
@@ -77,16 +74,42 @@ func _update_value_inputnode(state_type : int, is_array := false) -> void:
 				value_check.hide()
 
 
+func open(p_state_data : ContextStateData) -> void:
+	state_data = p_state_data.duplicate()
+	
+	# is state_value a vector
+	if state_data.state_value.size() > 1:
+		array_check.pressed = true
+		array_dialog.set_value_list(state_data.state_value)
+		array_size.value = state_data.state_value.size()
+		
+	elif not state_data:
+		_update_value_inputnode(state_data.state_type, state_data.state_value[0])
+	
+	popup_centered()
+
+
+func _on_popup_hide() -> void:
+	# Reset every input
+	array_size.value = 1
+	array_dialog.clear()
+	array_check.pressed = false
+	type_option.select(state_data.TYPE_STRING)
+	value_check.pressed = false
+	value_edit.text = ""
+
+	state_data = null
+
 func _on_TypeOption_item_selected(index: int) -> void:
 	state_data.state_type = type_option.get_item_id(index)
 	array_size.value = array_size.min_value
 	array_dialog.clear()
 	
-	_update_value_inputnode(state_data.state_type, array_check.pressed)
+	_update_value_inputnode(state_data.state_type)
 
 
 func _on_ArrayCheck_toggled(button_pressed: bool) -> void:
-	_update_value_inputnode(state_data.state_type, button_pressed)
+	_update_value_inputnode(state_data.state_type)
 	array_size.editable = button_pressed
 
 
@@ -111,10 +134,8 @@ func _on_CancelBtn_pressed() -> void:
 
 
 func _on_ConfirmBtn_pressed() -> void:
-	hide()
-	
 	if array_check.pressed:
-		state_data.state_value = array_dialog.value_list
+		state_data.state_value = array_dialog.get_value_list()
 	else:
 		match state_data.state_type:
 			ContextStateData.TYPE_STRING:
@@ -127,3 +148,4 @@ func _on_ConfirmBtn_pressed() -> void:
 				state_data.state_value = [value_check.pressed]
 
 	emit_signal("confirmed")
+	hide()
