@@ -11,6 +11,7 @@ enum {
 	CHARACTER_STATE_DATA_VALUE
 }
 
+
 const _state := {}
 const _resolved_path_cache := {}
 
@@ -47,6 +48,22 @@ static func add_state(key : String, value) -> void:
 
 static func erase_state(key : String) -> void:
 	_state.erase(key)
+
+
+static func save_data(data) -> int:
+	var DEFDIR := "res://addons/GDEditor/Definitions/"
+	var DIR := Directory.new()
+	
+	if data is CharacterData:
+		var characters_dir := DEFDIR + "Characters/" 
+		
+		if not DIR.dir_exists(characters_dir):
+			DIR.make_dir_recursive(characters_dir)
+			
+		return ResourceSaver.save(characters_dir + 
+				"%s.tres" % [data.resource_name], data)
+
+	return FAILED
 
 
 static func is_valid_type(instance : Object) -> bool:

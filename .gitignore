@@ -13,3 +13,5 @@ addons/*/
 # Exclude
 !addons/GDEditor
 !addons/explore-editor-theme
+
+addons/GDEditor/Definitions
