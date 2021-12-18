@@ -14,8 +14,8 @@ var _state_list : Array
  
 
 func _enter_tree() -> void:
-	state_popup = $CharacterStatePopup
-	state_dialog = $CharacterStateDialog
+	state_popup = $ContextStatePopup
+	state_dialog = $ContextStateDialog
 	
 	if not _state_list:
 		_state_list = []
@@ -110,7 +110,7 @@ func _on_StatePopup_state_edited() -> void:
 	state_dialog.open(state_data)
 
 
-func _on_CharacterStateDialog_confirmed() -> void:
+func _on_StateDialog_confirmed() -> void:
 	_get_state(get_selected()).state_data = state_dialog.state_data
 
 	get_selected().set_suffix(0, 
