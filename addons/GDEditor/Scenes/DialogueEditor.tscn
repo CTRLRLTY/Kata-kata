@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.gd" type="Script" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueEditor.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://addons/GDEditor/Scenes/TabContainer.gd" type="Script" id=9]
 [ext_resource path="res://addons/GDEditor/Scenes/TabMenuPopup.gd" type="Script" id=10]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueNamePrompt.gd" type="Script" id=11]
+[ext_resource path="res://addons/GDEditor/Scenes/ContextStateTree.tscn" type="PackedScene" id=12]
 [ext_resource path="res://addons/GDEditor/Scenes/CharacterDefinitionPopup.gd" type="Script" id=16]
 
 [sub_resource type="StyleBoxEmpty" id=3]
@@ -205,7 +206,7 @@ __meta__ = {
 }
 
 [node name="LeftDock" type="PanelContainer" parent="VBoxContainer/HSplitContainer"]
-margin_right = 200.0
+margin_right = 214.0
 margin_bottom = 552.0
 rect_min_size = Vector2( 200, 0 )
 __meta__ = {
@@ -215,7 +216,7 @@ __meta__ = {
 [node name="VSplitContainer" type="VSplitContainer" parent="VBoxContainer/HSplitContainer/LeftDock"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 193.0
+margin_right = 207.0
 margin_bottom = 545.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -224,21 +225,21 @@ __meta__ = {
 }
 
 [node name="UpperHalf" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer"]
-margin_right = 186.0
+margin_right = 200.0
 margin_bottom = 195.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.6
 
 [node name="Section" type="Label" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/UpperHalf"]
-margin_right = 186.0
+margin_right = 200.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Components"
 
 [node name="NodeSelection" type="ItemList" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/UpperHalf"]
 margin_top = 18.0
-margin_right = 186.0
+margin_right = 200.0
 margin_bottom = 195.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -249,19 +250,19 @@ script = ExtResource( 4 )
 
 [node name="LowerHalf" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer"]
 margin_top = 207.0
-margin_right = 186.0
+margin_right = 200.0
 margin_bottom = 538.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Section" type="Label" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
-margin_right = 186.0
+margin_right = 200.0
 margin_bottom = 14.0
 text = "Context State"
 
 [node name="LineEdit2" type="LineEdit" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
 margin_top = 18.0
-margin_right = 186.0
+margin_right = 200.0
 margin_bottom = 44.0
 size_flags_horizontal = 3
 clear_button_enabled = true
@@ -270,19 +271,14 @@ placeholder_text = "Filter nodes"
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="Tree" type="Tree" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
+[node name="ContextStateTree" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/LowerHalf" instance=ExtResource( 12 )]
 margin_top = 48.0
-margin_right = 186.0
 margin_bottom = 331.0
-size_flags_horizontal = 3
 size_flags_vertical = 3
-hide_folding = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+StateColumnTitle = "Dialogue States"
 
 [node name="DGraph" type="GraphEdit" parent="VBoxContainer/HSplitContainer"]
-margin_left = 212.0
+margin_left = 226.0
 margin_right = 1024.0
 margin_bottom = 552.0
 scroll_offset = Vector2( -14, -93 )
