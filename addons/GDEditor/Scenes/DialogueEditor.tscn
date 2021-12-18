@@ -275,6 +275,7 @@ caret_blink_speed = 0.5
 margin_top = 48.0
 margin_bottom = 331.0
 size_flags_vertical = 3
+select_mode = 1
 StateColumnTitle = "Dialogue States"
 
 [node name="DGraph" type="GraphEdit" parent="VBoxContainer/HSplitContainer"]

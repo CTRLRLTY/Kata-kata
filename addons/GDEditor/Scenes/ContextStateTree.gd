@@ -37,8 +37,12 @@ func get_state_list() -> Array:
 	return _state_list
 
 
-func _get_state(item : TreeItem) -> CharacterStateData:
+func _get_state(item : TreeItem) -> ContextStateData:
 	return item.get_metadata(0)
+
+
+func _set_state(item : TreeItem, state_data : ContextStateData) -> void:
+	item.set_metadata(0, state_data)
 	
 
 func _has_state_name(state_name : String) -> bool:
@@ -58,16 +62,13 @@ func _on_button_pressed(item: TreeItem, column: int, id: int) -> void:
 			
 		new_item.set_text(0, DEFAULT_NAME)
 		
-		var state = CharacterStateData.new()
+		var state := ContextStateData.new()
 		state.state_name = DEFAULT_NAME
-		state.state_data = ContextStateData.new()
-#		state.state_data.state_value = [""]
-#		state.state_data.state_type = ContextStateData.TYPE_STRING
 		
 		new_item.set_suffix(0, "%s Null" % [ITEM_SUFFIX_SEPERATOR])
-		new_item.set_metadata(0, state)
 		new_item.set_editable(0, true)
 		
+		_set_state(new_item, state)
 		_state_list.append(state)
 
 
@@ -108,12 +109,12 @@ func _on_StatePopup_delete_selected() -> void:
 
 
 func _on_StatePopup_state_edited() -> void:
-	var state_data := _get_state(get_selected()).state_data as ContextStateData
+	var state_data := _get_state(get_selected())
 	state_dialog.open(state_data)
 
 
 func _on_StateDialog_confirmed() -> void:
-	_get_state(get_selected()).state_data = state_dialog.state_data
+	_set_state(get_selected(), state_dialog.state_data)
 
 	get_selected().set_suffix(0, 
 			"%s %s" % [ITEM_SUFFIX_SEPERATOR, str(state_dialog.state_data.state_value)])

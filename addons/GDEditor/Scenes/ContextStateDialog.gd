@@ -83,7 +83,7 @@ func open(p_state_data : ContextStateData) -> void:
 		array_dialog.set_value_list(state_data.state_value)
 		array_size.value = state_data.state_value.size()
 		
-	elif not state_data:
+	elif state_data.state_value.size() == 1:
 		_update_value_inputnode(state_data.state_type, state_data.state_value[0])
 	
 	popup_centered()
