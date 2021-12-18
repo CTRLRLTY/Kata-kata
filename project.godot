@@ -46,7 +46,7 @@ _global_script_class_icons={
 
 config/name="DialogueEditor"
 run/main_scene="res://addons/GDEditor/Scenes/DialogueEditor.tscn"
-config/icon="res://icon.png"
+config/icon="res://addons/GDEditor/Resources/Icons/icon.png"
 
 [editor_plugins]
 

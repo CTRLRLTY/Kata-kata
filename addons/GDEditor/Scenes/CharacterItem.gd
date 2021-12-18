@@ -10,6 +10,8 @@ var edit_btn : Button
 var profile_texture_rect : TextureRect
 var character_data : CharacterData
 
+var _resource_name_filter : RegEx
+
 
 func _enter_tree() -> void:
 	profile_texture_rect = find_node("CharacterProfileTextRect")
@@ -19,16 +21,18 @@ func _enter_tree() -> void:
 	
 	if not character_data:
 		character_data = CharacterData.new()
+		character_data.character_name = "Scr1pti3"
+		character_data.profile_texture = load(GDUtil.resolve("icon.png"))
+		character_data.resource_name = "scr1pti3"
+		
+	name_label.text = character_data.character_name
+	profile_texture_rect.texture = character_data.profile_texture
+		
+	if not _resource_name_filter:
+		_resource_name_filter = RegEx.new()
+		_resource_name_filter.compile("[\\w ]+")
 
-	find_node("NameEdit").text = get_character_name()
-
-
-func get_character_name() -> String:
-	return name_label.text
-	
-	
-func get_profile_texture() -> Texture:
-	return profile_texture_rect.texture
+	find_node("NameEdit").text = name_label.text
 	
 
 func _on_EditBtn_toggled(button_pressed: bool) -> void:
@@ -36,17 +40,22 @@ func _on_EditBtn_toggled(button_pressed: bool) -> void:
 		return
 		
 	var character_edit_dialog : WindowDialog = find_node("CharacterEditDialog")
-	character_edit_dialog.window_title = get_character_name()
+	character_edit_dialog.window_title = character_data.character_name
 	character_edit_dialog.rect_global_position = edit_btn.rect_global_position		
+	character_edit_dialog.character_data = character_data
 	character_edit_dialog.popup()
 
 
 func _on_CharacterEditDialog_popup_hide() -> void:
 	edit_btn.pressed = false
+	GDUtil.save_data(character_data)
 
 
 func _on_NameEdit_text_changed(new_text: String) -> void:
 	name_label.text = new_text
+	
+	var filtered_text = GDUtil.regex_filter(new_text, _resource_name_filter)
+	character_data.resource_name = filtered_text.replace(" ", "_")
 	character_data.character_name = new_text
 	
 
@@ -54,7 +63,7 @@ func _on_DescriptionEdit_text_changed() -> void:
 	var character_description_edit : TextEdit = get_node(
 		"HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog/MarginContainer/HSplitContainer/VBoxContainer/GridContainer/DescriptionEdit")
 	character_data.character_description = character_description_edit.text
-
+	
 
 func _on_DeleteBtn_pressed() -> void:
 	emit_signal("delete")
@@ -73,15 +82,3 @@ func _on_CharacterProfileTextRect_gui_input(event: InputEvent) -> void:
 
 func _on_ProfileFileDialog_file_selected(path: String) -> void:
 	profile_texture_rect.texture = load(path)
-
-
-func _on_CharacterEditDialog_expression_removed(expression_data : CharacterExpressionData) -> void:
-	character_data.character_expressions.erase(expression_data)
-
-
-func _on_CharacterEditDialog_expression_added(expression_data : CharacterExpressionData) -> void:
-	character_data.character_expressions.append(expression_data)
-
-
-func _on_CharacterStateTree_state_deleted(state : Dictionary) -> void:
-	pass # Replace with function body.

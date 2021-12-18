@@ -3,7 +3,7 @@
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Remove.png" type="Texture" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/CharacterItem.gd" type="Script" id=2]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Edit.png" type="Texture" id=3]
-[ext_resource path="res://icon.png" type="Texture" id=4]
+[ext_resource path="res://addons/GDEditor/Resources/Icons/icon.png" type="Texture" id=4]
 [ext_resource path="res://addons/GDEditor/Scenes/ContextStateTree.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/GDEditor/Scenes/CharacterEditDialog.gd" type="Script" id=6]
 
@@ -54,7 +54,7 @@ margin_right = 268.0
 margin_bottom = 64.0
 size_flags_horizontal = 3
 size_flags_vertical = 5
-text = "asdasdsadsa"
+text = "Scr1pti3"
 valign = 1
 autowrap = true
 clip_text = true
@@ -129,7 +129,7 @@ margin_left = 94.0
 margin_right = 473.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-text = "asdasdsadsa"
+text = "Scr1pti3"
 placeholder_text = "Character Name"
 
 [node name="DescriptionEditLabel" type="Label" parent="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog/MarginContainer/HSplitContainer/VBoxContainer/GridContainer"]
@@ -207,7 +207,9 @@ icon = ExtResource( 1 )
 [connection signal="gui_input" from="HBoxContainer/CharacterProfileTextRect" to="." method="_on_CharacterProfileTextRect_gui_input"]
 [connection signal="file_selected" from="HBoxContainer/CharacterProfileTextRect/ProfileFileDialog" to="." method="_on_ProfileFileDialog_file_selected"]
 [connection signal="toggled" from="HBoxContainer/VBoxContainer/EditBtn" to="." method="_on_EditBtn_toggled"]
+[connection signal="about_to_show" from="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog" to="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog" method="_on_about_to_show"]
 [connection signal="popup_hide" from="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog" to="." method="_on_CharacterEditDialog_popup_hide"]
+[connection signal="state_changed" from="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog/MarginContainer/HSplitContainer/CharacterStateTree" to="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog" method="_on_CharacterStateTree_state_changed"]
 [connection signal="text_changed" from="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog/MarginContainer/HSplitContainer/VBoxContainer/GridContainer/NameEdit" to="." method="_on_NameEdit_text_changed"]
 [connection signal="text_changed" from="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog/MarginContainer/HSplitContainer/VBoxContainer/GridContainer/DescriptionEdit" to="." method="_on_DescriptionEdit_text_changed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog/MarginContainer/HSplitContainer/VBoxContainer/BtnContainer/AddExpressionBtn" to="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog" method="_on_AddExpressionBtn_pressed"]

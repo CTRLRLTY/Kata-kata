@@ -87,6 +87,10 @@ func open(p_state_data : ContextStateData) -> void:
 		_update_value_inputnode(state_data.state_type, state_data.state_value[0])
 	
 	popup_centered()
+	
+
+func _on_about_to_show() -> void:
+	assert(state_data, "state_data has to be assigned before showing this dialog")
 
 
 func _on_popup_hide() -> void:

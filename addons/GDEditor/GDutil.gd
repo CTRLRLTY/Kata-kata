@@ -2,6 +2,7 @@ extends Reference
 
 class_name GDUtil
 
+
 enum {
 	COMPONENT_DATA = 1
 }
@@ -114,6 +115,12 @@ static func regex_match(s : String, rgx : RegEx) -> bool:
 		return false
 	else:	
 		return s == result.get_string()
+		
+		
+static func regex_filter(s : String, rgx : RegEx) -> String:
+	var result := rgx.search(s)
+	
+	return result.get_string()
 	
 
 static func array_swap_elementidx(arr : Array, from_idx : int, to_idx : int) -> void:

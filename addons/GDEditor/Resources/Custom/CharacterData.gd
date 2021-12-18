@@ -8,5 +8,7 @@ export(Texture) var profile_texture
 
 # CharacterExpressionData List
 export(Array, Resource) var character_expressions
+
 # ContextStateData List
 export(Array, Resource) var character_states
+

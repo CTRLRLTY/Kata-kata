@@ -2,8 +2,7 @@ tool
 
 extends Tree
 
-signal state_edited
-signal state_deleted(state)
+signal state_changed
 
 const ITEM_SUFFIX_SEPERATOR = "="
 
@@ -34,15 +33,16 @@ func get_state_list() -> Array:
 	if not _state_list:
 		return []
 		
-	return _state_list
+	return _state_list.duplicate(true)
 
 
 func _get_state(item : TreeItem) -> ContextStateData:
-	return item.get_metadata(0)
+	return item.get_metadata(0)["state"]
 
 
 func _set_state(item : TreeItem, state_data : ContextStateData) -> void:
-	item.set_metadata(0, state_data)
+	item.get_metadata(0)["state"] = state_data
+	_state_list[item.get_metadata(0)["index"]] = state_data
 	
 
 func _has_state_name(state_name : String) -> bool:
@@ -65,10 +65,12 @@ func _on_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		var state := ContextStateData.new()
 		state.state_name = DEFAULT_NAME
 		
+		new_item.set_metadata(0, {
+				"index": _state_list.size(), "state": state})
+				
 		new_item.set_suffix(0, "%s Null" % [ITEM_SUFFIX_SEPERATOR])
 		new_item.set_editable(0, true)
 		
-		_set_state(new_item, state)
 		_state_list.append(state)
 
 
@@ -94,6 +96,7 @@ func _on_item_edited() -> void:
 	state.state_name = state_name
 
 	edited.set_text(0, state_name)
+	emit_signal("state_changed")
 
 
 func _on_item_rmb_selected(position: Vector2) -> void:
@@ -103,7 +106,6 @@ func _on_item_rmb_selected(position: Vector2) -> void:
 
 
 func _on_StatePopup_delete_selected() -> void:
-	emit_signal("state_deleted", _get_state(get_selected()))
 	_state_list.erase(_get_state(get_selected()))
 	get_selected().free()
 
@@ -115,6 +117,7 @@ func _on_StatePopup_state_edited() -> void:
 
 func _on_StateDialog_confirmed() -> void:
 	_set_state(get_selected(), state_dialog.state_data)
-
 	get_selected().set_suffix(0, 
 			"%s %s" % [ITEM_SUFFIX_SEPERATOR, str(state_dialog.state_data.state_value)])
+	
+	emit_signal("state_changed")

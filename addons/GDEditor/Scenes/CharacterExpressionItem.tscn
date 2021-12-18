@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://addons/GDEditor/Resources/Icons/icon.png" type="Texture" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/CharacterExpressionItem.gd" type="Script" id=2]
 
 [sub_resource type="StyleBoxFlat" id=3]
@@ -44,6 +44,8 @@ stretch_mode = 6
 margin_top = 138.0
 margin_right = 128.0
 margin_bottom = 162.0
+text = "owo"
+align = 1
 placeholder_text = "Expression Name"
 
 [connection signal="focus_entered" from="." to="." method="_on_focus_entered"]

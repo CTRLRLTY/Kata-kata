@@ -16,6 +16,11 @@ func _enter_tree() -> void:
 	
 	if not expression_data:
 		expression_data = CharacterExpressionData.new()
+		expression_data.expression_texture = load(GDUtil.resolve("icon.png"))
+		expression_data.expression_name = "owo"
+		
+	expression_edit.text = expression_data.expression_name
+	expression_texture_rect.texture = expression_data.expression_texture
 	
 
 func _on_focus_entered() -> void:
