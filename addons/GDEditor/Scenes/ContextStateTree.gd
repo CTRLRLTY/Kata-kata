@@ -11,6 +11,8 @@ var state_popup : PopupMenu
 var state_dialog : WindowDialog
 
 var _state_list : Array
+
+export(String) var StateColumnTitle
  
 
 func _enter_tree() -> void:
@@ -24,7 +26,7 @@ func _enter_tree() -> void:
 		var root := create_item()
 		root.set_selectable(0, false)
 		root.disable_folding = true
-		root.set_text(0, "Character Properties")
+		root.set_text(0, StateColumnTitle)
 		root.add_button(0, GDUtil.get_icon("Add"))
 		
 		
