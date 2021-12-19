@@ -85,20 +85,3 @@ func _update_port() -> void:
 			gn.set_slot_enabled_left(slot, enable)
 		OUTPUT:
 			gn.set_slot_enabled_right(slot, enable)
-	
-#	gn.set_slot(slot, 
-#			input_enable, port_type, Color(1, 1, 1), 
-#			output_enable, port_type, Color(1, 1, 1))
-		
-#	# Clear up previous port from the editor.
-#	gn.hide()
-#	yield(get_tree(), "idle_frame")
-#	gn.show()
-	
-		
-		
-		
-		
-		
-		
-		
