@@ -31,47 +31,6 @@ func _enter_tree() -> void:
 	
 	if not value_edit.is_connected("focus_exited", self, "_on_ValueEdit_focus_exited"):
 		value_edit.connect("focus_exited", self, "_on_ValueEdit_focus_exited", [value_edit])
-	
-
-func _update_value_inputnode(state_type : int, value = null) -> void:
-	match state_type:
-		ContextStateData.TYPE_BOOL:
-			value_edit.hide()
-			value_check.show()
-			value_array.hide()
-			
-			value_check.pressed = value if value else false
-			array_check.disabled = true
-			array_check.pressed = false
-			
-		ContextStateData.TYPE_STRING:
-			value_edit.text = ""
-			_edit_filter.compile(".*")
-			continue
-			
-		ContextStateData.TYPE_INT:
-			value_edit.text = "0"
-			_edit_filter.compile("[-]?\\d+")
-			continue
-			
-		ContextStateData.TYPE_FLOAT:
-			value_edit.text = "0.0"
-			_edit_filter.compile("[-]?\\d*\\.?\\d+")
-			continue
-		_:
-			if value != null:
-				value_edit.text = str(value)
-		
-			array_check.disabled = false
-			
-			if array_check.pressed:
-				value_edit.hide()
-				value_check.hide()
-				value_array.show()
-			else:
-				value_array.hide()
-				value_edit.show()
-				value_check.hide()
 
 
 func open(p_state_data : ContextStateData) -> void:
@@ -85,9 +44,54 @@ func open(p_state_data : ContextStateData) -> void:
 		
 	elif state_data.state_value.size() == 1:
 		_update_value_inputnode(state_data.state_type, state_data.state_value[0])
+
+	else:
+		_update_value_filter(state_data.state_type)
 	
 	popup_centered()
-	
+
+
+func _update_value_filter(state_type : int) -> void:
+	match state_type:
+		ContextStateData.TYPE_STRING:
+			_edit_filter.compile(".*")
+			
+		ContextStateData.TYPE_INT:
+			_edit_filter.compile("[-]?\\d+")
+			
+		ContextStateData.TYPE_FLOAT:
+			_edit_filter.compile("[-]?\\d*\\.?\\d+")
+
+
+func _update_value_inputnode(state_type : int, value = null) -> void:
+	match state_type:
+		ContextStateData.TYPE_BOOL:
+			value_edit.hide()
+			value_check.show()
+			value_array.hide()
+			
+			value_check.pressed = value if value else false
+			array_check.disabled = true
+			array_check.pressed = false
+		_:
+			_update_value_filter(state_type)
+			
+			if value:
+				value_edit.text = str(value)
+			else:
+				value_edit.text = ""
+		
+			array_check.disabled = false
+			
+			if array_check.pressed:
+				value_edit.hide()
+				value_check.hide()
+				value_array.show()
+			else:
+				value_array.hide()
+				value_edit.show()
+				value_check.hide()
+
 
 func _on_about_to_show() -> void:
 	assert(state_data, "state_data has to be assigned before showing this dialog")
@@ -122,11 +126,8 @@ func _on_ArraySize_value_changed(value: float) -> void:
 
 
 func _on_ValueEdit_focus_exited(edit : LineEdit) -> void:
-	match state_data.state_type:
-		ContextStateData.TYPE_INT:
-			GDUtil.filter_edit(_edit_filter, edit, "0")
-		ContextStateData.TYPE_FLOAT:
-			GDUtil.filter_edit(_edit_filter, edit, "0.0")
+	if not edit.text.empty():
+		GDUtil.filter_edit(_edit_filter, edit, "")
 
 
 func _on_ValueArray_pressed() -> void:

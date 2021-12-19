@@ -22,7 +22,6 @@ func _on_about_to_show() -> void:
 
 
 func _on_CharacterStateTree_state_changed() -> void:
-#	pass
 	character_data.character_states = state_tree.get_state_list()
 
 
