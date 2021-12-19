@@ -2,15 +2,15 @@
 
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
 
-[node name="StartNode" type="GraphNode"]
+[node name="Start" type="GraphNode"]
 margin_left = 52.3925
 margin_top = 54.3947
 margin_right = 135.392
 margin_bottom = 98.3947
 mouse_filter = 1
-custom_styles/frame = ExtResource( 1 )
 custom_constants/port_offset = 14
 custom_constants/separation = 0
+custom_styles/frame = ExtResource( 1 )
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color( 1, 1, 1, 1 )
