@@ -20,11 +20,6 @@ _global_script_classes=[ {
 "path": "res://addons/GDEditor/Resources/Custom/CharacterExpressionData.gd"
 }, {
 "base": "Resource",
-"class": "ComponentData",
-"language": "GDScript",
-"path": "res://addons/GDEditor/Resources/Custom/ComponentData.gd"
-}, {
-"base": "Resource",
 "class": "ContextStateData",
 "language": "GDScript",
 "path": "res://addons/GDEditor/Resources/Custom/ContextStateData.gd"
@@ -37,7 +32,6 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "CharacterData": "",
 "CharacterExpressionData": "",
-"ComponentData": "",
 "ContextStateData": "",
 "GDUtil": ""
 }

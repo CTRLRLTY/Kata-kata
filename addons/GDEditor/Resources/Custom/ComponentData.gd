@@ -1,6 +1,5 @@
 extends Resource
 
-class_name ComponentData
 
 export var connections : Array
 export var state : Dictionary
