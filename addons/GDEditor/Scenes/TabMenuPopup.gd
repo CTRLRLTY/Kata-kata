@@ -3,6 +3,8 @@ tool
 extends PopupMenu
 
 signal new_dialogue(dialogue_name)
+signal save_dialogue
+
 
 enum {
 	MENU_NEW_DIALOGUE,
@@ -51,6 +53,8 @@ func _on_id_pressed(id: int) -> void:
 			$DialogueNamePrompt.popup_centered()
 		MENU_OPEN_CHARACTER:
 			$CharacterDefinitionPopup.popup_centered()
+		MENU_SAVE_DIALOGUE:
+			emit_signal("save_dialogue")
 
 
 func _on_DialogueNamePrompt_confirmed(dialogue_name) -> void:

@@ -8,6 +8,8 @@ enum PortType {
 	FLOW
 }
 
+export(Array, Dictionary) var connection_list
+
 
 func _enter_tree() -> void:
 	add_valid_connection_type(PortType.UNIVERSAL, PortType.UNIVERSAL)
@@ -21,6 +23,9 @@ func _enter_tree() -> void:
 	add_valid_connection_type(PortType.FLOW, PortType.UNIVERSAL)
 	
 	add_valid_left_disconnect_type(PortType.FLOW)
+	
+	for conn in connection_list:
+		connect_node(conn.from, conn.from_port, conn.to, conn.to_port)
 
 
 func can_drop_data(_position: Vector2, data) -> bool:
@@ -32,7 +37,7 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 	
 	add_child(gn)
 	
-	gn.owner = owner
+	gn.owner = self
 	gn.offset = (scroll_offset + position) / zoom
 
 

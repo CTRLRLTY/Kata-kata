@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/PortRect.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/GDEditor/Scenes/Components/Message.gd" type="Script" id=3]
 
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.662745, 0.682353, 0.733333, 1 )
@@ -33,6 +34,7 @@ slot/2/left_color = Color( 1, 1, 1, 1 )
 slot/2/right_enabled = false
 slot/2/right_type = 0
 slot/2/right_color = Color( 1, 1, 1, 1 )
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -107,7 +109,7 @@ custom_constants/margin_right = 0
 custom_constants/margin_top = 17
 custom_constants/margin_left = 0
 
-[node name="LineEdit" type="TextEdit" parent="Body"]
+[node name="MessageEdit" type="TextEdit" parent="Body"]
 margin_top = 17.0
 margin_right = 195.0
 margin_bottom = 97.0
@@ -115,3 +117,5 @@ rect_min_size = Vector2( 0, 80 )
 custom_styles/normal = SubResource( 6 )
 draw_tabs = true
 draw_spaces = true
+
+[connection signal="text_changed" from="Body/MessageEdit" to="." method="_on_MessageEdit_text_changed"]
