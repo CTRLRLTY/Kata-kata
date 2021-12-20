@@ -1,7 +1,6 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.gd" type="Script" id=1]
-[ext_resource path="res://addons/GDEditor/Scenes/DialogueEditor.gd" type="Script" id=2]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Search.png" type="Texture" id=3]
 [ext_resource path="res://addons/GDEditor/Scenes/NodeSelection.gd" type="Script" id=4]
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/MainPanelBG.tres" type="StyleBox" id=5]
@@ -26,7 +25,6 @@ anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = ExtResource( 5 )
-script = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -245,6 +243,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/line_separation = 0
 custom_styles/selected = SubResource( 2 )
+items = [ "Start", null, false, "Message", null, false, "Emitter", null, false, "CharacterJoin", null, false, "Choice", null, false, "Setter", null, false, "Pipe", null, false ]
 script = ExtResource( 4 )
 
 [node name="LowerHalf" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer"]
@@ -281,6 +280,7 @@ StateColumnTitle = "Dialogue States"
 margin_left = 226.0
 margin_right = 1024.0
 margin_bottom = 552.0
+right_disconnects = true
 scroll_offset = Vector2( -14, -93 )
 minimap_enabled = false
 script = ExtResource( 1 )
@@ -294,3 +294,5 @@ script = ExtResource( 1 )
 [connection signal="pressed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/ConfirmBtn" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_ConfirmBtn_pressed"]
 [connection signal="text_changed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/FilterEdit" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup" method="_on_FilterEdit_text_changed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/CharacterItemContainer/AddCharacterBtn" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup" method="_on_AddCharacterBtn_pressed"]
+[connection signal="connection_request" from="VBoxContainer/HSplitContainer/DGraph" to="VBoxContainer/HSplitContainer/DGraph" method="_on_connection_request"]
+[connection signal="disconnection_request" from="VBoxContainer/HSplitContainer/DGraph" to="VBoxContainer/HSplitContainer/DGraph" method="_on_disconnection_request"]

@@ -147,6 +147,27 @@ static func array_dictionary_has(arr : Array, key, value) -> bool:
 			return true
 	
 	return false
+
+
+static func array_dictionary_hasv(arr : Array, keyval : Dictionary) -> bool:
+	var tsize := keyval.size()
+	
+	for element in arr:
+		var tacc := 0
+		
+		for key in keyval:
+			var left = element.get(key, "")
+			var right = keyval[key]
+			
+			if not typeof(left) == typeof(right):
+				continue
+				
+			tacc += int(left == right)
+			
+			if tacc == tsize:
+				return true
+	
+	return false
 	
 
 static func array_dictionary_find(arr : Array, key, value):
