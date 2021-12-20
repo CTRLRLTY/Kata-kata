@@ -19,7 +19,11 @@ func _enter_tree() -> void:
 func set_type(type_id : int) -> void:
 	clear_all_slots()
 	_clear_attachment()
-	yield(get_tree(), "idle_frame")
+	
+	# Wait till attachments are cleared
+	while not get_child_count() == 1:
+		yield(get_tree(), "idle_frame")
+		
 	rect_size = Vector2.ZERO # Re-adjust size
 
 	match type_id:
