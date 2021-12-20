@@ -40,6 +40,7 @@ custom_constants/separation = 12
 [node name="TabContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 1024.0
 margin_bottom = 24.0
+mouse_filter = 2
 size_flags_horizontal = 3
 script = ExtResource( 9 )
 TabMenuPopupPath = NodePath("TabMenuBtn/TabMenuPopup")
@@ -49,10 +50,22 @@ TabMenuBtnPath = NodePath("TabMenuBtn")
 margin_right = 992.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 120, 0 )
+mouse_default_cursor_shape = 1
 size_flags_horizontal = 3
 custom_icons/close = ExtResource( 7 )
 tab_close_display_policy = 1
+drag_to_rearrange_enabled = true
 script = ExtResource( 6 )
+
+[node name="NameEdit" type="LineEdit" parent="VBoxContainer/TabContainer/Tabs"]
+visible = false
+margin_left = 934.0
+margin_right = 992.0
+margin_bottom = 24.0
+mouse_default_cursor_shape = 13
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="TabMenuBtn" type="ToolButton" parent="VBoxContainer/TabContainer"]
 margin_left = 996.0
@@ -75,6 +88,7 @@ __meta__ = {
 }
 
 [node name="DialogueNamePrompt" type="WindowDialog" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup"]
+visible = true
 margin_left = 124.0
 margin_top = -12.0
 margin_right = 324.0
@@ -182,9 +196,8 @@ size_flags_vertical = 3
 custom_constants/separation = 6
 
 [node name="AddCharacterBtn" type="Button" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/CharacterItemContainer"]
-margin_top = 84.0
 margin_right = 340.0
-margin_bottom = 148.0
+margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
 custom_styles/focus = SubResource( 4 )
 text = "Add Character"
@@ -286,6 +299,8 @@ minimap_enabled = false
 script = ExtResource( 1 )
 
 [connection signal="tab_close" from="VBoxContainer/TabContainer/Tabs" to="VBoxContainer/TabContainer/Tabs" method="_on_tab_close"]
+[connection signal="hide" from="VBoxContainer/TabContainer/Tabs/NameEdit" to="VBoxContainer/TabContainer/Tabs" method="_on_NameEdit_hide"]
+[connection signal="text_entered" from="VBoxContainer/TabContainer/Tabs/NameEdit" to="VBoxContainer/TabContainer/Tabs" method="_on_NameEdit_text_entered"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/TabMenuBtn" to="VBoxContainer/TabContainer" method="_on_TabMenuBtn_pressed"]
 [connection signal="id_pressed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" method="_on_id_pressed"]
 [connection signal="new_dialogue" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TabContainer/Tabs" method="_on_TabMenuPopup_new_dialogue"]
