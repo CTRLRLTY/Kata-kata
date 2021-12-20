@@ -3,6 +3,8 @@ tool
 extends ItemList
 
 func _enter_tree() -> void:
+	clear()
+	
 	var d := Directory.new()
 	d.open(GDUtil.get_component_dir())
 	d.list_dir_begin(true, true)
@@ -18,10 +20,6 @@ func _enter_tree() -> void:
 		file_name = d.get_next()
 
 	d.list_dir_end()
-
-
-func _exit_tree() -> void:
-	clear()
 
 
 func get_drag_data(position: Vector2):
