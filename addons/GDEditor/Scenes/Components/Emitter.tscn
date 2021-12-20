@@ -18,11 +18,11 @@ slot/0/right_enabled = false
 slot/0/right_type = 0
 slot/0/right_color = Color( 1, 1, 1, 1 )
 slot/1/left_enabled = true
-slot/1/left_type = 0
-slot/1/left_color = Color( 1, 1, 1, 1 )
+slot/1/left_type = 1
+slot/1/left_color = Color( 0.4, 0.2, 0.6, 1 )
 slot/1/right_enabled = false
-slot/1/right_type = 0
-slot/1/right_color = Color( 1, 1, 1, 1 )
+slot/1/right_type = 1
+slot/1/right_color = Color( 0.4, 0.2, 0.6, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -51,15 +51,12 @@ mouse_filter = 2
 custom_constants/separation = 0
 
 [node name="InPort" parent="FlowPort" instance=ExtResource( 1 )]
-enable = true
+port_type = 1
+port_enable = true
 
 [node name="LineEdit" type="LineEdit" parent="FlowPort"]
 margin_left = 10.0
-margin_right = 140.0
+margin_right = 150.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 placeholder_text = "Signal Name"
-
-[node name="OutPort" parent="FlowPort" instance=ExtResource( 1 )]
-margin_left = 140.0
-margin_right = 150.0

@@ -27,3 +27,4 @@ placeholder_text = "Signal Name"
 [node name="OutPortRef" parent="." instance=ExtResource( 1 )]
 margin_left = 169.0
 margin_right = 179.0
+port_enable = true

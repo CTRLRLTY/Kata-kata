@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
+[ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/PortRect.tscn" type="PackedScene" id=2]
 
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.662745, 0.682353, 0.733333, 1 )
@@ -21,11 +22,11 @@ slot/0/right_enabled = false
 slot/0/right_type = 0
 slot/0/right_color = Color( 1, 1, 1, 1 )
 slot/1/left_enabled = true
-slot/1/left_type = 0
-slot/1/left_color = Color( 1, 1, 1, 1 )
+slot/1/left_type = 2
+slot/1/left_color = Color( 0.13, 0.55, 0.13, 1 )
 slot/1/right_enabled = true
-slot/1/right_type = 0
-slot/1/right_color = Color( 1, 1, 1, 1 )
+slot/1/right_type = 2
+slot/1/right_color = Color( 0.13, 0.55, 0.13, 1 )
 slot/2/left_enabled = false
 slot/2/left_type = 0
 slot/2/left_color = Color( 1, 1, 1, 1 )
@@ -71,10 +72,10 @@ margin_right = 210.0
 margin_bottom = 76.0
 mouse_filter = 2
 
-[node name="InPortRef" type="ReferenceRect" parent="FlowPort"]
-margin_right = 10.0
+[node name="InPort" parent="FlowPort" instance=ExtResource( 2 )]
 margin_bottom = 14.0
-rect_min_size = Vector2( 10, 0 )
+port_type = 2
+port_enable = true
 
 [node name="InPortLabel" type="Label" parent="FlowPort"]
 margin_left = 14.0
@@ -89,11 +90,12 @@ margin_bottom = 14.0
 size_flags_horizontal = 10
 text = "Next Line"
 
-[node name="OutPortRef" type="ReferenceRect" parent="FlowPort"]
+[node name="OutPort" parent="FlowPort" instance=ExtResource( 2 )]
 margin_left = 185.0
 margin_right = 195.0
 margin_bottom = 14.0
-rect_min_size = Vector2( 10, 0 )
+port_type = 2
+port_enable = true
 
 [node name="Body" type="MarginContainer" parent="."]
 margin_left = 15.0

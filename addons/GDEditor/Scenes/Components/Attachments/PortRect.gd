@@ -9,14 +9,13 @@ enum PortType {
 }
 
 enum {
-	NONE,
 	INPUT,
 	OUTPUT
 }
 
 
 export(PortType) var port_type := 0 setget set_port_type
-export(bool) var enable := false setget set_enable
+export(bool) var port_enable := false setget set_port_enable
 
 
 func _enter_tree() -> void:
@@ -50,11 +49,11 @@ func set_port_type(type : int) -> void:
 	_update_port()
 
 
-func set_enable(p_enable : bool) -> void:
-	enable = p_enable
+func set_port_enable(p_enable : bool) -> void:
+	port_enable = p_enable
 	_update_port()
-	
-	
+
+
 func _graph_owner() -> GraphNode:
 	return get_parent().get_parent() as GraphNode
 
@@ -80,8 +79,22 @@ func _update_port() -> void:
 	var gn := _graph_owner()
 	var slot := _slot()
 	
+	var port_color : Color
+	
+	match port_type:
+		PortType.UNIVERSAL:
+			port_color = Color.mediumaquamarine
+		PortType.ACTION:
+			port_color = Color.rebeccapurple
+		PortType.FLOW:
+			port_color = Color.forestgreen
+	
 	match _connector_type():
 		INPUT:
-			gn.set_slot_enabled_left(slot, enable)
+			gn.set_slot(slot, 
+					port_enable, port_type, port_color,
+					gn.is_slot_enabled_right(slot), gn.get_slot_type_right(slot), gn.get_slot_color_right(slot))
 		OUTPUT:
-			gn.set_slot_enabled_right(slot, enable)
+			gn.set_slot(slot, 
+					gn.is_slot_enabled_left(slot), gn.get_slot_type_left(slot), gn.get_slot_color_left(slot),
+					port_enable, port_type, port_color)

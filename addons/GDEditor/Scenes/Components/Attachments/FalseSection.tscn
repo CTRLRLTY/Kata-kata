@@ -18,7 +18,8 @@ margin_right = 165.0
 margin_bottom = 14.0
 text = "False"
 
-[node name="OutPortRef" parent="." instance=ExtResource( 1 )]
+[node name="OutPortRect" parent="." instance=ExtResource( 1 )]
 margin_left = 169.0
 margin_right = 179.0
 margin_bottom = 14.0
+port_enable = true
