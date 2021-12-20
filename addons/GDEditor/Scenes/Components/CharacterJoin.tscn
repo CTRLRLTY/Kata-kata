@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
+[ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/PortRect.tscn" type="PackedScene" id=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.662745, 0.682353, 0.733333, 1 )
@@ -24,8 +25,8 @@ slot/1/left_enabled = false
 slot/1/left_type = 0
 slot/1/left_color = Color( 1, 1, 1, 1 )
 slot/1/right_enabled = true
-slot/1/right_type = 0
-slot/1/right_color = Color( 1, 1, 1, 1 )
+slot/1/right_type = 1
+slot/1/right_color = Color( 0.4, 0.2, 0.6, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -60,9 +61,9 @@ rect_min_size = Vector2( 0, 28 )
 size_flags_horizontal = 3
 custom_styles/normal = SubResource( 1 )
 
-[node name="PortReference" type="ReferenceRect" parent="Body"]
+[node name="PortRect" parent="Body" instance=ExtResource( 2 )]
 margin_left = 120.0
 margin_right = 130.0
 margin_bottom = 28.0
-rect_min_size = Vector2( 10, 0 )
-mouse_filter = 2
+port_type = 1
+port_enable = true
