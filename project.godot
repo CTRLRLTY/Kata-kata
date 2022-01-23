@@ -28,12 +28,42 @@ _global_script_classes=[ {
 "class": "GDUtil",
 "language": "GDScript",
 "path": "res://addons/GDEditor/GDutil.gd"
+}, {
+"base": "GraphNode",
+"class": "GNChoice",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Scenes/Components/Choice.gd"
+}, {
+"base": "GraphNode",
+"class": "GNEmitter",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Scenes/Components/Emitter.gd"
+}, {
+"base": "GraphNode",
+"class": "GNMessage",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Scenes/Components/Message.gd"
+}, {
+"base": "GraphNode",
+"class": "GNPipe",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Scenes/Components/Pipe.gd"
+}, {
+"base": "GraphNode",
+"class": "GNSetter",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Scenes/Components/Setter.gd"
 } ]
 _global_script_class_icons={
 "CharacterData": "",
 "CharacterExpressionData": "",
 "ContextStateData": "",
-"GDUtil": ""
+"GDUtil": "",
+"GNChoice": "",
+"GNEmitter": "",
+"GNMessage": "",
+"GNPipe": "",
+"GNSetter": ""
 }
 
 [application]

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/PortRect.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/GDEditor/Scenes/Components/Emitter.gd" type="Script" id=2]
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=3]
 
 [node name="Emitter" type="GraphNode"]
@@ -23,6 +24,7 @@ slot/1/left_color = Color( 0.4, 0.2, 0.6, 1 )
 slot/1/right_enabled = false
 slot/1/right_type = 1
 slot/1/right_color = Color( 0.4, 0.2, 0.6, 1 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -54,9 +56,11 @@ custom_constants/separation = 0
 port_type = 1
 port_enable = true
 
-[node name="LineEdit" type="LineEdit" parent="FlowPort"]
+[node name="SignalEdit" type="LineEdit" parent="FlowPort"]
 margin_left = 10.0
 margin_right = 150.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 placeholder_text = "Signal Name"
+
+[connection signal="text_changed" from="FlowPort/SignalEdit" to="." method="_on_SignalEdit_text_changed"]

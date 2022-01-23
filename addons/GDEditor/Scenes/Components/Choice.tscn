@@ -103,3 +103,6 @@ port_enable = true
 custom_constants/margin_bottom = 0
 
 [connection signal="pressed" from="Header/HBoxContainer/AddChoice" to="." method="_on_AddChoice_pressed"]
+[connection signal="text_changed" from="MainChoice/LineEdit" to="." method="_on_MainChoiceEdit_text_changed"]
+
+[editable path="MainChoice"]

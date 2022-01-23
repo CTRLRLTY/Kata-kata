@@ -28,8 +28,3 @@ func _on_TabMenuPopup_save_dialogue() -> void:
 		dgraph.connection_list = dgraph.get_connection_list()
 		packer.pack(dgraph)
 		ResourceSaver.save("res://test/test.tscn", packer)
-#		for child in dgraph.get_children():
-#			print_debug(child.owner)
-	
-	
-	

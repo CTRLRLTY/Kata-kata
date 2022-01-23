@@ -2,6 +2,8 @@ tool
 
 extends GraphNode
 
+class_name GNPipe
+
 enum PipeType {
 	CONDITION,
 	EXPRESSION,

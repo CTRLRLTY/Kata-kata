@@ -2,6 +2,8 @@ tool
 
 extends GraphNode
 
+class_name GNMessage
+
 export(String, MULTILINE) var message_text 
 
 var message_edit : TextEdit

@@ -10,8 +10,19 @@ enum PortType {
 
 export(Array, Dictionary) var connection_list
 
+var popup_menu : PopupMenu
+
+var _selected_nodes := []
+var _copy_buffer := []
+
+
+func _ready() -> void:
+	popup_menu.connect("id_pressed", self, "_on_popup_menu_pressed")
+
 
 func _enter_tree() -> void:
+	popup_menu = $DGPopupMenu
+	
 	add_valid_connection_type(PortType.UNIVERSAL, PortType.UNIVERSAL)
 	add_valid_connection_type(PortType.UNIVERSAL, PortType.ACTION)
 	add_valid_connection_type(PortType.UNIVERSAL, PortType.FLOW)
@@ -69,3 +80,33 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 
 func _on_disconnection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
 	disconnect_node(from, from_slot, to, to_slot)
+
+
+func _on_popup_request(position: Vector2) -> void:
+	popup_menu.set_size(Vector2.ZERO)
+	popup_menu.set_position(position)
+	
+	if not _copy_buffer.empty():
+		popup_menu.open_paste()
+	elif not _selected_nodes.empty():
+		popup_menu.open()
+
+
+func _on_popup_menu_pressed(id: int) -> void:
+	match id:
+		popup_menu.Item.COPY:
+			_copy_buffer = _selected_nodes.duplicate()
+		popup_menu.Item.DELETE:
+			for node in _selected_nodes:
+				node.queue_free()
+			
+			_selected_nodes.clear()
+		
+
+
+func _on_node_selected(node: Node) -> void:
+	_selected_nodes.append(node)
+	
+	
+func _on_node_unselected(node: Node) -> void:
+	_selected_nodes.erase(node)
