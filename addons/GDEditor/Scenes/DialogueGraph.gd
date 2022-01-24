@@ -41,8 +41,8 @@ func _ready() -> void:
 
 func can_drop_data(_position: Vector2, data) -> bool:
 	return data is Dictionary and data.get("value_type", "") == "GDComponent" 
-	
-	
+
+
 func drop_data(position: Vector2, data : Dictionary) -> void:
 	var gn : GraphNode = data.payload.instance()
 	
@@ -55,7 +55,7 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 func _on_connection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
 	if from == to:
 		return
-
+	
 	var from_node : GraphNode = get_node(from)
 	var total_local_slots := from_node.get_child_count()
 	var from_mapped_slots := []

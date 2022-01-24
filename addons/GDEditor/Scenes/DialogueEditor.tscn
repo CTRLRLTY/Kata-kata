@@ -258,7 +258,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/line_separation = 0
 custom_styles/selected = SubResource( 2 )
-items = [ "Start", null, false, "Message", null, false, "Emitter", null, false, "CharacterJoin", null, false, "Choice", null, false, "Setter", null, false, "Pipe", null, false ]
+items = [ "Start", null, false, "End", null, false, "Message", null, false, "Emitter", null, false, "CharacterJoin", null, false, "Choice", null, false, "Setter", null, false, "Pipe", null, false ]
 script = ExtResource( 4 )
 
 [node name="LowerHalf" type="VBoxContainer" parent="VBoxContainer/MainContainer/LeftDock/VSplitContainer"]
