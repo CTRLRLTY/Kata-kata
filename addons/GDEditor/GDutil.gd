@@ -172,6 +172,23 @@ static func array_dictionary_hasv(arr : Array, keyval : Dictionary) -> bool:
 	return false
 
 
+static func array_dictionary_popv(arr : Array, keyvallarr):
+	var ret = array_dictionary_findv(arr, keyvallarr)
+	
+	arr.erase(ret)
+	
+	return ret
+
+
+static func array_dictionary_popallv(arr : Array, keyvalarr : Array) -> Array:
+	var ret := array_dictionary_findallv(arr, keyvalarr)
+	
+	for keyval in ret:
+		arr.erase(keyval)
+	
+	return ret
+
+
 static func array_dictionary_findv(arr : Array, keyvalarr : Array):
 	for element in arr:
 		assert(element is Dictionary)
