@@ -20,11 +20,7 @@ func get_dialogue_graphs() -> Array:
 
 
 func _on_TabMenuPopup_save_dialogue() -> void:
-	
 	var graph_list := get_dialogue_graphs()
 	
 	for dgraph in graph_list:
-		var packer := PackedScene.new()
-		dgraph.connection_list = dgraph.get_connection_list()
-		packer.pack(dgraph)
-		ResourceSaver.save("res://test/test.tscn", packer)
+		dgraph.save()

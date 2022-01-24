@@ -18,7 +18,6 @@ var _copy_buffer := []
 
 func _enter_tree() -> void:
 	popup_menu = $DGPopupMenu
-	popup_menu.owner = self
 
 
 func _ready() -> void:
@@ -99,6 +98,11 @@ func _on_popup_menu_pressed(id: int) -> void:
 			_copy_buffer = _selected_nodes.duplicate()
 		popup_menu.Item.DELETE:
 			for node in _selected_nodes:
+				var from_connections = GDUtil.array_dictionary_findallv(get_connection_list(),
+						{"from": node.name})
+				
+				print_debug(from_connections)
+				
 				node.queue_free()
 			
 			_selected_nodes.clear()
@@ -110,3 +114,13 @@ func _on_node_selected(node: Node) -> void:
 	
 func _on_node_unselected(node: Node) -> void:
 	_selected_nodes.erase(node)
+
+
+func save() -> void:
+	var packer := PackedScene.new()
+	popup_menu.owner = self
+	
+	connection_list = get_connection_list()
+	packer.pack(self)
+	
+	ResourceSaver.save("res://test/test.tscn", packer)
