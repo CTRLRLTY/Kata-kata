@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.gd" type="Script" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueEditor.gd" type="Script" id=2]
@@ -12,7 +12,6 @@
 [ext_resource path="res://addons/GDEditor/Scenes/TabMenuPopup.gd" type="Script" id=10]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueNamePrompt.gd" type="Script" id=11]
 [ext_resource path="res://addons/GDEditor/Scenes/ContextStateTree.tscn" type="PackedScene" id=12]
-[ext_resource path="res://addons/GDEditor/Scenes/DGPopupMenu.gd" type="Script" id=13]
 [ext_resource path="res://addons/GDEditor/Scenes/CharacterDefinitionPopup.gd" type="Script" id=16]
 
 [sub_resource type="StyleBoxEmpty" id=3]
@@ -299,17 +298,6 @@ right_disconnects = true
 scroll_offset = Vector2( -14, -93 )
 minimap_enabled = false
 script = ExtResource( 1 )
-
-[node name="DGPopupMenu" type="PopupMenu" parent="VBoxContainer/MainContainer/DGraph"]
-margin_left = 297.0
-margin_top = 90.0
-margin_right = 534.0
-margin_bottom = 124.0
-items = [ "Item 0", null, 0, false, false, 0, 0, null, "", false ]
-script = ExtResource( 13 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="tab_close" from="VBoxContainer/TabContainer/Tabs" to="VBoxContainer/TabContainer/Tabs" method="_on_tab_close"]
 [connection signal="hide" from="VBoxContainer/TabContainer/Tabs/NameEdit" to="VBoxContainer/TabContainer/Tabs" method="_on_NameEdit_hide"]

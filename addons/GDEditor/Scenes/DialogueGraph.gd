@@ -16,12 +16,13 @@ var _selected_nodes := []
 var _copy_buffer := []
 
 
-func _ready() -> void:
-	popup_menu.connect("id_pressed", self, "_on_popup_menu_pressed")
-
-
 func _enter_tree() -> void:
 	popup_menu = $DGPopupMenu
+	popup_menu.owner = self
+
+
+func _ready() -> void:
+	popup_menu.connect("id_pressed", self, "_on_popup_menu_pressed")
 	
 	add_valid_connection_type(PortType.UNIVERSAL, PortType.UNIVERSAL)
 	add_valid_connection_type(PortType.UNIVERSAL, PortType.ACTION)
@@ -101,7 +102,6 @@ func _on_popup_menu_pressed(id: int) -> void:
 				node.queue_free()
 			
 			_selected_nodes.clear()
-		
 
 
 func _on_node_selected(node: Node) -> void:
