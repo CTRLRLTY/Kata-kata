@@ -96,12 +96,15 @@ func _on_popup_menu_pressed(id: int) -> void:
 	match id:
 		popup_menu.Item.COPY:
 			_copy_buffer = _selected_nodes.duplicate()
+			
 		popup_menu.Item.DELETE:
 			for node in _selected_nodes:
-				var from_connections = GDUtil.array_dictionary_findallv(get_connection_list(),
-						{"from": node.name})
+				var node_connections = GDUtil.array_dictionary_findallv(get_connection_list(),
+						[{"from": node.name}, {"to": node.name}])
 				
-				print_debug(from_connections)
+				for connection in node_connections:
+					disconnect_node(connection.from, 
+							connection.from_port, connection.to, connection.to_port)
 				
 				node.queue_free()
 			
