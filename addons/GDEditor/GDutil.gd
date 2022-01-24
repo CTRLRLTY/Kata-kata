@@ -180,26 +180,30 @@ static func array_dictionary_find(arr : Array, key, value):
 			return element
 
 
-static func array_dictionary_findallv(arr : Array, keyval : Dictionary) -> Array:
+static func array_dictionary_findallv(arr : Array, keyvalarr : Array) -> Array:
 	var ret := []
-	var tsize = keyval.size()
 	
 	for element in arr:
 		assert(element is Dictionary)
 		
-		var tacc := 0
-		
-		for key in keyval:
-			var left = element.get(key, "")
-			var right = keyval[key]
+		for keyval in keyvalarr:
+			assert(keyval is Dictionary)
 			
-			if not typeof(left) == typeof(right):
-				continue
+			var tacc := 0
+			
+			var tsize = keyval.size()
+			
+			for key in keyval:
+				var left = element.get(key, "")
+				var right = keyval[key]
 				
-			tacc += int(left == right)
-				
-		if tacc == tsize:
-			ret.append(element)
+				if not typeof(left) == typeof(right):
+					continue
+					
+				tacc += int(left == right)
+					
+			if tacc == tsize:
+				ret.append(element)
 	
 	return ret
 
