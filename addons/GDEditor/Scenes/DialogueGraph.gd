@@ -46,6 +46,19 @@ func can_drop_data(_position: Vector2, data) -> bool:
 func drop_data(position: Vector2, data : Dictionary) -> void:
 	var gn : GraphNode = data.payload.instance()
 	
+	if gn is GNStart:
+		for child in get_children():
+			if child is GNStart:
+				printerr("GraphEdit already has a StartNode")
+				return
+				
+	elif gn is GNEnd:
+		for child in get_children():
+			if child is GNEnd:
+				printerr("GraphEdit already has a EndNode")
+				return
+	
+	
 	add_child(gn)
 	
 	gn.owner = self
