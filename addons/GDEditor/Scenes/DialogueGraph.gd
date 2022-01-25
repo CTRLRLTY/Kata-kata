@@ -75,10 +75,7 @@ func save() -> void:
 
 
 func cursor() -> DialogueCursor:
-	var ret := DialogueCursor.new(get_connection_list())
-
-
-	return ret
+	return DialogueCursor.new(get_connection_list())
 
 
 func _on_connection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
