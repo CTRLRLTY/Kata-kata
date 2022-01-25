@@ -21,9 +21,15 @@ func _init(dialogue_graph: DialogueGraph) -> void:
 			"action": dialogue_graph.node_ports(connection["from"], PortRect.PortType.ACTION)
 		}
 		
-		var graph_node : GraphNode = dialogue_graph.get_node(connection["from"])
+		var from_graph_node : GraphNode = dialogue_graph.get_node(connection["from"])
+		var to_graph_node : GraphNode = dialogue_graph.get_node(connection["to"])
 		
-		if graph_node.has_method("get_save_data"):
-			s_data_table[connection["from"]] = graph_node.get_save_data()
+		if from_graph_node.has_method("get_save_data"):
+			s_data_table[connection["from"]] = from_graph_node.get_save_data()
+			
+		if to_graph_node.has_method("get_save_data"):
+			s_data_table[connection["to"]] = to_graph_node.get_save_data()
 		
 		GDUtil.array_dictionary_popallv(flow_buffer, [{"from": connection["from"]}])
+		
+		
