@@ -17,8 +17,8 @@ slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color( 1, 1, 1, 1 )
 slot/0/right_enabled = true
-slot/0/right_type = 0
-slot/0/right_color = Color( 0.4, 0.8, 0.67, 1 )
+slot/0/right_type = 2
+slot/0/right_color = Color( 0.13, 0.55, 0.13, 1 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -42,4 +42,5 @@ margin_left = 29.0
 margin_right = 52.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
+s_port_type = 2
 s_port_enable = true

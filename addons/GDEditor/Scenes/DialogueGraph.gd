@@ -2,18 +2,13 @@ tool
 
 extends GraphEdit
 
-enum PortType {
-	UNIVERSAL,
-	ACTION,
-	FLOW
-}
-
 export(Array, Dictionary) var s_connection_list : Array
 
 var popup_menu : PopupMenu
 
 var _selected_nodes := []
 var _copy_buffer := []
+var _dialogue_cursor := DialogueCursor.new(s_connection_list)
 
 
 func _enter_tree() -> void:
@@ -23,17 +18,17 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	popup_menu.connect("id_pressed", self, "_on_popup_menu_pressed")
 	
-	add_valid_connection_type(PortType.UNIVERSAL, PortType.UNIVERSAL)
-	add_valid_connection_type(PortType.UNIVERSAL, PortType.ACTION)
-	add_valid_connection_type(PortType.UNIVERSAL, PortType.FLOW)
+	add_valid_connection_type(PortRect.PortType.UNIVERSAL, PortRect.PortType.UNIVERSAL)
+	add_valid_connection_type(PortRect.PortType.UNIVERSAL, PortRect.PortType.ACTION)
+	add_valid_connection_type(PortRect.PortType.UNIVERSAL, PortRect.PortType.FLOW)
 	
-	add_valid_connection_type(PortType.ACTION, PortType.ACTION)
-	add_valid_connection_type(PortType.ACTION, PortType.UNIVERSAL)
+	add_valid_connection_type(PortRect.PortType.ACTION, PortRect.PortType.ACTION)
+	add_valid_connection_type(PortRect.PortType.ACTION, PortRect.PortType.UNIVERSAL)
 	
-	add_valid_connection_type(PortType.FLOW, PortType.FLOW)
-	add_valid_connection_type(PortType.FLOW, PortType.UNIVERSAL)
+	add_valid_connection_type(PortRect.PortType.FLOW, PortRect.PortType.FLOW)
+	add_valid_connection_type(PortRect.PortType.FLOW, PortRect.PortType.UNIVERSAL)
 	
-	add_valid_left_disconnect_type(PortType.FLOW)
+	add_valid_left_disconnect_type(PortRect.PortType.FLOW)
 	
 	for conn in s_connection_list:
 		connect_node(conn.from, conn.from_port, conn.to, conn.to_port)
@@ -69,13 +64,53 @@ func save() -> void:
 	popup_menu.owner = self
 	
 	s_connection_list = get_connection_list()
-	packer.pack(self)
+	_dialogue_cursor = DialogueCursor.new(s_connection_list)
 	
-	ResourceSaver.save("res://test/test.tscn", packer)
+	print_debug(node_ports(_dialogue_cursor.current()["from"], PortRect.PortType.FLOW))
+	
+#	packer.pack(self)
+#
+#	ResourceSaver.save("res://test/test.tscn", packer)
 
 
 func cursor() -> DialogueCursor:
-	return DialogueCursor.new(get_connection_list())
+	return _dialogue_cursor
+
+
+func node_ports(node_name: String, port_type: int) -> Dictionary:
+	var ret := {
+		"from": [],
+		"to": []
+	}
+	
+	var graph_node : GraphNode = get_node(node_name)
+	var from_connection = GDUtil.array_dictionary_findallv(
+			_dialogue_cursor.s_flow, [{"from": node_name}, {"to": node_name}])
+	var to_connection = GDUtil.array_dictionary_popallv(from_connection, [{"to": node_name}])
+	
+	var mapped_slots = _mapped_slots(graph_node)
+
+	for connection in from_connection:
+		if port_type == graph_node.get_slot_type_left(mapped_slots[connection.from_port]):
+			ret["from"].append(connection)
+	
+	for connection in to_connection:
+		if port_type == graph_node.get_slot_type_right(mapped_slots[connection.from_port]):
+			ret["to"].append(connection)
+	
+	return ret
+
+
+func _mapped_slots(graph_node: GraphNode) -> Array:
+	var mapped := []
+	
+	var total_slots := graph_node.get_child_count()
+	
+	for slot in range(total_slots):
+		if graph_node.is_slot_enabled_right(slot) or graph_node.is_slot_enabled_left(slot):
+			mapped.append(slot)
+	
+	return mapped
 
 
 func _on_connection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
@@ -83,22 +118,15 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 		return
 	
 	var from_node : GraphNode = get_node(from)
-	var total_local_slots := from_node.get_child_count()
-	var from_mapped_slots := []
+	var mapped_slots := _mapped_slots(from_node)
 	
-	for slot_local in range(total_local_slots):
-		if from_node.is_slot_enabled_right(slot_local):
-			from_mapped_slots.append(slot_local)
-	
-	var is_from_slot_port_flow = from_node\
-			.get_slot_type_right(from_mapped_slots[from_slot]) == PortType.FLOW
-	
-	if is_from_slot_port_flow:
-		var is_connected_to_another = GDUtil.array_dictionary_hasv(
-				get_connection_list(), [{"from": from, "from_port": from_slot}])
-		
-		if is_connected_to_another:
-			return
+	match from_node.get_slot_type_right(mapped_slots[from_slot]):
+		PortRect.PortType.FLOW:
+			var is_connected_to_another = GDUtil.array_dictionary_hasv(
+					get_connection_list(), [{"from": from, "from_port": from_slot}])
+			
+			if is_connected_to_another:
+				return
 	
 	
 	connect_node(from, from_slot, to, to_slot)

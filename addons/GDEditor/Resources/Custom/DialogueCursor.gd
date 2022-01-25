@@ -9,8 +9,10 @@ export var s_is_valid : bool
 
 
 func _init(connection_list : Array) -> void:
-	s_connection_list = connection_list.duplicate()
+	s_connection_list = connection_list
 	s_index = 0
+	
+	connection_list = connection_list.duplicate()
 	
 	var start = GDUtil.array_dictionary_popv(connection_list, [{"from": "Start"}])
 	
@@ -45,7 +47,12 @@ func index() -> int:
 
 
 func current() -> Dictionary:
-	return s_flow[s_index - 1] if end() else s_flow[s_index]
+	if s_flow.empty():
+		return {}
+	elif end():
+		return s_flow[s_index - 1]
+	else:
+		return s_flow[s_index]
 
 
 func end() -> bool:
