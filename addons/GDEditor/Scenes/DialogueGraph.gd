@@ -8,7 +8,7 @@ enum PortType {
 	FLOW
 }
 
-export(Array, Dictionary) var connection_list : Array
+export(Array, Dictionary) var s_connection_list : Array
 
 var popup_menu : PopupMenu
 
@@ -35,7 +35,7 @@ func _ready() -> void:
 	
 	add_valid_left_disconnect_type(PortType.FLOW)
 	
-	for conn in connection_list:
+	for conn in s_connection_list:
 		connect_node(conn.from, conn.from_port, conn.to, conn.to_port)
 
 
@@ -68,7 +68,7 @@ func save() -> void:
 	var packer := PackedScene.new()
 	popup_menu.owner = self
 	
-	connection_list = get_connection_list()
+	s_connection_list = get_connection_list()
 	packer.pack(self)
 	
 	ResourceSaver.save("res://test/test.tscn", packer)

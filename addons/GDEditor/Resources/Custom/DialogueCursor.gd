@@ -10,6 +10,7 @@ export var s_is_valid : bool
 
 func _init(connection_list : Array) -> void:
 	s_connection_list = connection_list.duplicate()
+	s_index = 0
 	
 	var start = GDUtil.array_dictionary_popv(connection_list, [{"from": "Start"}])
 	
@@ -17,13 +18,10 @@ func _init(connection_list : Array) -> void:
 		var next_queue := []
 		next_queue.append_array(
 				GDUtil.array_dictionary_popallv(connection_list, [{"from": start.to}]))
-				
-		print_debug(next_queue)
 		
 		var next = next_queue.pop_front()
 				
 		while next:
-			print_debug(next)
 			s_flow.append(next)
 			
 			next_queue.append_array(
@@ -32,25 +30,31 @@ func _init(connection_list : Array) -> void:
 			next = next_queue.pop_front() 
 			
 		s_is_valid = GDUtil.array_dictionary_hasv(s_flow, [{"to": "End"}]) 
-		
-		print_debug("done")
 
 
 func is_valid() -> bool:
 	return s_is_valid
 
 
-func size() -> void:
-	pass
+func size() -> int:
+	return s_flow.size()
+
+
+func index() -> int:
+	return s_index
 
 
 func current() -> Dictionary:
-	return {}
+	return s_flow[s_index - 1] if end() else s_flow[s_index]
+
+
+func end() -> bool:
+	return s_index == size()
 
 
 func next() -> void:
-	pass
+	s_index = min(s_index + 1, size())
 
 
 func prev() -> void:
-	pass
+	s_index = max(s_index - 1, 0)
