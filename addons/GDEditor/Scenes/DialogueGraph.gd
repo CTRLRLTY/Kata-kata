@@ -2,6 +2,8 @@ tool
 
 extends GraphEdit
 
+class_name DialogueGraph
+
 export(Array, Dictionary) var s_connection_list : Array
 
 var popup_menu : PopupMenu
@@ -66,7 +68,7 @@ func save() -> void:
 	s_connection_list = get_connection_list()
 	_dialogue_cursor = DialogueCursor.new(s_connection_list)
 	
-	print_debug(node_ports(_dialogue_cursor.current()["from"], PortRect.PortType.FLOW))
+#	print_debug(node_ports(_dialogue_cursor.current()["from"], PortRect.PortType.FLOW))
 	
 #	packer.pack(self)
 #
