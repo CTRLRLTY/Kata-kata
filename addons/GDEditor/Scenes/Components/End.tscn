@@ -34,8 +34,8 @@ custom_constants/separation = 0
 
 [node name="PortRect" parent="Content" instance=ExtResource( 2 )]
 margin_bottom = 14.0
-port_type = 2
-port_enable = true
+s_port_type = 2
+s_port_enable = true
 
 [node name="Label" type="Label" parent="Content"]
 margin_left = 10.0

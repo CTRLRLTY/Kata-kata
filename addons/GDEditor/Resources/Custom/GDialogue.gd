@@ -31,5 +31,48 @@ func _init(dialogue_graph: DialogueGraph) -> void:
 			s_data_table[connection["to"]] = to_graph_node.get_save_data()
 		
 		GDUtil.array_dictionary_popallv(flow_buffer, [{"from": connection["from"]}])
-		
-		
+
+
+func size() -> int:
+	return s_dialogue_cursor.size()
+
+
+func current() -> Dictionary:
+	if not s_dialogue_cursor.is_valid():
+		return {}
+	
+	var connection : Dictionary = s_dialogue_cursor.current()
+	
+	if connection.empty():
+		return {}
+	
+	return {"port": s_port_table[connection["from"]],
+			"data": s_data_table[connection["from"]]}
+
+
+func at(idx: int) -> Dictionary:
+	var current_index : int = s_dialogue_cursor.index()
+
+	s_dialogue_cursor.goto(idx)
+
+	var ret = current()
+	
+	s_dialogue_cursor.goto(current_index)
+	
+	return ret
+
+
+func goto(idx: int) -> void:
+	s_dialogue_cursor.goto(idx)
+
+
+func end() -> bool:
+	return s_dialogue_cursor.end()
+
+
+func next() -> void:
+	s_dialogue_cursor.next()
+
+
+func prev() -> void:
+	s_dialogue_cursor.prev()
