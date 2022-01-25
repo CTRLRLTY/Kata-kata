@@ -21,6 +21,16 @@ func _init(dialogue_graph: DialogueGraph) -> void:
 			"action": dialogue_graph.node_ports(connection["from"], PortRect.PortType.ACTION)
 		}
 		
+		# If a universal from_port is connected to a flow to_port, then also add it to the flow["to"] array
+		for _connection in s_port_table[connection["from"]]["universal"]["to"]:
+			var _to_graph_node : GraphNode = dialogue_graph.get_node(_connection["to"])
+			var _to_port : int = dialogue_graph._mapped_slots(_to_graph_node)[_connection["to_port"]]
+			var _to_port_type : int = _to_graph_node.get_slot_type_left(_to_port)
+			
+			if _to_port_type == PortRect.PortType.FLOW:
+				s_port_table[connection["from"]]["flow"]["to"].append(_connection)
+			
+		
 		var from_graph_node : GraphNode = dialogue_graph.get_node(connection["from"])
 		var to_graph_node : GraphNode = dialogue_graph.get_node(connection["to"])
 		
@@ -49,8 +59,8 @@ func current() -> Dictionary:
 	if connection.empty():
 		return {}
 	
-	return {"port": s_port_table[connection["from"]],
-			"data": s_data_table[connection["from"]]}
+	return {"port": s_port_table.get(connection["from"]),
+			"data": s_data_table.get(connection["from"])}
 
 
 func at(idx: int) -> Dictionary:

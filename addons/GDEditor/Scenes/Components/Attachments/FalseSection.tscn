@@ -22,4 +22,4 @@ text = "False"
 margin_left = 169.0
 margin_right = 179.0
 margin_bottom = 14.0
-port_enable = true
+s_port_enable = true

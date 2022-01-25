@@ -31,7 +31,7 @@ text = "Next Line"
 [node name="PortRect" parent="." instance=ExtResource( 3 )]
 margin_left = 185.0
 margin_right = 195.0
-port_type = 2
-port_enable = true
+s_port_type = 2
+s_port_enable = true
 
 [connection signal="pressed" from="RemoveChoice" to="." method="_on_RemoveChoice_pressed"]

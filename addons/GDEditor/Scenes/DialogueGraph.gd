@@ -31,6 +31,7 @@ func _ready() -> void:
 	add_valid_connection_type(PortRect.PortType.FLOW, PortRect.PortType.UNIVERSAL)
 	
 	add_valid_left_disconnect_type(PortRect.PortType.FLOW)
+	add_valid_left_disconnect_type(PortRect.PortType.UNIVERSAL)
 	
 	for conn in s_connection_list:
 		connect_node(conn.from, conn.from_port, conn.to, conn.to_port)
@@ -67,6 +68,8 @@ func save() -> void:
 	
 	s_connection_list = get_connection_list()
 	_dialogue_cursor = DialogueCursor.new(s_connection_list)
+	
+	print_debug(_dialogue_cursor.s_flow)
 	
 #	print_debug(node_ports(_dialogue_cursor.current()["from"], PortRect.PortType.FLOW))
 	
@@ -124,6 +127,10 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	
 	match from_node.get_slot_type_right(mapped_slots[from_slot]):
 		PortRect.PortType.FLOW:
+			continue
+		PortRect.PortType.UNIVERSAL:
+			continue
+		_:
 			var is_connected_to_another = GDUtil.array_dictionary_hasv(
 					get_connection_list(), [{"from": from, "from_port": from_slot}])
 			
