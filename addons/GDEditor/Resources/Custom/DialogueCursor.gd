@@ -55,10 +55,22 @@ func current() -> Dictionary:
 		return s_flow[s_index]
 
 
+func front() -> Dictionary:
+	return s_flow[0]
+
+
+func back() -> Dictionary:
+	return s_flow[size() - 1]
+
+
 func end() -> bool:
 	return s_index == size()
+	
 
+func goto(idx: int) -> void:
+	s_index = clamp(idx, 0, size())
 
+	
 func next() -> void:
 	s_index = min(s_index + 1, size())
 
