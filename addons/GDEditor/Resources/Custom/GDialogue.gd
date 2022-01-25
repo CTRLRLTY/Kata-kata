@@ -24,6 +24,9 @@ func _init(dialogue_graph: DialogueGraph) -> void:
 		var from_graph_node : GraphNode = dialogue_graph.get_node(connection["from"])
 		var to_graph_node : GraphNode = dialogue_graph.get_node(connection["to"])
 		
+		# Setting up the data_table maybe be invoked multiple times for the same entry,
+		# as they may be a case where the connection["from"] or connection["to"] of one node
+		# is the same on another node.
 		if from_graph_node.has_method("get_save_data"):
 			s_data_table[connection["from"]] = from_graph_node.get_save_data()
 			
