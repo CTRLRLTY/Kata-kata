@@ -2,6 +2,8 @@ tool
 
 extends ReferenceRect
 
+class_name PortRect
+
 enum PortType {
 	UNIVERSAL,
 	ACTION,
@@ -13,9 +15,8 @@ enum {
 	OUTPUT
 }
 
-
-export(PortType) var port_type := 0 setget set_port_type
-export(bool) var port_enable := false setget set_port_enable
+export(PortType) var s_port_type := 0 setget set_s_port_type
+export(bool) var s_port_enable := false setget set_s_port_enable
 
 
 func _enter_tree() -> void:
@@ -44,13 +45,13 @@ func _get_configuration_warning() -> String:
 	return ""
 
 
-func set_port_type(type : int) -> void:
-	port_type = type
+func set_s_port_type(type : int) -> void:
+	s_port_type = type
 	_update_port()
 
 
-func set_port_enable(p_enable : bool) -> void:
-	port_enable = p_enable
+func set_s_port_enable(p_enable : bool) -> void:
+	s_port_enable = p_enable
 	_update_port()
 
 
@@ -81,7 +82,7 @@ func _update_port() -> void:
 	
 	var port_color : Color
 	
-	match port_type:
+	match s_port_type:
 		PortType.UNIVERSAL:
 			port_color = Color.mediumaquamarine
 		PortType.ACTION:
@@ -92,9 +93,9 @@ func _update_port() -> void:
 	match _connector_type():
 		INPUT:
 			gn.set_slot(slot, 
-					port_enable, port_type, port_color,
+					s_port_enable, s_port_type, port_color,
 					gn.is_slot_enabled_right(slot), gn.get_slot_type_right(slot), gn.get_slot_color_right(slot))
 		OUTPUT:
 			gn.set_slot(slot, 
 					gn.is_slot_enabled_left(slot), gn.get_slot_type_left(slot), gn.get_slot_color_left(slot),
-					port_enable, port_type, port_color)
+					s_port_enable, s_port_type, port_color)

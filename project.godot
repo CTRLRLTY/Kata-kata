@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Resources/Custom/ContextStateData.gd"
 }, {
+"base": "Resource",
+"class": "DialogueCursor",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Resources/Custom/DialogueCursor.gd"
+}, {
 "base": "Reference",
 "class": "GDUtil",
 "language": "GDScript",
@@ -40,6 +45,11 @@ _global_script_classes=[ {
 "path": "res://addons/GDEditor/Scenes/Components/Emitter.gd"
 }, {
 "base": "GraphNode",
+"class": "GNEnd",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Scenes/Components/End.gd"
+}, {
+"base": "GraphNode",
 "class": "GNMessage",
 "language": "GDScript",
 "path": "res://addons/GDEditor/Scenes/Components/Message.gd"
@@ -53,17 +63,31 @@ _global_script_classes=[ {
 "class": "GNSetter",
 "language": "GDScript",
 "path": "res://addons/GDEditor/Scenes/Components/Setter.gd"
+}, {
+"base": "GraphNode",
+"class": "GNStart",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Scenes/Components/Start.gd"
+}, {
+"base": "ReferenceRect",
+"class": "PortRect",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Scenes/Components/Attachments/PortRect.gd"
 } ]
 _global_script_class_icons={
 "CharacterData": "",
 "CharacterExpressionData": "",
 "ContextStateData": "",
+"DialogueCursor": "",
 "GDUtil": "",
 "GNChoice": "",
 "GNEmitter": "",
+"GNEnd": "",
 "GNMessage": "",
 "GNPipe": "",
-"GNSetter": ""
+"GNSetter": "",
+"GNStart": "",
+"PortRect": ""
 }
 
 [application]

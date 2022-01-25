@@ -8,7 +8,7 @@ enum PortType {
 	FLOW
 }
 
-export(Array, Dictionary) var connection_list
+export(Array, Dictionary) var connection_list : Array
 
 var popup_menu : PopupMenu
 
@@ -58,11 +58,27 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 				printerr("GraphEdit already has a EndNode")
 				return
 	
-	
 	add_child(gn)
 	
 	gn.owner = self
 	gn.offset = (scroll_offset + position) / zoom
+
+
+func save() -> void:
+	var packer := PackedScene.new()
+	popup_menu.owner = self
+	
+	connection_list = get_connection_list()
+	packer.pack(self)
+	
+	ResourceSaver.save("res://test/test.tscn", packer)
+
+
+func cursor() -> DialogueCursor:
+	var ret := DialogueCursor.new(get_connection_list())
+
+
+	return ret
 
 
 func _on_connection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
@@ -82,7 +98,7 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	
 	if is_from_slot_port_flow:
 		var is_connected_to_another = GDUtil.array_dictionary_hasv(
-				get_connection_list(), {"from": from, "from_port": from_slot})
+				get_connection_list(), [{"from": from, "from_port": from_slot}])
 		
 		if is_connected_to_another:
 			return
@@ -130,13 +146,3 @@ func _on_node_selected(node: Node) -> void:
 	
 func _on_node_unselected(node: Node) -> void:
 	_selected_nodes.erase(node)
-
-
-func save() -> void:
-	var packer := PackedScene.new()
-	popup_menu.owner = self
-	
-	connection_list = get_connection_list()
-	packer.pack(self)
-	
-	ResourceSaver.save("res://test/test.tscn", packer)
