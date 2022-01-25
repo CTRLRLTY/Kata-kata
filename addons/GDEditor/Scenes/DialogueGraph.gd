@@ -92,11 +92,11 @@ func node_ports(node_name: String, port_type: int) -> Dictionary:
 
 	for connection in from_connection:
 		if port_type == graph_node.get_slot_type_left(mapped_slots[connection.from_port]):
-			ret["from"].append(connection)
+			ret["to"].append(connection)
 	
 	for connection in to_connection:
 		if port_type == graph_node.get_slot_type_right(mapped_slots[connection.from_port]):
-			ret["to"].append(connection)
+			ret["from"].append(connection)
 	
 	return ret
 
