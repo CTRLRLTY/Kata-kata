@@ -132,42 +132,36 @@ static func array_swap_elementidx(arr : Array, from_idx : int, to_idx : int) -> 
 
 static func array_flatv(arr : Array) -> Array:
 	var ret = []
+	
 	for element in arr:
-		assert(Array(element) is Array)
+		assert(element is Array)
+		
 		ret.append_array(element)
 	
 	return ret
 
 
-static func array_dictionary_has(arr : Array, key, value) -> bool:
+static func array_dictionary_hasv(arr : Array, keyvalarr : Array) -> bool:
 	for element in arr:
 		assert(element is Dictionary)
-		
-		if element.get(key, "") == value:
-			return true
-	
-	return false
 
-
-static func array_dictionary_hasv(arr : Array, keyval : Dictionary) -> bool:
-	var tsize := keyval.size()
-	
-	for element in arr:
-		assert(element is Dictionary)
-		
-		var tacc := 0
-		
-		for key in keyval:
-			var left = element.get(key, "")
-			var right = keyval[key]
+		for keyval in keyvalarr:
+			assert(keyval is Dictionary)
 			
-			if not typeof(left) == typeof(right):
-				continue
+			var tacc := 0
+			var tsize = keyval.size()
+			
+			for key in keyval:
+				var left = element.get(key, "")
+				var right = keyval[key]
 				
-			tacc += int(left == right)
-			
-			if tacc == tsize:
-				return true
+				if not typeof(left) == typeof(right):
+					continue
+					
+				tacc += int(left == right)
+				
+				if tacc == tsize:
+					return true
 	
 	return false
 
