@@ -4,6 +4,7 @@ class_name DialogueCursor
 
 export var s_flow : Array
 export var s_index : int
+export var s_port_table : Dictionary
 
 
 func _init(graph_edit: GraphEdit) -> void:
@@ -66,10 +67,14 @@ func prev() -> void:
 	
 func _populate_flow(connection: Dictionary, connection_list: Array, dialogue_graph: GraphEdit, buffer := []) -> void:
 	assert(dialogue_graph.has_method("connected_ports"))
+
+	var current_ports : Dictionary = dialogue_graph.connected_ports(connection.from, connection_list)
+	var next_ports : Dictionary = dialogue_graph.connected_ports(connection.to, connection_list)
 	
-	var ports : Dictionary = dialogue_graph.connected_ports(connection.to, connection_list)
-	var forks : Array = GDUtil.array_dictionary_popallv(connection_list, ports.to.flow)
-		
+	var forks : Array = GDUtil.array_dictionary_popallv(connection_list, next_ports.to.flow)
+	
+	s_port_table[connection.from] = current_ports
+	
 	if dialogue_graph.get_node(connection.to) is GNEnd:
 		# There's a case where either the current connection is already inside the buffer,
 		# or is not already inside it. By using erase, we make sure to always add one of them
