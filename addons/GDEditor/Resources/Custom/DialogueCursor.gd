@@ -72,7 +72,7 @@ func prev() -> void:
 func _populate_flow(connection: Dictionary, connection_list: Array, dialogue_graph: GraphEdit, buffer := []) -> void:
 	assert(dialogue_graph.has_method("connected_ports"))
 
-	var current_ports : Dictionary = dialogue_graph.connected_ports(connection.from, connection_list)
+	var current_ports : Dictionary = dialogue_graph.connected_ports(connection.from)
 	var next_ports : Dictionary = dialogue_graph.connected_ports(connection.to, connection_list)
 	
 	s_port_table[connection.from] = current_ports
