@@ -2,40 +2,25 @@ extends Resource
 
 class_name DialogueCursor
 
-export var s_connection_list : Array
 export var s_flow : Array
 export var s_index : int
-export var s_is_valid : bool
 
 
-func _init(connection_list : Array) -> void:
-	s_connection_list = connection_list
+func _init(graph_edit: GraphEdit) -> void:
+	assert(graph_edit.has_method("connected_ports"))
 	s_index = 0
 	
-	connection_list = connection_list.duplicate()
-	
+	var connection_list = graph_edit.get_connection_list()
 	var start = GDUtil.array_dictionary_popv(connection_list, [{"from": "Start"}])
 	
 	if start:
-		var next_queue := []
-		next_queue.append_array(
-				GDUtil.array_dictionary_popallv(connection_list, [{"from": start.to}]))
-		
-		var next = next_queue.pop_front()
-				
-		while next:
-			s_flow.append(next)
-			
-			next_queue.append_array(
-				GDUtil.array_dictionary_popallv(connection_list, [{"from": next.to}]))
-
-			next = next_queue.pop_front() 
-			
-		s_is_valid = GDUtil.array_dictionary_hasv(s_flow, [{"to": "End"}]) 
+		s_flow.append(start)
+		_populate_flow(start, connection_list, graph_edit)
 
 
 func is_valid() -> bool:
-	return s_is_valid
+	# exclude start connection
+	return s_flow.size() > 1
 
 
 func size() -> int:
@@ -77,3 +62,29 @@ func next() -> void:
 
 func prev() -> void:
 	s_index = max(s_index - 1, 0)
+	
+	
+func _populate_flow(connection: Dictionary, connection_list: Array, dialogue_graph: GraphEdit, buffer := []) -> void:
+	assert(dialogue_graph.has_method("connected_ports"))
+	
+	var ports : Dictionary = dialogue_graph.connected_ports(connection.to, connection_list)
+	var forks : Array = GDUtil.array_dictionary_popallv(connection_list, ports.to.flow)
+		
+	if dialogue_graph.get_node(connection.to) is GNEnd:
+		# There's a case where either the current connection is already inside the buffer,
+		# or is not already inside it. By using erase, we make sure to always add one of them
+		# for both scenario.
+		buffer.erase(connection)
+		
+		s_flow.append(connection)
+		s_flow.append_array(buffer)
+		buffer.clear()
+	if forks.empty():
+		buffer.clear()
+	else:
+		buffer.append(forks.front())
+	
+	for flow in forks:
+		_populate_flow(flow, connection_list, dialogue_graph, buffer)
+	
+	

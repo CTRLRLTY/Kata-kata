@@ -44,7 +44,6 @@ func _choice_index(choice_node : Control):
 func _add_choice(value := "") -> void:
 	var flowport : HBoxContainer = load(GDUtil.resolve("ChoiceFlowPort.tscn")).instance()
 	var edits : MarginContainer = load(GDUtil.resolve("ChoiceEditRect.tscn")).instance()
-	var idx := _choice_size() - 1
 	
 	flowport.connect("remove_choice", flowport, "queue_free", [], CONNECT_ONESHOT)
 	flowport.connect("remove_choice", self, "_remove_choice_edit", [edits], CONNECT_ONESHOT)
@@ -62,6 +61,7 @@ func _add_choice(value := "") -> void:
 	add_child(edits)
 	
 	s_choice_extras.append(value)
+	_port_slots.append(flowport.get_position_in_parent())
 
 
 func _on_AddChoice_pressed() -> void:

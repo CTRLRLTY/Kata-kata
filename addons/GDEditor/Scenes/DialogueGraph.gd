@@ -10,7 +10,7 @@ var popup_menu : PopupMenu
 
 var _selected_nodes := []
 var _copy_buffer := []
-var _dialogue_cursor := DialogueCursor.new(s_connection_list)
+var _dialogue_cursor : DialogueCursor
 
 
 func _enter_tree() -> void:
@@ -61,9 +61,9 @@ func save() -> void:
 	popup_menu.owner = self
 	
 	s_connection_list = get_connection_list()
-	_dialogue_cursor = DialogueCursor.new(s_connection_list)
+	_dialogue_cursor = DialogueCursor.new(self)
 	
-#	print_debug(connected_ports(_dialogue_cursor.s_flow[1]["from"]))
+	print_debug(_dialogue_cursor.s_flow)
 	
 #	packer.pack(self)
 #
@@ -74,7 +74,7 @@ func cursor() -> DialogueCursor:
 	return _dialogue_cursor
 
 
-func connected_ports(node_name: String) -> Dictionary:
+func connected_ports(node_name: String, connection_list := get_connection_list()) -> Dictionary:
 	var ret := {
 		"from": {"universal": [], "flow": [], "action": []},
 		"to": {"universal": [], "flow": [], "action": []}
@@ -82,7 +82,7 @@ func connected_ports(node_name: String) -> Dictionary:
 	
 	var graph_node : GDGraphNode = get_node(node_name)
 	var to_connection = GDUtil.array_dictionary_findallv(
-			_dialogue_cursor.s_flow, [{"from": node_name}, {"to": node_name}])
+			connection_list, [{"from": node_name}, {"to": node_name}])
 	var from_connection = GDUtil.array_dictionary_popallv(to_connection, [{"to": node_name}])
 
 	for connection in from_connection:

@@ -26,6 +26,10 @@ func _enter_tree() -> void:
 	_update_port()
 
 
+func _ready() -> void:
+	_update_port()
+
+
 func _get_configuration_warning() -> String:
 	var parent := get_parent()
 	
