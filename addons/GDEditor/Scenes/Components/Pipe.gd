@@ -1,6 +1,6 @@
 tool
 
-extends GraphNode
+extends GDGraphNode
 
 class_name GNPipe
 

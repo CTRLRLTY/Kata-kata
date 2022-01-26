@@ -1,3 +1,3 @@
-extends GraphNode
+extends GDGraphNode
 
 class_name GNStart

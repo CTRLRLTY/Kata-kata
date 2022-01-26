@@ -23,11 +23,9 @@ func _init(dialogue_graph: DialogueGraph) -> void:
 		
 		# If a universal from_port is connected to a flow to_port, then also add it to the flow["to"] array
 		for _connection in s_port_table[connection["from"]]["universal"]["to"]:
-			var _to_graph_node : GraphNode = dialogue_graph.get_node(_connection["to"])
-			var _to_port : int = dialogue_graph._mapped_slots(_to_graph_node)[_connection["to_port"]]
-			var _to_port_type : int = _to_graph_node.get_slot_type_left(_to_port)
-			
-			if _to_port_type == PortRect.PortType.FLOW:
+			var _to_graph_node : GDGraphNode = dialogue_graph.get_node(_connection["to"])
+
+			if _to_graph_node.get_port_type_left(_connection["to_port"]) == PortRect.PortType.FLOW:
 				s_port_table[connection["from"]]["flow"]["to"].append(_connection)
 			
 		

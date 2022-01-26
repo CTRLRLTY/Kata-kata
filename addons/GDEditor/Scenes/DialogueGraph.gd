@@ -49,12 +49,6 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 			if child is GNStart:
 				printerr("GraphEdit already has a StartNode")
 				return
-				
-	elif gn is GNEnd:
-		for child in get_children():
-			if child is GNEnd:
-				printerr("GraphEdit already has a EndNode")
-				return
 	
 	add_child(gn)
 	
@@ -88,44 +82,30 @@ func node_ports(node_name: String, port_type: int) -> Dictionary:
 		"to": []
 	}
 	
-	var graph_node : GraphNode = get_node(node_name)
+	var graph_node : GDGraphNode = get_node(node_name)
 	var from_connection = GDUtil.array_dictionary_findallv(
 			_dialogue_cursor.s_flow, [{"from": node_name}, {"to": node_name}])
 	var to_connection = GDUtil.array_dictionary_popallv(from_connection, [{"to": node_name}])
-	
-	var mapped_slots = _mapped_slots(graph_node)
 
 	for connection in from_connection:
-		if port_type == graph_node.get_slot_type_left(mapped_slots[connection.from_port]):
+		if port_type == graph_node.get_port_type_left(connection.from_port):
 			ret["to"].append(connection)
 	
 	for connection in to_connection:
-		if port_type == graph_node.get_slot_type_right(mapped_slots[connection.from_port]):
+		if port_type == graph_node.get_port_type_right(connection.from_port):
 			ret["from"].append(connection)
 	
 	return ret
-
-
-func _mapped_slots(graph_node: GraphNode) -> Array:
-	var mapped := []
-	
-	var total_slots := graph_node.get_child_count()
-	
-	for slot in range(total_slots):
-		if graph_node.is_slot_enabled_right(slot) or graph_node.is_slot_enabled_left(slot):
-			mapped.append(slot)
-	
-	return mapped
 
 
 func _on_connection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
 	if from == to:
 		return
 	
-	var from_node : GraphNode = get_node(from)
-	var mapped_slots := _mapped_slots(from_node)
+	var from_node : GDGraphNode = get_node(from)
 	
-	match from_node.get_slot_type_right(mapped_slots[from_slot]):
+	
+	match from_node.get_port_type_right(from_slot):
 		PortRect.PortType.FLOW:
 			continue
 		PortRect.PortType.UNIVERSAL:

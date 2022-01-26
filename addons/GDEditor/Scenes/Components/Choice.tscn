@@ -21,12 +21,12 @@ slot/0/left_color = Color( 1, 1, 1, 1 )
 slot/0/right_enabled = false
 slot/0/right_type = 0
 slot/0/right_color = Color( 1, 1, 1, 1 )
-slot/1/left_enabled = true
-slot/1/left_type = 2
-slot/1/left_color = Color( 0.13, 0.55, 0.13, 1 )
-slot/1/right_enabled = true
-slot/1/right_type = 2
-slot/1/right_color = Color( 0.13, 0.55, 0.13, 1 )
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color( 0.4, 0.8, 0.67, 1 )
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color( 0.4, 0.8, 0.67, 1 )
 slot/2/left_enabled = false
 slot/2/left_type = 0
 slot/2/left_color = Color( 1, 1, 1, 1 )
@@ -76,8 +76,6 @@ mouse_filter = 2
 
 [node name="InPort" parent="MainFlowPort" instance=ExtResource( 2 )]
 margin_bottom = 14.0
-port_type = 2
-port_enable = true
 
 [node name="InPortLabel" type="Label" parent="MainFlowPort"]
 margin_left = 14.0
@@ -96,8 +94,6 @@ text = "Next Line"
 margin_left = 185.0
 margin_right = 195.0
 margin_bottom = 14.0
-port_type = 2
-port_enable = true
 
 [node name="MainChoice" parent="." instance=ExtResource( 5 )]
 custom_constants/margin_bottom = 0
