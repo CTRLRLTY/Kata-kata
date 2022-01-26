@@ -15,20 +15,15 @@ func _init(dialogue_graph: DialogueGraph) -> void:
 	while not flow_buffer.empty():
 		var connection = flow_buffer.pop_front()
 		
-		s_port_table[connection["from"]] = {
-			"flow": dialogue_graph.node_ports(connection["from"], PortRect.PortType.FLOW),
-			"universal": dialogue_graph.node_ports(connection["from"], PortRect.PortType.UNIVERSAL),
-			"action": dialogue_graph.node_ports(connection["from"], PortRect.PortType.ACTION)
-		}
+		s_port_table[connection.from] = dialogue_graph.connected_ports(connection.from)
 		
 		# If a universal from_port is connected to a flow to_port, then also add it to the flow["to"] array
-		for _connection in s_port_table[connection["from"]]["universal"]["to"]:
+		for _connection in s_port_table[connection["from"]]["to"]["universal"]:
 			var _to_graph_node : GDGraphNode = dialogue_graph.get_node(_connection["to"])
 
 			if _to_graph_node.get_port_type_left(_connection["to_port"]) == PortRect.PortType.FLOW:
-				s_port_table[connection["from"]]["flow"]["to"].append(_connection)
+				s_port_table[connection["from"]]["to"]["flow"].append(_connection)
 			
-		
 		var from_graph_node : GraphNode = dialogue_graph.get_node(connection["from"])
 		var to_graph_node : GraphNode = dialogue_graph.get_node(connection["to"])
 		

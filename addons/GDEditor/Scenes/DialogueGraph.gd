@@ -63,9 +63,7 @@ func save() -> void:
 	s_connection_list = get_connection_list()
 	_dialogue_cursor = DialogueCursor.new(s_connection_list)
 	
-	print_debug(_dialogue_cursor.s_flow)
-	
-#	print_debug(node_ports(_dialogue_cursor.current()["from"], PortRect.PortType.FLOW))
+	print_debug(connected_ports(_dialogue_cursor.s_flow[1]["from"]))
 	
 #	packer.pack(self)
 #
@@ -76,25 +74,27 @@ func cursor() -> DialogueCursor:
 	return _dialogue_cursor
 
 
-func node_ports(node_name: String, port_type: int) -> Dictionary:
+func connected_ports(node_name: String) -> Dictionary:
 	var ret := {
-		"from": [],
-		"to": []
+		"from": {"universal": [], "flow": [], "action": []},
+		"to": {"universal": [], "flow": [], "action": []}
 	}
 	
 	var graph_node : GDGraphNode = get_node(node_name)
-	var from_connection = GDUtil.array_dictionary_findallv(
+	var to_connection = GDUtil.array_dictionary_findallv(
 			_dialogue_cursor.s_flow, [{"from": node_name}, {"to": node_name}])
-	var to_connection = GDUtil.array_dictionary_popallv(from_connection, [{"to": node_name}])
+	var from_connection = GDUtil.array_dictionary_popallv(to_connection, [{"to": node_name}])
 
 	for connection in from_connection:
-		if port_type == graph_node.get_port_type_left(connection.from_port):
-			ret["to"].append(connection)
+		var port_type := graph_node.get_port_type_left(connection.from_port)
+		var port_key : String = PortRect.PortType.keys()[port_type].to_lower()
+		ret["from"][port_key].append(connection)
 	
 	for connection in to_connection:
-		if port_type == graph_node.get_port_type_right(connection.from_port):
-			ret["from"].append(connection)
-	
+		var port_type := graph_node.get_port_type_right(connection.from_port)
+		var port_key : String = PortRect.PortType.keys()[port_type].to_lower()
+		ret["to"][port_key].append(connection)
+
 	return ret
 
 
