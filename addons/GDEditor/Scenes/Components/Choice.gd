@@ -4,16 +4,16 @@ extends GDGraphNode
 
 class_name GNChoice
 
-export(String) var choice_main
-export(PoolStringArray) var choice_extras
+export(String) var s_choice_main
+export(PoolStringArray) var s_choice_extras
 
 var _original_height := rect_size.y
 
 
-func _enter_tree() -> void:
-	$MainChoice/LineEdit.text = choice_main
+func _ready() -> void:
+	$MainChoice/LineEdit.text = s_choice_main
 	
-	for choice in choice_extras:
+	for choice in s_choice_extras:
 		_add_choice(choice)
 
 
@@ -48,7 +48,7 @@ func _add_choice(value := "") -> void:
 	
 	flowport.connect("remove_choice", flowport, "queue_free", [], CONNECT_ONESHOT)
 	flowport.connect("remove_choice", self, "_remove_choice_edit", [edits], CONNECT_ONESHOT)
-	flowport.connect("remove_choice", self, "_readjust_rect_size", [], CONNECT_ONESHOT)
+	flowport.connect("tree_exited", self, "_readjust_rect_size", [], CONNECT_ONESHOT)
 	
 	edits.get_node("LineEdit").connect("text_changed", 
 			self, "_on_choice_edit_text_changed", [edits])
@@ -61,7 +61,7 @@ func _add_choice(value := "") -> void:
 	add_child(flowport)
 	add_child(edits)
 	
-	choice_extras.append(value)
+	s_choice_extras.append(value)
 
 
 func _on_AddChoice_pressed() -> void:
@@ -69,29 +69,23 @@ func _on_AddChoice_pressed() -> void:
 	
 	
 func _remove_choice_edit(choice_edit : Control) -> void:
-	choice_extras.remove(_choice_index(choice_edit))
+	s_choice_extras.remove(_choice_index(choice_edit))
 	
 	choice_edit.queue_free()
-	
-	
+
+
 func _readjust_rect_size() -> void:
-	# Wait till last choice node is removed
-	# We wait twice cuz for some reason, the background of 
-	# this node will not be updated otherwise.
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
-	
 	# Reset last choice edit bottom margin
 	get_child(get_child_count()-1).add_constant_override("margin_bottom", 0)
-	
+
 	# This is a fix to readjust the node's height after
 	# deleting a choice container.
 	rect_size.y = _original_height
 
 
 func _on_MainChoiceEdit_text_changed(new_text: String) -> void:
-	choice_main = new_text
+	s_choice_main = new_text
 
 
 func _on_choice_edit_text_changed(new_text: String, choice_edit : Control)  -> void:
-	choice_extras[_choice_index(choice_edit)] = new_text
+	s_choice_extras[_choice_index(choice_edit)] = new_text
