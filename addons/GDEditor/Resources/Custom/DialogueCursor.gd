@@ -47,6 +47,10 @@ func front() -> Dictionary:
 
 func back() -> Dictionary:
 	return s_flow[size() - 1]
+	
+
+func at(idx: int) -> Dictionary:
+	return s_flow[clamp(idx, 0, size())]
 
 
 func end() -> bool:
@@ -71,9 +75,16 @@ func _populate_flow(connection: Dictionary, connection_list: Array, dialogue_gra
 	var current_ports : Dictionary = dialogue_graph.connected_ports(connection.from, connection_list)
 	var next_ports : Dictionary = dialogue_graph.connected_ports(connection.to, connection_list)
 	
-	var forks : Array = GDUtil.array_dictionary_popallv(connection_list, next_ports.to.flow)
-	
 	s_port_table[connection.from] = current_ports
+	
+	# If a universal from_port is connected to a flow to_port, then also add it to the flow["to"] array
+	for _connection in next_ports["to"]["universal"]:
+		var to_graph_node : GDGraphNode = dialogue_graph.get_node(_connection["to"])
+		var to_port_type := to_graph_node.get_port_type_left(_connection["to_port"])
+		if  to_port_type == PortRect.PortType.FLOW:
+			next_ports["to"]["flow"].append(_connection)
+	
+	var forks : Array = GDUtil.array_dictionary_popallv(connection_list, next_ports.to.flow)
 	
 	if dialogue_graph.get_node(connection.to) is GNEnd:
 		# There's a case where either the current connection is already inside the buffer,

@@ -44,11 +44,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/GDutil.gd"
 }, {
-"base": "Resource",
-"class": "GDialogue",
-"language": "GDScript",
-"path": "res://addons/GDEditor/Resources/Custom/GDialogue.gd"
-}, {
 "base": "GDGraphNode",
 "class": "GNChoice",
 "language": "GDScript",
@@ -97,7 +92,6 @@ _global_script_class_icons={
 "DialogueGraph": "",
 "GDGraphNode": "",
 "GDUtil": "",
-"GDialogue": "",
 "GNChoice": "",
 "GNEmitter": "",
 "GNEnd": "",
