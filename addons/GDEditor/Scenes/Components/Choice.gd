@@ -45,8 +45,7 @@ func _add_choice(value := "") -> void:
 	var flowport : HBoxContainer = load(GDUtil.resolve("ChoiceFlowPort.tscn")).instance()
 	var edits : MarginContainer = load(GDUtil.resolve("ChoiceEditRect.tscn")).instance()
 	
-	flowport.connect("remove_choice", flowport, "queue_free", [], CONNECT_ONESHOT)
-	flowport.connect("remove_choice", self, "_remove_choice_edit", [edits], CONNECT_ONESHOT)
+	flowport.connect("remove_choice", self, "_remove_choice_edit", [flowport, edits], CONNECT_ONESHOT)
 	flowport.connect("tree_exited", self, "_readjust_rect_size", [], CONNECT_ONESHOT)
 	
 	edits.get_node("LineEdit").connect("text_changed", 
@@ -61,17 +60,20 @@ func _add_choice(value := "") -> void:
 	add_child(edits)
 	
 	s_choice_extras.append(value)
-	_port_slots.append(flowport.get_position_in_parent())
+	_port_slot.append(flowport.get_position_in_parent())
 
 
 func _on_AddChoice_pressed() -> void:
 	_add_choice()
 	
 	
-func _remove_choice_edit(choice_edit : Control) -> void:
+func _remove_choice_edit(flowport: Control, choice_edit: Control) -> void:
 	s_choice_extras.remove(_choice_index(choice_edit))
-	
+	_port_slot.erase(flowport.get_position_in_parent())
+
+	# They have to be freed in this order	
 	choice_edit.queue_free()
+	flowport.queue_free()
 
 
 func _readjust_rect_size() -> void:
