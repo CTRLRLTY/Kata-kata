@@ -10,6 +10,7 @@ export var s_port_table : Dictionary
 
 var _prev : Dictionary
 
+
 func _init(graph_edit: GraphEdit) -> void:
 	assert(graph_edit.has_method("connected_ports"))
 	

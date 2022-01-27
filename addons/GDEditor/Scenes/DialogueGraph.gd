@@ -102,6 +102,17 @@ func connected_ports(node_name: String, connection_list := get_connection_list()
 	return ret
 
 
+func is_node_right_connected(node_name: String, slot: int) -> bool:
+	return GDUtil.array_dictionary_hasv(
+				get_connection_list(), [{"from": node_name, "from_port": slot}])
+
+
+func is_node_left_connected(node_name: String, slot: int) -> bool:
+	return GDUtil.array_dictionary_hasv(
+			get_connection_list(), [{"to": node_name, "to_port": slot}])
+
+
+
 func clear_node_connections(gn: GDGraphNode) -> void:
 	var gn_connections := GDUtil.array_dictionary_findallv(get_connection_list(),
 			[{"from": gn.name}, {"to": gn.name}])
@@ -117,6 +128,7 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	var from_node : GDGraphNode = get_node(from)
 	var to_node : GDGraphNode = get_node(to)
 	
+	
 	# One to many connection check
 	match from_node.get_port_type_right(from_slot):
 		PortRect.PortType.FLOW:
@@ -124,17 +136,21 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 		PortRect.PortType.UNIVERSAL:
 			continue
 		_:
-			var is_connected_to_another = GDUtil.array_dictionary_hasv(
-					get_connection_list(), [{"from": from, "from_port": from_slot}])
-			
-			if is_connected_to_another:
+			if is_node_right_connected(from, from_slot):
 				return
+	
 	
 	if to_node is GNPipe:
 		match to_node.get_port_type_left(to_slot):
 			PortRect.PortType.UNIVERSAL:
 				var new_port_type := from_node.get_port_type_right(from_slot)
 				
+				# Only allow uniform left connection type
+				if is_node_left_connected(to, to_slot) and \
+				   to_node.get_output_ports_type() != new_port_type \
+				:
+					return
+						
 				if to_node.get_output_ports_type() != new_port_type:
 					clear_node_connections(to_node)
 				

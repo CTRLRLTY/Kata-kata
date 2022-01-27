@@ -16,7 +16,6 @@ __meta__ = {
 }
 
 [node name="InPortRef" parent="." instance=ExtResource( 1 )]
-s_port_type = 1
 s_port_enable = true
 
 [node name="Label" type="LineEdit" parent="."]
@@ -44,5 +43,4 @@ size_flags_horizontal = 8
 [node name="OutPortRef" parent="." instance=ExtResource( 1 )]
 margin_left = 169.0
 margin_right = 179.0
-s_port_type = 1
 s_port_enable = true
