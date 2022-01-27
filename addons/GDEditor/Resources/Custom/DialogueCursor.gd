@@ -3,20 +3,25 @@ extends Resource
 class_name DialogueCursor
 
 export var s_flow : Array
-export var s_index : int
+export var s_cursor : Dictionary
+export var s_start : Dictionary
+export var s_end : Array
 export var s_port_table : Dictionary
 
+var _prev : Dictionary
 
 func _init(graph_edit: GraphEdit) -> void:
 	assert(graph_edit.has_method("connected_ports"))
-	s_index = 0
 	
 	var connection_list = graph_edit.get_connection_list()
 	var start = GDUtil.array_dictionary_popv(connection_list, [{"from": "Start"}])
 	
 	if start:
-		s_flow.append(start)
+		s_start = start
 		_populate_flow(start, connection_list, graph_edit)
+	
+		if is_valid():
+			s_cursor = s_port_table[start.to]
 
 
 func is_valid() -> bool:
@@ -28,45 +33,31 @@ func size() -> int:
 	return s_flow.size()
 
 
-func index() -> int:
-	return s_index
-
-
 func current() -> Dictionary:
-	if s_flow.empty():
-		return {}
-	elif end():
-		return s_flow[s_index - 1]
-	else:
-		return s_flow[s_index]
+	return s_cursor
 
 
-func front() -> Dictionary:
-	return s_flow[0]
+func start() -> Dictionary:
+	return s_port_table[s_start.to]
 
 
-func back() -> Dictionary:
-	return s_flow[size() - 1]
-	
-
-func at(idx: int) -> Dictionary:
-	return s_flow[clamp(idx, 0, size())]
+func end() -> Array:
+	return s_end
 
 
-func end() -> bool:
-	return s_index == size()
-	
-
-func goto(idx: int) -> void:
-	s_index = clamp(idx, 0, size())
+func is_end() -> bool:
+	return current().empty() and is_valid()
 
 	
 func next() -> void:
-	s_index = min(s_index + 1, size())
+	if not is_end():
+		_prev = s_cursor
+	
+	s_cursor = s_port_table.get(s_cursor.to, {})
 
 
 func prev() -> void:
-	s_index = max(s_index - 1, 0)
+	s_cursor = _prev
 	
 	
 func _populate_flow(connection: Dictionary, connection_list: Array, dialogue_graph: GraphEdit, buffer := []) -> void:
@@ -76,7 +67,6 @@ func _populate_flow(connection: Dictionary, connection_list: Array, dialogue_gra
 	var next_ports : Dictionary = dialogue_graph.connected_ports(connection.to, connection_list)
 	
 	s_port_table[connection.from] = current_ports
-	
 	# If a universal from_port is connected to a flow to_port, then also add it to the flow["to"] array
 	for _connection in next_ports["to"]["universal"]:
 		var to_graph_node : GDGraphNode = dialogue_graph.get_node(_connection["to"])
@@ -91,7 +81,7 @@ func _populate_flow(connection: Dictionary, connection_list: Array, dialogue_gra
 		# or is not already inside it. By using erase, we make sure to always add one of them
 		# for both scenario.
 		buffer.erase(connection)
-		
+		s_end.append(connection)
 		s_flow.append(connection)
 		s_flow.append_array(buffer)
 		buffer.clear()
