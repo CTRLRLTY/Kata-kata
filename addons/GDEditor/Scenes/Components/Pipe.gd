@@ -52,12 +52,12 @@ func get_type() -> int:
 
 
 func get_output_ports_type() -> int:
-	return get_slot_type_right(_slot_output_table.keys()[-1])
+	return get_slot_type_right(_slots_out[-1])
 
 
 func change_all_outport(to_type: int) -> void:
-	for slot in _slot_output_table:
-		_slot_table[slot].port_rect_out.s_port_type = to_type
+	for port_rect in _slots_rects_out:
+		port_rect.s_port_type = to_type
 
 
 func _add_attachment(attachment_name : String) -> void:

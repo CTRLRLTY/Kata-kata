@@ -10,10 +10,10 @@ enum {
 	PORT_INOUT
 }
 
-
-var _port_table : Dictionary
-var _slot_table : Dictionary
-var _slot_output_table : Dictionary
+var _slots_in : Array
+var _slots_out : Array
+var _slots_rects_in : Array
+var _slots_rects_out : Array
 
 
 func _ready() -> void:
@@ -21,74 +21,35 @@ func _ready() -> void:
 
 
 func _setup_port_slot() -> void:
-	_slot_table = {}
-	_slot_output_table = {}
-	_port_table = {}
+	_slots_in = []
+	_slots_out = []
+	
+	_slots_rects_in = []
+	_slots_rects_out = []
 	
 	for section in get_children():
 		var i : int = section.get_position_in_parent()
 		
-		if (is_slot_enabled_left(i) and is_slot_enabled_right(i)):
-			var slot := _slot_table.size()
-			
-			_slot_table[slot] = {
-				"port": i,
-				"position": PORT_INOUT,
-				"port_rect_in": section.get_child(0),
-				"port_rect_out": section.get_child(section.get_child_count() - 1)
-			} 
-			
-			_port_table[i] = _slot_table[slot].duplicate()
-			_port_table[i].port = slot
-			
-			_slot_output_table[slot] = i
-			
-		elif is_slot_enabled_left(i):
-			var slot := _slot_table.size()
-			
-			_slot_table[slot] = {
-				"port": i,
-				"position": PORT_IN,
-				"port_rect_in": section.get_child(0),
-			}
-			
-			_port_table[i] = _slot_table[slot].duplicate()
-			_port_table[i].port = slot
+		if is_slot_enabled_left(i):
+			_slots_in.append(i)
+			_slots_rects_in.append(section.get_child(0))
 			 
-		elif is_slot_enabled_right(i):
-			var slot := _slot_table.size()
-			
-			_slot_table[slot] = {
-				"port": i,
-				"position": PORT_OUT,
-				"port_rect_out": section.get_child(section.get_child_count() - 1)
-			}
-			
-			_port_table[i] = _slot_table[slot]
-			_port_table[i].port = slot
-			
-			_slot_output_table[slot] = i
-
-
-func slot2port(slot: int) -> int:
-	return _slot_table[slot].port
-
-
-func port2slot(port: int) -> int:
-	return _port_table[port].port
+		if is_slot_enabled_right(i):
+			_slots_out.append(i)
+			_slots_rects_out.append(section.get_child(section.get_child_count() - 1))
 
 
 func get_port_type_left(slot: int) -> int:
-	return get_slot_type_left(_slot_table[slot].port)
+	return get_slot_type_left(_slots_in[slot])
 
 
 func get_port_type_right(slot: int) -> int:
-	return get_slot_type_right(_slot_table[slot].port)
+	return get_slot_type_right(_slots_out[slot])
 
 
 func is_port_enable_left(slot: int) -> bool:
-	return is_slot_enabled_left(_slot_table[slot].port)
+	return is_slot_enabled_left(_slots_in[slot])
 
 
 func is_port_enable_right(slot: int) -> bool:
-	return is_slot_enabled_right(_slot_table[slot].port)
+	return is_slot_enabled_right(_slots_out[slot])
