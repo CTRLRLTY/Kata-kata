@@ -110,8 +110,8 @@ static func regex_filter(s : String, rgx : RegEx) -> String:
 	return result.get_string()
 
 
-# Remove by value
-static func dictionary_removev(dict: Dictionary, keyvalarr: Array) -> void:
+# find by value
+static func dictionary_findv(dict: Dictionary, keyvalarr: Array) -> Array:
 	var erased := []
 	
 	for key in dict:
@@ -133,7 +133,11 @@ static func dictionary_removev(dict: Dictionary, keyvalarr: Array) -> void:
 			if tsize == tacc:
 				erased.append(key)
 	
-	for key in erased:
+	return erased
+
+# Remove by value
+static func dictionary_removev(dict: Dictionary, keyvalarr: Array) -> void:
+	for key in dictionary_findv(dict, keyvalarr):
 		dict.erase(key)
 
 

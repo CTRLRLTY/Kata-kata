@@ -60,7 +60,12 @@ func _add_choice(value := "") -> void:
 	add_child(edits)
 	
 	s_choice_extras.append(value)
-	_slot_table_append(flowport.get_position_in_parent(), PORT_OUT)
+	
+	# Waiting for idle frame is optional since we can assume flowport would already be added,
+	# but this is for my heart sake. 
+	yield(get_tree(), "idle_frame")
+	
+	_setup_port_slot()
 
 
 func _on_AddChoice_pressed() -> void:
@@ -69,11 +74,15 @@ func _on_AddChoice_pressed() -> void:
 	
 func _remove_choice_edit(flowport: Control, choice_edit: Control) -> void:
 	s_choice_extras.remove(_choice_index(choice_edit))
-	_slot_table.erase(flowport.get_position_in_parent())
+	
 
 	# They have to be freed in this order	
 	choice_edit.queue_free()
 	flowport.queue_free()
+	
+	yield(flowport, "tree_exited")
+	
+	_setup_port_slot()
 
 
 func _readjust_rect_size() -> void:
