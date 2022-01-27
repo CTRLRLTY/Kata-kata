@@ -4,6 +4,10 @@ extends GDGraphNode
 
 class_name GNPipe
 
+signal type_changed(from, to)
+
+export var s_type : int
+
 enum PipeType {
 	CONDITION,
 	WAIT_FOR,
@@ -12,11 +16,7 @@ enum PipeType {
 
 
 func _ready() -> void:
-	set_type(get_type())
-	
-	yield(get_tree(), "idle_frame")
-	
-	change_all_outport(PortRect.PortType.FLOW)
+	set_type(s_type)
 
 
 func set_type(type_id : int) -> void:
@@ -42,9 +42,17 @@ func set_type(type_id : int) -> void:
 	yield(get_tree(), "idle_frame")
 	_setup_port_slot()
 	
+	emit_signal("type_changed", s_type, type_id)
+	
+	s_type = type_id
+	
 
 func get_type() -> int:
-	return find_node("OptionTypeBtn").get_selected_id()
+	return s_type
+
+
+func get_output_ports_type() -> int:
+	return get_slot_type_right(_slot_output_table.keys()[-1])
 
 
 func change_all_outport(to_type: int) -> void:

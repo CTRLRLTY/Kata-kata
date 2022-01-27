@@ -49,6 +49,8 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 			if child is GNStart:
 				printerr("GraphEdit already has a StartNode")
 				return
+	elif gn is GNPipe:
+		gn.connect("type_changed", self, "_on_GDPipe_type_changed", [gn])
 	
 	add_child(gn)
 	
@@ -70,8 +72,8 @@ func save() -> void:
 #	packer.pack(self)
 #
 #	ResourceSaver.save("res://test/test.tscn", packer)
-
-
+	
+	
 func cursor() -> DialogueCursor:
 	return _dialogue_cursor
 
@@ -100,13 +102,22 @@ func connected_ports(node_name: String, connection_list := get_connection_list()
 	return ret
 
 
+func clear_node_connections(gn: GDGraphNode) -> void:
+	var gn_connections := GDUtil.array_dictionary_findallv(get_connection_list(),
+			[{"from": gn.name}, {"to": gn.name}])
+
+	for connection in gn_connections:
+		disconnect_node(connection.from, connection.from_port, connection.to, connection.to_port)
+
+
 func _on_connection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
 	if from == to:
 		return
 	
 	var from_node : GDGraphNode = get_node(from)
+	var to_node : GDGraphNode = get_node(to)
 	
-	
+	# One to many connection check
 	match from_node.get_port_type_right(from_slot):
 		PortRect.PortType.FLOW:
 			continue
@@ -118,6 +129,16 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 			
 			if is_connected_to_another:
 				return
+	
+	if to_node is GNPipe:
+		match to_node.get_port_type_left(to_slot):
+			PortRect.PortType.UNIVERSAL:
+				var new_port_type := from_node.get_port_type_right(from_slot)
+				
+				if to_node.get_output_ports_type() != new_port_type:
+					clear_node_connections(to_node)
+				
+				to_node.change_all_outport(new_port_type)
 	
 	
 	connect_node(from, from_slot, to, to_slot)
@@ -144,12 +165,7 @@ func _on_popup_menu_pressed(id: int) -> void:
 			
 		popup_menu.Item.DELETE:
 			for node in _selected_nodes:
-				var node_connections = GDUtil.array_dictionary_findallv(get_connection_list(),
-						[{"from": node.name}, {"to": node.name}])
-				
-				for connection in node_connections:
-					disconnect_node(connection.from, 
-							connection.from_port, connection.to, connection.to_port)
+				clear_node_connections(node)
 				
 				node.queue_free()
 			
@@ -162,3 +178,7 @@ func _on_node_selected(node: Node) -> void:
 	
 func _on_node_unselected(node: Node) -> void:
 	_selected_nodes.erase(node)
+
+
+func _on_GDPipe_type_changed(from: int, to: int, gnpipe: GNPipe) -> void:
+	clear_node_connections(gnpipe)
