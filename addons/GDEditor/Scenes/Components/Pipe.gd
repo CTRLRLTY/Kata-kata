@@ -6,7 +6,6 @@ class_name GNPipe
 
 enum PipeType {
 	CONDITION,
-	EXPRESSION,
 	WAIT_FOR,
 	WAIT_TILL,
 }
@@ -33,8 +32,6 @@ func set_type(type_id : int) -> void:
 			_add_attachment("ExpressionEdit")
 			_add_attachment("TrueSection")
 			_add_attachment("FalseSection")
-		PipeType.EXPRESSION:
-			_add_attachment("ExpressionSection")
 		PipeType.WAIT_FOR:
 			_add_attachment("WaitSection")
 		PipeType.WAIT_TILL:

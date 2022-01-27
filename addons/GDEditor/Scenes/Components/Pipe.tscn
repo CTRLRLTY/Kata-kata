@@ -28,14 +28,14 @@ slot/2/left_enabled = false
 slot/2/left_type = 0
 slot/2/left_color = Color( 1, 1, 1, 1 )
 slot/2/right_enabled = true
-slot/2/right_type = 1
-slot/2/right_color = Color( 0.4, 0.2, 0.6, 1 )
+slot/2/right_type = 0
+slot/2/right_color = Color( 0.4, 0.8, 0.67, 1 )
 slot/3/left_enabled = false
 slot/3/left_type = 0
 slot/3/left_color = Color( 1, 1, 1, 1 )
 slot/3/right_enabled = true
-slot/3/right_type = 1
-slot/3/right_color = Color( 0.4, 0.2, 0.6, 1 )
+slot/3/right_type = 0
+slot/3/right_color = Color( 0.4, 0.8, 0.67, 1 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -70,7 +70,7 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 text = "Condition"
 align = 1
-items = [ "Condition", null, false, 0, null, "Expression", null, false, 1, null, "Wait for", null, false, 2, null, "Wait till", null, false, 3, null ]
+items = [ "Condition", null, false, 0, null, "Wait for", null, false, 2, null, "Wait till", null, false, 3, null ]
 selected = 0
 
 [connection signal="item_selected" from="Header/HBoxContainer/OptionTypeBtn" to="." method="_on_OptionTypeBtn_item_selected"]

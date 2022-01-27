@@ -60,7 +60,7 @@ func _add_choice(value := "") -> void:
 	add_child(edits)
 	
 	s_choice_extras.append(value)
-	_port_slot.append(flowport.get_position_in_parent())
+	_slot_table_append(flowport.get_position_in_parent(), PORT_OUT)
 
 
 func _on_AddChoice_pressed() -> void:
@@ -69,7 +69,7 @@ func _on_AddChoice_pressed() -> void:
 	
 func _remove_choice_edit(flowport: Control, choice_edit: Control) -> void:
 	s_choice_extras.remove(_choice_index(choice_edit))
-	_port_slot.erase(flowport.get_position_in_parent())
+	_slot_table.erase(flowport.get_position_in_parent())
 
 	# They have to be freed in this order	
 	choice_edit.queue_free()
