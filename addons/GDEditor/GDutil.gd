@@ -67,19 +67,6 @@ static func save_data(data) -> int:
 	return FAILED
 
 
-static func is_valid_type(instance : Object) -> bool:
-	return instance.has_meta("value_type")
-
-
-static func valid_type(instance : Object, type : int) -> bool:
-	return is_valid_type(instance) and (get_type(instance) == type)
-
-
-static func get_type(instance : Object) -> int:
-	assert(is_valid_type(instance), "Instance is not a valid type")
-	return instance.get_meta("value_type")
-
-
 static func get_scene_dir() -> String:
 	return "res://addons/GDEditor/Scenes/"
 	
@@ -121,6 +108,33 @@ static func regex_filter(s : String, rgx : RegEx) -> String:
 	var result := rgx.search(s)
 	
 	return result.get_string()
+
+
+# Remove by value
+static func dictionary_removev(dict: Dictionary, keyvalarr: Array) -> void:
+	var erased := []
+	
+	for key in dict:
+		for keyval in keyvalarr:
+			assert(keyval is Dictionary)
+			
+			var tacc := 0
+			var tsize : int = keyval.size()
+			
+			for value in keyval.values():
+				if typeof(value) != typeof(dict[key]):
+					break
+				
+				if value != dict[key]:
+					break
+				
+				tacc += 1
+			
+			if tsize == tacc:
+				erased.append(key)
+	
+	for key in erased:
+		dict.erase(key)
 
 
 static func array_swap_elementidx(arr : Array, from_idx : int, to_idx : int) -> void:
