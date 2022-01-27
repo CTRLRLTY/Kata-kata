@@ -25,14 +25,17 @@ func _setup_port_slot() -> void:
 	_slot_output_table = {}
 	_port_table = {}
 	
-	for i in range(get_child_count()):
-		if (is_slot_enabled_left(i) and is_slot_enabled_right(i)) or\
-		   is_slot_enabled_right(i):
+	for section in get_children():
+		var i : int = section.get_position_in_parent()
+		
+		if (is_slot_enabled_left(i) and is_slot_enabled_right(i)):
 			var slot := _slot_table.size()
 			
 			_slot_table[slot] = {
 				"port": i,
-				"position": PORT_INOUT 
+				"position": PORT_INOUT,
+				"port_rect_in": section.get_child(0),
+				"port_rect_out": section.get_child(section.get_child_count() - 1)
 			} 
 			
 			_port_table[i] = _slot_table[slot].duplicate()
@@ -45,7 +48,8 @@ func _setup_port_slot() -> void:
 			
 			_slot_table[slot] = {
 				"port": i,
-				"position": PORT_IN 
+				"position": PORT_IN,
+				"port_rect_in": section.get_child(0),
 			}
 			
 			_port_table[i] = _slot_table[slot].duplicate()
@@ -56,7 +60,8 @@ func _setup_port_slot() -> void:
 			
 			_slot_table[slot] = {
 				"port": i,
-				"position": PORT_OUT
+				"position": PORT_OUT,
+				"port_rect_out": section.get_child(section.get_child_count() - 1)
 			}
 			
 			_port_table[i] = _slot_table[slot]

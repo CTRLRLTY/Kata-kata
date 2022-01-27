@@ -10,11 +10,13 @@ enum PipeType {
 	WAIT_TILL,
 }
 
-var option_type : OptionButton
 
-func _enter_tree() -> void:
-	option_type = find_node("OptionTypeBtn")
+func _ready() -> void:
 	set_type(get_type())
+	
+	yield(get_tree(), "idle_frame")
+	
+	change_all_outport(PortRect.PortType.FLOW)
 
 
 func set_type(type_id : int) -> void:
@@ -36,10 +38,18 @@ func set_type(type_id : int) -> void:
 			_add_attachment("WaitSection")
 		PipeType.WAIT_TILL:
 			_add_attachment("SignalEditSection")
-			
+	
+	yield(get_tree(), "idle_frame")
+	_setup_port_slot()
+	
 
 func get_type() -> int:
-	return option_type.get_selected_id()
+	return find_node("OptionTypeBtn").get_selected_id()
+
+
+func change_all_outport(to_type: int) -> void:
+	for slot in _slot_output_table:
+		_slot_table[slot].port_rect_out.s_port_type = to_type
 
 
 func _add_attachment(attachment_name : String) -> void:
