@@ -20,6 +20,8 @@ func _ready() -> void:
 
 
 func set_type(type_id : int) -> void:
+	emit_signal("type_changed", s_type, type_id)
+	
 	clear_all_slots()
 	_clear_attachment()
 	
@@ -42,8 +44,6 @@ func set_type(type_id : int) -> void:
 	yield(get_tree(), "idle_frame")
 	_setup_port_slot()
 	
-	emit_signal("type_changed", s_type, type_id)
-	
 	s_type = type_id
 	
 
@@ -52,6 +52,7 @@ func get_type() -> int:
 
 
 func get_output_ports_type() -> int:
+	# It is assumed that the rest of the output ports are of same types
 	return get_slot_type_right(_slots_out[-1])
 
 
