@@ -292,6 +292,7 @@ StateColumnTitle = "Dialogue States"
 [node name="DGraph" parent="VBoxContainer/MainContainer" instance=ExtResource( 1 )]
 
 [connection signal="tab_added" from="VBoxContainer/TabContainer/Tabs" to="." method="_on_Tabs_tab_added"]
+[connection signal="tab_changed" from="VBoxContainer/TabContainer/Tabs" to="." method="_on_Tabs_tab_changed"]
 [connection signal="tab_close" from="VBoxContainer/TabContainer/Tabs" to="VBoxContainer/TabContainer/Tabs" method="_on_tab_close"]
 [connection signal="hide" from="VBoxContainer/TabContainer/Tabs/NameEdit" to="VBoxContainer/TabContainer/Tabs" method="_on_NameEdit_hide"]
 [connection signal="text_entered" from="VBoxContainer/TabContainer/Tabs/NameEdit" to="VBoxContainer/TabContainer/Tabs" method="_on_NameEdit_text_entered"]

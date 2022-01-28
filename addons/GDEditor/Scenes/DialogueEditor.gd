@@ -19,10 +19,7 @@ func get_dialogue_graphs() -> Array:
 func show_dialogue_graph(idx: int) -> void:
 	var acc := 0
 	for dgraph in get_dialogue_graphs():
-		if acc == idx:
-			continue
-		
-		dgraph.hide()
+		dgraph.visible = acc == idx
 		
 		acc += 1
 
@@ -47,3 +44,7 @@ func _on_Tabs_tab_added() -> void:
 		yield(dgraph, "ready")
 	
 	show_dialogue_graph(tabs.current_tab)
+
+
+func _on_Tabs_tab_changed(tab: int) -> void:
+	show_dialogue_graph(tab)
