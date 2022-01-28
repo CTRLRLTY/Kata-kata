@@ -2,6 +2,8 @@ tool
 
 extends Tabs
 
+signal tab_added
+
 
 func _enter_tree() -> void:
 	if not get_tab_count():
@@ -58,6 +60,8 @@ func _on_TabMenuPopup_new_dialogue(dialogue_name : String) -> void:
 	yield(get_tree(), "idle_frame")
 	
 	set_current_tab(get_tab_count() - 1)
+	
+	emit_signal("tab_added")
 
 
 func _on_NameEdit_text_entered(new_text: String) -> void:

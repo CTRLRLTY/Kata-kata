@@ -2,9 +2,9 @@ tool
 
 extends PopupMenu
 
+signal preview_dialogue
 signal new_dialogue(dialogue_name)
 signal save_dialogue
-signal preview_dialogue
 
 
 enum {

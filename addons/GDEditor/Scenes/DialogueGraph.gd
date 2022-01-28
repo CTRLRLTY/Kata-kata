@@ -6,15 +6,11 @@ class_name DialogueGraph
 
 export(Array, Dictionary) var s_connection_list : Array
 
-var popup_menu : PopupMenu
-
 var _selected_nodes := []
 var _copy_buffer := []
 var _dialogue_cursor : DialogueCursor
 
-
-func _enter_tree() -> void:
-	popup_menu = $DGPopupMenu
+onready var popup_menu: PopupMenu = $DGPopupMenu
 
 
 func _ready() -> void:

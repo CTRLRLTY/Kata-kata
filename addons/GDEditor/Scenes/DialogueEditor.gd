@@ -2,11 +2,8 @@ tool
 
 extends PanelContainer
 
-var main : HSplitContainer
-
-
-func _enter_tree() -> void:
-	main = find_node("MainContainer")
+onready var main: HSplitContainer = find_node("MainContainer")
+onready var tabs: Tabs = find_node("Tabs")
 
 
 func get_dialogue_graphs() -> Array:
@@ -19,8 +16,34 @@ func get_dialogue_graphs() -> Array:
 	return graph_list
 
 
+func show_dialogue_graph(idx: int) -> void:
+	var acc := 0
+	for dgraph in get_dialogue_graphs():
+		if acc == idx:
+			continue
+		
+		dgraph.hide()
+		
+		acc += 1
+
+
 func _on_TabMenuPopup_save_dialogue() -> void:
 	var graph_list := get_dialogue_graphs()
 	
 	for dgraph in graph_list:
 		dgraph.save()
+
+
+func _on_TabMenuPopup_preview_dialogue() -> void:
+	pass # Replace with function body.
+
+
+func _on_Tabs_tab_added() -> void:
+	var dgraph: DialogueGraph = load(GDUtil.resolve("DialogueGraph.tscn")).instance()
+	
+	main.add_child(dgraph)
+	
+	if not dgraph.is_inside_tree():
+		yield(dgraph, "ready")
+	
+	show_dialogue_graph(tabs.current_tab)
