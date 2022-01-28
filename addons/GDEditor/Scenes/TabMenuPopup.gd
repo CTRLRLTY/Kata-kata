@@ -4,9 +4,11 @@ extends PopupMenu
 
 signal new_dialogue(dialogue_name)
 signal save_dialogue
+signal preview_dialogue
 
 
 enum {
+	MENU_PREVIEW_DIALOGUE,
 	MENU_NEW_DIALOGUE,
 	MENU_OPEN_DIALOGUE,
 	MENU_OPEN_CHARACTER,
@@ -17,38 +19,29 @@ enum {
 }
 
 
-func _enter_tree() -> void:
-	# Resetting the id space
-	_next_seperator_id = 9999
-	
+func _ready() -> void:
 	# There exist a case where somehow an item 
 	# is added multiple time. This is to prevent that.
 	if get_item_count():
 		clear()
-		
+	
+	add_item("Preview", MENU_PREVIEW_DIALOGUE)
+	add_separator("", -999)
 	add_item("New Dialogue", MENU_NEW_DIALOGUE)
-	add_separator("", _generate_seperator_id())
 	add_item("Open Dialogue", MENU_OPEN_DIALOGUE)
 	add_item("Open Character", MENU_OPEN_CHARACTER)
-	add_separator("", _generate_seperator_id())
+	add_separator("", -998)
 	add_item("Save Dialogue", MENU_SAVE_DIALOGUE)
 	add_item("Save Dialogue As", MENU_SAVE_DIALOGUE_AS)
-	add_separator("", _generate_seperator_id())
+	add_separator("", -997)
 	add_item("Import Character", MENU_IMPORT_CHARACTER)
 	add_item("Export Character", MENU_EXPORT_CHARACTER)
-
-
-# upperbound = 9999, lowerbound = 20
-var _next_seperator_id
-# Any new seperator has to be set with id returned from this method.
-func _generate_seperator_id() -> int:
-	assert(_next_seperator_id > 20)
-	_next_seperator_id -= 1
-	return _next_seperator_id
 	
 
 func _on_id_pressed(id: int) -> void:
 	match id:
+		MENU_PREVIEW_DIALOGUE:
+			pass
 		MENU_NEW_DIALOGUE:
 			$DialogueNamePrompt.popup_centered()
 		MENU_OPEN_CHARACTER:
