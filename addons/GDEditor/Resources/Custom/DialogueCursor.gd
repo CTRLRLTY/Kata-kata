@@ -21,13 +21,7 @@ func _init(graph_edit: GraphEdit) -> void:
 		s_start = start
 		_populate_flow(start, connection_list, graph_edit)
 	
-		if is_valid():
-			s_cursor = s_port_table[start.to]
-
-
-func is_valid() -> bool:
-	# exclude start connection
-	return s_flow.size() > 1
+		s_cursor = start()
 
 
 func size() -> int:
@@ -39,7 +33,7 @@ func current() -> Dictionary:
 
 
 func start() -> Dictionary:
-	return s_port_table[s_start.to]
+	return s_port_table.get("Start") 
 
 
 func end() -> Array:
@@ -47,18 +41,36 @@ func end() -> Array:
 
 
 func is_end() -> bool:
-	return current().empty() and is_valid()
+	return s_cursor.empty()
 
+
+func is_start() -> bool:
+	return s_cursor == start()
+
+
+func next(fork := 0) -> void:
+	if is_end():
+		return
 	
-func next() -> void:
-	if not is_end():
-		_prev = s_cursor
+	_prev = s_cursor
+		
+	fork = clamp(fork, 0, s_cursor.to.flow.size() - 1)
+	var connection = s_cursor.to.flow[fork]
+
+	s_cursor = s_port_table.get(connection.to, {})
+
+
+func prev(fork := -777) -> void:
+	if is_start():
+		return
 	
-	s_cursor = s_port_table.get(s_cursor.to, {})
+	if fork == -777:
+		s_cursor = _prev
+	else:
+		fork = clamp(fork, 0, s_cursor.from.flow.size() - 1)
+		var connection = s_cursor.from.flow[fork]
 
-
-func prev() -> void:
-	s_cursor = _prev
+		s_cursor = s_port_table.get(connection.from, start())
 	
 	
 func _populate_flow(connection: Dictionary, connection_list: Array, dialogue_graph: GraphEdit, buffer := []) -> void:
