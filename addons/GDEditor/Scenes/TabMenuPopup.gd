@@ -41,7 +41,7 @@ func _ready() -> void:
 func _on_id_pressed(id: int) -> void:
 	match id:
 		MENU_PREVIEW_DIALOGUE:
-			pass
+			emit_signal("preview_dialogue")
 		MENU_NEW_DIALOGUE:
 			$DialogueNamePrompt.popup_centered()
 		MENU_OPEN_CHARACTER:

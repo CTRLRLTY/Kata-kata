@@ -3,7 +3,7 @@ extends EditorPlugin
 
 const DialogueEditorScene = preload("res://addons/GDEditor/Scenes/DialogueEditor.tscn")
 
-var dialogue_editor : PanelContainer
+var dialogue_editor : Control
 
 func _enter_tree() -> void:
 	dialogue_editor = DialogueEditorScene.instance()

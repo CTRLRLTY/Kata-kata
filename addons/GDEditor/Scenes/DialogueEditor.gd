@@ -1,19 +1,24 @@
 tool
 
-extends PanelContainer
+extends Control
 
-onready var main: HSplitContainer = find_node("MainContainer")
-onready var tabs: Tabs = find_node("Tabs")
+onready var main := find_node("MainContainer")
+onready var tabs := find_node("Tabs")
+onready var dialogue_preview := find_node("DialoguePreview")
 
 
 func get_dialogue_graphs() -> Array:
 	var graph_list := []
 
 	for child in main.get_children():
-		if child is GraphEdit:
+		if child is DialogueGraph:
 			graph_list.append(child)
 
 	return graph_list
+
+
+func get_dialogue_graph(idx: int) -> DialogueGraph:
+	return get_dialogue_graphs()[idx]
 
 
 func show_dialogue_graph(idx: int) -> void:
@@ -32,7 +37,10 @@ func _on_TabMenuPopup_save_dialogue() -> void:
 
 
 func _on_TabMenuPopup_preview_dialogue() -> void:
-	pass # Replace with function body.
+	dialogue_preview.visible = not dialogue_preview.visible
+	
+	var dgraph := get_dialogue_graph(tabs.current_tab)
+	var cursor := dgraph.cursor()
 
 
 func _on_Tabs_tab_added() -> void:

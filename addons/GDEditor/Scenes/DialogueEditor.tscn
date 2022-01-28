@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueEditor.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://addons/GDEditor/Scenes/TabMenuPopup.gd" type="Script" id=10]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueNamePrompt.gd" type="Script" id=11]
 [ext_resource path="res://addons/GDEditor/Scenes/ContextStateTree.tscn" type="PackedScene" id=12]
+[ext_resource path="res://addons/GDEditor/Scenes/DialoguePreview.gd" type="Script" id=13]
 [ext_resource path="res://addons/GDEditor/Scenes/CharacterDefinitionPopup.gd" type="Script" id=16]
 
 [sub_resource type="StyleBoxEmpty" id=3]
@@ -20,18 +21,28 @@
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
-[node name="DialogueEditor" type="PanelContainer"]
+[node name="DialogueEditor" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="PanelContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = ExtResource( 5 )
-script = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 margin_top = 12.0
 margin_right = 1024.0
 margin_bottom = 600.0
@@ -39,7 +50,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 12
 
-[node name="TabContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="TabContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 margin_right = 1024.0
 margin_bottom = 24.0
 mouse_filter = 2
@@ -48,7 +59,7 @@ script = ExtResource( 9 )
 TabMenuPopupPath = NodePath("TabMenuBtn/TabMenuPopup")
 TabMenuBtnPath = NodePath("TabMenuBtn")
 
-[node name="Tabs" type="Tabs" parent="VBoxContainer/TabContainer"]
+[node name="Tabs" type="Tabs" parent="MarginContainer/VBoxContainer/TabContainer"]
 margin_right = 992.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 120, 0 )
@@ -58,7 +69,7 @@ tab_close_display_policy = 1
 drag_to_rearrange_enabled = true
 script = ExtResource( 6 )
 
-[node name="NameEdit" type="LineEdit" parent="VBoxContainer/TabContainer/Tabs"]
+[node name="NameEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/TabContainer/Tabs"]
 visible = false
 margin_left = 934.0
 margin_right = 992.0
@@ -67,14 +78,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TabMenuBtn" type="ToolButton" parent="VBoxContainer/TabContainer"]
+[node name="TabMenuBtn" type="ToolButton" parent="MarginContainer/VBoxContainer/TabContainer"]
 margin_left = 996.0
 margin_right = 1024.0
 margin_bottom = 24.0
 custom_styles/focus = SubResource( 3 )
 icon = ExtResource( 8 )
 
-[node name="TabMenuPopup" type="PopupMenu" parent="VBoxContainer/TabContainer/TabMenuBtn"]
+[node name="TabMenuPopup" type="PopupMenu" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -152.0
@@ -87,7 +98,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DialogueNamePrompt" type="WindowDialog" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup"]
+[node name="DialogueNamePrompt" type="WindowDialog" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup"]
 visible = true
 margin_left = 124.0
 margin_top = -12.0
@@ -100,7 +111,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NameEdit" type="LineEdit" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt"]
+[node name="NameEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -113,7 +124,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -125,7 +136,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CancelBtn" type="Button" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer"]
+[node name="CancelBtn" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer"]
 margin_left = 17.0
 margin_right = 71.0
 margin_bottom = 21.0
@@ -134,13 +145,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ConfirmBtn" type="Button" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer"]
+[node name="ConfirmBtn" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer"]
 margin_left = 121.0
 margin_right = 183.0
 margin_bottom = 21.0
 text = "Confirm"
 
-[node name="CharacterDefinitionPopup" type="WindowDialog" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup"]
+[node name="CharacterDefinitionPopup" type="WindowDialog" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup"]
 visible = true
 margin_left = 398.0
 margin_top = -8.0
@@ -151,7 +162,7 @@ popup_exclusive = true
 window_title = "Character Definition"
 script = ExtResource( 16 )
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 10
@@ -162,7 +173,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 350.0
@@ -174,13 +185,13 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="FilterEdit" type="LineEdit" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer"]
+[node name="FilterEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer"]
 margin_right = 340.0
 margin_bottom = 26.0
 right_icon = ExtResource( 3 )
 placeholder_text = "Filter"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer"]
 margin_top = 46.0
 margin_right = 340.0
 margin_bottom = 515.0
@@ -188,25 +199,37 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
-[node name="CharacterItemContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="CharacterItemContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer"]
 margin_right = 340.0
 margin_bottom = 469.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 6
 
-[node name="AddCharacterBtn" type="Button" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/CharacterItemContainer"]
+[node name="AddCharacterBtn" type="Button" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/CharacterItemContainer"]
 margin_right = 340.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
 custom_styles/focus = SubResource( 4 )
 text = "Add Character"
 
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup"]
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup"]
 margin_right = 200.0
 margin_bottom = 70.0
 
-[node name="MainContainer" type="HSplitContainer" parent="VBoxContainer"]
+[node name="DialoguePreview" type="Panel" parent="MarginContainer/VBoxContainer"]
+visible = false
+margin_top = 36.0
+margin_right = 1024.0
+margin_bottom = 306.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="MainContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
 margin_top = 36.0
 margin_right = 1024.0
 margin_bottom = 588.0
@@ -216,7 +239,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LeftDock" type="PanelContainer" parent="VBoxContainer/MainContainer"]
+[node name="LeftDock" type="PanelContainer" parent="MarginContainer/VBoxContainer/MainContainer"]
 margin_right = 214.0
 margin_bottom = 552.0
 rect_min_size = Vector2( 200, 0 )
@@ -224,7 +247,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VSplitContainer" type="VSplitContainer" parent="VBoxContainer/MainContainer/LeftDock"]
+[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 207.0
@@ -235,20 +258,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="UpperHalf" type="VBoxContainer" parent="VBoxContainer/MainContainer/LeftDock/VSplitContainer"]
+[node name="UpperHalf" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer"]
 margin_right = 200.0
 margin_bottom = 195.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.6
 
-[node name="Section" type="Label" parent="VBoxContainer/MainContainer/LeftDock/VSplitContainer/UpperHalf"]
+[node name="Section" type="Label" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer/UpperHalf"]
 margin_right = 200.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Components"
 
-[node name="NodeSelection" type="ItemList" parent="VBoxContainer/MainContainer/LeftDock/VSplitContainer/UpperHalf"]
+[node name="NodeSelection" type="ItemList" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer/UpperHalf"]
 margin_top = 18.0
 margin_right = 200.0
 margin_bottom = 195.0
@@ -259,19 +282,19 @@ custom_styles/selected = SubResource( 2 )
 items = [ "Start", null, false, "End", null, false, "Message", null, false, "Emitter", null, false, "CharacterJoin", null, false, "Choice", null, false, "Setter", null, false, "Pipe", null, false ]
 script = ExtResource( 4 )
 
-[node name="LowerHalf" type="VBoxContainer" parent="VBoxContainer/MainContainer/LeftDock/VSplitContainer"]
+[node name="LowerHalf" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer"]
 margin_top = 207.0
 margin_right = 200.0
 margin_bottom = 538.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Section" type="Label" parent="VBoxContainer/MainContainer/LeftDock/VSplitContainer/LowerHalf"]
+[node name="Section" type="Label" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer/LowerHalf"]
 margin_right = 200.0
 margin_bottom = 14.0
 text = "Context State"
 
-[node name="LineEdit2" type="LineEdit" parent="VBoxContainer/MainContainer/LeftDock/VSplitContainer/LowerHalf"]
+[node name="LineEdit2" type="LineEdit" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer/LowerHalf"]
 margin_top = 18.0
 margin_right = 200.0
 margin_bottom = 44.0
@@ -282,27 +305,28 @@ placeholder_text = "Filter nodes"
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="ContextStateTree" parent="VBoxContainer/MainContainer/LeftDock/VSplitContainer/LowerHalf" instance=ExtResource( 12 )]
+[node name="ContextStateTree" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer/LowerHalf" instance=ExtResource( 12 )]
 margin_top = 48.0
 margin_bottom = 331.0
 size_flags_vertical = 3
 select_mode = 1
 StateColumnTitle = "Dialogue States"
 
-[node name="DGraph" parent="VBoxContainer/MainContainer" instance=ExtResource( 1 )]
+[node name="DGraph" parent="MarginContainer/VBoxContainer/MainContainer" instance=ExtResource( 1 )]
+scroll_offset = Vector2( -14, -270 )
 
-[connection signal="tab_added" from="VBoxContainer/TabContainer/Tabs" to="." method="_on_Tabs_tab_added"]
-[connection signal="tab_changed" from="VBoxContainer/TabContainer/Tabs" to="." method="_on_Tabs_tab_changed"]
-[connection signal="tab_close" from="VBoxContainer/TabContainer/Tabs" to="VBoxContainer/TabContainer/Tabs" method="_on_tab_close"]
-[connection signal="hide" from="VBoxContainer/TabContainer/Tabs/NameEdit" to="VBoxContainer/TabContainer/Tabs" method="_on_NameEdit_hide"]
-[connection signal="text_entered" from="VBoxContainer/TabContainer/Tabs/NameEdit" to="VBoxContainer/TabContainer/Tabs" method="_on_NameEdit_text_entered"]
-[connection signal="pressed" from="VBoxContainer/TabContainer/TabMenuBtn" to="VBoxContainer/TabContainer" method="_on_TabMenuBtn_pressed"]
-[connection signal="id_pressed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" method="_on_id_pressed"]
-[connection signal="new_dialogue" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TabContainer/Tabs" method="_on_TabMenuPopup_new_dialogue"]
-[connection signal="preview_dialogue" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" to="." method="_on_TabMenuPopup_preview_dialogue"]
-[connection signal="save_dialogue" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" to="." method="_on_TabMenuPopup_save_dialogue"]
-[connection signal="confirmed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" method="_on_DialogueNamePrompt_confirmed"]
-[connection signal="pressed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/CancelBtn" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_CancelBtn_pressed"]
-[connection signal="pressed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/ConfirmBtn" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_ConfirmBtn_pressed"]
-[connection signal="text_changed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/FilterEdit" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup" method="_on_FilterEdit_text_changed"]
-[connection signal="pressed" from="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/CharacterItemContainer/AddCharacterBtn" to="VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup" method="_on_AddCharacterBtn_pressed"]
+[connection signal="tab_added" from="MarginContainer/VBoxContainer/TabContainer/Tabs" to="." method="_on_Tabs_tab_added"]
+[connection signal="tab_changed" from="MarginContainer/VBoxContainer/TabContainer/Tabs" to="." method="_on_Tabs_tab_changed"]
+[connection signal="tab_close" from="MarginContainer/VBoxContainer/TabContainer/Tabs" to="MarginContainer/VBoxContainer/TabContainer/Tabs" method="_on_tab_close"]
+[connection signal="hide" from="MarginContainer/VBoxContainer/TabContainer/Tabs/NameEdit" to="MarginContainer/VBoxContainer/TabContainer/Tabs" method="_on_NameEdit_hide"]
+[connection signal="text_entered" from="MarginContainer/VBoxContainer/TabContainer/Tabs/NameEdit" to="MarginContainer/VBoxContainer/TabContainer/Tabs" method="_on_NameEdit_text_entered"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn" to="MarginContainer/VBoxContainer/TabContainer" method="_on_TabMenuBtn_pressed"]
+[connection signal="id_pressed" from="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" to="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" method="_on_id_pressed"]
+[connection signal="new_dialogue" from="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" to="MarginContainer/VBoxContainer/TabContainer/Tabs" method="_on_TabMenuPopup_new_dialogue"]
+[connection signal="preview_dialogue" from="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" to="." method="_on_TabMenuPopup_preview_dialogue"]
+[connection signal="save_dialogue" from="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" to="." method="_on_TabMenuPopup_save_dialogue"]
+[connection signal="confirmed" from="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" to="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup" method="_on_DialogueNamePrompt_confirmed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/CancelBtn" to="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_CancelBtn_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/ConfirmBtn" to="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_ConfirmBtn_pressed"]
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/FilterEdit" to="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup" method="_on_FilterEdit_text_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/CharacterItemContainer/AddCharacterBtn" to="MarginContainer/VBoxContainer/TabContainer/TabMenuBtn/TabMenuPopup/CharacterDefinitionPopup" method="_on_AddCharacterBtn_pressed"]
