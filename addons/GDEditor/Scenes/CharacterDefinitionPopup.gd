@@ -16,7 +16,7 @@ func _on_CharacterItem_delete(character_item : Control) -> void:
 				character_item, "queue_free", [], CONNECT_ONESHOT)
 			
 	$ConfirmationDialog.dialog_text = "Do you want to delete " +\
-									  character_item.get_character_name()
+									  character_item.character_data.character_name
 	
 	$ConfirmationDialog.popup_centered()
 

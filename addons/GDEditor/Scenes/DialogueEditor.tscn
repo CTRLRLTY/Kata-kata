@@ -221,7 +221,6 @@ __meta__ = {
 margin_right = 214.0
 margin_bottom = 552.0
 rect_min_size = Vector2( 200, 0 )
-size_flags_horizontal = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -296,7 +295,7 @@ margin_left = 226.0
 margin_right = 1024.0
 margin_bottom = 552.0
 right_disconnects = true
-scroll_offset = Vector2( -14, -93 )
+scroll_offset = Vector2( 0, -93 )
 minimap_enabled = false
 script = ExtResource( 1 )
 
