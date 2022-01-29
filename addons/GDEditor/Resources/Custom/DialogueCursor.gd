@@ -28,12 +28,16 @@ func size() -> int:
 	return s_flow.size()
 
 
+func reset() -> void:
+	s_cursor = start()
+
+
 func current() -> Dictionary:
 	return s_cursor
 
 
 func start() -> Dictionary:
-	return s_port_table.get("Start") 
+	return s_port_table.get("Start", {}) 
 
 
 func end() -> Array:
@@ -45,7 +49,11 @@ func is_end() -> bool:
 
 
 func is_start() -> bool:
-	return s_cursor == start()
+	return s_cursor == start() or s_start.empty()
+
+
+func is_invalid() -> bool:
+	return is_end() and is_start() 
 
 
 func next(fork := 0) -> void:
