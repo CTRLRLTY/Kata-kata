@@ -12,14 +12,6 @@ func get_readers() -> Array:
 	return []
 
 
-func set_character_texture_left(texture: Texture) -> void:
-	pass
-
-
-func set_character_texture_right(texture: Texture) -> void:
-	pass
-
-
 func set_text_box(text: String) -> void:
 	pass
 
