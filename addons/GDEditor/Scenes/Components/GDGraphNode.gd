@@ -4,56 +4,56 @@ extends GraphNode
 
 class_name GDGraphNode
 
-enum {
-	PORT_IN,
-	PORT_OUT,
-	PORT_INOUT
-}
 
-var _slots_in : Array
-var _slots_out : Array
-var _slots_rects_in : Array
-var _slots_rects_out : Array
-
-
-func _ready() -> void:
-	_setup_port_slot()
+func get_dialogue_editor() -> GraphEdit:
+	return get_parent() as GraphEdit
 
 
 func get_port_type_left(slot: int) -> int:
-	return get_slot_type_left(_slots_in[slot])
+	return get_slot_type_left(slot2port(slot))
 
 
 func get_port_type_right(slot: int) -> int:
-	return get_slot_type_right(_slots_out[slot])
+	return get_slot_type_right(slot2port(slot))
 
 
-func is_port_enable_left(slot: int) -> bool:
-	return is_slot_enabled_left(_slots_in[slot])
+func get_port_rects_left() -> Array:
+	var port_rects := []
+	for i in range(get_child_count()):
+		if is_slot_enabled_left(i):
+			var section : Control = get_child(i)
+			var port_rect : PortRect = section.get_child(0)
+			port_rects.append(port_rect)
+	
+	return port_rects
 
 
-func is_port_enable_right(slot: int) -> bool:
-	return is_slot_enabled_right(_slots_out[slot])
+func get_port_rects_right() -> Array:
+	var port_rects := []
+	for i in range(get_child_count()):
+		if is_slot_enabled_right(i):
+			var section : Control = get_child(i)
+			var port_rect : PortRect = section.get_child(section.get_child_count() - 1)
+			port_rects.append(port_rect)
+	
+	return port_rects
 
 
 func get_readers() -> Array:
 	return []
 
 
-func _setup_port_slot() -> void:
-	_slots_in = []
-	_slots_out = []
+func is_port_enable_left(slot: int) -> bool:
+	return is_slot_enabled_left(slot2port(slot))
+
+
+func is_port_enable_right(slot: int) -> bool:
+	return is_slot_enabled_right(slot2port(slot))
+
+
+func slot2port(slot: int) -> int:
+	for i in range(get_child_count()):
+		if is_slot_enabled_left(i) or is_slot_enabled_right(i):
+			return i
 	
-	_slots_rects_in = []
-	_slots_rects_out = []
-	
-	for section in get_children():
-		var i : int = section.get_position_in_parent()
-		
-		if is_slot_enabled_left(i):
-			_slots_in.append(i)
-			_slots_rects_in.append(section.get_child(0))
-			 
-		if is_slot_enabled_right(i):
-			_slots_out.append(i)
-			_slots_rects_out.append(section.get_child(section.get_child_count() - 1))
+	return -1

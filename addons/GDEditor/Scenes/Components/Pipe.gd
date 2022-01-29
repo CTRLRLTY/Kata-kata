@@ -42,7 +42,7 @@ func set_type(type_id : int) -> void:
 			_add_attachment("SignalEditSection")
 	
 	yield(get_tree(), "idle_frame")
-	_setup_port_slot()
+	recount_ports()
 	
 	s_type = type_id
 	
@@ -57,8 +57,8 @@ func get_output_ports_type() -> int:
 
 
 func change_all_outport(to_type: int) -> void:
-	for port_rect in _slots_rects_out:
-		port_rect.s_port_type = to_type
+	for port_rect in get_port_rects_right():
+		port_rect.set_port_type(to_type)
 
 
 func _add_attachment(attachment_name : String) -> void:

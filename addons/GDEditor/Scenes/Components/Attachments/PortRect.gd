@@ -15,8 +15,8 @@ enum {
 	OUTPUT
 }
 
-export(PortType) var s_port_type := 0 setget set_s_port_type
-export(bool) var s_port_enable := false setget set_s_port_enable
+export(PortType) var s_port_type := 0 setget set_port_type
+export(bool) var s_port_enable := false setget set_port_enable
 
 
 func _enter_tree() -> void:
@@ -49,12 +49,12 @@ func _get_configuration_warning() -> String:
 	return ""
 
 
-func set_s_port_type(type : int) -> void:
+func set_port_type(type : int) -> void:
 	s_port_type = type
 	_update_port()
 
 
-func set_s_port_enable(p_enable : bool) -> void:
+func set_port_enable(p_enable : bool) -> void:
 	s_port_enable = p_enable
 	_update_port()
 
