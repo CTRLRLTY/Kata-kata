@@ -41,9 +41,6 @@ func set_type(type_id : int) -> void:
 		PipeType.WAIT_TILL:
 			_add_attachment("SignalEditSection")
 	
-	yield(get_tree(), "idle_frame")
-	recount_ports()
-	
 	s_type = type_id
 	
 
@@ -53,7 +50,7 @@ func get_type() -> int:
 
 func get_output_ports_type() -> int:
 	# It is assumed that the rest of the output ports are of same types
-	return get_slot_type_right(_slots_out[-1])
+	return get_port_type_right(0)
 
 
 func change_all_outport(to_type: int) -> void:
