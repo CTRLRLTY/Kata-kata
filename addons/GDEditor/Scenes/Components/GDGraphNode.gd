@@ -5,8 +5,11 @@ extends GraphNode
 class_name GDGraphNode
 
 
-func get_dialogue_editor() -> GraphEdit:
-	return get_parent() as GraphEdit
+var _dialogue_editor : Control
+
+
+func get_dialogue_editor() -> Control:
+	return GDUtil.get_state("dialogue_editor")
 
 
 func get_port_type_left(slot: int) -> int:

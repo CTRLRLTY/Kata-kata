@@ -2,12 +2,18 @@ tool
 
 extends Control
 
+class_name GDDialogueEditor
+
+
 onready var main := find_node("MainContainer")
 onready var tabs := find_node("Tabs")
 onready var dialogue_preview := find_node("DialoguePreview")
+onready var character_definition := find_node("CharacterDefinitionPopup")
 
 
 func _ready() -> void:
+	GDUtil.add_state("dialogue_editor", self)
+	
 	dialogue_preview.connect("next", self, "_on_dialogue_view_next", [dialogue_preview])
 	dialogue_preview.connect("choice", self, "_on_dialogue_view_choice", [dialogue_preview])
 
@@ -24,6 +30,15 @@ func get_dialogue_graphs() -> Array:
 
 func get_dialogue_graph(idx: int) -> DialogueGraph:
 	return get_dialogue_graphs()[idx]
+
+
+func get_character_names() -> PoolStringArray:
+	var character_names := PoolStringArray([])
+	
+	for character_data in character_definition.get_character_datas():
+		character_names.append(character_data.character_name)
+
+	return character_names
 
 
 func show_dialogue_graph(idx: int) -> void:
@@ -75,7 +90,7 @@ func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
 		cursor.reset()
 	
 	var current := cursor.current()
-	var graph_node : GDGraphNode = dgraph.get_node(current.name)
+	var graph_node : GraphNode = dgraph.get_node(current.name)
 	
 	for reader in dialogue_view.get_readers():
 		assert(reader is GDDialogueReader)

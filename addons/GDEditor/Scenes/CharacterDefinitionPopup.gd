@@ -9,6 +9,16 @@ func _enter_tree() -> void:
 	character_item_container = find_node("CharacterItemContainer")
 
 
+func get_character_datas() -> Array:
+	var ret := []
+	
+	for child in character_item_container.get_children():
+		if "character_data" in child:
+			ret.append(child.character_data)
+	
+	return ret
+
+
 func _on_CharacterItem_delete(character_item : Control) -> void:
 	# Prevent duplicated connection error
 	if not $ConfirmationDialog.is_connected("confirmed", character_item, "queue_free"):

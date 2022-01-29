@@ -3,16 +3,6 @@ extends Reference
 class_name GDUtil
 
 
-enum {
-	COMPONENT_DATA = 1
-}
-
-enum {
-	CHARACTER_STATE_DATA_NAME,
-	CHARACTER_STATE_DATA_VALUE
-}
-
-
 const _state := {}
 const _resolved_path_cache := {}
 
@@ -41,6 +31,10 @@ static func resolve(res_name : String) -> String:
 		assert(not ret.empty(), "Could not resolve %s" % [res_name])
 	
 	return ret
+
+
+static func get_state(key: String, default = null):
+	return _state.get(key, default)
 
 
 static func add_state(key : String, value) -> void:
