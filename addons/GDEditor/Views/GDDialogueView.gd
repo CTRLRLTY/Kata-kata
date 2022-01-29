@@ -1,0 +1,40 @@
+tool
+
+extends Control
+
+class_name GDDialogueView
+
+signal next
+signal choice(idx)
+
+
+func get_readers() -> Array:
+	return []
+
+
+func set_character_texture_left(texture: Texture) -> void:
+	pass
+
+
+func set_character_texture_right(texture: Texture) -> void:
+	pass
+
+
+func set_text_box(text: String) -> void:
+	pass
+
+
+func next() -> void:
+	emit_signal("next")
+
+
+func show_choices(question: PoolStringArray) -> void:
+	pass
+
+
+func hide_choices() -> void:
+	pass
+
+
+func clear_choices() -> void:
+	pass

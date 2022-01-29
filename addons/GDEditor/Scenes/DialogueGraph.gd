@@ -68,11 +68,15 @@ func save() -> void:
 	
 	
 func cursor() -> DialogueCursor:
+	if not _dialogue_cursor:
+		_dialogue_cursor = DialogueCursor.new(self)
+		
 	return _dialogue_cursor
 
 
 func connected_ports(node_name: String, connection_list := get_connection_list()) -> Dictionary:
 	var ret := {
+		"name": node_name,
 		"from": {"universal": [], "flow": [], "action": []},
 		"to": {"universal": [], "flow": [], "action": []}
 	}

@@ -16,7 +16,3 @@ func _enter_tree() -> void:
 
 func _on_MessageEdit_text_changed() -> void:
 	s_message = message_edit.text
-
-
-func get_save_data() -> Dictionary:
-	return {"message": s_message}

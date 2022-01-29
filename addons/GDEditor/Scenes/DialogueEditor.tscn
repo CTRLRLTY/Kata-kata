@@ -12,7 +12,7 @@
 [ext_resource path="res://addons/GDEditor/Scenes/TabMenuPopup.gd" type="Script" id=10]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueNamePrompt.gd" type="Script" id=11]
 [ext_resource path="res://addons/GDEditor/Scenes/ContextStateTree.tscn" type="PackedScene" id=12]
-[ext_resource path="res://addons/GDEditor/Scenes/DialoguePreview.gd" type="Script" id=13]
+[ext_resource path="res://addons/GDEditor/Views/StandardView.tscn" type="PackedScene" id=13]
 [ext_resource path="res://addons/GDEditor/Scenes/CharacterDefinitionPopup.gd" type="Script" id=16]
 
 [sub_resource type="StyleBoxEmpty" id=3]
@@ -92,7 +92,7 @@ margin_left = -152.0
 margin_top = 12.0
 margin_right = -9.0
 margin_bottom = 177.0
-items = [ "Preview", null, 0, false, false, 0, 0, null, "", false, "", null, 0, false, false, -999, 0, null, "", true, "New Dialogue", null, 0, false, false, 1, 0, null, "", false, "Open Dialogue", null, 0, false, false, 2, 0, null, "", false, "Open Character", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, -998, 0, null, "", true, "Save Dialogue", null, 0, false, false, 4, 0, null, "", false, "Save Dialogue As", null, 0, false, false, 5, 0, null, "", false, "", null, 0, false, false, -997, 0, null, "", true, "Import Character", null, 0, false, false, 6, 0, null, "", false, "Export Character", null, 0, false, false, 7, 0, null, "", false ]
+items = [ "Preview [off]", null, 0, false, false, 0, 0, null, "", false, "", null, 0, false, false, -999, 0, null, "", true, "New Dialogue", null, 0, false, false, 1, 0, null, "", false, "Open Dialogue", null, 0, false, false, 2, 0, null, "", false, "Open Character", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, -998, 0, null, "", true, "Save Dialogue", null, 0, false, false, 4, 0, null, "", false, "Save Dialogue As", null, 0, false, false, 5, 0, null, "", false, "", null, 0, false, false, -997, 0, null, "", true, "Import Character", null, 0, false, false, 6, 0, null, "", false, "Export Character", null, 0, false, false, 7, 0, null, "", false ]
 script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -217,17 +217,8 @@ text = "Add Character"
 margin_right = 200.0
 margin_bottom = 70.0
 
-[node name="DialoguePreview" type="Panel" parent="MarginContainer/VBoxContainer"]
+[node name="DialoguePreview" parent="MarginContainer/VBoxContainer" instance=ExtResource( 13 )]
 visible = false
-margin_top = 36.0
-margin_right = 1024.0
-margin_bottom = 306.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-script = ExtResource( 13 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="MainContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
 margin_top = 36.0
