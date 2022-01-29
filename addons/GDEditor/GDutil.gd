@@ -39,10 +39,14 @@ static func get_state(key: String, default = null):
 
 static func add_state(key : String, value) -> void:
 	_state[key] = value
-	
 
-static func erase_state(key : String) -> void:
-	_state.erase(key)
+
+static func get_dialogue_editor() -> GDDialogueEditor:
+	return _state.get("dialogue_editor")
+
+
+static func set_dialogue_editor(dialogue_editor: GDDialogueEditor) -> void:
+	_state["dialogue_editor"] = dialogue_editor
 
 
 static func save_data(data) -> int:
@@ -58,7 +62,7 @@ static func save_data(data) -> int:
 		return ResourceSaver.save(characters_dir + 
 				"%s.tres" % [data.resource_name], data)
 
-	return FAILED
+	return FAILED	
 
 
 static func get_scene_dir() -> String:

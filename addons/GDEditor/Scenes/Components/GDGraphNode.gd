@@ -9,7 +9,7 @@ var _dialogue_editor : Control
 
 
 func get_dialogue_editor() -> Control:
-	return GDUtil.get_state("dialogue_editor")
+	return GDUtil.get_dialogue_editor()
 
 
 func get_port_type_left(slot: int) -> int:

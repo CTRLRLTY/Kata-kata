@@ -12,7 +12,7 @@ onready var character_definition := find_node("CharacterDefinitionPopup")
 
 
 func _ready() -> void:
-	GDUtil.add_state("dialogue_editor", self)
+	GDUtil.set_dialogue_editor(self)
 	
 	dialogue_preview.connect("next", self, "_on_dialogue_view_next", [dialogue_preview])
 	dialogue_preview.connect("choice", self, "_on_dialogue_view_choice", [dialogue_preview])
