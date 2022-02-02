@@ -126,10 +126,15 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	
 	var from_node : GDGraphNode = get_node(from)
 	var to_node : GDGraphNode = get_node(to)
+	var from_port_type_right := from_node.get_port_type_right(from_slot)
 	
+	# Deny connection from GNMessage Action port to GNMessage Action Port
+	if from_node is GNMessage and to_node is GNMessage:
+		if from_port_type_right == PortRect.PortType.ACTION:
+			return
 	
 	# One to many connection check
-	match from_node.get_port_type_right(from_slot):
+	match from_port_type_right:
 		PortRect.PortType.FLOW:
 			continue
 		PortRect.PortType.UNIVERSAL:
@@ -142,7 +147,7 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	if to_node is GNPipe:
 		match to_node.get_port_type_left(to_slot):
 			PortRect.PortType.UNIVERSAL:
-				var new_port_type := from_node.get_port_type_right(from_slot)
+				var new_port_type := from_port_type_right
 				
 				# Only allow uniform left connection type
 				if is_node_left_connected(to, to_slot) and \
