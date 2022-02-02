@@ -58,6 +58,8 @@ func _on_TabMenuPopup_save_dialogue() -> void:
 
 func _on_TabMenuPopup_preview_dialogue() -> void:
 	dialogue_preview.visible = not dialogue_preview.visible
+	dialogue_preview.clear()
+	
 	get_dialogue_graph(tabs.current_tab).save()
 
 
@@ -88,6 +90,7 @@ func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
 	
 	if cursor.is_end():
 		cursor.reset()
+		dialogue_preview.clear()
 	
 	var current := cursor.current()
 	var graph_node : GraphNode = dgraph.get_node(current.name)

@@ -30,3 +30,7 @@ func hide_choices() -> void:
 
 func clear_choices() -> void:
 	pass
+
+
+func clear() -> void:
+	pass

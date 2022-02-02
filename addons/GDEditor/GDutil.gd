@@ -37,15 +37,17 @@ static func get_state(key: String, default = null):
 	return _state.get(key, default)
 
 
-static func add_state(key : String, value) -> void:
+static func add_state(key: String, value) -> void:
 	_state[key] = value
 
 
-static func get_dialogue_editor() -> GDDialogueEditor:
+# Returns GDDialogueEditor class
+static func get_dialogue_editor() -> Control:
 	return _state.get("dialogue_editor")
 
 
-static func set_dialogue_editor(dialogue_editor: GDDialogueEditor) -> void:
+# Set GDDialogueEditor class
+static func set_dialogue_editor(dialogue_editor: Control) -> void:
 	_state["dialogue_editor"] = dialogue_editor
 
 

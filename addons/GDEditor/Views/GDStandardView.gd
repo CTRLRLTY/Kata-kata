@@ -50,4 +50,10 @@ func clear_choices() -> void:
 		queue_free()
 
 
+func clear() -> void:
+	clear_choices()
+	set_character_left_rect(null)
+	set_character_right_rect(null)
+	set_text_box("")
+
 
