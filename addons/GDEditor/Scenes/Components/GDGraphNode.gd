@@ -46,6 +46,10 @@ func get_readers() -> Array:
 	return []
 
 
+func get_components() -> Array:
+	return []
+
+
 func is_port_enable_left(slot: int) -> bool:
 	return is_slot_enabled_left(slot2port(slot))
 
