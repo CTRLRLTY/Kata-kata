@@ -18,7 +18,8 @@ static func resolve(res_name : String) -> String:
 			get_scene_dir(), 
 			get_icon_dir(), 
 			get_component_dir(),
-			get_attachment_dir()
+			get_attachment_dir(),
+			get_view_dir()
 		]
 		
 		for path in managed:
@@ -65,6 +66,10 @@ static func save_data(data) -> int:
 				"%s.tres" % [data.resource_name], data)
 
 	return FAILED	
+
+
+static func get_view_dir() -> String:
+	return "res://addons/GDEditor/Views/"
 
 
 static func get_scene_dir() -> String:

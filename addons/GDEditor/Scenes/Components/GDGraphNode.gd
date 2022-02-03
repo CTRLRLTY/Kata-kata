@@ -19,7 +19,7 @@ func get_port_type_left(slot: int) -> int:
 
 
 func get_port_type_right(slot: int) -> int:
-	return get_slot_type_left(slot2port(slot, Port.RIGHT))
+	return get_slot_type_right(slot2port(slot, Port.RIGHT))
 
 
 func get_port_rects_left() -> Array:

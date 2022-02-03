@@ -1,0 +1,114 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://addons/GDEditor/Scenes/GraphEditor.gd" type="Script" id=1]
+[ext_resource path="res://addons/GDEditor/Resources/Icons/Search.png" type="Texture" id=2]
+[ext_resource path="res://addons/GDEditor/Scenes/NodeSelection.gd" type="Script" id=3]
+[ext_resource path="res://addons/GDEditor/Scenes/ContextStateTree.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/GDEditor/Views/StandardView.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.tscn" type="PackedScene" id=8]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[node name="GraphEditor" type="VSplitContainer"]
+margin_top = 36.0
+margin_right = 1024.0
+margin_bottom = 588.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DialoguePreview" parent="." instance=ExtResource( 7 )]
+visible = false
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 1024.0
+margin_bottom = 270.0
+mouse_default_cursor_shape = 1
+
+[node name="MainContainer" type="HSplitContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 552.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeftDock" type="PanelContainer" parent="MainContainer"]
+margin_right = 214.0
+margin_bottom = 552.0
+rect_min_size = Vector2( 200, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VSplitContainer" type="VSplitContainer" parent="MainContainer/LeftDock"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 207.0
+margin_bottom = 545.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpperHalf" type="VBoxContainer" parent="MainContainer/LeftDock/VSplitContainer"]
+margin_right = 200.0
+margin_bottom = 195.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.6
+
+[node name="Section" type="Label" parent="MainContainer/LeftDock/VSplitContainer/UpperHalf"]
+margin_right = 200.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Components"
+
+[node name="NodeSelection" type="ItemList" parent="MainContainer/LeftDock/VSplitContainer/UpperHalf"]
+margin_top = 18.0
+margin_right = 200.0
+margin_bottom = 195.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/line_separation = 0
+custom_styles/selected = SubResource( 2 )
+items = [ "Start", null, false, "End", null, false, "Message", null, false, "Emitter", null, false, "CharacterJoin", null, false, "Choice", null, false, "Setter", null, false, "Pipe", null, false ]
+script = ExtResource( 3 )
+
+[node name="LowerHalf" type="VBoxContainer" parent="MainContainer/LeftDock/VSplitContainer"]
+margin_top = 207.0
+margin_right = 200.0
+margin_bottom = 538.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Section" type="Label" parent="MainContainer/LeftDock/VSplitContainer/LowerHalf"]
+margin_right = 200.0
+margin_bottom = 14.0
+text = "Context State"
+
+[node name="LineEdit2" type="LineEdit" parent="MainContainer/LeftDock/VSplitContainer/LowerHalf"]
+margin_top = 18.0
+margin_right = 200.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+clear_button_enabled = true
+right_icon = ExtResource( 2 )
+placeholder_text = "Filter nodes"
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="ContextStateTree" parent="MainContainer/LeftDock/VSplitContainer/LowerHalf" instance=ExtResource( 6 )]
+margin_top = 48.0
+margin_bottom = 331.0
+size_flags_vertical = 3
+select_mode = 1
+StateColumnTitle = "Dialogue States"
+
+[node name="DialogueGraph" parent="MainContainer" instance=ExtResource( 8 )]
+scroll_offset = Vector2( -14, -93 )

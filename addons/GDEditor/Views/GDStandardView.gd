@@ -21,6 +21,10 @@ func get_readers() -> Array:
 	return [GDMessageReader.new()]
 
 
+func get_components() -> Array:
+	return []
+
+
 func set_text_box(text: String) -> void:
 	text_box.text = text
 

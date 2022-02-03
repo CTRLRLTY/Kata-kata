@@ -12,6 +12,10 @@ func get_readers() -> Array:
 	return []
 
 
+func get_components() -> Array:
+	return []
+
+
 func set_text_box(text: String) -> void:
 	pass
 

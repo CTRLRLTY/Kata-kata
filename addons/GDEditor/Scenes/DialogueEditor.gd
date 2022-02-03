@@ -5,31 +5,17 @@ extends Control
 class_name GDDialogueEditor
 
 
-onready var main := find_node("MainContainer")
 onready var tabs := find_node("Tabs")
-onready var dialogue_preview := find_node("DialoguePreview")
 onready var character_definition := find_node("CharacterDefinitionPopup")
+onready var node_selection := find_node("node_selection")
+onready var graph_editor_container := find_node("GraphEditorContainer")
 
 
 func _ready() -> void:
 	GDUtil.set_dialogue_editor(self)
 	
-	dialogue_preview.connect("next", self, "_on_dialogue_view_next", [dialogue_preview])
-	dialogue_preview.connect("choice", self, "_on_dialogue_view_choice", [dialogue_preview])
-
-
-func get_dialogue_graphs() -> Array:
-	var graph_list := []
-
-	for child in main.get_children():
-		if child is DialogueGraph:
-			graph_list.append(child)
-
-	return graph_list
-
-
-func get_dialogue_graph(idx: int) -> DialogueGraph:
-	return get_dialogue_graphs()[idx]
+	if not graph_editor_container.get_editor_count():
+		tabs.emit_signal("tab_added")
 
 
 func get_character_names() -> PoolStringArray:
@@ -41,45 +27,42 @@ func get_character_names() -> PoolStringArray:
 	return character_names
 
 
-func show_dialogue_graph(idx: int) -> void:
-	var acc := 0
-	for dgraph in get_dialogue_graphs():
-		dgraph.visible = acc == idx
-		
-		acc += 1
-
-
 func _on_TabMenuPopup_save_dialogue() -> void:
-	var graph_list := get_dialogue_graphs()
-	
-	for dgraph in graph_list:
-		dgraph.save()
+	graph_editor_container.save_editor(tabs.current_tab)
 
 
 func _on_TabMenuPopup_preview_dialogue() -> void:
+	var dialogue_preview : GDDialogueView = graph_editor_container.get_editor_preview(tabs.current_tab)
 	dialogue_preview.visible = not dialogue_preview.visible
 	dialogue_preview.clear()
 	
-	get_dialogue_graph(tabs.current_tab).save()
+	graph_editor_container.save_editor(tabs.current_tab)
 
 
 func _on_Tabs_tab_added() -> void:
-	var dgraph: DialogueGraph = load(GDUtil.resolve("DialogueGraph.tscn")).instance()
+	graph_editor_container.add_editor()
 	
-	main.add_child(dgraph)
+	var dialogue_preview : GDDialogueView = graph_editor_container.get_editor_preview(tabs.current_tab)
 	
-	if not dgraph.is_inside_tree():
-		yield(dgraph, "ready")
+	dialogue_preview.connect("next", self, "_on_dialogue_view_next", [dialogue_preview])
+	dialogue_preview.connect("choice", self, "_on_dialogue_view_choice", [dialogue_preview])
+
+	# wait till editor is added
+	yield(get_tree(), "idle_frame")
 	
-	show_dialogue_graph(tabs.current_tab)
+	var current_tab: int = tabs.get_tab_count() - 1
+	
+	tabs.set_current_tab(current_tab)
+	graph_editor_container.show_editor(current_tab)
+	
 
 
 func _on_Tabs_tab_changed(tab: int) -> void:
-	show_dialogue_graph(tab)
+	graph_editor_container.show_editor(tab)
 
 
 func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
-	var dgraph := get_dialogue_graph(tabs.current_tab)
+	var dgraph : DialogueGraph = graph_editor_container.get_editor_graph(tabs.current_tab)
 	var cursor := dgraph.cursor()
 	
 	if cursor.is_invalid():
@@ -90,7 +73,7 @@ func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
 	
 	if cursor.is_end():
 		cursor.reset()
-		dialogue_preview.clear()
+		dialogue_view.clear()
 	
 	var current := cursor.current()
 	var graph_node : GraphNode = dgraph.get_node(current.name)

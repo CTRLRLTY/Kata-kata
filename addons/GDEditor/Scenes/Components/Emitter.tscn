@@ -18,9 +18,9 @@ slot/0/left_color = Color( 1, 1, 1, 1 )
 slot/0/right_enabled = false
 slot/0/right_type = 0
 slot/0/right_color = Color( 1, 1, 1, 1 )
-slot/1/left_enabled = true
-slot/1/left_type = 1
-slot/1/left_color = Color( 0.4, 0.2, 0.6, 1 )
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color( 0.4, 0.8, 0.67, 1 )
 slot/1/right_enabled = false
 slot/1/right_type = 1
 slot/1/right_color = Color( 0.4, 0.2, 0.6, 1 )
@@ -53,8 +53,6 @@ mouse_filter = 2
 custom_constants/separation = 0
 
 [node name="InPort" parent="FlowPort" instance=ExtResource( 1 )]
-port_type = 1
-port_enable = true
 
 [node name="SignalEdit" type="LineEdit" parent="FlowPort"]
 margin_left = 10.0

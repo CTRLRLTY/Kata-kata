@@ -1,9 +1,8 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
-[ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/GDEditor/Scenes/GraphEditorContainer.gd" type="Script" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueEditor.gd" type="Script" id=2]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Search.png" type="Texture" id=3]
-[ext_resource path="res://addons/GDEditor/Scenes/NodeSelection.gd" type="Script" id=4]
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/MainPanelBG.tres" type="StyleBox" id=5]
 [ext_resource path="res://addons/GDEditor/Scenes/Tabs.gd" type="Script" id=6]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Close.png" type="Texture" id=7]
@@ -11,15 +10,15 @@
 [ext_resource path="res://addons/GDEditor/Scenes/TabContainer.gd" type="Script" id=9]
 [ext_resource path="res://addons/GDEditor/Scenes/TabMenuPopup.gd" type="Script" id=10]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueNamePrompt.gd" type="Script" id=11]
-[ext_resource path="res://addons/GDEditor/Scenes/ContextStateTree.tscn" type="PackedScene" id=12]
 [ext_resource path="res://addons/GDEditor/Views/StandardView.tscn" type="PackedScene" id=13]
+[ext_resource path="res://addons/GDEditor/Scenes/PreviewOptions.gd" type="Script" id=14]
 [ext_resource path="res://addons/GDEditor/Scenes/CharacterDefinitionPopup.gd" type="Script" id=16]
 
 [sub_resource type="StyleBoxEmpty" id=3]
 
 [sub_resource type="StyleBoxEmpty" id=4]
 
-[sub_resource type="StyleBoxEmpty" id=2]
+[sub_resource type="StyleBoxEmpty" id=5]
 
 [node name="DialogueEditor" type="Control"]
 anchor_right = 1.0
@@ -28,7 +27,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 2 )
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -60,7 +58,7 @@ TabMenuPopupPath = NodePath("TabMenuBtn/TabMenuPopup")
 TabMenuBtnPath = NodePath("TabMenuBtn")
 
 [node name="Tabs" type="Tabs" parent="MarginContainer/VBoxContainer/TabContainer"]
-margin_right = 992.0
+margin_right = 838.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 120, 0 )
 size_flags_horizontal = 3
@@ -77,6 +75,16 @@ margin_bottom = 24.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PreviewOptions" type="OptionButton" parent="MarginContainer/VBoxContainer/TabContainer"]
+margin_left = 842.0
+margin_right = 992.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 150, 0 )
+text = "StandardView"
+items = [ "StandardView", null, false, 0, ExtResource( 13 ) ]
+selected = 0
+script = ExtResource( 14 )
 
 [node name="TabMenuBtn" type="ToolButton" parent="MarginContainer/VBoxContainer/TabContainer"]
 margin_left = 996.0
@@ -217,94 +225,15 @@ text = "Add Character"
 margin_right = 200.0
 margin_bottom = 70.0
 
-[node name="DialoguePreview" parent="MarginContainer/VBoxContainer" instance=ExtResource( 13 )]
-visible = false
-
-[node name="MainContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
+[node name="GraphEditorContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
 margin_top = 36.0
 margin_right = 1024.0
 margin_bottom = 588.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LeftDock" type="PanelContainer" parent="MarginContainer/VBoxContainer/MainContainer"]
-margin_right = 214.0
-margin_bottom = 552.0
-rect_min_size = Vector2( 200, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 207.0
-margin_bottom = 545.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="UpperHalf" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer"]
-margin_right = 200.0
-margin_bottom = 195.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.6
-
-[node name="Section" type="Label" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer/UpperHalf"]
-margin_right = 200.0
-margin_bottom = 14.0
-size_flags_horizontal = 3
-text = "Components"
-
-[node name="NodeSelection" type="ItemList" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer/UpperHalf"]
-margin_top = 18.0
-margin_right = 200.0
-margin_bottom = 195.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/line_separation = 0
-custom_styles/selected = SubResource( 2 )
-items = [ "Start", null, false, "End", null, false, "Message", null, false, "Emitter", null, false, "CharacterJoin", null, false, "Choice", null, false, "Setter", null, false, "Pipe", null, false ]
-script = ExtResource( 4 )
-
-[node name="LowerHalf" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer"]
-margin_top = 207.0
-margin_right = 200.0
-margin_bottom = 538.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Section" type="Label" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer/LowerHalf"]
-margin_right = 200.0
-margin_bottom = 14.0
-text = "Context State"
-
-[node name="LineEdit2" type="LineEdit" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer/LowerHalf"]
-margin_top = 18.0
-margin_right = 200.0
-margin_bottom = 44.0
-size_flags_horizontal = 3
-clear_button_enabled = true
-right_icon = ExtResource( 3 )
-placeholder_text = "Filter nodes"
-caret_blink = true
-caret_blink_speed = 0.5
-
-[node name="ContextStateTree" parent="MarginContainer/VBoxContainer/MainContainer/LeftDock/VSplitContainer/LowerHalf" instance=ExtResource( 12 )]
-margin_top = 48.0
-margin_bottom = 331.0
-size_flags_vertical = 3
-select_mode = 1
-StateColumnTitle = "Dialogue States"
-
-[node name="DGraph" parent="MarginContainer/VBoxContainer/MainContainer" instance=ExtResource( 1 )]
-scroll_offset = Vector2( -14, -270 )
+custom_styles/panel = SubResource( 5 )
+script = ExtResource( 1 )
 
 [connection signal="tab_added" from="MarginContainer/VBoxContainer/TabContainer/Tabs" to="." method="_on_Tabs_tab_added"]
 [connection signal="tab_changed" from="MarginContainer/VBoxContainer/TabContainer/Tabs" to="." method="_on_Tabs_tab_changed"]

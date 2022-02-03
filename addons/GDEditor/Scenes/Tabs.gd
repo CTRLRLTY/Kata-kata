@@ -52,14 +52,14 @@ func _on_tab_close(tab: int) -> void:
 func _on_TabMenuPopup_new_dialogue(dialogue_name : String) -> void:
 	add_tab(dialogue_name)
 	
-	# Idk wtf is going on, but if we don't wait atleast once,
-	# double clicking on a tab will select the the previous active
-	# tab. Here, I wait for two idle frames, since I still find a
-	# weird behaviour with only one idle frame yield.
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
-	
-	set_current_tab(get_tab_count() - 1)
+#	# Idk wtf is going on, but if we don't wait atleast once,
+#	# double clicking on a tab will select the the previous active
+#	# tab. Here, I wait for two idle frames, since I still find a
+#	# weird behaviour with only one idle frame yield.
+#	yield(get_tree(), "idle_frame")
+#	yield(get_tree(), "idle_frame")
+#
+#	set_current_tab(get_tab_count() - 1)
 	
 	emit_signal("tab_added")
 

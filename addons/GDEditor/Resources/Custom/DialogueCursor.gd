@@ -25,7 +25,7 @@ func _init(graph_edit: GraphEdit) -> void:
 
 
 func size() -> int:
-	return s_flow.size()
+	return s_port_table.size()
 
 
 func reset() -> void:
@@ -62,7 +62,7 @@ func next(fork := 0) -> void:
 	
 	_prev = s_cursor
 		
-	fork = clamp(fork, 0, s_cursor.to.flow.size() - 1)
+	fork = clamp(fork, 0, s_cursor.to.flow.size())
 	var connection = s_cursor.to.flow[fork]
 
 	s_cursor = s_port_table.get(connection.to, {})
