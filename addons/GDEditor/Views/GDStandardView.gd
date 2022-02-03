@@ -24,6 +24,7 @@ func get_readers() -> Array:
 func get_components() -> Array:
 	# Returns an Array of PackedScenes
 	return [load(GDUtil.resolve("Start.tscn")),
+			load(GDUtil.resolve("End.tscn")),
 			load(GDUtil.resolve("Message.tscn")),
 			load(GDUtil.resolve("CharacterJoin.tscn")),
 			load(GDUtil.resolve("Pipe.tscn")),
