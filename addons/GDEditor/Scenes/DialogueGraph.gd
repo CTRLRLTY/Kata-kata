@@ -34,7 +34,7 @@ func _ready() -> void:
 
 
 func can_drop_data(_position: Vector2, data) -> bool:
-	return data is Dictionary and data.get("value_type", "") == "GDComponent" 
+	return data is Dictionary and data.get("value_type", "") == "GDGraphNodeScene" 
 
 
 func drop_data(position: Vector2, data : Dictionary) -> void:
