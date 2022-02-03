@@ -4,33 +4,21 @@ extends WindowDialog
 
 signal confirmed
 
-var type_option : OptionButton
-var array_check : CheckBox
-var array_size : SpinBox
-var array_dialog : WindowDialog
-var value_edit : LineEdit
-var value_check : CheckBox
-var value_array : Button
-
 var state_data : ContextStateData
 
 var _edit_filter := RegEx.new()
 
+onready var type_option := find_node("TypeOption")
+onready var value_edit := find_node("ValueEdit")
+onready var value_check := find_node("ValueCheck")
+onready var value_array := find_node("ValueArray")
+onready var array_check := find_node("ArrayCheck")
+onready var array_size := find_node("ArraySize")
+onready var array_dialog := value_array.get_node("ValueArrayDialog")
 
-func _enter_tree() -> void:
-	type_option = find_node("TypeOption")
-	
-	value_edit = find_node("ValueEdit")
-	value_check = find_node("ValueCheck")
-	value_array = find_node("ValueArray")
-	
-	array_check = find_node("ArrayCheck")
-	array_size = find_node("ArraySize")
-	array_dialog = value_array.get_node("ValueArrayDialog")
-	
-	
-	if not value_edit.is_connected("focus_exited", self, "_on_ValueEdit_focus_exited"):
-		value_edit.connect("focus_exited", self, "_on_ValueEdit_focus_exited", [value_edit])
+
+func _ready() -> void:
+	value_edit.connect("focus_exited", self, "_on_ValueEdit_focus_exited", [value_edit])
 
 
 func open(p_state_data : ContextStateData) -> void:

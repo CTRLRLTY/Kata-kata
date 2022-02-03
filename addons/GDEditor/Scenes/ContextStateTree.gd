@@ -6,20 +6,16 @@ signal state_changed
 
 const ITEM_SUFFIX_SEPERATOR = "="
 
-var state_popup : PopupMenu
-var state_dialog : WindowDialog
-
 var _state_list : Array
 
-export(String) var StateColumnTitle
- 
+onready var state_popup := $ContextStatePopup
+onready var state_dialog := $ContextStateDialog
 
-func _enter_tree() -> void:
-	state_popup = $ContextStatePopup
-	state_dialog = $ContextStateDialog
-	
-	if not _state_list:
-		_state_list = []
+export(String) var StateColumnTitle
+
+
+func _ready() -> void:
+	_state_list = []
 		
 	if not get_root():
 		var root := create_item()
