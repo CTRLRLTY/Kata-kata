@@ -17,6 +17,10 @@ func _ready() -> void:
 		_add_choice(choice)
 
 
+func get_component_name() -> String:
+	return "Choice"
+
+
 func _choice_size() -> int:
 	var acc := 0
 	

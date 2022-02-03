@@ -5,6 +5,10 @@ class_name GNCharacterJoin
 onready var _option_button := find_node("OptionButton")
 
 
+func get_component_name() -> String:
+	return "CharacterJoin"
+
+
 func _on_OptionButton_pressed() -> void:
 	_option_button.clear()
 	

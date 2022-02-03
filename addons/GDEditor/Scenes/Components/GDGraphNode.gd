@@ -10,6 +10,10 @@ enum Port {
 }
 
 
+func get_component_name() -> String:
+	return "GDGraphNode"
+
+
 func get_dialogue_editor() -> Control:
 	return GDUtil.get_dialogue_editor()
 

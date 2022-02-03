@@ -22,7 +22,13 @@ func get_readers() -> Array:
 
 
 func get_components() -> Array:
-	return [GNStart.new(), GNEnd.new(), GNMessage.new(), GNCharacterJoin.new(), GNChoice.new()]
+	# Returns an Array of Objects
+	return [GNStart.new(),
+			GNEnd.new(), 
+			GNMessage.new(),
+			GNPipe.new(),
+			GNCharacterJoin.new(),
+			GNChoice.new()]
 
 
 func set_text_box(text: String) -> void:

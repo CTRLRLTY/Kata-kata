@@ -36,14 +36,16 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 		
 		add_child(dialogue_view)
 		move_child(dialogue_view, 0)
-		
-		for component in dialogue_view.get_components():
-			var idx : int = _node_selection.get_item_count()
-			_node_selection.add_item(component.get_component_name(), idx)
-			_node_selection.set_item_metadata(idx, component)
 	else:
 		add_child(dialogue_view)
 		move_child(dialogue_view, 0)
+	
+	yield(get_tree(), "idle_frame")
+	
+	for component in dialogue_view.get_components():
+		_node_selection.add_item(component.get_component_name())
+		_node_selection.set_item_metadata(
+				_node_selection.get_item_count() - 1, component)
 
 
 func save() -> void:
