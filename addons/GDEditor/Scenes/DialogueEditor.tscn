@@ -10,7 +10,7 @@
 [ext_resource path="res://addons/GDEditor/Scenes/TabContainer.gd" type="Script" id=9]
 [ext_resource path="res://addons/GDEditor/Scenes/TabMenuPopup.gd" type="Script" id=10]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueNamePrompt.gd" type="Script" id=11]
-[ext_resource path="res://addons/GDEditor/Views/StandardView.tscn" type="PackedScene" id=13]
+[ext_resource path="res://addons/GDEditor/Views/GDStandardView.tscn" type="PackedScene" id=13]
 [ext_resource path="res://addons/GDEditor/Scenes/PreviewOptions.gd" type="Script" id=14]
 [ext_resource path="res://addons/GDEditor/Scenes/CharacterDefinitionPopup.gd" type="Script" id=16]
 
@@ -27,6 +27,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 2 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -81,8 +82,8 @@ margin_left = 842.0
 margin_right = 992.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 150, 0 )
-text = "StandardView"
-items = [ "StandardView", null, false, 0, ExtResource( 13 ) ]
+text = "GDStandardView"
+items = [ "GDStandardView", null, false, 0, ExtResource( 13 ) ]
 selected = 0
 script = ExtResource( 14 )
 

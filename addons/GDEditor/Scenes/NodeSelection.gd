@@ -2,24 +2,24 @@ tool
 
 extends ItemList
 
-func _enter_tree() -> void:
-	clear()
-	
-	var d := Directory.new()
-	d.open(GDUtil.get_component_dir())
-	d.list_dir_begin(true, true)
-	
-	var file_name := d.get_next()
-	while not file_name.empty():
-		var ext := file_name.get_extension()
-		
-		if ext == "tscn":
-			var basename := file_name.get_basename()
-			add_item(basename)
-		
-		file_name = d.get_next()
-
-	d.list_dir_end()
+#func _enter_tree() -> void:
+#	clear()
+#
+#	var d := Directory.new()
+#	d.open(GDUtil.get_component_dir())
+#	d.list_dir_begin(true, true)
+#
+#	var file_name := d.get_next()
+#	while not file_name.empty():
+#		var ext := file_name.get_extension()
+#
+#		if ext == "tscn":
+#			var basename := file_name.get_basename()
+#			add_item(basename)
+#
+#		file_name = d.get_next()
+#
+#	d.list_dir_end()
 
 
 func get_drag_data(position: Vector2):
