@@ -89,11 +89,11 @@ static func get_scene_dir() -> String:
 	
 	
 static func get_component_dir() -> String:
-	return"res://addons/GDEditor/Scenes/Components/"
+	return "res://addons/GDEditor/Components/"
 
 
 static func get_attachment_dir() -> String:
-	return "res://addons/GDEditor/Scenes/Components/Attachments/"
+	return get_component_dir() + "Attachments/"
 
 
 static func get_icon_dir() -> String:

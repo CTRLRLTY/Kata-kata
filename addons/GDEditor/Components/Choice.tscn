@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
-[ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/PortRect.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/GDEditor/Scenes/Components/Choice.gd" type="Script" id=3]
+[ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/GDEditor/Components/Choice.gd" type="Script" id=3]
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ButtonDarkBG.stylebox" type="StyleBox" id=4]
-[ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/ChoiceEditRect.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/GDEditor/Components/Attachments/ChoiceEditRect.tscn" type="PackedScene" id=5]
 
 [node name="Choice" type="GraphNode"]
 margin_left = 15.0

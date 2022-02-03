@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/PortRect.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=1]
 
 [node name="ExpressionSection" type="HBoxContainer"]
 margin_left = 15.0

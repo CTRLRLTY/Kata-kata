@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://addons/GDEditor/Scenes/Components/Attachments/PortRect.gd" type="Script" id=1]
+[ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.gd" type="Script" id=1]
 
 [node name="PortRect" type="ReferenceRect"]
 margin_right = 10.0
