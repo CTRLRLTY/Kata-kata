@@ -53,7 +53,7 @@ func is_start() -> bool:
 
 
 func is_invalid() -> bool:
-	return is_end() and is_start() 
+	return s_flow.empty()
 
 
 func next(fork := 0) -> void:
