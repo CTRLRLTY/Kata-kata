@@ -89,7 +89,7 @@ func connected_ports(node_name: String, connection_list := get_connection_list()
 	var from_connection = GDUtil.array_dictionary_popallv(to_connection, [{"to": node_name}])
 
 	for connection in from_connection:
-		var port_type := graph_node.get_port_type_left(connection.from_port)
+		var port_type := graph_node.get_port_type_left(connection.to_port)
 		var port_key : String = PortRect.PortType.keys()[port_type].to_lower()
 		ret["from"][port_key].append(connection)
 	

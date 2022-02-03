@@ -1,7 +1,7 @@
 tool
 extends EditorPlugin
 
-const DialogueEditorScene = preload("res://addons/GDEditor/Scenes/DialogueEditor.tscn")
+const DialogueEditorScene := preload("res://addons/GDEditor/Scenes/DialogueEditor.tscn")
 
 var dialogue_editor : Control
 
