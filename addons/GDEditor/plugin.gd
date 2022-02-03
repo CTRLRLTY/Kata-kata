@@ -15,7 +15,7 @@ func _enter_tree() -> void:
 #			load("res://addons/GDEditor/Resources/Custom/ComponentData.gd"), 
 #			get_editor_interface().get_base_control().get_icon("ResourcePreloader", "EditorIcons"))
 #
-	GDUtil.add_state("editor_interface", get_editor_interface())
+	GDUtil.set_editor_plugin(self)
 	
 	# Prevent competing active main screen
 	make_visible(false)
@@ -25,7 +25,7 @@ func _exit_tree() -> void:
 	if dialogue_editor:
 		dialogue_editor.queue_free()
 		
-	GDUtil.erase_state("editor_interface")
+	GDUtil.clear_state()
 
 
 func has_main_screen() -> bool:

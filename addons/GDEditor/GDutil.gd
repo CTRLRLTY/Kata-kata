@@ -42,14 +42,26 @@ static func add_state(key: String, value) -> void:
 	_state[key] = value
 
 
+static func clear_state() -> void:
+	_state.clear()
+
+
+# Returns EditorPlugin
+static func get_editor_plugin() -> Node:
+	return _state.get("editor_plugin")
+
+
 # Returns GDDialogueEditor class
 static func get_dialogue_editor() -> Control:
 	return _state.get("dialogue_editor")
 
 
-# Set GDDialogueEditor class
 static func set_dialogue_editor(dialogue_editor: Control) -> void:
 	_state["dialogue_editor"] = dialogue_editor
+
+
+static func set_editor_plugin(editor_plugin: Node) -> void:
+	_state["editor_plugin"] = editor_plugin 
 
 
 static func save_data(data) -> int:
