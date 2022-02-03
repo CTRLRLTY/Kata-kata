@@ -22,13 +22,13 @@ func get_readers() -> Array:
 
 
 func get_components() -> Array:
-	# Returns an Array of Objects
-	return [GNStart.new(),
-			GNEnd.new(), 
-			GNMessage.new(),
-			GNPipe.new(),
-			GNCharacterJoin.new(),
-			GNChoice.new()]
+	# Returns an Array of PackedScenes
+	return [load(GDUtil.resolve("Start.tscn")),
+			load(GDUtil.resolve("Message.tscn")),
+			load(GDUtil.resolve("CharacterJoin.tscn")),
+			load(GDUtil.resolve("Pipe.tscn")),
+			load(GDUtil.resolve("Choice.tscn")),
+			load(GDUtil.resolve("CharacterJoin.tscn"))]
 
 
 func set_text_box(text: String) -> void:

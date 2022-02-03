@@ -42,7 +42,13 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 	
 	yield(get_tree(), "idle_frame")
 	
-	for component in dialogue_view.get_components():
+	for component_scene in dialogue_view.get_components():
+		assert(component_scene is PackedScene)
+		
+		var component : GDGraphNode = component_scene.instance()
+		
+		assert(component is GDGraphNode)
+		
 		_node_selection.add_item(component.get_component_name())
 		_node_selection.set_item_metadata(
 				_node_selection.get_item_count() - 1, component)
