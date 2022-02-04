@@ -41,20 +41,17 @@ func _on_TabMenuPopup_preview_dialogue() -> void:
 
 func _on_Tabs_tab_added() -> void:
 	graph_editor_container.add_editor()
-	
-	var dialogue_preview : GDDialogueView = graph_editor_container.get_editor_preview(tabs.current_tab)
-	
-	dialogue_preview.connect("next", self, "_on_dialogue_view_next", [dialogue_preview])
-	dialogue_preview.connect("choice", self, "_on_dialogue_view_choice", [dialogue_preview])
-
 	# wait till editor is added
 	yield(get_tree(), "idle_frame")
-	
 	var current_tab: int = tabs.get_tab_count() - 1
 	
 	tabs.set_current_tab(current_tab)
 	graph_editor_container.show_editor(current_tab)
 	
+	var dialogue_preview : GDDialogueView = graph_editor_container.get_editor_preview(tabs.current_tab)
+	
+	dialogue_preview.connect("next", self, "_on_dialogue_view_next", [dialogue_preview])
+	dialogue_preview.connect("choice", self, "_on_dialogue_view_choice", [dialogue_preview])
 
 
 func _on_Tabs_tab_changed(tab: int) -> void:
