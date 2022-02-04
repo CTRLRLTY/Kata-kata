@@ -2,11 +2,7 @@ tool
 
 extends WindowDialog
 
-var character_item_container : Control
-
-
-func _enter_tree() -> void:
-	character_item_container = find_node("CharacterItemContainer")
+onready var character_item_container := find_node("CharacterItemContainer")
 
 
 func get_character_datas() -> Array:
