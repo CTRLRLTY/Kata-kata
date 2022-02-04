@@ -55,4 +55,5 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 
 
 func save() -> void:
+	get_dialogue_preview().save()
 	get_dialogue_graph().save()

@@ -38,3 +38,7 @@ func clear_choices() -> void:
 
 func clear() -> void:
 	pass
+
+
+func save() -> void:
+	pass

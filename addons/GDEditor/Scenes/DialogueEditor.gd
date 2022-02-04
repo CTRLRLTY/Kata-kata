@@ -43,6 +43,7 @@ func _on_Tabs_tab_added() -> void:
 	graph_editor_container.add_editor()
 	# wait till editor is added
 	yield(get_tree(), "idle_frame")
+	
 	var current_tab: int = tabs.get_tab_count() - 1
 	
 	tabs.set_current_tab(current_tab)
