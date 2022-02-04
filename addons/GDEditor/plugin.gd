@@ -38,7 +38,7 @@ func make_visible(visible: bool) -> void:
 
 	
 func get_plugin_name() -> String:
-	return "GDEditor"
+	return "Gaelog"
 	
 	
 func get_plugin_icon() -> Texture:
