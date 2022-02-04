@@ -7,6 +7,14 @@ const _state := {}
 const _resolved_path_cache := {}
 
 
+static func get_characters_dir() -> String:
+	return get_definitions_dir() + "Characters/"
+
+
+static func get_definitions_dir() -> String:
+	return "res://addons/GDEditor/Definitions/"
+
+
 static func get_tool_dir() -> String:
 	return "res://addons/GDEditor/Tools/"
 
@@ -304,11 +312,10 @@ static func clear_state() -> void:
 
 
 static func save_data(data) -> int:
-	var DEFDIR := "res://addons/GDEditor/Definitions/"
 	var DIR := Directory.new()
 	
 	if data is CharacterData:
-		var characters_dir := DEFDIR + "Characters/" 
+		var characters_dir := get_characters_dir()
 		
 		if not DIR.dir_exists(characters_dir):
 			DIR.make_dir_recursive(characters_dir)
