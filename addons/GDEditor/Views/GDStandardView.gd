@@ -32,6 +32,10 @@ func get_components() -> Array:
 			load(GDUtil.resolve("CharacterJoin.tscn"))]
 
 
+func get_tools() -> Array:
+	return [load(GDUtil.resolve("ToolCharacterOpen.tscn"))]
+
+
 func set_text_box(text: String) -> void:
 	text_box.text = text
 

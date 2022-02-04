@@ -16,6 +16,10 @@ func get_components() -> Array:
 	return []
 
 
+func get_tools() -> Array:
+	return []
+
+
 func set_text_box(text: String) -> void:
 	pass
 

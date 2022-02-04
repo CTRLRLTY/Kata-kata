@@ -7,77 +7,8 @@ const _state := {}
 const _resolved_path_cache := {}
 
 
-static func resolve(res_name : String) -> String:
-	var ret := ""
-	
-	if _resolved_path_cache.has(res_name):
-		ret = _resolved_path_cache[res_name]
-	else:
-		var f := File.new()
-		var managed := [
-			get_scene_dir(), 
-			get_icon_dir(), 
-			get_component_dir(),
-			get_attachment_dir(),
-			get_view_dir()
-		]
-		
-		for path in managed:
-			var target = path + res_name
-			if f.file_exists(target):
-				_resolved_path_cache[res_name] = target
-				ret = target
-				break
-		
-		assert(not ret.empty(), "Could not resolve %s" % [res_name])
-	
-	return ret
-
-
-static func get_state(key: String, default = null):
-	return _state.get(key, default)
-
-
-static func add_state(key: String, value) -> void:
-	_state[key] = value
-
-
-static func clear_state() -> void:
-	_state.clear()
-
-
-# Returns EditorPlugin
-static func get_editor_plugin() -> Node:
-	return _state.get("editor_plugin")
-
-
-# Returns GDDialogueEditor class
-static func get_dialogue_editor() -> Control:
-	return _state.get("dialogue_editor")
-
-
-static func set_dialogue_editor(dialogue_editor: Control) -> void:
-	_state["dialogue_editor"] = dialogue_editor
-
-
-static func set_editor_plugin(editor_plugin: Node) -> void:
-	_state["editor_plugin"] = editor_plugin 
-
-
-static func save_data(data) -> int:
-	var DEFDIR := "res://addons/GDEditor/Definitions/"
-	var DIR := Directory.new()
-	
-	if data is CharacterData:
-		var characters_dir := DEFDIR + "Characters/" 
-		
-		if not DIR.dir_exists(characters_dir):
-			DIR.make_dir_recursive(characters_dir)
-			
-		return ResourceSaver.save(characters_dir + 
-				"%s.tres" % [data.resource_name], data)
-
-	return FAILED	
+static func get_tool_dir() -> String:
+	return "res://addons/GDEditor/Tools/"
 
 
 static func get_view_dir() -> String:
@@ -110,6 +41,28 @@ static func get_icon(icon_name : String) -> Texture:
 		ret = load(resolve(icon_name + ".png")) as Texture
 		
 	return ret
+
+
+# Returns EditorPlugin
+static func get_editor_plugin() -> Node:
+	return _state.get("editor_plugin")
+
+
+# Returns GDDialogueEditor class
+static func get_dialogue_editor() -> Control:
+	return _state.get("dialogue_editor")
+
+
+static func get_state(key: String, default = null):
+	return _state.get(key, default)
+
+
+static func set_dialogue_editor(dialogue_editor: Control) -> void:
+	_state["dialogue_editor"] = dialogue_editor
+
+
+static func set_editor_plugin(editor_plugin: Node) -> void:
+	_state["editor_plugin"] = editor_plugin 
 
 
 static func regex_match(s : String, rgx : RegEx) -> bool:
@@ -294,22 +247,6 @@ static func array_dictionary_match(arr : Array, key, value : String) -> int:
 	return acc
 
 
-static func filter_edit(rgx : RegEx, edit : LineEdit, rejected := "") -> void:
-	var result := rgx.search(edit.text)
-	
-	if not result:
-		edit.text = rejected
-	else:
-		edit.text = result.get_string()
-
-
-static func line_centroidv(points : PoolVector2Array) -> Vector2:
-	assert(points.size() == 2)
-	var ret = points[1] + points[0]
-	
-	return ret/2
-
-
 static func control_centroid(c : Control) -> Vector2:
 	return c.rect_size / 2
 
@@ -328,3 +265,71 @@ static func control_border_right(c : Control) -> PoolVector2Array:
 
 static func control_border_bottom(c : Control) -> PoolVector2Array:
 	return PoolVector2Array([Vector2(0, c.rect_size.y), Vector2(c.rect_size.x, c.rect_size.y)])
+
+
+static func resolve(res_name : String) -> String:
+	var ret := ""
+	
+	if _resolved_path_cache.has(res_name):
+		ret = _resolved_path_cache[res_name]
+	else:
+		var f := File.new()
+		var managed := [
+			get_scene_dir(), 
+			get_icon_dir(), 
+			get_component_dir(),
+			get_attachment_dir(),
+			get_view_dir(),
+			get_tool_dir()
+		]
+		
+		for path in managed:
+			var target = path + res_name
+			if f.file_exists(target):
+				_resolved_path_cache[res_name] = target
+				ret = target
+				break
+		
+		assert(not ret.empty(), "Could not resolve %s" % [res_name])
+	
+	return ret
+
+
+static func add_state(key: String, value) -> void:
+	_state[key] = value
+
+
+static func clear_state() -> void:
+	_state.clear()
+
+
+static func save_data(data) -> int:
+	var DEFDIR := "res://addons/GDEditor/Definitions/"
+	var DIR := Directory.new()
+	
+	if data is CharacterData:
+		var characters_dir := DEFDIR + "Characters/" 
+		
+		if not DIR.dir_exists(characters_dir):
+			DIR.make_dir_recursive(characters_dir)
+			
+		return ResourceSaver.save(characters_dir + 
+				"%s.tres" % [data.resource_name], data)
+
+	return FAILED	
+
+
+static func filter_edit(rgx : RegEx, edit : LineEdit, rejected := "") -> void:
+	var result := rgx.search(edit.text)
+	
+	if not result:
+		edit.text = rejected
+	else:
+		edit.text = result.get_string()
+
+
+static func line_centroidv(points : PoolVector2Array) -> Vector2:
+	assert(points.size() == 2)
+	var ret = points[1] + points[0]
+	
+	return ret/2

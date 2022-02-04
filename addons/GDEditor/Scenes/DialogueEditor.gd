@@ -9,6 +9,7 @@ onready var tabs := find_node("Tabs")
 onready var character_definition := find_node("CharacterDefinitionPopup")
 onready var node_selection := find_node("node_selection")
 onready var graph_editor_container := find_node("GraphEditorContainer")
+onready var tools_container := find_node("ToolsContainer")
 
 
 func _ready() -> void:
@@ -53,6 +54,10 @@ func _on_Tabs_tab_added() -> void:
 	
 	dialogue_preview.connect("next", self, "_on_dialogue_view_next", [dialogue_preview])
 	dialogue_preview.connect("choice", self, "_on_dialogue_view_choice", [dialogue_preview])
+	
+	for tool_scene in dialogue_preview.get_tools():
+		var tool_btn: Node = tool_scene.instance()
+		tools_container.add_child(tool_btn)
 
 
 func _on_Tabs_tab_changed(tab: int) -> void:

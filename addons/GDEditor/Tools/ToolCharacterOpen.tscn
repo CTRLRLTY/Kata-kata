@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://addons/GDEditor/Resources/Icons/Search.png" type="Texture" id=1]
+[ext_resource path="res://addons/GDEditor/Scenes/CharacterDefinitionPopup.gd" type="Script" id=2]
+[ext_resource path="res://addons/GDEditor/Resources/Icons/icon.png" type="Texture" id=3]
+[ext_resource path="res://addons/GDEditor/Tools/ToolCharacterOpen.gd" type="Script" id=4]
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[node name="CharacterOpenBtn" type="TextureButton"]
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 4 )
+texture_normal = ExtResource( 3 )
+expand = true
+script = ExtResource( 4 )
+
+[node name="CharacterDefinitionPopup" type="WindowDialog" parent="."]
+margin_left = 398.0
+margin_top = -8.0
+margin_right = 758.0
+margin_bottom = 527.0
+mouse_filter = 2
+popup_exclusive = true
+window_title = "Character Definition"
+script = ExtResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="CharacterDefinitionPopup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CharacterDefinitionPopup/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 350.0
+margin_bottom = 525.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 20
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="FilterEdit" type="LineEdit" parent="CharacterDefinitionPopup/MarginContainer/VBoxContainer"]
+margin_right = 340.0
+margin_bottom = 26.0
+right_icon = ExtResource( 1 )
+placeholder_text = "Filter"
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CharacterDefinitionPopup/MarginContainer/VBoxContainer"]
+margin_top = 46.0
+margin_right = 340.0
+margin_bottom = 515.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="CharacterItemContainer" type="VBoxContainer" parent="CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer"]
+margin_right = 340.0
+margin_bottom = 469.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 6
+
+[node name="AddCharacterBtn" type="Button" parent="CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/CharacterItemContainer"]
+margin_right = 340.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 0, 64 )
+custom_styles/focus = SubResource( 4 )
+text = "Add Character"
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="CharacterDefinitionPopup"]
+margin_right = 200.0
+margin_bottom = 70.0
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
+[connection signal="text_changed" from="CharacterDefinitionPopup/MarginContainer/VBoxContainer/FilterEdit" to="CharacterDefinitionPopup" method="_on_FilterEdit_text_changed"]
+[connection signal="pressed" from="CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/CharacterItemContainer/AddCharacterBtn" to="CharacterDefinitionPopup" method="_on_AddCharacterBtn_pressed"]

@@ -13,11 +13,8 @@ enum {
 	MENU_PREVIEW_DIALOGUE,
 	MENU_NEW_DIALOGUE,
 	MENU_OPEN_DIALOGUE,
-	MENU_OPEN_CHARACTER,
 	MENU_SAVE_DIALOGUE,
 	MENU_SAVE_DIALOGUE_AS,
-	MENU_IMPORT_CHARACTER,
-	MENU_EXPORT_CHARACTER
 }
 
 
@@ -31,13 +28,10 @@ func _ready() -> void:
 	add_separator("", -999)
 	add_item("New Dialogue", MENU_NEW_DIALOGUE)
 	add_item("Open Dialogue", MENU_OPEN_DIALOGUE)
-	add_item("Open Character", MENU_OPEN_CHARACTER)
 	add_separator("", -998)
 	add_item("Save Dialogue", MENU_SAVE_DIALOGUE)
 	add_item("Save Dialogue As", MENU_SAVE_DIALOGUE_AS)
-	add_separator("", -997)
-	add_item("Import Character", MENU_IMPORT_CHARACTER)
-	add_item("Export Character", MENU_EXPORT_CHARACTER)
+
 	
 
 func _on_id_pressed(id: int) -> void:
@@ -54,8 +48,6 @@ func _on_id_pressed(id: int) -> void:
 			
 		MENU_NEW_DIALOGUE:
 			$DialogueNamePrompt.popup_centered()
-		MENU_OPEN_CHARACTER:
-			$CharacterDefinitionPopup.popup_centered()
 		MENU_SAVE_DIALOGUE:
 			emit_signal("save_dialogue")
 
