@@ -20,10 +20,6 @@ func get_tools() -> Array:
 	return []
 
 
-func get_tools_shared() -> Array:
-	return []
-
-
 func set_text_box(text: String) -> void:
 	pass
 

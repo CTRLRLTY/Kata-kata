@@ -2,6 +2,9 @@ tool
 
 extends VSplitContainer
 
+class_name GDGraphEditor
+
+
 onready var _node_selection := find_node("NodeSelection")
 
 

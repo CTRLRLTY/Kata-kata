@@ -9,7 +9,8 @@ onready var character_definition := find_node("CharacterDefinitionPopup")
 onready var node_selection := find_node("node_selection")
 onready var graph_editor_container := find_node("GraphEditorContainer")
 onready var tools_container := find_node("ToolsContainer")
-onready var tools_shared_container := find_node("ToolsSharedContainer")
+
+onready var _preview_options := find_node("PreviewOptions")
 
 
 func _ready() -> void:
@@ -65,12 +66,6 @@ func _on_Tabs_tab_changed(tab: int) -> void:
 	
 	var dialogue_preview : GDDialogueView = graph_editor_container.get_editor_preview(tab)
 	tools_container.add_tools(dialogue_preview.get_tools())
-	
-	if tools_shared_container.empty():
-		tools_shared_container.add_tools(dialogue_preview.get_tools_shared())
-	elif not dialogue_preview is previous_dialogue_preview.get_script():
-		tools_shared_container.clear_tools()
-		tools_shared_container.add_tools(dialogue_preview.get_tools_shared())
 
 
 func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
@@ -100,3 +95,8 @@ func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
 
 func _on_dialogue_view_choice(choice: int, dialogue_view: GDDialogueView) -> void:
 	pass
+
+
+func _on_PreviewOptions_item_selected(index: int) -> void:
+	var dialogue_view : GDDialogueView = _preview_options.get_item_metadata(index).instance()
+	graph_editor_container.get_editor(tabs.current_tab).set_dialogue_preview(dialogue_view)

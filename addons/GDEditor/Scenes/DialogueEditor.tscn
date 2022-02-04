@@ -51,19 +51,6 @@ rect_min_size = Vector2( 0, 26 )
 custom_constants/separation = 0
 alignment = 2
 
-[node name="ToolsSharedContainer" type="HBoxContainer" parent="VBoxContainer/TopContainer"]
-margin_left = 754.0
-margin_right = 780.0
-margin_bottom = 26.0
-script = ExtResource( 12 )
-
-[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/TopContainer"]
-margin_left = 780.0
-margin_right = 801.0
-margin_bottom = 26.0
-custom_constants/separation = 21
-custom_styles/separator = SubResource( 6 )
-
 [node name="ToolsContainer" type="HBoxContainer" parent="VBoxContainer/TopContainer"]
 margin_left = 801.0
 margin_right = 801.0
@@ -203,7 +190,7 @@ size_flags_vertical = 3
 custom_styles/panel = SubResource( 5 )
 script = ExtResource( 1 )
 
-[connection signal="pressed" from="VBoxContainer/TopContainer/ToolsSharedContainer/CharacterOpenBtn" to="VBoxContainer/TopContainer/ToolsSharedContainer/CharacterOpenBtn" method="_on_pressed"]
+[connection signal="item_selected" from="VBoxContainer/TopContainer/PreviewOptions" to="." method="_on_PreviewOptions_item_selected"]
 [connection signal="pressed" from="VBoxContainer/TopContainer/TabMenuBtn" to="VBoxContainer/TabContainer" method="_on_TabMenuBtn_pressed"]
 [connection signal="id_pressed" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" method="_on_id_pressed"]
 [connection signal="new_dialogue" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TabContainer/Tabs" method="_on_TabMenuPopup_new_dialogue"]

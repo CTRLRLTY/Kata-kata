@@ -3,11 +3,11 @@ tool
 extends Control
 
 
-func get_editor(idx: int) -> Control:
-	return get_child(idx) as Control
+func get_editor(idx: int) -> GDGraphEditor:
+	return get_child(idx) as GDGraphEditor
 
 
-func get_active_editor() -> Control:
+func get_active_editor() -> GDGraphEditor:
 	for child in get_children():
 		if child.visible:
 			return child
