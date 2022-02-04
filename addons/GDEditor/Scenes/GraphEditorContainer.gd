@@ -7,6 +7,14 @@ func get_editor(idx: int) -> Control:
 	return get_child(idx) as Control
 
 
+func get_active_editor() -> Control:
+	for child in get_children():
+		if child.visible:
+			return child
+	
+	return null
+
+
 func get_editor_graph(idx: int) -> DialogueGraph:
 	return get_editor(idx).get_dialogue_graph() as DialogueGraph
 

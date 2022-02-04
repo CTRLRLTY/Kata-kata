@@ -32,7 +32,7 @@ func get_components() -> Array:
 			load(GDUtil.resolve("CharacterJoin.tscn"))]
 
 
-func get_tools() -> Array:
+func get_tools_shared() -> Array:
 	return [load(GDUtil.resolve("ToolCharacterOpen.tscn"))]
 
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/GraphEditorContainer.gd" type="Script" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueEditor.gd" type="Script" id=2]
+[ext_resource path="res://addons/GDEditor/Views/GDDummyView.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/MainPanelBG.tres" type="StyleBox" id=5]
 [ext_resource path="res://addons/GDEditor/Scenes/Tabs.gd" type="Script" id=6]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Close.png" type="Texture" id=7]
@@ -45,38 +46,52 @@ custom_constants/separation = 10
 
 [node name="TopContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 1000.0
-margin_bottom = 24.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 0, 26 )
 custom_constants/separation = 0
 alignment = 2
+
+[node name="ToolsSharedContainer" type="HBoxContainer" parent="VBoxContainer/TopContainer"]
+margin_left = 754.0
+margin_right = 780.0
+margin_bottom = 26.0
+script = ExtResource( 12 )
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/TopContainer"]
+margin_left = 780.0
+margin_right = 801.0
+margin_bottom = 26.0
+custom_constants/separation = 21
+custom_styles/separator = SubResource( 6 )
 
 [node name="ToolsContainer" type="HBoxContainer" parent="VBoxContainer/TopContainer"]
 margin_left = 801.0
 margin_right = 801.0
-margin_bottom = 24.0
+margin_bottom = 26.0
 custom_constants/separation = 5
 script = ExtResource( 12 )
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/TopContainer"]
 margin_left = 801.0
 margin_right = 822.0
-margin_bottom = 24.0
+margin_bottom = 26.0
 custom_constants/separation = 21
 custom_styles/separator = SubResource( 6 )
 
 [node name="PreviewOptions" type="OptionButton" parent="VBoxContainer/TopContainer"]
 margin_left = 822.0
 margin_right = 972.0
-margin_bottom = 24.0
+margin_bottom = 26.0
 rect_min_size = Vector2( 150, 0 )
 text = "GDStandardView"
-items = [ "GDStandardView", null, false, 0, ExtResource( 13 ) ]
+items = [ "GDStandardView", null, false, 0, ExtResource( 13 ), "GDDummyView", null, false, 1, ExtResource( 3 ) ]
 selected = 0
 script = ExtResource( 14 )
 
 [node name="TabMenuBtn" type="ToolButton" parent="VBoxContainer/TopContainer"]
 margin_left = 972.0
 margin_right = 1000.0
-margin_bottom = 24.0
+margin_bottom = 26.0
 custom_styles/focus = SubResource( 3 )
 icon = ExtResource( 8 )
 
@@ -87,7 +102,7 @@ margin_left = -152.0
 margin_top = 12.0
 margin_right = -9.0
 margin_bottom = 177.0
-items = [ "Preview [off]", null, 0, false, false, 0, 0, null, "", false, "", null, 0, false, false, -999, 0, null, "", true, "New Dialogue", null, 0, false, false, 1, 0, null, "", false, "Open Dialogue", null, 0, false, false, 2, 0, null, "", false, "Open Character", null, 0, false, false, 3, 0, null, "", false, "", null, 0, false, false, -998, 0, null, "", true, "Save Dialogue", null, 0, false, false, 4, 0, null, "", false, "Save Dialogue As", null, 0, false, false, 5, 0, null, "", false, "", null, 0, false, false, -997, 0, null, "", true, "Import Character", null, 0, false, false, 6, 0, null, "", false, "Export Character", null, 0, false, false, 7, 0, null, "", false ]
+items = [ "Preview [off]", null, 0, false, false, 0, 0, null, "", false, "", null, 0, false, false, -999, 0, null, "", true, "New Dialogue", null, 0, false, false, 1, 0, null, "", false, "Open Dialogue", null, 0, false, false, 2, 0, null, "", false, "", null, 0, false, false, -998, 0, null, "", true, "Save Dialogue", null, 0, false, false, 3, 0, null, "", false, "Save Dialogue As", null, 0, false, false, 4, 0, null, "", false ]
 script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -148,9 +163,9 @@ margin_bottom = 21.0
 text = "Confirm"
 
 [node name="TabContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 34.0
+margin_top = 36.0
 margin_right = 1000.0
-margin_bottom = 58.0
+margin_bottom = 60.0
 mouse_filter = 2
 size_flags_horizontal = 3
 script = ExtResource( 9 )
@@ -179,7 +194,7 @@ __meta__ = {
 }
 
 [node name="GraphEditorContainer" type="PanelContainer" parent="VBoxContainer"]
-margin_top = 68.0
+margin_top = 70.0
 margin_right = 1000.0
 margin_bottom = 576.0
 mouse_filter = 2
@@ -188,6 +203,7 @@ size_flags_vertical = 3
 custom_styles/panel = SubResource( 5 )
 script = ExtResource( 1 )
 
+[connection signal="pressed" from="VBoxContainer/TopContainer/ToolsSharedContainer/CharacterOpenBtn" to="VBoxContainer/TopContainer/ToolsSharedContainer/CharacterOpenBtn" method="_on_pressed"]
 [connection signal="pressed" from="VBoxContainer/TopContainer/TabMenuBtn" to="VBoxContainer/TabContainer" method="_on_TabMenuBtn_pressed"]
 [connection signal="id_pressed" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" method="_on_id_pressed"]
 [connection signal="new_dialogue" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TabContainer/Tabs" method="_on_TabMenuPopup_new_dialogue"]

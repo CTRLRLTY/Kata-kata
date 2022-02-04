@@ -4,12 +4,12 @@ extends Control
 
 class_name GDDialogueEditor
 
-
 onready var tabs := find_node("Tabs")
 onready var character_definition := find_node("CharacterDefinitionPopup")
 onready var node_selection := find_node("node_selection")
 onready var graph_editor_container := find_node("GraphEditorContainer")
 onready var tools_container := find_node("ToolsContainer")
+onready var tools_shared_container := find_node("ToolsSharedContainer")
 
 
 func _ready() -> void:
@@ -58,10 +58,19 @@ func _on_Tabs_tab_added() -> void:
 
 func _on_Tabs_tab_changed(tab: int) -> void:
 	tools_container.clear_tools()
+	var previous_dialogue_preview : GDDialogueView = graph_editor_container.get_editor_preview(
+			graph_editor_container.get_active_editor().get_index())
+	
 	graph_editor_container.show_editor(tab)
 	
 	var dialogue_preview : GDDialogueView = graph_editor_container.get_editor_preview(tab)
 	tools_container.add_tools(dialogue_preview.get_tools())
+	
+	if tools_shared_container.empty():
+		tools_shared_container.add_tools(dialogue_preview.get_tools_shared())
+	elif not dialogue_preview is previous_dialogue_preview.get_script():
+		tools_shared_container.clear_tools()
+		tools_shared_container.add_tools(dialogue_preview.get_tools_shared())
 
 
 func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:

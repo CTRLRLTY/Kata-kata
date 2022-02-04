@@ -61,3 +61,4 @@ func _on_NameEdit_text_entered(new_text: String) -> void:
 
 func _on_NameEdit_hide() -> void:
 	set_tab_title(current_tab, $NameEdit.text)
+
