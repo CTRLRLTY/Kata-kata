@@ -10,3 +10,15 @@ func add_child(btn: Node, legible_unique_name := false) -> void:
 	btn.rect_min_size = Vector2(24, 24)
 	
 	.add_child(btn)
+
+
+func add_tools(tools: Array) -> void:
+	for tool_scene in tools:
+		assert(tool_scene is PackedScene)
+		var tool_btn: TextureButton = tool_scene.instance()
+		add_child(tool_btn)
+
+
+func clear_tools() -> void:
+	for child in get_children():
+		child.free()

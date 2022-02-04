@@ -5,11 +5,6 @@ extends Tabs
 signal tab_added
 
 
-func _enter_tree() -> void:
-	if not get_tab_count():
-		add_tab("[empty]")
-		
-
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if not event.doubleclick:
@@ -35,6 +30,12 @@ func _gui_input(event: InputEvent) -> void:
 		accept_event()
 
 
+func add_tab(title := "", icon: Texture = null) -> void:
+	.add_tab(title, icon)
+	emit_signal("tab_added")
+	emit_signal("tab_changed", get_tab_count() - 1)
+
+
 func _on_tab_close(tab: int) -> void:
 	if $NameEdit.visible:
 		return
@@ -51,17 +52,6 @@ func _on_tab_close(tab: int) -> void:
 
 func _on_TabMenuPopup_new_dialogue(dialogue_name : String) -> void:
 	add_tab(dialogue_name)
-	
-#	# Idk wtf is going on, but if we don't wait atleast once,
-#	# double clicking on a tab will select the the previous active
-#	# tab. Here, I wait for two idle frames, since I still find a
-#	# weird behaviour with only one idle frame yield.
-#	yield(get_tree(), "idle_frame")
-#	yield(get_tree(), "idle_frame")
-#
-#	set_current_tab(get_tab_count() - 1)
-	
-	emit_signal("tab_added")
 
 
 func _on_NameEdit_text_entered(new_text: String) -> void:

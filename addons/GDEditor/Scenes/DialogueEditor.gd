@@ -16,7 +16,7 @@ func _ready() -> void:
 	GDUtil.set_dialogue_editor(self)
 	
 	if not graph_editor_container.get_editor_count():
-		tabs.emit_signal("tab_added")
+		tabs.add_tab("[empty]")
 
 
 func get_character_names() -> PoolStringArray:
@@ -54,14 +54,14 @@ func _on_Tabs_tab_added() -> void:
 	
 	dialogue_preview.connect("next", self, "_on_dialogue_view_next", [dialogue_preview])
 	dialogue_preview.connect("choice", self, "_on_dialogue_view_choice", [dialogue_preview])
-	
-	for tool_scene in dialogue_preview.get_tools():
-		var tool_btn: Node = tool_scene.instance()
-		tools_container.add_child(tool_btn)
 
 
 func _on_Tabs_tab_changed(tab: int) -> void:
+	tools_container.clear_tools()
 	graph_editor_container.show_editor(tab)
+	
+	var dialogue_preview : GDDialogueView = graph_editor_container.get_editor_preview(tab)
+	tools_container.add_tools(dialogue_preview.get_tools())
 
 
 func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
