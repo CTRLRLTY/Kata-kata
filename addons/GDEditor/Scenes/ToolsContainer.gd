@@ -6,8 +6,9 @@ const _tools_state := {}
 
 
 func _exit_tree() -> void:
-	for tools in _tools_state.values():
-		tools.queue_free()
+	for key in _tools_state:
+		_tools_state[key].queue_free()
+		_tools_state.erase(key)
 
 
 func add_child(btn: Node, legible_unique_name := false) -> void:

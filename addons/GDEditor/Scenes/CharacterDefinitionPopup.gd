@@ -6,16 +6,6 @@ onready var character_item_container := find_node("CharacterItemContainer")
 onready var _filter_edit := find_node("FilterEdit")
 
 
-func get_character_datas() -> Array:
-	var ret := []
-	
-	for child in character_item_container.get_children():
-		if "character_data" in child:
-			ret.append(child.character_data)
-	
-	return ret
-
-
 func _add_item(character_data: CharacterData = null) -> void:
 	var character_item : Control = load(GDUtil.get_scene_dir() +
 										"CharacterItem.tscn").instance()

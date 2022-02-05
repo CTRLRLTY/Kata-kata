@@ -19,6 +19,7 @@ __meta__ = {
 }
 
 [node name="CharacterDefinitionPopup" type="WindowDialog" parent="."]
+visible = true
 margin_left = 398.0
 margin_top = -8.0
 margin_right = 758.0

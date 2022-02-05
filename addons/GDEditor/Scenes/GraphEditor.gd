@@ -45,6 +45,8 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 	
 	yield(get_tree(), "idle_frame")
 	
+	_node_selection.clear()
+	
 	for component_scene in dialogue_view.get_components():
 		assert(component_scene is PackedScene)
 		

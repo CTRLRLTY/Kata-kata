@@ -5,72 +5,76 @@ extends Control
 class_name GDDialogueEditor
 
 
-onready var tabs := find_node("Tabs")
-onready var character_definition := find_node("CharacterDefinitionPopup")
-onready var node_selection := find_node("node_selection")
-onready var graph_editor_container := find_node("GraphEditorContainer")
-onready var tools_container := find_node("ToolsContainer")
-
+onready var _tabs := find_node("Tabs")
+onready var _graph_editor_container := find_node("GraphEditorContainer")
+onready var _tools_container := find_node("ToolsContainer")
 onready var _preview_options := find_node("PreviewOptions")
 
 
 func _ready() -> void:
 	GDUtil.set_dialogue_editor(self)
 	
-	if not graph_editor_container.get_editor_count():
-		tabs.add_tab("[empty]")
+	if not _graph_editor_container.get_editor_count():
+		_tabs.add_tab("[empty]")
 
 
-func get_character_names() -> PoolStringArray:
-	var character_names := PoolStringArray([])
-	
-	for character_data in character_definition.get_character_datas():
-		character_names.append(character_data.character_name)
+func get_graph_editor_container() -> Control:
+	return _graph_editor_container as Control
 
-	return character_names
+
+func get_tabs() -> Control:
+	return _tabs as Control
+
+
+func get_tools_container() -> Control:
+	return _tools_container as Control
+
+
+func get_preview_options() -> Control:
+	return _preview_options as Control
 
 
 func _on_TabMenuPopup_save_dialogue() -> void:
-	graph_editor_container.save_editor(tabs.current_tab)
+	_graph_editor_container.save_editor(_tabs.current_tab)
 
 
 func _on_TabMenuPopup_preview_dialogue() -> void:
-	var dialogue_preview : GDDialogueView = graph_editor_container.get_editor_preview(tabs.current_tab)
+	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
 	dialogue_preview.visible = not dialogue_preview.visible
 	dialogue_preview.clear()
 	
-	graph_editor_container.save_editor(tabs.current_tab)
+	_graph_editor_container.save_editor(_tabs.current_tab)
 
 
 func _on_Tabs_tab_added() -> void:
-	graph_editor_container.add_editor()
+	_graph_editor_container.add_editor()
 	# wait till editor is added
 	yield(get_tree(), "idle_frame")
 	
-	var current_tab: int = tabs.get_tab_count() - 1
+	var current_tab: int = _tabs.get_tab_count() - 1
 	
-	tabs.set_current_tab(current_tab)
-	graph_editor_container.show_editor(current_tab)
+	_tabs.set_current_tab(current_tab)
+	_graph_editor_container.show_editor(current_tab)
 	
-	var dialogue_preview : GDDialogueView = graph_editor_container.get_editor_preview(tabs.current_tab)
+	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
 	
 	dialogue_preview.connect("next", self, "_on_dialogue_view_next", [dialogue_preview])
 	dialogue_preview.connect("choice", self, "_on_dialogue_view_choice", [dialogue_preview])
 
 
 func _on_Tabs_tab_changed(tab: int) -> void:
-	tools_container.clear_tools()
-	var previous_dialogue_preview : GDDialogueView = graph_editor_container.get_editor_preview(
-			graph_editor_container.get_active_editor().get_index())
+	_tools_container.clear_tools()
+	var previous_dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(
+			_graph_editor_container.get_active_editor().get_index())
 	
-	graph_editor_container.show_editor(tab)
+	_graph_editor_container.show_editor(tab)
 	
-	var dialogue_preview : GDDialogueView = graph_editor_container.get_editor_preview(tab)
-	tools_container.add_tools(dialogue_preview.get_tools())
+	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(tab)
+	_tools_container.add_tools(dialogue_preview.get_tools())
 
 
 func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
-	var dgraph : DialogueGraph = graph_editor_container.get_editor_graph(tabs.current_tab)
+	var dgraph : DialogueGraph = _graph_editor_container.get_editor_graph(_tabs.current_tab)
 	var cursor := dgraph.cursor()
 	
 	if cursor.is_invalid():
@@ -100,4 +104,4 @@ func _on_dialogue_view_choice(choice: int, dialogue_view: GDDialogueView) -> voi
 
 func _on_PreviewOptions_item_selected(index: int) -> void:
 	var dialogue_view : GDDialogueView = _preview_options.get_item_metadata(index).instance()
-	graph_editor_container.get_editor(tabs.current_tab).set_dialogue_preview(dialogue_view)
+	_graph_editor_container.get_editor(_tabs.current_tab).set_dialogue_preview(dialogue_view)

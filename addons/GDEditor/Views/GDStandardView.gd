@@ -17,6 +17,38 @@ func _gui_input(event: InputEvent) -> void:
 				next()
 
 
+func get_character_names() -> PoolStringArray:
+	var dir := Directory.new()
+	
+	var ret := PoolStringArray([])
+	
+	for character_data in get_character_datas():
+		ret.append(character_data.character_name)
+	
+	return ret
+
+
+func get_character_datas() -> Array:
+	var dir := Directory.new()
+	var ret := []
+	
+	if dir.dir_exists(GDUtil.get_characters_dir()):
+		dir.open(GDUtil.get_characters_dir())
+		dir.list_dir_begin(true, true)
+		var file_name := dir.get_next()
+		
+		while not file_name.empty():
+			var character_data : CharacterData = load(GDUtil.get_characters_dir() + file_name)
+			
+			if character_data:
+				ret.append(character_data)
+			
+			file_name = dir.get_next()
+		
+		dir.list_dir_end()
+	
+	return ret
+
 func get_readers() -> Array:
 	return [GDMessageReader.new()]
 
@@ -26,7 +58,6 @@ func get_components() -> Array:
 	return [load(GDUtil.resolve("Start.tscn")),
 			load(GDUtil.resolve("End.tscn")),
 			load(GDUtil.resolve("Message.tscn")),
-			load(GDUtil.resolve("CharacterJoin.tscn")),
 			load(GDUtil.resolve("Pipe.tscn")),
 			load(GDUtil.resolve("Choice.tscn")),
 			load(GDUtil.resolve("CharacterJoin.tscn"))]
