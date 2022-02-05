@@ -3,6 +3,7 @@ tool
 extends WindowDialog
 
 onready var character_item_container := find_node("CharacterItemContainer")
+onready var _filter_edit := find_node("FilterEdit")
 
 
 func get_character_datas() -> Array:
@@ -33,6 +34,19 @@ func _add_item(character_data: CharacterData = null) -> void:
 			character_item_container.get_child_count()-1)
 
 
+func _filter_items(filter: String) -> void:
+	# Filter out non matching items inside character item container
+	for child in character_item_container.get_children():
+		# Auto hide non CharacterItems node
+		var target_name := ""
+		
+		if "character_data" in child:
+			assert(child.character_data is CharacterData)
+			target_name = child.character_data.character_name
+
+		child.visible = filter.is_subsequence_ofi(target_name)
+
+
 func _on_CharacterItem_delete(character_item : Control) -> void:
 	# Prevent duplicated connection error
 	if not $ConfirmationDialog.is_connected("confirmed", character_item, "queue_free"):
@@ -50,15 +64,7 @@ func _on_AddCharacterBtn_pressed() -> void:
 
 
 func _on_FilterEdit_text_changed(new_text: String) -> void:
-	# Filter out non matching items inside character item container
-	for child in character_item_container.get_children():
-		# Auto hide non CharacterItems node
-		var target_name := ""
-		
-		if child.has_method("get_character_name"):
-			target_name = child.get_character_name()
-
-		child.visible = new_text.is_subsequence_ofi(target_name)
+	_filter_items(new_text)
 
 
 func _on_about_to_show() -> void:
@@ -77,6 +83,11 @@ func _on_about_to_show() -> void:
 			file_name = dir.get_next()
 			
 		dir.list_dir_end()
+	
+		# Wait till the last item is added
+		yield(get_tree(), "idle_frame")
+	
+	_filter_items(_filter_edit.text)
 
 
 func _on_popup_hide() -> void:
