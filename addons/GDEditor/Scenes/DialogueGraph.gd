@@ -89,12 +89,14 @@ func connected_ports(node_name: String, connection_list := get_connection_list()
 	var from_connection = GDUtil.array_dictionary_popallv(to_connection, [{"to": node_name}])
 
 	for connection in from_connection:
-		var port_type := graph_node.get_port_type_left(connection.to_port)
+		var to_port = graph_node.slot2port(connection.to_port, GDGraphNode.Port.LEFT)
+		var port_type := graph_node.get_slot_type_left(to_port)
 		var port_key : String = PortRect.PortType.keys()[port_type].to_lower()
 		ret["from"][port_key].append(connection)
 	
 	for connection in to_connection:
-		var port_type := graph_node.get_port_type_right(connection.from_port)
+		var from_port := graph_node.slot2port(connection.from_port, GDGraphNode.Port.RIGHT)
+		var port_type := graph_node.get_slot_type_right(from_port)
 		var port_key : String = PortRect.PortType.keys()[port_type].to_lower()
 		ret["to"][port_key].append(connection)
 
@@ -126,15 +128,14 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	
 	var from_node : GDGraphNode = get_node(from)
 	var to_node : GDGraphNode = get_node(to)
-	var from_port_type_right := from_node.get_port_type_right(from_slot)
+	var from_port := from_node.slot2port(from_slot, GDGraphNode.Port.RIGHT)
+	var to_port := to_node.slot2port(to_slot, GDGraphNode.Port.LEFT)	
 	
-	# Deny connection from GNMessage Action port to GNMessage Action Port
-	if from_node is GNMessage and to_node is GNMessage:
-		if from_port_type_right == PortRect.PortType.ACTION:
-			return
+	var from_port_type := from_node.get_slot_type_right(from_port)
+	var to_port_type := to_node.get_slot_type_left(to_port)
 	
 	# One to many connection check
-	match from_port_type_right:
+	match from_port_type:
 		PortRect.PortType.FLOW:
 			continue
 		PortRect.PortType.UNIVERSAL:
@@ -143,23 +144,10 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 			if is_node_right_connected(from, from_slot):
 				return
 	
-	
-	if to_node is GNPipe:
-		match to_node.get_port_type_left(to_slot):
-			PortRect.PortType.UNIVERSAL:
-				var new_port_type := from_port_type_right
-				
-				# Only allow uniform left connection type
-				if is_node_left_connected(to, to_slot) and \
-				   to_node.get_output_ports_type() != new_port_type \
-				:
-					return
-						
-				if to_node.get_output_ports_type() != new_port_type:
-					clear_node_connections(to_node)
-				
-				to_node.change_all_outport(new_port_type)
-	
+	if from_node.deny_to(to_node, from_port, from_port_type, to_port, to_port_type) or \
+	   to_node.deny_from(from_node, from_port, from_port_type, to_port, to_port_type)\
+	:
+		return
 	
 	connect_node(from, from_slot, to, to_slot)
 

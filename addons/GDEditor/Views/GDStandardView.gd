@@ -49,6 +49,7 @@ func get_character_datas() -> Array:
 	
 	return ret
 
+
 func get_readers() -> Array:
 	return [GDMessageReader.new()]
 
