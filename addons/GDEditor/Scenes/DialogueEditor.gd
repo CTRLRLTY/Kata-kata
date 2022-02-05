@@ -4,6 +4,7 @@ extends Control
 
 class_name GDDialogueEditor
 
+
 onready var tabs := find_node("Tabs")
 onready var character_definition := find_node("CharacterDefinitionPopup")
 onready var node_selection := find_node("node_selection")

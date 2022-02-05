@@ -2,6 +2,13 @@ tool
 
 extends HBoxContainer
 
+const _tools_state := {}
+
+
+func _exit_tree() -> void:
+	for tools in _tools_state.values():
+		tools.queue_free()
+
 
 func add_child(btn: Node, legible_unique_name := false) -> void:
 	assert(btn is TextureButton)
@@ -15,13 +22,16 @@ func add_child(btn: Node, legible_unique_name := false) -> void:
 func add_tools(tools: Array) -> void:
 	for tool_scene in tools:
 		assert(tool_scene is PackedScene)
-		var tool_btn: TextureButton = tool_scene.instance()
-		add_child(tool_btn)
+		
+		if not _tools_state.has(tool_scene):
+			_tools_state[tool_scene] = tool_scene.instance()
+		
+		add_child(_tools_state[tool_scene])
 
 
 func clear_tools() -> void:
 	for child in get_children():
-		child.free()
+		remove_child(child)
 
 
 func empty() -> bool:
