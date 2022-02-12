@@ -48,7 +48,18 @@ func save() -> void:
 			"%s.tres" % [filename_new], character_data)
 	
 	_character_data_dirty = character_data.duplicate()
+
+
+func delete() -> void:
+	var DIR := Directory.new()
 	
+	var filepath : String = GDUtil.get_characters_dir() + \
+			_resource_name_filter.sub(character_data.character_name, "") + ".tres"
+			
+	DIR.remove(filepath)
+	
+	queue_free()
+
 
 func _on_EditBtn_toggled(button_pressed: bool) -> void:
 	if not button_pressed:

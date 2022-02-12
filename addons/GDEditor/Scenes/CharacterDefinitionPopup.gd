@@ -39,9 +39,9 @@ func _filter_items(filter: String) -> void:
 
 func _on_CharacterItem_delete(character_item : Control) -> void:
 	# Prevent duplicated connection error
-	if not $ConfirmationDialog.is_connected("confirmed", character_item, "queue_free"):
+	if not $ConfirmationDialog.is_connected("confirmed", character_item, "delete"):
 		$ConfirmationDialog.connect("confirmed", 
-				character_item, "queue_free", [], CONNECT_ONESHOT)
+				character_item, "delete", [], CONNECT_ONESHOT)
 			
 	$ConfirmationDialog.dialog_text = "Do you want to delete " +\
 									  character_item.character_data.character_name
