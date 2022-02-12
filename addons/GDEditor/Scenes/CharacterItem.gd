@@ -4,20 +4,21 @@ extends PanelContainer
 
 signal delete
 
-var name_label : Label
-var delete_btn : Button
-var edit_btn : Button
-var profile_texture_rect : TextureRect
+
 var character_data : CharacterData
 
+var _name_label : Label
+var _delete_btn : Button
+var _edit_btn : Button
+var _profile_texture_rect : TextureRect
 var _resource_name_filter : RegEx
 
 
 func _enter_tree() -> void:
-	profile_texture_rect = find_node("CharacterProfileTextRect")
-	name_label = find_node("CharacterNameLabel")
-	delete_btn = find_node("DeleteBtn")
-	edit_btn = find_node("EditBtn")
+	_profile_texture_rect = find_node("CharacterProfileTextRect")
+	_name_label = find_node("CharacterNameLabel")
+	_delete_btn = find_node("DeleteBtn")
+	_edit_btn = find_node("EditBtn")
 	
 	if not character_data:
 		character_data = CharacterData.new()
@@ -25,14 +26,14 @@ func _enter_tree() -> void:
 		character_data.profile_texture = load(GDUtil.resolve("icon.png"))
 		character_data.resource_name = "scr1pti3"
 		
-	name_label.text = character_data.character_name
-	profile_texture_rect.texture = character_data.profile_texture
+	_name_label.text = character_data.character_name
+	_profile_texture_rect.texture = character_data.profile_texture
 		
 	if not _resource_name_filter:
 		_resource_name_filter = RegEx.new()
 		_resource_name_filter.compile("[\\w ]+")
 
-	find_node("NameEdit").text = name_label.text
+	find_node("NameEdit").text = _name_label.text
 
 
 func save() -> void:
@@ -52,17 +53,17 @@ func _on_EditBtn_toggled(button_pressed: bool) -> void:
 		
 	var character_edit_dialog : WindowDialog = find_node("CharacterEditDialog")
 	character_edit_dialog.window_title = character_data.character_name
-	character_edit_dialog.rect_global_position = edit_btn.rect_global_position		
+	character_edit_dialog.rect_global_position = _edit_btn.rect_global_position		
 	character_edit_dialog.character_data = character_data
 	character_edit_dialog.popup()
 
 
 func _on_CharacterEditDialog_popup_hide() -> void:
-	edit_btn.pressed = false
+	_edit_btn.pressed = false
 
 
 func _on_NameEdit_text_changed(new_text: String) -> void:
-	name_label.text = new_text
+	_name_label.text = new_text
 	
 	var filtered_text = GDUtil.regex_filter(new_text, _resource_name_filter)
 	character_data.resource_name = filtered_text.replace(" ", "_")
@@ -91,4 +92,4 @@ func _on_CharacterProfileTextRect_gui_input(event: InputEvent) -> void:
 
 
 func _on_ProfileFileDialog_file_selected(path: String) -> void:
-	profile_texture_rect.texture = load(path)
+	_profile_texture_rect.texture = load(path)
