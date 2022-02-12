@@ -33,7 +33,18 @@ func _enter_tree() -> void:
 		_resource_name_filter.compile("[\\w ]+")
 
 	find_node("NameEdit").text = name_label.text
+
+
+func save() -> void:
+	var DIR := Directory.new()
+	var characters_dir := GDUtil.get_characters_dir()
 	
+	if not DIR.dir_exists(characters_dir):
+		DIR.make_dir_recursive(characters_dir)
+		
+	ResourceSaver.save(characters_dir + 
+			"%s.tres" % [character_data.resource_name], character_data)
+
 
 func _on_EditBtn_toggled(button_pressed: bool) -> void:
 	if not button_pressed:
@@ -48,7 +59,6 @@ func _on_EditBtn_toggled(button_pressed: bool) -> void:
 
 func _on_CharacterEditDialog_popup_hide() -> void:
 	edit_btn.pressed = false
-	GDUtil.save_data(character_data)
 
 
 func _on_NameEdit_text_changed(new_text: String) -> void:

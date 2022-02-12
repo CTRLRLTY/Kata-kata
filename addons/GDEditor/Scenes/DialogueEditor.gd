@@ -22,8 +22,8 @@ func get_graph_editor_container() -> Control:
 	return _graph_editor_container as Control
 
 
-func get_tabs() -> Control:
-	return _tabs as Control
+func get_tabs() -> Tabs:
+	return _tabs as Tabs
 
 
 func get_tools_container() -> Control:

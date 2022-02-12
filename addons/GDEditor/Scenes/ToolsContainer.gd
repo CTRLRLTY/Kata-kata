@@ -11,6 +11,12 @@ func _exit_tree() -> void:
 		_tools_state.erase(key)
 
 
+func save() -> void:
+	for child in get_children():
+		if child.has_method("save"):
+			child.save()
+
+
 func add_child(btn: Node, legible_unique_name := false) -> void:
 	assert(btn is TextureButton)
 	

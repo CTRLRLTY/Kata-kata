@@ -82,5 +82,8 @@ func _on_about_to_show() -> void:
 
 func _on_popup_hide() -> void:
 	for child in character_item_container.get_children():
+		if child.has_method("save"):
+			child.save()
+			
 		if "character_data" in child:
 			child.queue_free()

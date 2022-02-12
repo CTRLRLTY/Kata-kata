@@ -311,21 +311,6 @@ static func clear_state() -> void:
 	_state.clear()
 
 
-static func save_data(data) -> int:
-	var DIR := Directory.new()
-	
-	if data is CharacterData:
-		var characters_dir := get_characters_dir()
-		
-		if not DIR.dir_exists(characters_dir):
-			DIR.make_dir_recursive(characters_dir)
-			
-		return ResourceSaver.save(characters_dir + 
-				"%s.tres" % [data.resource_name], data)
-
-	return FAILED	
-
-
 static func filter_edit(rgx : RegEx, edit : LineEdit, rejected := "") -> void:
 	var result := rgx.search(edit.text)
 	
