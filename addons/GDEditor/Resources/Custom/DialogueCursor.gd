@@ -25,6 +25,26 @@ func _init(graph_edit: GraphEdit) -> void:
 		s_cursor = start()
 
 
+func get_node_name() -> String:
+	return s_cursor.name
+
+
+func get_actions_left() -> Array:
+	return s_cursor.from.action.duplicate()
+
+
+func get_actions_right() -> Array:
+	return s_cursor.to.action.duplicate()
+
+
+func get_universals_left() -> Array:
+	return s_cursor.from.universal.duplicate()
+
+
+func get_universals_right() -> Array:
+	return s_cursor.to.universal.duplicate()
+
+
 func size() -> int:
 	return s_port_table.size()
 

@@ -87,8 +87,7 @@ func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
 		cursor.reset()
 		dialogue_view.clear()
 	
-	var current := cursor.current()
-	var graph_node : GraphNode = dgraph.get_node(current.name)
+	var graph_node : GraphNode = dgraph.get_node(cursor.get_node_name())
 	
 	for reader in dialogue_view.get_readers():
 		if reader is GDDialogueReader:
