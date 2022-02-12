@@ -19,7 +19,8 @@ func _init(graph_edit: GraphEdit) -> void:
 	
 	if start:
 		s_start = start
-		_populate_flow(start, connection_list, graph_edit)
+		s_port_table[start.from] = graph_edit.connected_ports(start.from)
+		_populate_port_table(start, connection_list, graph_edit)
 	
 		s_cursor = start()
 
@@ -53,7 +54,7 @@ func is_start() -> bool:
 
 
 func is_invalid() -> bool:
-	return s_flow.empty()
+	return s_end.empty()
 
 
 func next(fork := 0) -> void:
@@ -81,38 +82,20 @@ func prev(fork := -777) -> void:
 		s_cursor = s_port_table.get(connection.from, start())
 	
 	
-func _populate_flow(connection: Dictionary, connection_list: Array, dialogue_graph: GraphEdit, buffer := []) -> void:
+func _populate_port_table(connection: Dictionary, connection_list: Array, dialogue_graph: GraphEdit) -> void:
 	assert(dialogue_graph.has_method("connected_ports"))
-
-	var current_ports : Dictionary = dialogue_graph.connected_ports(connection.from)
-	var next_ports : Dictionary = dialogue_graph.connected_ports(connection.to, connection_list)
 	
-	s_port_table[connection.from] = current_ports
-	# If a universal from_port is connected to a flow to_port, then also add it to the flow["to"] array
-	for _connection in next_ports["to"]["universal"]:
-		var to_graph_node : GDGraphNode = dialogue_graph.get_node(_connection["to"])
-		var to_port := to_graph_node.slot2port(_connection["to_port"], GDGraphNode.Port.LEFT)
-		var to_port_type := to_graph_node.get_slot_type_left(to_port)
-		if  to_port_type == PortRect.PortType.FLOW:
-			next_ports["to"]["flow"].append(_connection)
+	var graph_node : GraphNode = dialogue_graph.get_node(connection.to)
 	
-	var forks : Array = GDUtil.array_dictionary_popallv(connection_list, next_ports.to.flow)
-	
-	if dialogue_graph.get_node(connection.to) is GNEnd:
-		# There's a case where either the current connection is already inside the buffer,
-		# or is not already inside it. By using erase, we make sure to always add one of them
-		# for both scenario.
-		buffer.erase(connection)
+	if graph_node is GNEnd:
 		s_end.append(connection)
-		s_flow.append(connection)
-		s_flow.append_array(buffer)
-		buffer.clear()
-	if forks.empty():
-		buffer.clear()
-	else:
-		buffer.append(forks.front())
+		
+		return
+
+	var node_connection : Dictionary = dialogue_graph.connected_ports(connection.to)
 	
-	for flow in forks:
-		_populate_flow(flow, connection_list, dialogue_graph, buffer)
+	s_port_table[node_connection.name] = node_connection
 	
-	
+	for port in node_connection.to:
+		for connection in node_connection.to[port]:
+			_populate_port_table(connection, connection_list, dialogue_graph)
