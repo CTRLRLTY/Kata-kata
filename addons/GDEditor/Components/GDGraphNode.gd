@@ -29,6 +29,10 @@ func get_dialogue_graph() -> Control:
 	return get_parent() as Control
 
 
+func get_connections() -> Dictionary:
+	return get_dialogue_graph().connected_ports(name)
+
+
 func get_port_rects_left() -> Array:
 	var port_rects := []
 	for i in range(get_child_count()):

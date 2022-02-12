@@ -23,7 +23,7 @@ func _init(graph_edit: GraphEdit) -> void:
 	
 		s_cursor = start()
 		
-		# Validate whether the cursor has path to an GNEnd node.
+		# Validate whether the cursor has path to a GNEnd node.
 		if not s_end.empty():
 			while not is_end():
 				for connection in get_flows_right():
