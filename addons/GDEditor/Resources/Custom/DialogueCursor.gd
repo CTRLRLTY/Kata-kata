@@ -19,7 +19,7 @@ func _init(graph_edit: GraphEdit) -> void:
 	if start:
 		s_start = start
 		s_port_table[start.from] = graph_edit.connected_ports(start.from)
-		_populate_port_table(start, connection_list, graph_edit)
+		_populate_port_table(start, graph_edit)
 	
 		s_cursor = start()
 		
@@ -120,7 +120,7 @@ func prev(fork := -777) -> void:
 		s_cursor = s_port_table.get(connection.from, start())
 	
 	
-func _populate_port_table(connection: Dictionary, connection_list: Array, dialogue_graph: GraphEdit) -> void:
+func _populate_port_table(connection: Dictionary, dialogue_graph: GraphEdit) -> void:
 	assert(dialogue_graph.has_method("connected_ports"))
 	
 	var graph_node : GDGraphNode = dialogue_graph.get_node(connection.to)
@@ -136,4 +136,4 @@ func _populate_port_table(connection: Dictionary, connection_list: Array, dialog
 	
 	for port in node_connection.to:
 		for connection in node_connection.to[port]:
-			_populate_port_table(connection, connection_list, dialogue_graph)
+			_populate_port_table(connection, dialogue_graph)
