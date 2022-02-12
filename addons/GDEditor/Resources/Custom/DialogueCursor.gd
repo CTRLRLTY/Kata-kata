@@ -53,10 +53,6 @@ func reset() -> void:
 	s_cursor = start()
 
 
-func current() -> Dictionary:
-	return s_cursor
-
-
 func start() -> Dictionary:
 	return s_port_table.get("Start", {}) 
 
