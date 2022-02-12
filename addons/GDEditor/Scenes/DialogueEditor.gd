@@ -77,7 +77,7 @@ func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
 	var dgraph : DialogueGraph = _graph_editor_container.get_editor_graph(_tabs.current_tab)
 	var cursor := dgraph.cursor()
 	
-	if cursor.is_invalid():
+	if not cursor.is_valid():
 		return
 	
 	if cursor.is_start():

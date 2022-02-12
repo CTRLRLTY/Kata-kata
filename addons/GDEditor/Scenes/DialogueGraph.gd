@@ -61,7 +61,7 @@ func save() -> void:
 	s_connection_list = get_connection_list()
 	_dialogue_cursor = DialogueCursor.new(self)
 	
-	print_debug(_dialogue_cursor.s_flow)
+	print_debug(_dialogue_cursor.s_port_table.keys())
 	
 	
 #	packer.pack(self)

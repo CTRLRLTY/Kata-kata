@@ -2,14 +2,13 @@ extends Resource
 
 class_name DialogueCursor
 
-export var s_flow : Array
 export var s_cursor : Dictionary
 export var s_start : Dictionary
 export var s_end : Array
 export var s_port_table : Dictionary
 
 var _prev : Dictionary
-
+var _valid := false
 
 func _init(graph_edit: GraphEdit) -> void:
 	assert(graph_edit.has_method("connected_ports"))
@@ -23,6 +22,16 @@ func _init(graph_edit: GraphEdit) -> void:
 		_populate_port_table(start, connection_list, graph_edit)
 	
 		s_cursor = start()
+		
+		# Validate whether the cursor has path to an GNEnd node.
+		if not s_end.empty():
+			while not is_end():
+				for connection in get_flows_right():
+					if s_end.has(connection):
+						_valid = true
+						break
+					
+				next()
 
 
 func get_node_name() -> String:
@@ -43,6 +52,14 @@ func get_universals_left() -> Array:
 
 func get_universals_right() -> Array:
 	return s_cursor.to.universal.duplicate()
+
+
+func get_flows_left() -> Array:
+	return s_cursor.from.flow.duplicate()
+
+
+func get_flows_right() -> Array:
+	return s_cursor.to.flow.duplicate()
 
 
 func size() -> int:
@@ -69,8 +86,8 @@ func is_start() -> bool:
 	return s_cursor == start() or s_start.empty()
 
 
-func is_invalid() -> bool:
-	return s_end.empty()
+func is_valid() -> bool:
+	return _valid
 
 
 func next(fork := 0) -> void:
@@ -78,7 +95,12 @@ func next(fork := 0) -> void:
 		return
 	
 	_prev = s_cursor
-		
+	
+	if s_cursor.to.flow.empty():
+		s_cursor = {}
+		return
+	
+	
 	fork = clamp(fork, 0, s_cursor.to.flow.size())
 	var connection = s_cursor.to.flow[fork]
 
@@ -101,8 +123,8 @@ func prev(fork := -777) -> void:
 func _populate_port_table(connection: Dictionary, connection_list: Array, dialogue_graph: GraphEdit) -> void:
 	assert(dialogue_graph.has_method("connected_ports"))
 	
-	var graph_node : GraphNode = dialogue_graph.get_node(connection.to)
-	
+	var graph_node : GDGraphNode = dialogue_graph.get_node(connection.to)
+
 	if graph_node is GNEnd:
 		s_end.append(connection)
 		
