@@ -6,14 +6,14 @@ onready var character_item_container := find_node("CharacterItemContainer")
 onready var _filter_edit := find_node("FilterEdit")
 
 
-func _add_item(character_data: CharacterData = null) -> void:
+func _add_item(character_data := CharacterData.new()) -> void:
 	var character_item : Control = load(GDUtil.get_scene_dir() +
 										"CharacterItem.tscn").instance()
 
 	character_item.connect("delete", 
 			self, "_on_CharacterItem_delete", 
 			[character_item])
-	
+
 	character_item.character_data = character_data
 			
 	character_item_container.add_child(character_item)

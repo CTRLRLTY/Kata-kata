@@ -7,31 +7,22 @@ signal delete
 
 var character_data : CharacterData
 
-var _name_label : Label
-var _delete_btn : Button
-var _edit_btn : Button
-var _profile_texture_rect : TextureRect
+var _character_data_dirty : CharacterData
 var _resource_name_filter : RegEx
 
+onready var _name_label : Label =  find_node("CharacterNameLabel")
+onready var _delete_btn : Button = find_node("DeleteBtn")
+onready var _edit_btn : Button = find_node("EditBtn")
+onready var _profile_texture_rect : TextureRect = find_node("CharacterProfileTextRect")
 
-func _enter_tree() -> void:
-	_profile_texture_rect = find_node("CharacterProfileTextRect")
-	_name_label = find_node("CharacterNameLabel")
-	_delete_btn = find_node("DeleteBtn")
-	_edit_btn = find_node("EditBtn")
-	
-	if not character_data:
-		character_data = CharacterData.new()
-		character_data.character_name = "Scr1pti3"
-		character_data.profile_texture = load(GDUtil.resolve("icon.png"))
-		character_data.resource_name = "scr1pti3"
-		
+
+func _ready() -> void:
+	_character_data_dirty = character_data.duplicate()
+	_resource_name_filter = RegEx.new()
+	_resource_name_filter.compile("[:/\\\\?*\"|%<>]+")
+
 	_name_label.text = character_data.character_name
 	_profile_texture_rect.texture = character_data.profile_texture
-		
-	if not _resource_name_filter:
-		_resource_name_filter = RegEx.new()
-		_resource_name_filter.compile("[\\w ]+")
 
 	find_node("NameEdit").text = _name_label.text
 
@@ -43,9 +34,21 @@ func save() -> void:
 	if not DIR.dir_exists(characters_dir):
 		DIR.make_dir_recursive(characters_dir)
 		
+	var filename_old : String = _resource_name_filter.sub(character_data.character_name, "")
+	var filename_new : String = _resource_name_filter.sub(_character_data_dirty.character_name, "")
+	var filepath_old : String = characters_dir + filename_old + ".tres"
+	var filepath_new : String = characters_dir + filename_new + ".tres"
+	
+	if DIR.file_exists(filepath_old):
+		DIR.rename(filepath_old, filepath_new)
+	
+	character_data = _character_data_dirty
+		
 	ResourceSaver.save(characters_dir + 
-			"%s.tres" % [character_data.resource_name], character_data)
-
+			"%s.tres" % [filename_new], character_data)
+	
+	_character_data_dirty = character_data.duplicate()
+	
 
 func _on_EditBtn_toggled(button_pressed: bool) -> void:
 	if not button_pressed:
@@ -65,16 +68,15 @@ func _on_CharacterEditDialog_popup_hide() -> void:
 func _on_NameEdit_text_changed(new_text: String) -> void:
 	_name_label.text = new_text
 	
-	var filtered_text = GDUtil.regex_filter(new_text, _resource_name_filter)
-	character_data.resource_name = filtered_text.replace(" ", "_")
-	character_data.character_name = new_text
+#	var filtered_text = GDUtil.regex_filter(new_text, _resource_name_filter)
+	_character_data_dirty.character_name = new_text
 	
 
 func _on_DescriptionEdit_text_changed() -> void:
 	var character_description_edit : TextEdit = get_node(
 		"HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog/MarginContainer/HSplitContainer/VBoxContainer/GridContainer/DescriptionEdit")
-	character_data.character_description = character_description_edit.text
-	
+	_character_data_dirty.character_description = character_description_edit.text
+
 
 func _on_DeleteBtn_pressed() -> void:
 	emit_signal("delete")

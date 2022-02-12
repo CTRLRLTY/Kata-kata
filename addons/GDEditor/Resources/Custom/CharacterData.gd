@@ -12,3 +12,8 @@ export(Array, Resource) var character_expressions
 # ContextStateData List
 export(Array, Resource) var character_states
 
+
+func _init() -> void:
+	character_name = "Scr1pti3"
+	profile_texture = load(GDUtil.resolve("icon.png"))
+	resource_name = "scr1pti3"
