@@ -89,14 +89,12 @@ func connected_ports(node_name: String, connection_list := get_connection_list()
 	var from_connection = GDUtil.array_dictionary_popallv(to_connection, [{"to": node_name}])
 
 	for connection in from_connection:
-		var to_port = graph_node.slot2port(connection.to_port, GDGraphNode.Port.LEFT)
-		var port_type := graph_node.get_slot_type_left(to_port)
+		var port_type := graph_node.get_connection_input_type(connection.to_port)
 		var port_key : String = PortRect.PortType.keys()[port_type].to_lower()
 		ret["from"][port_key].append(connection)
 	
 	for connection in to_connection:
-		var from_port := graph_node.slot2port(connection.from_port, GDGraphNode.Port.RIGHT)
-		var port_type := graph_node.get_slot_type_right(from_port)
+		var port_type := graph_node.get_connection_output_type(connection.from_port)
 		var port_key : String = PortRect.PortType.keys()[port_type].to_lower()
 		ret["to"][port_key].append(connection)
 
@@ -128,11 +126,9 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	
 	var from_node : GDGraphNode = get_node(from)
 	var to_node : GDGraphNode = get_node(to)
-	var from_port := from_node.slot2port(from_slot, GDGraphNode.Port.RIGHT)
-	var to_port := to_node.slot2port(to_slot, GDGraphNode.Port.LEFT)	
-	
-	var from_port_type := from_node.get_slot_type_right(from_port)
-	var to_port_type := to_node.get_slot_type_left(to_port)
+
+	var from_port_type := from_node.get_connection_output_type(from_slot)
+	var to_port_type := to_node.get_connection_input_type(to_slot)
 	
 	# One to many connection check
 	match from_port_type:
@@ -144,8 +140,8 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 			if is_node_right_connected(from, from_slot):
 				return
 	
-	if from_node.deny_to(to_node, from_port, from_port_type, to_port, to_port_type) or \
-	   to_node.deny_from(from_node, from_port, from_port_type, to_port, to_port_type)\
+	if from_node.deny_to(to_node, to_slot, from_slot) or \
+	   to_node.deny_from(from_node, from_slot, to_slot)\
 	:
 		return
 	

@@ -55,8 +55,7 @@ func get_port_rects_right() -> Array:
 	return port_rects
 
 
-func is_slot_connected_left(slot: int) -> bool:
-	slot = port2slot(slot, Port.LEFT)
+func is_connection_connected_input(slot: int) -> bool:
 	var dialogue_graph = get_dialogue_graph()
 	
 	if dialogue_graph:
@@ -65,8 +64,7 @@ func is_slot_connected_left(slot: int) -> bool:
 	return false
 
 
-func is_slot_connected_right(slot: int) -> bool:
-	slot = port2slot(slot, Port.RIGHT)
+func is_connection_connected_output(slot: int) -> bool:
 	var dialogue_graph = get_dialogue_graph()
 	
 	if dialogue_graph:
@@ -75,15 +73,15 @@ func is_slot_connected_right(slot: int) -> bool:
 	return false
 
 
-func deny_from(graph_node: GDGraphNode, from_port: int, from_type: int, to_port: int, to_type: int) -> bool:
+func deny_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
 	return false
 
 
-func deny_to(graph_node: GDGraphNode, from_port: int, from_type: int, to_port: int, to_type: int) -> bool:
+func deny_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
 	return false
 
 
-func slot2port(slot: int, pos: int) -> int:
+func port2slot(slot: int, pos: int) -> int:
 	assert(pos == Port.LEFT or pos == Port.RIGHT)
 	
 	var pos_string = Port.keys()[pos].to_lower()
@@ -98,7 +96,7 @@ func slot2port(slot: int, pos: int) -> int:
 	return -1
 
 
-func port2slot(port: int, pos: int) -> int:
+func slot2port(port: int, pos: int) -> int:
 	assert(pos == Port.LEFT or pos == Port.RIGHT)
 	
 	var pos_string = Port.keys()[pos].to_lower()
