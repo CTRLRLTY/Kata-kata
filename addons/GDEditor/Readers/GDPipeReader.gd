@@ -38,7 +38,7 @@ func can_handle(graph_node: GDGraphNode) -> bool:
 	return graph_node is GNPipe
 
 
-func render(graph_node: GNPipe, dialogue_viewer: GDDialogueView, cursor: DialogueCursor) -> void:
+func render(graph_node: GNPipe, dialogue_viewer: GDDialogueView, cursor: GDDialogueCursor) -> void:
 	var node_connection := graph_node.get_connections()
 	
 	var awaitable := get_node_data(graph_node)
@@ -69,7 +69,6 @@ func render(graph_node: GNPipe, dialogue_viewer: GDDialogueView, cursor: Dialogu
 			pass
 		GNPipe.PipeType.WAIT_TILL:
 			pass
-			
 
 
 func get_node_data(graph_node: GNPipe) -> Awaitable:

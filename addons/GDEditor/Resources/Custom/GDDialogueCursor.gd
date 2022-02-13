@@ -1,6 +1,6 @@
 extends Resource
 
-class_name DialogueCursor
+class_name GDDialogueCursor
 
 export var s_cursor : Dictionary
 export var s_start : Dictionary

@@ -8,7 +8,7 @@ export(Array, Dictionary) var s_connection_list : Array
 
 var _selected_nodes := []
 var _copy_buffer := []
-var _dialogue_cursor : DialogueCursor
+var _dialogue_cursor : GDDialogueCursor
 
 onready var popup_menu: PopupMenu = $DGPopupMenu
 
@@ -59,7 +59,7 @@ func save() -> void:
 	popup_menu.owner = self
 	
 	s_connection_list = get_connection_list()
-	_dialogue_cursor = DialogueCursor.new(self)
+	_dialogue_cursor = GDDialogueCursor.new(self)
 	
 	print_debug(_dialogue_cursor.s_port_table.keys())
 #	packer.pack(self)
@@ -67,9 +67,9 @@ func save() -> void:
 #	ResourceSaver.save("res://test/test.tscn", packer)
 	
 	
-func cursor() -> DialogueCursor:
+func cursor() -> GDDialogueCursor:
 	if not _dialogue_cursor:
-		_dialogue_cursor = DialogueCursor.new(self)
+		_dialogue_cursor = GDDialogueCursor.new(self)
 		
 	return _dialogue_cursor
 
