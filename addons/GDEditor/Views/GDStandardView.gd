@@ -51,7 +51,7 @@ func get_character_datas() -> Array:
 
 
 func get_readers() -> Array:
-	return [GDMessageReader.new()]
+	return [GDMessageReader.new(), GDPipeReader.new()]
 
 
 func get_components() -> Array:

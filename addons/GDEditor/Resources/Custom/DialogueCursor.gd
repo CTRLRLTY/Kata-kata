@@ -30,8 +30,10 @@ func _init(graph_edit: GraphEdit) -> void:
 					if s_end.has(connection):
 						_valid = true
 						break
-					
+				
 				next()
+		
+		reset()
 
 
 func get_node_name() -> String:
@@ -100,7 +102,6 @@ func next(fork := 0) -> void:
 		s_cursor = {}
 		return
 	
-	
 	fork = clamp(fork, 0, s_cursor.to.flow.size())
 	var connection = s_cursor.to.flow[fork]
 
@@ -130,7 +131,7 @@ func _populate_port_table(connection: Dictionary, dialogue_graph: GraphEdit) -> 
 		
 		return
 
-	var node_connection : Dictionary = dialogue_graph.connected_ports(connection.to)
+	var node_connection : Dictionary = graph_node.get_connections()
 	
 	s_port_table[node_connection.name] = node_connection
 	

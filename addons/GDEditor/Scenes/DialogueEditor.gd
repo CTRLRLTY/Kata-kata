@@ -80,21 +80,20 @@ func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
 	if not cursor.is_valid():
 		return
 	
-	if cursor.is_start():
-		cursor.next()
-	
 	if cursor.is_end():
 		cursor.reset()
 		dialogue_view.clear()
+		return
+	
+	if cursor.is_start():
+		cursor.next()
 	
 	var graph_node : GraphNode = dgraph.get_node(cursor.get_node_name())
 	
 	for reader in dialogue_view.get_readers():
 		if reader is GDDialogueReader:
 			if reader.can_handle(graph_node):
-				reader.render(graph_node, dialogue_view)
-	
-	cursor.next()
+				reader.render(graph_node, dialogue_view, cursor)
 
 
 func _on_dialogue_view_choice(choice: int, dialogue_view: GDDialogueView) -> void:

@@ -163,7 +163,7 @@ static func array_dictionary_hasv(arr : Array, keyvalarr : Array) -> bool:
 
 
 static func array_dictionary_popv(arr : Array, keyvallarr):
-	var ret = array_dictionary_findv(arr, keyvallarr)
+	var ret = array_dictionary_matchv(arr, keyvallarr)
 	
 	arr.erase(ret)
 	
@@ -171,7 +171,7 @@ static func array_dictionary_popv(arr : Array, keyvallarr):
 
 
 static func array_dictionary_popallv(arr : Array, keyvalarr : Array) -> Array:
-	var ret := array_dictionary_findallv(arr, keyvalarr)
+	var ret := array_dictionary_matchallv(arr, keyvalarr)
 	
 	for keyval in ret:
 		arr.erase(keyval)
@@ -179,7 +179,7 @@ static func array_dictionary_popallv(arr : Array, keyvalarr : Array) -> Array:
 	return ret
 
 
-static func array_dictionary_findv(arr : Array, keyvalarr : Array):
+static func array_dictionary_matchv(arr : Array, keyvalarr : Array):
 	for element in arr:
 		assert(element is Dictionary)
 	
@@ -202,7 +202,7 @@ static func array_dictionary_findv(arr : Array, keyvalarr : Array):
 				return element
 
 
-static func array_dictionary_findallv(arr : Array, keyvalarr : Array) -> Array:
+static func array_dictionary_matchallv(arr : Array, keyvalarr : Array) -> Array:
 	var ret := []
 	
 	for element in arr:
@@ -230,6 +230,35 @@ static func array_dictionary_findallv(arr : Array, keyvalarr : Array) -> Array:
 	return ret
 
 
+static func array_dictionary_findv(arr : Array, keyvalarr : Array) -> int:
+	var i := 0
+	
+	for element in arr:
+		assert(element is Dictionary)
+	
+		for keyval in keyvalarr:
+			assert(keyval is Dictionary)
+			
+			var tacc := 0
+			var tsize = keyval.size()
+			
+			for key in keyval:
+				var left = element.get(key, "")
+				var right = keyval[key]
+				
+				if not typeof(left) == typeof(right):
+					continue
+				
+				tacc += int(left == right)
+			
+			if tacc == tsize:
+				return i
+	
+		i += 1
+	
+	return -1
+
+
 static func array_dictionary_count(arr : Array, key, value) -> int:
 	var acc := 0
 	
@@ -237,19 +266,6 @@ static func array_dictionary_count(arr : Array, key, value) -> int:
 		assert(element is Dictionary)
 		
 		if element.get(key, "") == value:
-			acc += 1
-			
-	return acc
-
-
-static func array_dictionary_match(arr : Array, key, value : String) -> int:
-	var acc := 0
-	
-	for element in arr:
-		assert(element is Dictionary)
-		assert(key in element)
-		
-		if value.is_subsequence_of(element[key]):
 			acc += 1
 			
 	return acc

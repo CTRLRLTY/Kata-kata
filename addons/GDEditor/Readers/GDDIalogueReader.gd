@@ -7,7 +7,7 @@ func can_handle(graph_node) -> bool:
 	return false
 
 
-func render(graph_node, dialogue_viewer) -> void:
+func render(graph_node, dialogue_viewer, cursor: DialogueCursor) -> void:
 	pass
 
 

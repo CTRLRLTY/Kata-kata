@@ -62,8 +62,6 @@ func save() -> void:
 	_dialogue_cursor = DialogueCursor.new(self)
 	
 	print_debug(_dialogue_cursor.s_port_table.keys())
-	
-	
 #	packer.pack(self)
 #
 #	ResourceSaver.save("res://test/test.tscn", packer)
@@ -84,7 +82,7 @@ func connected_ports(node_name: String, connection_list := get_connection_list()
 	}
 	
 	var graph_node : GDGraphNode = get_node(node_name)
-	var to_connection = GDUtil.array_dictionary_findallv(
+	var to_connection = GDUtil.array_dictionary_matchallv(
 			connection_list, [{"from": node_name}, {"to": node_name}])
 	var from_connection = GDUtil.array_dictionary_popallv(to_connection, [{"to": node_name}])
 
@@ -113,7 +111,7 @@ func is_node_left_connected(node_name: String, slot: int) -> bool:
 
 
 func clear_node_connections(gn: GDGraphNode) -> void:
-	var gn_connections := GDUtil.array_dictionary_findallv(get_connection_list(),
+	var gn_connections := GDUtil.array_dictionary_matchallv(get_connection_list(),
 			[{"from": gn.name}, {"to": gn.name}])
 
 	for connection in gn_connections:
