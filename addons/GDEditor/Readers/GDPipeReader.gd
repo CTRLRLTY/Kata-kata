@@ -66,10 +66,12 @@ func render(graph_node: GNPipe, dialogue_viewer: GDDialogueView, cursor: GDDialo
 				assert(next_index != -1, "%s Output port 1 has no connection" % [graph_node.name])
 			
 			cursor.next(next_index)
+			
 		GNPipe.PipeType.WAIT_FOR:
 			cursor.next()
+			
 		GNPipe.PipeType.WAIT_TILL:
-			pass
+			cursor.next()
 		
 	dialogue_viewer.next()
 
@@ -90,6 +92,9 @@ func read(graph_node: GNPipe) -> Awaitable:
 			wait_section.start()
 			
 		GNPipe.PipeType.WAIT_TILL:
-			pass
-
+			var signal_section : Control = graph_node.get_node("SignalSection")
+			var callback := funcref(awaitable, "finish")
+			WaitManager.yield_for(signal_section, "wait_finished", callback)
+			signal_section.start()
+	
 	return awaitable

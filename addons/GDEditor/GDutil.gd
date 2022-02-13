@@ -39,6 +39,10 @@ static func get_icon_dir() -> String:
 	return "res://addons/GDEditor/Resources/Icons/"
 
 
+static func get_gaelog_path() -> String:
+	return "res://addons/GDEditor/Gaelog.tscn"
+
+
 static func get_icon(icon_name : String) -> Texture:
 	var ret : Texture
 	

@@ -15,6 +15,7 @@ func _enter_tree() -> void:
 #			load("res://addons/GDEditor/Resources/Custom/ComponentData.gd"), 
 #			get_editor_interface().get_base_control().get_icon("ResourcePreloader", "EditorIcons"))
 #
+	add_autoload_singleton("Gaelog", GDUtil.get_gaelog_path())
 	GDUtil.set_editor_plugin(self)
 	
 	# Prevent competing active main screen
@@ -24,6 +25,8 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	if dialogue_editor:
 		dialogue_editor.queue_free()
+	
+	remove_autoload_singleton("Gaelog")
 		
 	GDUtil.clear_state()
 
