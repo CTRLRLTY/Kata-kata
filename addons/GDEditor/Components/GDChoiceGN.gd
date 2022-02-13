@@ -2,7 +2,7 @@ tool
 
 extends GDGraphNode
 
-class_name GNChoice
+class_name GDChoiceGN
 
 export(String) var s_choice_main
 export(PoolStringArray) var s_choice_extras

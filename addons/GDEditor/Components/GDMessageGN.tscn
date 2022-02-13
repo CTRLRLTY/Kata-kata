@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
-[ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/GDEditor/Components/Message.gd" type="Script" id=3]
+[ext_resource path="res://addons/GDEditor/Components/GDMessageGN.gd" type="Script" id=2]
+[ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=3]
 
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.662745, 0.682353, 0.733333, 1 )
@@ -40,7 +40,7 @@ slot/3/left_color = Color( 1, 1, 1, 1 )
 slot/3/right_enabled = false
 slot/3/right_type = 0
 slot/3/right_color = Color( 1, 1, 1, 1 )
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -79,7 +79,7 @@ margin_top = 62.0
 margin_right = 210.0
 margin_bottom = 76.0
 
-[node name="InPort" parent="ActionPort" instance=ExtResource( 2 )]
+[node name="InPort" parent="ActionPort" instance=ExtResource( 3 )]
 margin_bottom = 14.0
 s_port_type = 1
 s_port_enable = true
@@ -97,7 +97,7 @@ margin_bottom = 14.0
 size_flags_horizontal = 10
 text = "Post"
 
-[node name="OutPort" parent="ActionPort" instance=ExtResource( 2 )]
+[node name="OutPort" parent="ActionPort" instance=ExtResource( 3 )]
 margin_left = 185.0
 margin_right = 195.0
 margin_bottom = 14.0
@@ -112,7 +112,7 @@ margin_right = 210.0
 margin_bottom = 90.0
 mouse_filter = 2
 
-[node name="InPort" parent="FlowPort" instance=ExtResource( 2 )]
+[node name="InPort" parent="FlowPort" instance=ExtResource( 3 )]
 margin_bottom = 14.0
 s_port_type = 2
 s_port_enable = true
@@ -130,7 +130,7 @@ margin_bottom = 14.0
 size_flags_horizontal = 10
 text = "Next"
 
-[node name="OutPort" parent="FlowPort" instance=ExtResource( 2 )]
+[node name="OutPort" parent="FlowPort" instance=ExtResource( 3 )]
 margin_left = 185.0
 margin_right = 195.0
 margin_bottom = 14.0

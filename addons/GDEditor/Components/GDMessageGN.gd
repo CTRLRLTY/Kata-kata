@@ -2,7 +2,7 @@ tool
 
 extends GDGraphNode
 
-class_name GNMessage
+class_name GDMessageGN
 
 export(String, MULTILINE) var s_message 
 

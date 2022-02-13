@@ -40,12 +40,12 @@ func can_drop_data(_position: Vector2, data) -> bool:
 func drop_data(position: Vector2, data : Dictionary) -> void:
 	var gn : GraphNode = data.payload.instance()
 	
-	if gn is GNStart:
+	if gn is GDStartGN:
 		for child in get_children():
-			if child is GNStart:
+			if child is GDStartGN:
 				printerr("GraphEdit already has a StartNode")
 				return
-	elif gn is GNPipe:
+	elif gn is GDPipeGN:
 		gn.connect("type_changed", self, "_on_GDPipe_type_changed", [gn])
 	
 	add_child(gn)
@@ -182,5 +182,5 @@ func _on_node_unselected(node: Node) -> void:
 	_selected_nodes.erase(node)
 
 
-func _on_GDPipe_type_changed(from: int, to: int, gnpipe: GNPipe) -> void:
-	clear_node_connections(gnpipe)
+func _on_GDPipe_type_changed(from: int, to: int, GDPipeGN: GDPipeGN) -> void:
+	clear_node_connections(GDPipeGN)

@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
-[ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/GDEditor/Components/End.gd" type="Script" id=3]
+[ext_resource path="res://addons/GDEditor/Components/GDEndGN.gd" type="Script" id=2]
+[ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=3]
 
 [node name="End" type="GraphNode"]
 margin_left = 52.3925
@@ -19,7 +19,7 @@ slot/0/left_color = Color( 0.13, 0.55, 0.13, 1 )
 slot/0/right_enabled = false
 slot/0/right_type = 2
 slot/0/right_color = Color( 0.13, 0.55, 0.13, 1 )
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -32,7 +32,7 @@ margin_bottom = 29.0
 mouse_filter = 2
 custom_constants/separation = 0
 
-[node name="PortRect" parent="Content" instance=ExtResource( 2 )]
+[node name="PortRect" parent="Content" instance=ExtResource( 3 )]
 margin_bottom = 14.0
 s_port_type = 2
 s_port_enable = true

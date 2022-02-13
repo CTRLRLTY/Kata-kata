@@ -57,6 +57,8 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 		_node_selection.add_item(component.get_component_name())
 		_node_selection.set_item_metadata(
 				_node_selection.get_item_count() - 1, component_scene)
+		
+		component.free()
 
 
 func save() -> void:

@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
-[ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/GDEditor/Components/Choice.gd" type="Script" id=3]
-[ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ButtonDarkBG.stylebox" type="StyleBox" id=4]
-[ext_resource path="res://addons/GDEditor/Components/Attachments/ChoiceEditRect.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ButtonDarkBG.stylebox" type="StyleBox" id=2]
+[ext_resource path="res://addons/GDEditor/Components/Attachments/ChoiceEditRect.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/GDEditor/Components/GDChoiceGN.gd" type="Script" id=4]
+[ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=5]
 
 [node name="Choice" type="GraphNode"]
 margin_left = 15.0
@@ -33,7 +33,7 @@ slot/2/left_color = Color( 1, 1, 1, 1 )
 slot/2/right_enabled = false
 slot/2/right_type = 0
 slot/2/right_color = Color( 1, 1, 1, 1 )
-script = ExtResource( 3 )
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -64,7 +64,7 @@ margin_left = 113.0
 margin_right = 195.0
 margin_bottom = 24.0
 size_flags_horizontal = 10
-custom_styles/normal = ExtResource( 4 )
+custom_styles/normal = ExtResource( 2 )
 text = "Add Choice"
 
 [node name="MainFlowPort" type="HBoxContainer" parent="."]
@@ -74,7 +74,7 @@ margin_right = 210.0
 margin_bottom = 80.0
 mouse_filter = 2
 
-[node name="InPort" parent="MainFlowPort" instance=ExtResource( 2 )]
+[node name="InPort" parent="MainFlowPort" instance=ExtResource( 5 )]
 margin_bottom = 14.0
 s_port_type = 2
 s_port_enable = true
@@ -92,14 +92,14 @@ margin_bottom = 14.0
 size_flags_horizontal = 10
 text = "Next Line"
 
-[node name="OutPort" parent="MainFlowPort" instance=ExtResource( 2 )]
+[node name="OutPort" parent="MainFlowPort" instance=ExtResource( 5 )]
 margin_left = 185.0
 margin_right = 195.0
 margin_bottom = 14.0
 s_port_type = 2
 s_port_enable = true
 
-[node name="MainChoice" parent="." instance=ExtResource( 5 )]
+[node name="MainChoice" parent="." instance=ExtResource( 3 )]
 custom_constants/margin_bottom = 0
 
 [connection signal="pressed" from="Header/HBoxContainer/AddChoice" to="." method="_on_AddChoice_pressed"]

@@ -2,7 +2,7 @@ tool
 
 extends GDGraphNode
 
-class_name GNSetter
+class_name GDSetterGN
 
 export(int) var member_index 
 

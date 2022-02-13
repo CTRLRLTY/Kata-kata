@@ -23,7 +23,7 @@ func _init(graph_edit: GraphEdit) -> void:
 	
 		s_cursor = start()
 		
-		# Validate whether the cursor has path to a GNEnd node.
+		# Validate whether the cursor has path to a GDEndGN node.
 		if not s_end.empty():
 			while not is_end():
 				for connection in get_flows_right():
@@ -126,7 +126,7 @@ func _populate_port_table(connection: Dictionary, dialogue_graph: GraphEdit) -> 
 	
 	var graph_node : GDGraphNode = dialogue_graph.get_node(connection.to)
 
-	if graph_node is GNEnd:
+	if graph_node is GDEndGN:
 		s_end.append(connection)
 		
 		return

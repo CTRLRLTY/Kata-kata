@@ -37,10 +37,10 @@ class Awaitable extends Resource:
 
 
 func can_handle(graph_node: GDGraphNode) -> bool:
-	return graph_node is GNPipe
+	return graph_node is GDPipeGN
 
 
-func render(graph_node: GNPipe, dialogue_viewer: GDDialogueView, cursor: GDDialogueCursor) -> void:
+func render(graph_node: GDPipeGN, dialogue_viewer: GDDialogueView, cursor: GDDialogueCursor) -> void:
 	var node_connection := graph_node.get_connections()
 	
 	var awaitable := read(graph_node)
@@ -49,7 +49,7 @@ func render(graph_node: GNPipe, dialogue_viewer: GDDialogueView, cursor: GDDialo
 		yield(awaitable, "finished")
 	
 	match graph_node.s_type:
-		GNPipe.PipeType.CONDITION:
+		GDPipeGN.PipeType.CONDITION:
 			var evaluation : bool = awaitable.get_data()
 			
 			var flows := cursor.get_flows_right()
@@ -67,31 +67,31 @@ func render(graph_node: GNPipe, dialogue_viewer: GDDialogueView, cursor: GDDialo
 			
 			cursor.next(next_index)
 			
-		GNPipe.PipeType.WAIT_FOR:
+		GDPipeGN.PipeType.WAIT_FOR:
 			cursor.next()
 			
-		GNPipe.PipeType.WAIT_TILL:
+		GDPipeGN.PipeType.WAIT_TILL:
 			cursor.next()
 		
 	dialogue_viewer.next()
 
 
-func read(graph_node: GNPipe) -> Awaitable:
+func read(graph_node: GDPipeGN) -> Awaitable:
 	var awaitable := Awaitable.new()
 	
 	match graph_node.s_type:
-		GNPipe.PipeType.CONDITION:
+		GDPipeGN.PipeType.CONDITION:
 			var expression_edit : Control = graph_node.get_node("ExpressionEdit")
 			var value : bool = expression_edit.get_value()
 			awaitable.set_data(value)
 			
-		GNPipe.PipeType.WAIT_FOR:
+		GDPipeGN.PipeType.WAIT_FOR:
 			var wait_section : Control = graph_node.get_node("WaitSection")
 			var callback := funcref(awaitable, "finish")
 			WaitManager.yield_for(wait_section, "wait_finished", callback)
 			wait_section.start()
 			
-		GNPipe.PipeType.WAIT_TILL:
+		GDPipeGN.PipeType.WAIT_TILL:
 			var signal_section : Control = graph_node.get_node("SignalSection")
 			var callback := funcref(awaitable, "finish")
 			WaitManager.yield_for(signal_section, "wait_finished", callback)

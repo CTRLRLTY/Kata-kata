@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://addons/GDEditor/Components/Pipe.gd" type="Script" id=1]
-[ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=2]
+[ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
+[ext_resource path="res://addons/GDEditor/Components/GDPipeGN.gd" type="Script" id=2]
 
 [node name="Pipe" type="GraphNode"]
 margin_left = 1.0
@@ -11,7 +11,7 @@ rect_min_size = Vector2( 209, 0 )
 mouse_filter = 1
 custom_constants/port_offset = 14
 custom_constants/separation = 10
-custom_styles/frame = ExtResource( 2 )
+custom_styles/frame = ExtResource( 1 )
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color( 1, 1, 1, 1 )
@@ -36,7 +36,7 @@ slot/3/left_color = Color( 1, 1, 1, 1 )
 slot/3/right_enabled = true
 slot/3/right_type = 0
 slot/3/right_color = Color( 0.4, 0.8, 0.67, 1 )
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

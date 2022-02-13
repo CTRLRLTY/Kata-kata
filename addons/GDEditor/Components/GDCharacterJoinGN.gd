@@ -2,7 +2,7 @@ tool
 
 extends GDGraphNode
 
-class_name GNCharacterJoin
+class_name GDCharacterJoinGN
 
 onready var _option_button := find_node("OptionButton")
 

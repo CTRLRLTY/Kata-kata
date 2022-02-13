@@ -2,7 +2,7 @@ tool
 
 extends GDGraphNode
 
-class_name GNEmitter
+class_name GDEmitterGN
 
 export(String) var signal_name
 

@@ -56,12 +56,12 @@ func get_readers() -> Array:
 
 func get_components() -> Array:
 	# Returns an Array of PackedScenes
-	return [load(GDUtil.resolve("Start.tscn")),
-			load(GDUtil.resolve("End.tscn")),
-			load(GDUtil.resolve("Message.tscn")),
-			load(GDUtil.resolve("Pipe.tscn")),
-			load(GDUtil.resolve("Choice.tscn")),
-			load(GDUtil.resolve("CharacterJoin.tscn"))]
+	return [load(GDUtil.resolve("GDStartGN.tscn")),
+			load(GDUtil.resolve("GDEndGN.tscn")),
+			load(GDUtil.resolve("GDMessageGN.tscn")),
+			load(GDUtil.resolve("GDPipeGN.tscn")),
+			load(GDUtil.resolve("GDChoiceGN.tscn")),
+			load(GDUtil.resolve("GDCharacterJoinGN.tscn"))]
 
 
 func get_tools() -> Array:

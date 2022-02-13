@@ -2,7 +2,7 @@ tool
 
 extends GDGraphNode
 
-class_name GNPipe
+class_name GDPipeGN
 
 signal type_changed(from, to)
 
