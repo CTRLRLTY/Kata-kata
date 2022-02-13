@@ -3,9 +3,9 @@ extends GDDialogueReader
 class_name GDPipeReader
 
 
-class WaitManager extends Resource:
-	func _init(obj: Object, signal_name: String, callback: FuncRef, args := []) -> void:
-		yield_for(obj, signal_name, callback, args)
+class WaitManager:
+	func _init() -> void:
+		assert(false, "WaitManager is not instantiable")
 	
 	static func yield_for(obj: Object, signal_name: String, callback: FuncRef, args := []) -> void:
 		yield(obj, signal_name)
