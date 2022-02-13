@@ -11,5 +11,5 @@ func render(graph_node, dialogue_viewer, cursor: GDDialogueCursor) -> void:
 	pass
 
 
-func get_node_data(graph_node):
+func read(graph_node):
 	pass

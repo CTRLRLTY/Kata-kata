@@ -43,7 +43,7 @@ func can_handle(graph_node: GDGraphNode) -> bool:
 func render(graph_node: GNPipe, dialogue_viewer: GDDialogueView, cursor: GDDialogueCursor) -> void:
 	var node_connection := graph_node.get_connections()
 	
-	var awaitable := get_node_data(graph_node)
+	var awaitable := read(graph_node)
 	
 	if not awaitable.is_finished():
 		yield(awaitable, "finished")
@@ -74,7 +74,7 @@ func render(graph_node: GNPipe, dialogue_viewer: GDDialogueView, cursor: GDDialo
 	dialogue_viewer.next()
 
 
-func get_node_data(graph_node: GNPipe) -> Awaitable:
+func read(graph_node: GNPipe) -> Awaitable:
 	var awaitable := Awaitable.new()
 	
 	match graph_node.s_type:

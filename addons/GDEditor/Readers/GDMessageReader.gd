@@ -8,12 +8,12 @@ func can_handle(graph_node: GDGraphNode) -> bool:
 
 
 func render(graph_node: GNMessage, dialogue_viewer: GDDialogueView, cursor: GDDialogueCursor) -> void:
-	var message := get_node_data(graph_node)
+	var message := read(graph_node)
 	
 	dialogue_viewer.set_text_box(message)
 	
 	cursor.next()
 
 
-func get_node_data(graph_node: GNMessage) -> String:
+func read(graph_node: GNMessage) -> String:
 	return graph_node.s_message
