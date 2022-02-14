@@ -1,21 +1,27 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
 [ext_resource path="res://addons/GDEditor/Components/GDCharacterJoinGN.gd" type="Script" id=2]
 [ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.662745, 0.682353, 0.733333, 1 )
+content_margin_left = 15.0
+content_margin_right = 15.0
+content_margin_top = 15.0
+content_margin_bottom = 15.0
+bg_color = Color( 0.152941, 0.172549, 0.223529, 1 )
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 20
 
 [node name="CharacterJoin" type="GraphNode"]
-margin_left = 10.0
-margin_top = 113.0
-margin_right = 170.0
-margin_bottom = 195.0
+margin_right = 180.0
+margin_bottom = 76.0
 mouse_filter = 1
-custom_constants/port_offset = 14
+custom_constants/port_offset = 12
 custom_constants/separation = 0
-custom_styles/frame = ExtResource( 1 )
+custom_styles/frame = SubResource( 1 )
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color( 1, 1, 1, 1 )
@@ -36,38 +42,61 @@ __meta__ = {
 [node name="Header" type="MarginContainer" parent="."]
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 145.0
+margin_right = 165.0
 margin_bottom = 39.0
-mouse_filter = 2
-custom_constants/margin_right = 0
-custom_constants/margin_left = 0
 custom_constants/margin_bottom = 10
 
 [node name="Title" type="Label" parent="Header"]
-margin_right = 130.0
+margin_right = 150.0
 margin_bottom = 14.0
 text = "Character Join"
 
 [node name="Body" type="HBoxContainer" parent="."]
 margin_left = 15.0
 margin_top = 39.0
-margin_right = 145.0
-margin_bottom = 67.0
+margin_right = 165.0
+margin_bottom = 113.0
+mouse_filter = 2
+size_flags_horizontal = 3
+custom_constants/separation = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Body"]
+margin_right = 140.0
+margin_bottom = 74.0
+mouse_filter = 2
+size_flags_horizontal = 3
+custom_constants/separation = 10
+
+[node name="OptionButton" type="OptionButton" parent="Body/VBoxContainer"]
+margin_right = 140.0
+margin_bottom = 20.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Body/VBoxContainer"]
+margin_top = 30.0
+margin_right = 140.0
+margin_bottom = 44.0
+text = "Expression"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Body/VBoxContainer"]
+margin_top = 54.0
+margin_right = 140.0
+margin_bottom = 74.0
 mouse_filter = 2
 custom_constants/separation = 0
 
-[node name="OptionButton" type="OptionButton" parent="Body"]
-margin_right = 120.0
-margin_bottom = 28.0
-rect_min_size = Vector2( 0, 28 )
+[node name="OptionButton" type="OptionButton" parent="Body/VBoxContainer/HBoxContainer"]
+margin_right = 140.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
-custom_styles/normal = SubResource( 1 )
 
 [node name="PortRect" parent="Body" instance=ExtResource( 3 )]
-margin_left = 120.0
-margin_right = 130.0
-margin_bottom = 28.0
+margin_left = 140.0
+margin_right = 150.0
+margin_bottom = 74.0
+mouse_filter = 2
 s_port_type = 1
 s_port_enable = true
 
-[connection signal="pressed" from="Body/OptionButton" to="." method="_on_OptionButton_pressed"]
+[connection signal="pressed" from="Body/VBoxContainer/OptionButton" to="." method="_on_OptionButton_pressed"]
