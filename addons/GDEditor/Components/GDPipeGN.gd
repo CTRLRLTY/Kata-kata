@@ -4,8 +4,6 @@ extends GDGraphNode
 
 class_name GDPipeGN
 
-signal type_changed(from, to)
-
 export var s_type : int
 
 enum PipeType {
@@ -20,8 +18,9 @@ func _ready() -> void:
 
 
 func set_type(type_id : int) -> void:
-	emit_signal("type_changed", s_type, type_id)
-	
+	if get_dialogue_graph():
+		get_dialogue_graph().clear_node_connections(self)
+		
 	clear_all_slots()
 	_clear_attachment()
 	
@@ -62,16 +61,19 @@ func deny_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
 	
 	if from_type == PortType.UNIVERSAL:
 		var to_type := graph_node.get_connection_output_type(to_slot)
-		if is_connection_connected_input(from_slot):
-			if not get_output_ports_type() == to_type:
+		if not get_output_ports_type() == to_type:
+			if is_connection_connected_input(from_slot):
 				return true
-		
-		change_all_outport(to_type)
+			
+			change_all_outport(to_type)
 	
 	return false
 
 
 func change_all_outport(to_type: int) -> void:
+	if get_dialogue_graph():
+		get_dialogue_graph().clear_node_connections(self)
+	
 	for port_rect in get_port_rects_right():
 		port_rect.set_port_type(to_type)
 

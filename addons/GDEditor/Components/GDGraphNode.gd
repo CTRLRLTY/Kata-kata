@@ -25,8 +25,8 @@ func get_dialogue_editor() -> Control:
 	return GDUtil.get_dialogue_editor()
 
 
-func get_dialogue_graph() -> Control:
-	return get_parent() as Control
+func get_dialogue_graph() -> GraphEdit:
+	return get_parent() as GraphEdit
 
 
 func get_connections() -> Dictionary:

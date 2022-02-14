@@ -45,8 +45,6 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 			if child is GDStartGN:
 				printerr("GraphEdit already has a StartNode")
 				return
-	elif gn is GDPipeGN:
-		gn.connect("type_changed", self, "_on_GDPipe_type_changed", [gn])
 	
 	add_child(gn)
 	
@@ -107,7 +105,6 @@ func is_node_right_connected(node_name: String, slot: int) -> bool:
 func is_node_left_connected(node_name: String, slot: int) -> bool:
 	return GDUtil.array_dictionary_hasv(
 			get_connection_list(), [{"to": node_name, "to_port": slot}])
-
 
 
 func clear_node_connections(gn: GDGraphNode) -> void:
@@ -180,7 +177,3 @@ func _on_node_selected(node: Node) -> void:
 	
 func _on_node_unselected(node: Node) -> void:
 	_selected_nodes.erase(node)
-
-
-func _on_GDPipe_type_changed(from: int, to: int, GDPipeGN: GDPipeGN) -> void:
-	clear_node_connections(GDPipeGN)
