@@ -20,6 +20,7 @@ corner_detail = 20
 [node name="CharacterJoin" type="GraphNode"]
 margin_right = 180.0
 margin_bottom = 76.0
+rect_min_size = Vector2( 180, 0 )
 mouse_filter = 1
 custom_constants/port_offset = 12
 custom_constants/separation = 0
@@ -118,3 +119,4 @@ s_port_enable = true
 
 [connection signal="toggled" from="Header/HBoxContainer/ExpandBtn" to="." method="_on_ExpandBtn_toggled"]
 [connection signal="pressed" from="Body/VBoxContainer/CharacterSelection" to="." method="_on_OptionButton_pressed"]
+[connection signal="visibility_changed" from="Body/VBoxContainer/VBoxExpression" to="." method="_on_VBoxExpression_visibility_changed"]

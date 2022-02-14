@@ -35,3 +35,8 @@ func _on_OptionButton_pressed() -> void:
 
 func _on_ExpandBtn_toggled(button_pressed: bool) -> void:
 	_vbox_expression.visible = not button_pressed
+
+
+func _on_VBoxExpression_visibility_changed() -> void:
+	yield(get_tree(), "idle_frame")
+	rect_size = Vector2.ZERO
