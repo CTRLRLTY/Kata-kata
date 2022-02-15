@@ -63,7 +63,7 @@ func _on_button_pressed(item: TreeItem, column: int, id: int) -> void:
 		var acc := 1
 		
 		while _has_state_name(state_name + name_suffix):
-			name_suffix = "_%d" % [acc]		
+			name_suffix = "_%d" % [acc]
 			acc += 1
 		
 		state_name += name_suffix

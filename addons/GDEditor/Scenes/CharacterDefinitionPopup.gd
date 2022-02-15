@@ -27,10 +27,25 @@ func filter_items(filter: String) -> void:
 func add_item(character_data := CharacterData.new()) -> void:
 	var character_item : Control = load(GDUtil.get_scene_dir() +
 										"CharacterItem.tscn").instance()
-
+	var character_names := []
+	
+	for child in _character_item_container.get_children():
+		if "character_data" in child:
+			character_names.append(child.character_data.character_name)
+	
+	var name_suffix := ""
+	var acc := 0
+	
+	while character_names.has(character_data.character_name + name_suffix):
+		name_suffix = "_%d" % [acc]
+		acc += 1
+	
+	character_data.character_name += name_suffix
+	
 	character_item.connect("delete", 
 			self, "_on_CharacterItem_delete", 
 			[character_item])
+	character_item.connect("name_changed", self, "_on_CharacterItem_name_changed", [character_item])
 
 	character_item.character_data = character_data
 			
@@ -42,7 +57,7 @@ func add_item(character_data := CharacterData.new()) -> void:
 			_character_item_container.get_child_count()-1)
 
 
-func _on_CharacterItem_delete(character_item : Control) -> void:
+func _on_CharacterItem_delete(character_item: Control) -> void:
 	# Prevent duplicated connection error
 	if not $ConfirmationDialog.is_connected("confirmed", character_item, "delete"):
 		$ConfirmationDialog.connect("confirmed", 
@@ -54,9 +69,32 @@ func _on_CharacterItem_delete(character_item : Control) -> void:
 	$ConfirmationDialog.popup_centered()
 
 
-func _on_AddCharacterBtn_pressed() -> void:
-	add_item()
+func _on_CharacterItem_name_changed(character_item: Control) -> void:
+	var character_names := []
+	var character_data : CharacterData = character_item.character_data
+	
+	for child in _character_item_container.get_children():
+		if child == character_item:
+			continue
+		
+		if "character_data" in child:
+			character_names.append(child.character_data.character_name)
+	
+	var name_suffix := ""
+	var acc := 0
+	
+	while character_names.has(character_data.character_name + name_suffix):
+		name_suffix = "_%d" % [acc]
+		acc += 1
+	
+	character_data.character_name += name_suffix
+	character_item.get_name_label().text = character_data.character_name
 
 
 func _on_FilterEdit_text_changed(new_text: String) -> void:
 	filter_items(new_text)
+
+
+func _on_AddCharacterBtn_pressed() -> void:
+	add_item()
+
