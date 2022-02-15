@@ -11,6 +11,10 @@ func _exit_tree() -> void:
 		_tools_state.erase(key)
 
 
+func get_dialogue_editor() -> Control:
+	return GDUtil.get_dialogue_editor()
+
+
 func save() -> void:
 	for child in get_children():
 		if child.has_method("save"):
@@ -31,7 +35,12 @@ func add_tools(tools: Array) -> void:
 		assert(tool_scene is PackedScene)
 		
 		if not _tools_state.has(tool_scene):
+			var graph_editor_container : Control = get_dialogue_editor().get_graph_editor_container()
+			var dialogue_view : GDDialogueView = graph_editor_container.get_editor_preview(
+					get_dialogue_editor().get_tabs().current_tab)
+			
 			_tools_state[tool_scene] = tool_scene.instance()
+			_tools_state[tool_scene].set_dialogue_view(dialogue_view)
 		
 		add_child(_tools_state[tool_scene])
 

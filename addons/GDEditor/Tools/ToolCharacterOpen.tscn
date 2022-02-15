@@ -90,7 +90,8 @@ margin_right = 200.0
 margin_bottom = 70.0
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]
-[connection signal="about_to_show" from="CharacterDefinitionPopup" to="CharacterDefinitionPopup" method="_on_about_to_show"]
-[connection signal="popup_hide" from="CharacterDefinitionPopup" to="CharacterDefinitionPopup" method="_on_popup_hide"]
+[connection signal="about_to_show" from="CharacterDefinitionPopup" to="." method="_on_CharacterDefinitionPopup_about_to_show"]
+[connection signal="character_item_delete" from="CharacterDefinitionPopup" to="." method="_on_CharacterDefinitionPopup_character_item_delete"]
+[connection signal="popup_hide" from="CharacterDefinitionPopup" to="." method="_on_CharacterDefinitionPopup_popup_hide"]
 [connection signal="text_changed" from="CharacterDefinitionPopup/MarginContainer/VBoxContainer/FilterEdit" to="CharacterDefinitionPopup" method="_on_FilterEdit_text_changed"]
 [connection signal="pressed" from="CharacterDefinitionPopup/MarginContainer/VBoxContainer/ScrollContainer/CharacterItemContainer/AddCharacterBtn" to="CharacterDefinitionPopup" method="_on_AddCharacterBtn_pressed"]
