@@ -44,7 +44,7 @@ func _on_CharacterDefinitionPopup_popup_hide() -> void:
 			
 			if stored_idx != -1:
 				if fpath != character_data.resource_path:
-					DIR.rename(character_data.resource_path, fname)
+					DIR.rename(character_data.resource_path, fpath)
 			
 			ResourceSaver.save(characters_dir + 
 					"%s.tres" % [fname], character_data)
