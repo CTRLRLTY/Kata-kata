@@ -19,6 +19,13 @@ func get_component_name() -> String:
 
 
 func _on_OptionButton_pressed() -> void:
+	var selected_id : int =  _character_selection.selected
+	var selected_character : CharacterData
+	
+	if selected_id != -1:
+		_character_selection.get_item_text(selected_id)
+		selected_character = _character_selection.get_item_metadata(selected_id)
+
 	_character_selection.clear()
 	
 	var graph_editor : GDGraphEditor = get_dialogue_editor()\
@@ -29,8 +36,15 @@ func _on_OptionButton_pressed() -> void:
 	
 	assert(dialogue_view.has_method("get_character_names"))
 	
-	for character_name in dialogue_view.get_character_names():
-		_character_selection.add_item(character_name)
+	var acc := 0
+	for character_data in dialogue_view.get_character_datas():
+		_character_selection.add_item(character_data.character_name)
+		_character_selection.set_item_metadata(acc, character_data)
+		
+		if character_data == selected_character:
+			_character_selection.select(acc)
+		
+		acc += 1
 
 
 func _on_ExpandBtn_toggled(button_pressed: bool) -> void:
