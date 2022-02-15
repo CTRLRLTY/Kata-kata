@@ -4,6 +4,8 @@ extends GraphEdit
 
 class_name DialogueGraph
 
+signal graph_node_added(graph_node)
+
 export(Array, Dictionary) var s_connection_list : Array
 
 var _selected_nodes := []
@@ -50,6 +52,8 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 	
 	gn.owner = self
 	gn.offset = (scroll_offset + position) / zoom
+	
+	emit_signal("graph_node_added", gn)
 
 
 func save() -> void:

@@ -7,6 +7,7 @@ class_name GDCharacterJoinGN
 
 onready var _expand_btn := find_node("ExpandBtn")
 onready var _character_selection := find_node("CharacterSelection")
+onready var _expression_selection := find_node("ExpressionSelection")
 onready var _vbox_expression := find_node("VBoxExpression")
 
 
@@ -18,23 +19,14 @@ func get_component_name() -> String:
 	return "CharacterJoin"
 
 
-func _on_OptionButton_pressed() -> void:
-	var selected_id : int =  _character_selection.selected
-	var selected_character : CharacterData
+func _on_CharacterSelection_pressed() -> void:
+	var selected_character : CharacterData = _character_selection.get_selected_metadata()
 	
-	if selected_id != -1:
-		_character_selection.get_item_text(selected_id)
-		selected_character = _character_selection.get_item_metadata(selected_id)
-
 	_character_selection.clear()
 	
-	var graph_editor : GDGraphEditor = get_dialogue_editor()\
-			.get_graph_editor_container()\
-			.get_active_editor()
+	var dialogue_view := get_dialogue_view()
 	
-	var dialogue_view : GDDialogueView = graph_editor.get_dialogue_preview()
-	
-	assert(dialogue_view.has_method("get_character_names"))
+	assert(dialogue_view.has_method("get_character_datas"))
 	
 	var acc := 0
 	for character_data in dialogue_view.get_character_datas():
@@ -54,3 +46,28 @@ func _on_ExpandBtn_toggled(button_pressed: bool) -> void:
 func _on_VBoxExpression_visibility_changed() -> void:
 	yield(get_tree(), "idle_frame")
 	rect_size = Vector2.ZERO
+	
+
+func _on_ExpressionSelection_pressed() -> void:
+	var selected_character : int = _character_selection.selected
+	
+	if selected_character == -1:
+		return
+		
+	var character_data : CharacterData = _character_selection.get_item_metadata(
+			selected_character)
+	
+	var selected_expression : CharacterExpressionData = _expression_selection.get_selected_metadata()
+	
+	_expression_selection.clear()
+	
+	for expression in character_data.character_expressions:
+		assert(expression is CharacterExpressionData)
+		
+		var idx: int = _expression_selection.get_item_count()
+		
+		_expression_selection.add_item(expression.expression_name)
+		_expression_selection.set_item_metadata(idx, expression)
+		
+		if expression == selected_expression:
+			_expression_selection.select(idx)

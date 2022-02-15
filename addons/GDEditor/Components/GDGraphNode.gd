@@ -9,12 +9,13 @@ enum Port {
 	RIGHT
 }
 
-
 enum PortType {
 	UNIVERSAL = PortRect.PortType.UNIVERSAL,
 	ACTION = PortRect.PortType.ACTION,
 	FLOW = PortRect.PortType.FLOW,
 }
+
+var _dialogue_view : GDDialogueView
 
 
 func get_component_name() -> String:
@@ -42,6 +43,14 @@ func get_port_rects_left() -> Array:
 			port_rects.append(port_rect)
 	
 	return port_rects
+
+
+func get_dialogue_view() -> GDDialogueView:
+	return _dialogue_view
+
+
+func set_dialogue_view(dialogue_view: GDDialogueView) -> void:
+	_dialogue_view = dialogue_view
 
 
 func get_port_rects_right() -> Array:

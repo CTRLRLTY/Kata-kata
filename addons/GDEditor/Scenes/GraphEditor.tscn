@@ -68,6 +68,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/line_separation = 0
 custom_styles/selected = SubResource( 2 )
+items = [ "Start", null, false, "End", null, false, "Message", null, false, "Pipe", null, false, "Choice", null, false, "CharacterJoin", null, false ]
 script = ExtResource( 3 )
 
 [node name="LowerHalf" type="VBoxContainer" parent="MainContainer/LeftDock/VSplitContainer"]
@@ -102,3 +103,5 @@ StateColumnTitle = "Dialogue States"
 
 [node name="DialogueGraph" parent="MainContainer" instance=ExtResource( 8 )]
 scroll_offset = Vector2( -14, -93 )
+
+[connection signal="graph_node_added" from="MainContainer/DialogueGraph" to="." method="_on_DialogueGraph_graph_node_added"]

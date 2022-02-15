@@ -64,3 +64,7 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 func save() -> void:
 	get_dialogue_preview().save()
 	get_dialogue_graph().save()
+
+
+func _on_DialogueGraph_graph_node_added(graph_node: GDGraphNode) -> void:
+	graph_node.set_dialogue_view(get_dialogue_preview())

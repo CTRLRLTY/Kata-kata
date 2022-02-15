@@ -47,11 +47,13 @@ margin_left = 15.0
 margin_top = 15.0
 margin_right = 165.0
 margin_bottom = 41.0
+mouse_filter = 2
 custom_constants/margin_bottom = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Header"]
 margin_right = 150.0
 margin_bottom = 16.0
+mouse_filter = 2
 
 [node name="Title" type="Label" parent="Header/HBoxContainer"]
 margin_top = 1.0
@@ -63,6 +65,7 @@ text = "Character Join"
 margin_left = 134.0
 margin_right = 150.0
 margin_bottom = 16.0
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 10
 toggle_mode = true
 pressed = true
@@ -96,6 +99,7 @@ visible = false
 margin_top = 30.0
 margin_right = 140.0
 margin_bottom = 74.0
+mouse_filter = 2
 custom_constants/separation = 10
 
 [node name="Label" type="Label" parent="Body/VBoxContainer/VBoxExpression"]
@@ -103,10 +107,11 @@ margin_right = 140.0
 margin_bottom = 14.0
 text = "Expression"
 
-[node name="OptionButton2" type="OptionButton" parent="Body/VBoxContainer/VBoxExpression"]
+[node name="ExpressionSelection" type="OptionButton" parent="Body/VBoxContainer/VBoxExpression"]
 margin_top = 24.0
 margin_right = 140.0
 margin_bottom = 44.0
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 
 [node name="PortRect" parent="Body" instance=ExtResource( 3 )]
@@ -118,5 +123,6 @@ s_port_type = 1
 s_port_enable = true
 
 [connection signal="toggled" from="Header/HBoxContainer/ExpandBtn" to="." method="_on_ExpandBtn_toggled"]
-[connection signal="pressed" from="Body/VBoxContainer/CharacterSelection" to="." method="_on_OptionButton_pressed"]
+[connection signal="pressed" from="Body/VBoxContainer/CharacterSelection" to="." method="_on_CharacterSelection_pressed"]
 [connection signal="visibility_changed" from="Body/VBoxContainer/VBoxExpression" to="." method="_on_VBoxExpression_visibility_changed"]
+[connection signal="pressed" from="Body/VBoxContainer/VBoxExpression/ExpressionSelection" to="." method="_on_ExpressionSelection_pressed"]
