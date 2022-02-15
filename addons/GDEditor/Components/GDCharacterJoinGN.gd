@@ -68,3 +68,7 @@ func _on_ExpressionSelection_pressed() -> void:
 		
 		if expression == selected_expression:
 			_expression_selection.select(idx)
+
+
+func _on_CharacterSelection_item_selected(index: int) -> void:
+	_expression_selection.clear()

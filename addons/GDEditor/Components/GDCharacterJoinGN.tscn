@@ -123,6 +123,7 @@ s_port_type = 1
 s_port_enable = true
 
 [connection signal="toggled" from="Header/HBoxContainer/ExpandBtn" to="." method="_on_ExpandBtn_toggled"]
+[connection signal="item_selected" from="Body/VBoxContainer/CharacterSelection" to="." method="_on_CharacterSelection_item_selected"]
 [connection signal="pressed" from="Body/VBoxContainer/CharacterSelection" to="." method="_on_CharacterSelection_pressed"]
 [connection signal="visibility_changed" from="Body/VBoxContainer/VBoxExpression" to="." method="_on_VBoxExpression_visibility_changed"]
 [connection signal="pressed" from="Body/VBoxContainer/VBoxExpression/ExpressionSelection" to="." method="_on_ExpressionSelection_pressed"]
