@@ -210,6 +210,7 @@ icon = ExtResource( 1 )
 [connection signal="about_to_show" from="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog" to="." method="_on_CharacterEditDialog_about_to_show"]
 [connection signal="about_to_show" from="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog" to="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog" method="_on_about_to_show"]
 [connection signal="popup_hide" from="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog" to="." method="_on_CharacterEditDialog_popup_hide"]
+[connection signal="popup_hide" from="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog" to="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog" method="_on_popup_hide"]
 [connection signal="state_changed" from="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog/MarginContainer/HSplitContainer/CharacterStateTree" to="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog" method="_on_CharacterStateTree_state_changed"]
 [connection signal="text_changed" from="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog/MarginContainer/HSplitContainer/VBoxContainer/GridContainer/DescriptionEdit" to="." method="_on_DescriptionEdit_text_changed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog/MarginContainer/HSplitContainer/VBoxContainer/BtnContainer/AddExpressionBtn" to="HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog" method="_on_AddExpressionBtn_pressed"]

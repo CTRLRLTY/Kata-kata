@@ -5,23 +5,16 @@ extends PanelContainer
 signal profile_pressed
 signal text_changed(new_text)
 
-var expression_texture_rect : TextureRect
-var expression_edit : LineEdit
 var expression_data : CharacterExpressionData
 
+onready var _expression_texture_rect := $"VBoxContainer/ExpressionTextRect"
+onready var _expression_edit := $"VBoxContainer/ExpressionEdit"
 
-func _enter_tree() -> void:
-	expression_texture_rect = $"VBoxContainer/ExpressionTextRect"
-	expression_edit = $"VBoxContainer/ExpressionEdit"
-	
-	if not expression_data:
-		expression_data = CharacterExpressionData.new()
-		expression_data.expression_texture = load(GDUtil.resolve("icon.png"))
-		expression_data.expression_name = "owo"
-		
-	expression_edit.text = expression_data.expression_name
-	expression_texture_rect.texture = expression_data.expression_texture
-	
+
+func _ready() -> void:
+	_expression_edit.text = expression_data.expression_name
+	_expression_texture_rect.texture = expression_data.expression_texture
+
 
 func _on_focus_entered() -> void:
 	add_stylebox_override("panel", get_stylebox("CharacterExpressionFocus"))

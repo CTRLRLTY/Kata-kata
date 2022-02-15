@@ -49,13 +49,10 @@ func _on_VBoxExpression_visibility_changed() -> void:
 	
 
 func _on_ExpressionSelection_pressed() -> void:
-	var selected_character : int = _character_selection.selected
-	
-	if selected_character == -1:
+	if _character_selection.selected == -1:
 		return
 		
-	var character_data : CharacterData = _character_selection.get_item_metadata(
-			selected_character)
+	var character_data : CharacterData = _character_selection.get_selected_metadata()
 	
 	var selected_expression : CharacterExpressionData = _expression_selection.get_selected_metadata()
 	
