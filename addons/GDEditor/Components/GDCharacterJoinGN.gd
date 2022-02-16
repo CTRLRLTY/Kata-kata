@@ -113,5 +113,6 @@ func _on_ExpressionSelection_pressed() -> void:
 func _on_CharacterSelection_item_selected(index: int) -> void:
 	if is_connection_connected_output(0):
 		get_dialogue_view().character_left(_previous_selected_character)
+		get_dialogue_view().character_join(get_character_data())
 	
 	_expression_selection.clear()
