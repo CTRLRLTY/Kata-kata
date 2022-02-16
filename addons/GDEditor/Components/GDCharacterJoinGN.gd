@@ -5,6 +5,15 @@ extends GDGraphNode
 class_name GDCharacterJoinGN
 
 
+enum CharacterPosition {
+	LEFT,
+	RIGHT
+}
+
+var _previous_selected_character : CharacterData
+
+
+onready var _position_btn := find_node("PositionBtn")
 onready var _expand_btn := find_node("ExpandBtn")
 onready var _character_selection := find_node("CharacterSelection")
 onready var _expression_selection := find_node("ExpressionSelection")
@@ -19,8 +28,39 @@ func get_component_name() -> String:
 	return "Character Join"
 
 
+func get_character_data() -> CharacterData:
+	return _character_selection.get_selected_metadata()
+
+
+func get_expression_data() -> CharacterExpressionData:
+	return _expression_selection.get_selected_metadata()
+
+
+func get_character_position() -> int:
+	return _position_btn.pressed as int
+
+
+func connect_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
+	if graph_node is GDMessageGN:
+		if not get_character_data():
+			return false
+		
+		get_dialogue_view().character_join(get_character_data())
+		
+		return true
+	
+	return false
+
+
+func disconnect_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
+	get_dialogue_view().character_left(get_character_data())
+	
+	return true
+
+
 func _on_CharacterSelection_pressed() -> void:
 	var selected_character : CharacterData = _character_selection.get_selected_metadata()
+	_previous_selected_character = selected_character
 	
 	_character_selection.clear()
 	
@@ -71,4 +111,7 @@ func _on_ExpressionSelection_pressed() -> void:
 
 
 func _on_CharacterSelection_item_selected(index: int) -> void:
+	if is_connection_connected_output(0):
+		get_dialogue_view().character_left(_previous_selected_character)
+	
 	_expression_selection.clear()

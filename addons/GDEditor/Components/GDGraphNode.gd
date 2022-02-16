@@ -82,12 +82,20 @@ func is_connection_connected_output(slot: int) -> bool:
 	return false
 
 
-func deny_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
-	return false
+func connect_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
+	return true
 
 
-func deny_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
-	return false
+func connect_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
+	return true
+
+
+func disconnect_from(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
+	return true
+
+
+func disconnect_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
+	return true
 
 
 func port2slot(slot: int, pos: int) -> int:

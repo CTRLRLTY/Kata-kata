@@ -25,6 +25,7 @@ func get_components() -> Array:
 				c["readers"] = []
 				c["scene"] = component
 				c["name"] = scene.get_component_name()
+				_reader_table[component.resource_path] = []
 				
 				scene.free()
 				_components.append(c)

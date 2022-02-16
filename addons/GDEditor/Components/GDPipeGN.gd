@@ -56,18 +56,18 @@ func get_output_ports_type() -> int:
 	return get_connection_output_type(0)
 
 
-func deny_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
+func connect_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
 	var from_type := get_connection_input_type(from_slot)
 	
 	if from_type == PortType.UNIVERSAL:
 		var to_type := graph_node.get_connection_output_type(to_slot)
 		if not get_output_ports_type() == to_type:
 			if is_connection_connected_input(from_slot):
-				return true
+				return false
 			
 			change_all_outport(to_type)
 	
-	return false
+	return true
 
 
 func change_all_outport(to_type: int) -> void:

@@ -19,13 +19,14 @@ func get_component_name() -> String:
 	return "Message"
 
 
-func deny_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
+func connect_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
 	if self is graph_node.get_script():
+		# deny action outport to connect to GDMessageGN action inport
 		if graph_node.get_connection_input_type(from_slot) == PortType.ACTION and \
 			get_connection_output_type(to_slot) == PortType.ACTION:
-			return true
+			return false
 	
-	return false
+	return true
 
 
 func _on_CharacterSelection_pressed() -> void:
@@ -33,7 +34,7 @@ func _on_CharacterSelection_pressed() -> void:
 	
 	_character_selection.clear()
 	
-	for character_data in get_dialogue_view().get_character_datas():
+	for character_data in get_dialogue_view().get_joined_characters():
 		assert(character_data is CharacterData)
 		
 		var idx : int = _character_selection.get_item_count()

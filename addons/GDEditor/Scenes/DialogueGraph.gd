@@ -139,8 +139,8 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 			if is_node_right_connected(from, from_slot):
 				return
 	
-	if from_node.deny_to(to_node, to_slot, from_slot) or \
-	   to_node.deny_from(from_node, from_slot, to_slot)\
+	if not from_node.connect_to(to_node, to_slot, from_slot) or \
+	   not to_node.connect_from(from_node, from_slot, to_slot)\
 	:
 		return
 	
@@ -148,6 +148,14 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 
 
 func _on_disconnection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
+	var from_node : GDGraphNode = get_node(from)
+	var to_node : GDGraphNode = get_node(to)
+	
+	if not from_node.disconnect_to(to_node, to_slot, from_slot) or \
+	   not to_node.disconnect_from(from_node, from_slot, to_slot)\
+	:
+		return
+	
 	disconnect_node(from, from_slot, to, to_slot)
 
 
