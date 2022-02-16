@@ -4,6 +4,9 @@ extends GDDialogueView
 
 class_name GDStandardView
 
+signal character_file_deleted(file)
+signal character_left(character_data)
+
 
 var _joined_characters := []
 var _joined_count := {}
@@ -12,6 +15,13 @@ onready var choice_container := find_node("ChoiceContainer")
 onready var character_left_rect := find_node("CharacterLeftRect")
 onready var character_right_rect := find_node("CharacterRightRect")
 onready var text_box := find_node("TextBox")
+
+
+func _ready() -> void:
+	var file_system := GDUtil.get_file_system_dock()
+	
+	if file_system:
+		file_system.connect("file_removed", self, "_on_file_removed")
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -113,8 +123,9 @@ func character_left(character_data: CharacterData) -> void:
 		
 		if not _joined_count[character_data] == 0:
 			return
-	
+		
 		_joined_characters.erase(character_data)
+		emit_signal("character_left", character_data)
 
 
 func show_choices(questions: PoolStringArray) -> void:
@@ -140,4 +151,8 @@ func clear() -> void:
 	set_character_right_texture(null)
 	set_text_box("")
 
+
+func _on_file_removed(fname: String) -> void:
+	if fname == GDUtil.get_characters_dir():
+		emit_signal("character_file_deleted", fname)
 

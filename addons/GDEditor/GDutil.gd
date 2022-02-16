@@ -56,8 +56,18 @@ static func get_icon(icon_name : String) -> Texture:
 
 
 # Returns EditorPlugin
-static func get_editor_plugin() -> Node:
+static func get_editor_plugin() -> EditorPlugin:
 	return _state.get("editor_plugin")
+
+
+static func get_file_system_dock() -> FileSystemDock:
+	var editor_plugin := get_editor_plugin()
+	
+	if editor_plugin:
+		var editor_interface := editor_plugin.get_editor_interface()
+		return editor_interface.get_file_system_dock() 
+	
+	return null
 
 
 # Returns GDDialogueEditor class
@@ -73,7 +83,7 @@ static func set_dialogue_editor(dialogue_editor: Control) -> void:
 	_state["dialogue_editor"] = dialogue_editor
 
 
-static func set_editor_plugin(editor_plugin: Node) -> void:
+static func set_editor_plugin(editor_plugin: EditorPlugin) -> void:
 	_state["editor_plugin"] = editor_plugin 
 
 
