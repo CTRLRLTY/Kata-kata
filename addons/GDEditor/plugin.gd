@@ -6,6 +6,8 @@ const DialogueEditorScene := preload("res://addons/GDEditor/Scenes/DialogueEdito
 var dialogue_editor : Control
 
 func _enter_tree() -> void:
+	GDUtil.set_editor_plugin(self)
+	
 	dialogue_editor = DialogueEditorScene.instance()
 	get_editor_interface().get_editor_viewport().add_child(dialogue_editor)
 	
@@ -16,7 +18,6 @@ func _enter_tree() -> void:
 #			get_editor_interface().get_base_control().get_icon("ResourcePreloader", "EditorIcons"))
 #
 	add_autoload_singleton("Gaelog", GDUtil.get_gaelog_path())
-	GDUtil.set_editor_plugin(self)
 	
 	# Prevent competing active main screen
 	make_visible(false)

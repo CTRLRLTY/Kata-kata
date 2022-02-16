@@ -153,6 +153,5 @@ func clear() -> void:
 
 
 func _on_file_removed(fname: String) -> void:
-	if fname == GDUtil.get_characters_dir():
+	if fname.get_base_dir() + "/" == GDUtil.get_characters_dir():
 		emit_signal("character_file_deleted", fname)
-

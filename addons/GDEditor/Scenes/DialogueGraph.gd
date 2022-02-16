@@ -48,12 +48,12 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 				printerr("GraphEdit already has a StartNode")
 				return
 	
+	emit_signal("graph_node_added", gn)
+	
 	add_child(gn)
 	
 	gn.owner = self
 	gn.offset = (scroll_offset + position) / zoom
-	
-	emit_signal("graph_node_added", gn)
 
 
 func save() -> void:
@@ -112,10 +112,26 @@ func is_node_left_connected(node_name: String, slot: int) -> bool:
 
 
 func clear_node_connections(gn: GDGraphNode) -> void:
-	var gn_connections := GDUtil.array_dictionary_matchallv(get_connection_list(),
+	var connections := GDUtil.array_dictionary_matchallv(get_connection_list(),
 			[{"from": gn.name}, {"to": gn.name}])
 
-	for connection in gn_connections:
+	for connection in connections:
+		disconnect_node(connection.from, connection.from_port, connection.to, connection.to_port)
+
+
+func disconnect_node_input(node_name: String, port: int) -> void:
+	var connections := GDUtil.array_dictionary_matchallv(get_connection_list(),
+			[{"to": node_name, "to_port": port}])
+	
+	for connection in connections:
+		disconnect_node(connection.from, connection.from_port, connection.to, connection.to_port)
+
+
+func disconnect_node_output(node_name: String, port: int) -> void:
+	var connections := GDUtil.array_dictionary_matchallv(get_connection_list(),
+			[{"from": node_name, "from_port": port}])
+	
+	for connection in connections:
 		disconnect_node(connection.from, connection.from_port, connection.to, connection.to_port)
 
 
