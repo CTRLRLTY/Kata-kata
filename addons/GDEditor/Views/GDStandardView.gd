@@ -17,6 +17,27 @@ func _gui_input(event: InputEvent) -> void:
 				next()
 
 
+func _get_components() -> Array:
+	return [
+		load(GDUtil.resolve("GDStartGN.tscn")),
+		load(GDUtil.resolve("GDEndGN.tscn")),
+		{
+			"scene": load(GDUtil.resolve("GDMessageGN.tscn")),
+			"readers": [GDMessageReader.new()]
+		},
+		{
+			"scene": load(GDUtil.resolve("GDPipeGN.tscn")),
+			"readers": [GDPipeReader.new()]
+		},
+		load(GDUtil.resolve("GDChoiceGN.tscn")),
+		load(GDUtil.resolve("GDCharacterJoinGN.tscn"))
+	]
+
+
+func _get_tools() -> Array:
+	return [load(GDUtil.resolve("ToolCharacterOpen.tscn"))]
+
+
 func get_character_names() -> PoolStringArray:
 	var dir := Directory.new()
 	
@@ -48,24 +69,6 @@ func get_character_datas() -> Array:
 		dir.list_dir_end()
 	
 	return ret
-
-
-func get_readers() -> Array:
-	return [GDMessageReader.new(), GDPipeReader.new()]
-
-
-func get_components() -> Array:
-	# Returns an Array of PackedScenes
-	return [load(GDUtil.resolve("GDStartGN.tscn")),
-			load(GDUtil.resolve("GDEndGN.tscn")),
-			load(GDUtil.resolve("GDMessageGN.tscn")),
-			load(GDUtil.resolve("GDPipeGN.tscn")),
-			load(GDUtil.resolve("GDChoiceGN.tscn")),
-			load(GDUtil.resolve("GDCharacterJoinGN.tscn"))]
-
-
-func get_tools() -> Array:
-	return [load(GDUtil.resolve("ToolCharacterOpen.tscn"))]
 
 
 func set_text_box(text: String) -> void:

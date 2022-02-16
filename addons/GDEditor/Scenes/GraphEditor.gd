@@ -47,18 +47,14 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 	
 	_node_selection.clear()
 	
-	for component_scene in dialogue_view.get_components():
-		assert(component_scene is PackedScene)
+	for component in dialogue_view.get_components():
+		var component_scene : PackedScene = component.scene
 		
-		var component : GDGraphNode = component_scene.instance()
+		var idx : int = _node_selection.get_item_count()
+		var gn : GDGraphNode = component_scene.instance()
 		
-		assert(component is GDGraphNode)
-		
-		_node_selection.add_item(component.get_component_name())
-		_node_selection.set_item_metadata(
-				_node_selection.get_item_count() - 1, component_scene)
-		
-		component.free()
+		_node_selection.add_item(component.name)
+		_node_selection.set_item_metadata(idx, component_scene)
 
 
 func save() -> void:

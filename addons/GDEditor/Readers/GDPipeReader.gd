@@ -36,10 +36,6 @@ class Awaitable extends Resource:
 		emit_signal("finished")
 
 
-func can_handle(graph_node: GDGraphNode) -> bool:
-	return graph_node is GDPipeGN
-
-
 func render(graph_node: GDPipeGN, dialogue_viewer: GDDialogueView, cursor: GDDialogueCursor) -> void:
 	var node_connection := graph_node.get_connections()
 	

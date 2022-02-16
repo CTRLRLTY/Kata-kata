@@ -16,7 +16,7 @@ func _ready() -> void:
 
 
 func get_component_name() -> String:
-	return "CharacterJoin"
+	return "Character Join"
 
 
 func _on_CharacterSelection_pressed() -> void:

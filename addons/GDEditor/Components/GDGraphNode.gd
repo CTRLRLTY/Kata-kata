@@ -15,7 +15,7 @@ enum PortType {
 	FLOW = PortRect.PortType.FLOW,
 }
 
-var _dialogue_view : GDDialogueView
+var _dialogue_view : Control
 
 
 func get_component_name() -> String:
@@ -45,11 +45,11 @@ func get_port_rects_left() -> Array:
 	return port_rects
 
 
-func get_dialogue_view() -> GDDialogueView:
+func get_dialogue_view() -> Control:
 	return _dialogue_view
 
 
-func set_dialogue_view(dialogue_view: GDDialogueView) -> void:
+func set_dialogue_view(dialogue_view: Control) -> void:
 	_dialogue_view = dialogue_view
 
 

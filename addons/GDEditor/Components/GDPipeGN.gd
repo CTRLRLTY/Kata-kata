@@ -17,6 +17,10 @@ func _ready() -> void:
 	set_type(s_type)
 
 
+func get_component_name() -> String:
+	return "Pipe"
+
+
 func set_type(type_id : int) -> void:
 	if get_dialogue_graph():
 		get_dialogue_graph().clear_node_connections(self)
@@ -41,10 +45,6 @@ func set_type(type_id : int) -> void:
 			_add_attachment("SignalEditSection")
 	
 	s_type = type_id
-
-
-func get_component_name() -> String:
-	return "Pipe"
 
 
 func get_type() -> int:
