@@ -172,4 +172,7 @@ custom_styles/normal = SubResource( 6 )
 draw_tabs = true
 draw_spaces = true
 
+[connection signal="item_selected" from="Header/GridContainer/CharacterSelection" to="." method="_on_CharacterSelection_item_selected"]
+[connection signal="pressed" from="Header/GridContainer/CharacterSelection" to="." method="_on_CharacterSelection_pressed"]
+[connection signal="pressed" from="Header/GridContainer/ExpressionSelection" to="." method="_on_ExpressionSelection_pressed"]
 [connection signal="text_changed" from="Body/MessageEdit" to="." method="_on_MessageEdit_text_changed"]
