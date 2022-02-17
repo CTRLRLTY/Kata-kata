@@ -25,6 +25,7 @@ func _ready() -> void:
 	
 	if get_dialogue_view():
 		get_dialogue_view().connect("character_file_deleted", self, "_on_character_file_deleted")
+		get_dialogue_view().connect("character_renamed", self, "_on_character_renamed")
 
 
 func get_component_name() -> String:
@@ -74,10 +75,21 @@ func _on_character_file_deleted(_file: String) -> void:
 				_character_selection.remove_item(idx)
 			
 			return
+	
+	
+func _on_character_renamed(character_data: CharacterData) -> void:
+	var idx : int = _character_selection.selected
+	
+	if idx != -1:
+		var selected_character : CharacterData = _character_selection.get_selected_metadata()
+		
+		if character_data == selected_character:
+			_character_selection.set_item_text(idx, character_data.character_name)
 
 
 func _on_CharacterSelection_pressed() -> void:
 	var selected_character : CharacterData = _character_selection.get_selected_metadata()
+
 	_previous_selected_character = selected_character
 	
 	_character_selection.clear()

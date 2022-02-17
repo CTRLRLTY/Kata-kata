@@ -6,6 +6,7 @@ class_name GDStandardView
 
 signal character_file_deleted(file)
 signal character_left(character_data)
+signal character_renamed(character_data)
 
 
 var _joined_characters := []

@@ -42,12 +42,21 @@ func _on_CharacterDefinitionPopup_popup_hide() -> void:
 			var fname : String = resource_name_filter.sub(character_data.character_name, "")
 			var fpath : String = characters_dir + fname + ".tres"
 			
+			var renamed := false
+			
 			if stored_idx != -1:
 				if fpath != character_data.resource_path:
 					DIR.rename(character_data.resource_path, fpath)
+					character_data.resource_path = fpath
+					
+					renamed = true
 			
 			ResourceSaver.save(characters_dir + 
 					"%s.tres" % [fname], character_data)
+			
+			if renamed:
+				get_dialogue_view().emit_signal("character_renamed", character_data)
+			
 			
 		if "character_data" in child:
 			child.queue_free()
