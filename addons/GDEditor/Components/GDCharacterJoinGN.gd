@@ -49,7 +49,7 @@ func connect_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
 		if not get_character_data():
 			return false
 		
-		get_dialogue_view().character_join(get_character_data())
+		get_dialogue_view().character_join(get_character_data(), self)
 		
 		return true
 	
@@ -57,7 +57,7 @@ func connect_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
 
 
 func disconnect_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
-	get_dialogue_view().character_left(get_character_data())
+	get_dialogue_view().character_left(get_character_data(), self)
 	
 	return true
 
@@ -73,7 +73,7 @@ func _on_character_deleted(deleted_data: CharacterData) -> void:
 			else:
 				_character_selection.remove_item(idx)
 
-			get_dialogue_view().character_left(character_data)
+			get_dialogue_view().character_left(character_data, self)
 			return
 	
 	
@@ -142,7 +142,7 @@ func _on_ExpressionSelection_pressed() -> void:
 
 func _on_CharacterSelection_item_selected(index: int) -> void:
 	if is_connection_connected_output(0):
-		get_dialogue_view().character_left(_previous_selected_character)
-		get_dialogue_view().character_join(get_character_data())
+		get_dialogue_view().character_left(_previous_selected_character, self)
+		get_dialogue_view().character_join(get_character_data(), self)
 	
 	_expression_selection.clear()

@@ -11,7 +11,7 @@ signal character_renamed(character_data)
 
 
 var _joined_characters := []
-var _joined_count := {}
+var _joined_claims := {}
 
 onready var choice_container := find_node("ChoiceContainer")
 onready var character_left_rect := find_node("CharacterLeftRect")
@@ -107,11 +107,18 @@ func set_character_right_texture(texture: Texture) -> void:
 	character_right_rect.texture = texture
 
 
-func character_join(character_data: CharacterData) -> void:
-	if not character_data:
+func character_join(character_data: CharacterData, holder: GDGraphNode) -> void:
+	if not character_data or not is_instance_valid(holder):
 		return
 	
-	_joined_count[character_data] = _joined_count.get(character_data, 0) + 1
+	var claims : Array =  _joined_claims.get(character_data, [])
+	
+	if claims.has(holder):
+		return
+	
+	claims.append(holder)
+	
+	_joined_claims[character_data] = claims
 	
 	if _joined_characters.has(character_data):
 		return
@@ -119,15 +126,15 @@ func character_join(character_data: CharacterData) -> void:
 	_joined_characters.append(character_data)
 
 
-func character_left(character_data: CharacterData) -> void:
-	if _joined_count.has(character_data):
-		_joined_count[character_data] -= min(_joined_count[character_data], 1)
+func character_left(character_data: CharacterData, holder: GDGraphNode) -> void:
+	if _joined_claims.has(character_data):
+		var claims : Array = _joined_claims[character_data]
 		
-		if not _joined_count[character_data] == 0:
-			return
+		claims.erase(holder)
 		
-		_joined_characters.erase(character_data)
-		emit_signal("character_left", character_data)
+		if claims.empty():
+			_joined_characters.erase(character_data)
+			emit_signal("character_left", character_data)
 
 
 func show_choices(questions: PoolStringArray) -> void:
