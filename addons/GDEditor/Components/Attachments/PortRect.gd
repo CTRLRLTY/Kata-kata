@@ -24,9 +24,9 @@ func _enter_tree() -> void:
 		return
 	
 	# This wait idle frame is necessary when moving the port rect position in parent.
-	# Without this, the port will update right after NOTIFICATION_UNPARENTED is called before
-	# the port rect is displaced. Making it wait one idle frame will ensure the
-	# update to be called once the port rect has displaced.
+	# Without this, the port will update right after NOTIFICATION_UNPARENTED is called; 
+	# which is before the port rect is displaced. Making it wait one idle frame will ensure 
+	# the update to be called once the port rect has displaced.
 	yield(get_tree(), "idle_frame")
 	_update_port()
 
@@ -34,21 +34,9 @@ func _enter_tree() -> void:
 func _notification(what: int) -> void:
 	match what:
 		NOTIFICATION_UNPARENTED:
-			if not Engine.editor_hint:
-				return
-				
-			if not _get_configuration_warning().empty():
-				return
-				
-			var gn := _graph_owner()
-			var slot := _slot()
-			
-			match _connector_type():
-				INPUT:
-					gn.set_slot_enabled_left(slot, false)
-				OUTPUT:
-					gn.set_slot_enabled_right(slot, false)
-
+			_cleanup_port()
+		NOTIFICATION_PREDELETE:
+			_cleanup_port()
 
 
 func _get_configuration_warning() -> String:
@@ -77,6 +65,23 @@ func set_port_type(type : int) -> void:
 func set_port_enable(p_enable : bool) -> void:
 	s_port_enable = p_enable
 	_update_port()
+
+
+func _cleanup_port() -> void:
+	if not Engine.editor_hint:
+		return
+	
+	if not _get_configuration_warning().empty():
+		return
+		
+	var gn := _graph_owner()
+	var slot := _slot()
+	
+	match _connector_type():
+		INPUT:
+			gn.set_slot_enabled_left(slot, false)
+		OUTPUT:
+			gn.set_slot_enabled_right(slot, false)
 
 
 func _graph_owner() -> GraphNode:
