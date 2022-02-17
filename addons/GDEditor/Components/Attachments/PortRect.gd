@@ -25,7 +25,7 @@ func _enter_tree() -> void:
 	
 	# This wait idle frame is necessary when moving the port rect position in parent.
 	# Without this, the port will update right after NOTIFICATION_UNPARENTED is called before
-	# the port rect still has not displaced. Making it wait one idle frame will ensure to the
+	# the port rect is displaced. Making it wait one idle frame will ensure the
 	# update to be called once the port rect has displaced.
 	yield(get_tree(), "idle_frame")
 	_update_port()
