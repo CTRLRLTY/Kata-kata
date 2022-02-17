@@ -99,15 +99,13 @@ func disconnect_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> boo
 
 
 func disconnect_input(port: int) -> void:
-	assert(is_connection_connected_input(port))
-	
-	get_dialogue_graph().disconnect_node_input(name, port)
+	if is_connection_connected_input(port):
+		get_dialogue_graph().disconnect_node_input(name, port)
 
 
 func disconnect_output(port: int) -> void:
-	assert(is_connection_connected_output(port))
-	
-	get_dialogue_graph().disconnect_node_output(name, port)
+	if is_connection_connected_output(port):
+		get_dialogue_graph().disconnect_node_output(name, port)
 
 
 func port2slot(slot: int, pos: int) -> int:
