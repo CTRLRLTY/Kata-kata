@@ -73,6 +73,7 @@ func _on_character_deleted(deleted_data: CharacterData) -> void:
 			else:
 				_character_selection.remove_item(idx)
 
+			get_dialogue_view().character_left(character_data)
 			return
 	
 	
