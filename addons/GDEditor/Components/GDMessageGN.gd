@@ -13,6 +13,9 @@ onready var _expression_selection := find_node("ExpressionSelection")
 
 func _ready() -> void:
 	_message_edit.text = s_message
+	
+	if get_dialogue_view():
+		get_dialogue_view().connect("character_left", self, "_on_character_left")
 
 
 func get_component_name() -> String:
@@ -27,6 +30,20 @@ func connect_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
 			return false
 	
 	return true
+
+
+func _on_character_left(left_character: CharacterData) -> void:
+	for idx in range(_character_selection.get_item_count()):
+		var character_data : CharacterData = _character_selection.get_item_metadata(idx)
+		
+		if left_character == character_data:
+			if character_data == _character_selection.get_selected_metadata():
+				_character_selection.clear()
+				_expression_selection.clear()
+			else:
+				_character_selection.remove_item(idx)
+			
+			return
 
 
 func _on_CharacterSelection_pressed() -> void:

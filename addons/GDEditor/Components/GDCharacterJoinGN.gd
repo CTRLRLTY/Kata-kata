@@ -69,6 +69,7 @@ func _on_character_deleted(deleted_data: CharacterData) -> void:
 		if deleted_data == character_data:
 			if character_data == _character_selection.get_selected_metadata():
 				_character_selection.clear()
+				_expression_selection.clear()
 				disconnect_output(0)
 			else:
 				_character_selection.remove_item(idx)
