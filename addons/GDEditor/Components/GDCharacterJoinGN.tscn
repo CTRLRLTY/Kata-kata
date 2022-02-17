@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Icons/GuiVisibilityVisible.png" type="Texture" id=1]
 [ext_resource path="res://addons/GDEditor/Components/GDCharacterJoinGN.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://addons/GDEditor/Resources/Icons/GUIVisibilityHidden.png" type="Texture" id=4]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Play.png" type="Texture" id=5]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/PlayBackwards.png" type="Texture" id=6]
+[ext_resource path="res://addons/GDEditor/Components/Attachments/CharacterSelection.gd" type="Script" id=7]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 15.0
@@ -106,6 +107,7 @@ margin_right = 140.0
 margin_bottom = 20.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
+script = ExtResource( 7 )
 
 [node name="VBoxExpression" type="VBoxContainer" parent="Body/VBoxContainer"]
 visible = false
@@ -138,5 +140,7 @@ s_port_enable = true
 [connection signal="toggled" from="Header/HBoxContainer/ExpandBtn" to="." method="_on_ExpandBtn_toggled"]
 [connection signal="item_selected" from="Body/VBoxContainer/CharacterSelection" to="." method="_on_CharacterSelection_item_selected"]
 [connection signal="pressed" from="Body/VBoxContainer/CharacterSelection" to="." method="_on_CharacterSelection_pressed"]
+[connection signal="pressed" from="Body/VBoxContainer/CharacterSelection" to="Body/VBoxContainer/CharacterSelection" method="_on_pressed"]
+[connection signal="selected_character_deleted" from="Body/VBoxContainer/CharacterSelection" to="." method="_on_CharacterSelection_selected_character_deleted"]
 [connection signal="visibility_changed" from="Body/VBoxContainer/VBoxExpression" to="." method="_on_VBoxExpression_visibility_changed"]
 [connection signal="pressed" from="Body/VBoxContainer/VBoxExpression/ExpressionSelection" to="." method="_on_ExpressionSelection_pressed"]

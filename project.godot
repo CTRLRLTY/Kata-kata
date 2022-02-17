@@ -40,6 +40,11 @@ _global_script_classes=[ {
 "path": "res://addons/GDEditor/Readers/GDCharacterJoinReader.gd"
 }, {
 "base": "GDGraphNode",
+"class": "GDCharacterLeftGN",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Components/GDCharacterLeftGN.gd"
+}, {
+"base": "GDGraphNode",
 "class": "GDChoiceGN",
 "language": "GDScript",
 "path": "res://addons/GDEditor/Components/GDChoiceGN.gd"
@@ -146,6 +151,7 @@ _global_script_class_icons={
 "DialogueGraph": "",
 "GDCharacterJoinGN": "",
 "GDCharacterJoinReader": "",
+"GDCharacterLeftGN": "",
 "GDChoiceGN": "",
 "GDDialogueCursor": "",
 "GDDialogueEditor": "",

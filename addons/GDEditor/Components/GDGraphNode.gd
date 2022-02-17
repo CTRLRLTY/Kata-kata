@@ -108,6 +108,11 @@ func disconnect_output(port: int) -> void:
 		get_dialogue_graph().disconnect_node_output(name, port)
 
 
+func disconnect_all_ports() -> void:
+	if get_dialogue_graph():
+		get_dialogue_graph().clear_node_connections(self)
+
+
 func port2slot(slot: int, pos: int) -> int:
 	assert(pos == Port.LEFT or pos == Port.RIGHT)
 	

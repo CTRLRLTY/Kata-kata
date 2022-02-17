@@ -49,8 +49,8 @@ func _get_components() -> Array:
 		{
 			"scene": load(GDUtil.resolve("GDCharacterJoinGN.tscn")),
 			"readers": [GDCharacterJoinReader.new()]
-		}
-		
+		},
+		load(GDUtil.resolve("GDCharacterLeftGN.tscn"))
 	]
 
 
