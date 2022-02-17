@@ -57,7 +57,6 @@ func _on_CharacterDefinitionPopup_popup_hide() -> void:
 			if renamed:
 				get_dialogue_view().emit_signal("character_renamed", character_data)
 			
-			
 		if "character_data" in child:
 			child.queue_free()
 
@@ -67,5 +66,6 @@ func _on_CharacterDefinitionPopup_character_item_delete(character_item: Control)
 	var character_data : CharacterData = character_item.character_data
 	
 	if character_data:
+		get_dialogue_view().emit_signal("character_deleted", character_data)
 		DIR.remove(character_data.resource_path)
 		character_item.queue_free()

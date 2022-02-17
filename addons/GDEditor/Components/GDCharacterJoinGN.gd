@@ -25,6 +25,7 @@ func _ready() -> void:
 	
 	if get_dialogue_view():
 		get_dialogue_view().connect("character_file_deleted", self, "_on_character_file_deleted")
+#		get_dialogue_view().connect("character_deleted", self, "_on_character_deleted")
 		get_dialogue_view().connect("character_renamed", self, "_on_character_renamed")
 
 
@@ -65,7 +66,7 @@ func disconnect_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> boo
 func _on_character_file_deleted(_file: String) -> void:
 	for idx in range(_character_selection.get_item_count()):
 		var character_data : CharacterData = _character_selection.get_item_metadata(idx)
-		
+
 		# This assumes empty resource_path means its file has been deleted.
 		if character_data.resource_path.empty():
 			if character_data == _character_selection.get_selected_metadata():
@@ -73,7 +74,7 @@ func _on_character_file_deleted(_file: String) -> void:
 				disconnect_output(0)
 			else:
 				_character_selection.remove_item(idx)
-			
+
 			return
 	
 	
