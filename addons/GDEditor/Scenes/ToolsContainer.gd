@@ -2,7 +2,7 @@ tool
 
 extends HBoxContainer
 
-const _tools_state := {}
+var _tools_state := {}
 
 
 func _exit_tree() -> void:
@@ -42,7 +42,8 @@ func add_tools(tools: Array) -> void:
 			_tools_state[tool_scene] = tool_scene.instance()
 			_tools_state[tool_scene].set_dialogue_view(dialogue_view)
 		
-		add_child(_tools_state[tool_scene])
+		if not _tools_state[tool_scene].get_parent():
+			add_child(_tools_state[tool_scene])
 
 
 func clear_tools() -> void:
