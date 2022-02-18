@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
 [ext_resource path="res://addons/GDEditor/Components/GDMessageGN.gd" type="Script" id=2]
 [ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/GDEditor/Components/Attachments/CharacterSelectionJoined.gd" type="Script" id=4]
 
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.662745, 0.682353, 0.733333, 1 )
@@ -75,6 +76,7 @@ margin_left = 79.0
 margin_right = 234.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
+script = ExtResource( 4 )
 
 [node name="Label" type="Label" parent="Header/GridContainer"]
 margin_top = 33.0
@@ -172,7 +174,8 @@ custom_styles/normal = SubResource( 6 )
 draw_tabs = true
 draw_spaces = true
 
+[connection signal="character_selected_left" from="Header/GridContainer/CharacterSelection" to="." method="_on_CharacterSelection_character_selected_left"]
 [connection signal="item_selected" from="Header/GridContainer/CharacterSelection" to="." method="_on_CharacterSelection_item_selected"]
-[connection signal="pressed" from="Header/GridContainer/CharacterSelection" to="." method="_on_CharacterSelection_pressed"]
+[connection signal="pressed" from="Header/GridContainer/CharacterSelection" to="Header/GridContainer/CharacterSelection" method="_on_pressed"]
 [connection signal="pressed" from="Header/GridContainer/ExpressionSelection" to="." method="_on_ExpressionSelection_pressed"]
 [connection signal="text_changed" from="Body/MessageEdit" to="." method="_on_MessageEdit_text_changed"]

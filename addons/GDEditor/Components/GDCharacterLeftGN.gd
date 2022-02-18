@@ -20,5 +20,5 @@ func get_character_selection() -> OptionButton:
 	return _character_selection
 
 
-func _on_CharacterSelection_selected_character_deleted() -> void:
+func _on_CharacterSelection_character_selected_left() -> void:
 	disconnect_input(0)
