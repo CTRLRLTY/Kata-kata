@@ -14,6 +14,7 @@ onready var _expression_selection := find_node("ExpressionSelection")
 func _ready() -> void:
 	_message_edit.text = s_message
 	_character_selection.graph_node = self
+	_expression_selection.graph_node = self
 
 
 func get_component_name() -> String:
@@ -40,28 +41,6 @@ func _on_CharacterSelection_item_selected(index: int) -> void:
 
 func _on_CharacterSelection_character_selected_left() -> void:
 	_expression_selection.clear()
-
-
-func _on_ExpressionSelection_pressed() -> void:
-	if _character_selection.selected == -1:
-		return
-		
-	var character_data : CharacterData = _character_selection.get_selected_metadata()
-	
-	var selected_expression : CharacterExpressionData = _expression_selection.get_selected_metadata()
-	
-	_expression_selection.clear()
-	
-	for expression in character_data.character_expressions:
-		assert(expression is CharacterExpressionData)
-		
-		var idx: int = _expression_selection.get_item_count()
-		
-		_expression_selection.add_item(expression.expression_name)
-		_expression_selection.set_item_metadata(idx, expression)
-		
-		if expression == selected_expression:
-			_expression_selection.select(idx)
 
 
 func _on_MessageEdit_text_changed() -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Icons/GuiVisibilityVisible.png" type="Texture" id=1]
 [ext_resource path="res://addons/GDEditor/Components/GDCharacterJoinGN.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Play.png" type="Texture" id=5]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/PlayBackwards.png" type="Texture" id=6]
 [ext_resource path="res://addons/GDEditor/Components/Attachments/CharacterSelection.gd" type="Script" id=7]
+[ext_resource path="res://addons/GDEditor/Components/Attachments/ExpressionSelection.gd" type="Script" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 15.0
@@ -128,6 +129,7 @@ margin_right = 140.0
 margin_bottom = 44.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
+script = ExtResource( 8 )
 
 [node name="PortRect" parent="Body" instance=ExtResource( 3 )]
 margin_left = 140.0
@@ -143,4 +145,4 @@ s_port_enable = true
 [connection signal="pressed" from="Body/VBoxContainer/CharacterSelection" to="Body/VBoxContainer/CharacterSelection" method="_on_pressed"]
 [connection signal="selected_character_deleted" from="Body/VBoxContainer/CharacterSelection" to="." method="_on_CharacterSelection_selected_character_deleted"]
 [connection signal="visibility_changed" from="Body/VBoxContainer/VBoxExpression" to="." method="_on_VBoxExpression_visibility_changed"]
-[connection signal="pressed" from="Body/VBoxContainer/VBoxExpression/ExpressionSelection" to="." method="_on_ExpressionSelection_pressed"]
+[connection signal="pressed" from="Body/VBoxContainer/VBoxExpression/ExpressionSelection" to="Body/VBoxContainer/VBoxExpression/ExpressionSelection" method="_on_pressed"]
