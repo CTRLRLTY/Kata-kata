@@ -24,10 +24,6 @@ func _ready() -> void:
 	_vbox_expression.visible = not _expand_btn.pressed
 	_character_selection.graph_node = self
 	_expression_selection.graph_node = self
-	
-	if get_dialogue_view():
-		get_dialogue_view().connect("character_deleted", self, "_on_character_deleted")
-		get_dialogue_view().connect("character_renamed", self, "_on_character_renamed")
 
 
 func get_component_name() -> String:
