@@ -12,10 +12,8 @@ signal character_renamed(character_data)
 
 export var s_left_char : Dictionary
 export var s_right_char : Dictionary
-
-
-var _joined_characters := []
-var _joined_claims := {}
+export var s_joined_characters := []
+export var s_joined_claims := {}
 
 
 onready var _character_left := find_node("CharacterLeft")
@@ -101,7 +99,7 @@ func get_character_datas() -> Array:
 
 
 func get_joined_characters() -> Array:
-	return _joined_characters
+	return s_joined_characters
 
 
 func set_text_box(text: String) -> void:
@@ -120,19 +118,19 @@ func character_join(character_data: CharacterData, holder: GDCharacterJoinGN) ->
 	if not character_data or not is_instance_valid(holder):
 		return
 	
-	var claims : Array =  _joined_claims.get(character_data, [])
+	var claims : Array =  s_joined_claims.get(character_data, [])
 	
 	if claims.has(holder):
 		return
 	
 	claims.append(holder)
 	
-	_joined_claims[character_data] = claims
+	s_joined_claims[character_data] = claims
 	
-	if _joined_characters.has(character_data):
+	if s_joined_characters.has(character_data):
 		return
 	
-	_joined_characters.append(character_data)
+	s_joined_characters.append(character_data)
 	
 	var position : String = holder.CharacterPosition\
 			.keys()[holder.get_character_position()].to_lower()
@@ -144,8 +142,8 @@ func character_join(character_data: CharacterData, holder: GDCharacterJoinGN) ->
 
 
 func character_left(character_data: CharacterData, holder: GDGraphNode) -> void:
-	if _joined_claims.has(character_data):
-		var claims : Array = _joined_claims[character_data]
+	if s_joined_claims.has(character_data):
+		var claims : Array = s_joined_claims[character_data]
 		
 		claims.erase(holder)
 		
@@ -155,7 +153,7 @@ func character_left(character_data: CharacterData, holder: GDGraphNode) -> void:
 			
 			get("s_%s_char" % position)[holder.s_character_offset].erase(character_data)
 			
-			_joined_characters.erase(character_data)
+			s_joined_characters.erase(character_data)
 			emit_signal("character_left", character_data)
 
 
