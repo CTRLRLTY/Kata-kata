@@ -16,4 +16,3 @@ func render(graph_node: GDCharacterJoinGN, dialogue_view: GDDialogueView, cursor
 			var position : String = graph_node.CharacterPosition.keys()[graph_node.get_character_position()].to_lower()
 			
 			dialogue_view.show_character(character_data, expression_data)
-			graph_node.get_expression_data()

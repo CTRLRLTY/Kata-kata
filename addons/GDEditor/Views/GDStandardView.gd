@@ -52,7 +52,10 @@ func _get_components() -> Array:
 			"scene": load(GDUtil.resolve("GDCharacterJoinGN.tscn")),
 			"readers": [GDCharacterJoinReader.new()]
 		},
-		load(GDUtil.resolve("GDCharacterLeftGN.tscn"))
+		{
+			"scene": load(GDUtil.resolve("GDCharacterLeftGN.tscn")),
+			"readers": [GDCharacterLeftReader.new()]
+		}
 	]
 
 
@@ -113,7 +116,8 @@ func show_character(character: CharacterData, expression: CharacterExpressionDat
 
 	var position : String = GDCharacterJoinGN.CharacterPosition.keys()[jdata.position].to_lower()
 	
-	get("_character_%s" % [position]).set_texture(expression.expression_texture, jdata.position)
+	get("_character_%s" % [position]).set_character(jdata.offset,
+			expression.expression_texture, character)
 
 
 # Checks the runtime join
@@ -131,6 +135,14 @@ func character_rjoin(character_data: CharacterData) -> void:
 
 # Runtime left
 func character_rleft(character_data: CharacterData) -> void:
+	var lcharidx : int = _character_left.find_character(character_data)
+	var rcharidx : int = _character_right.find_character(character_data)
+	
+	if lcharidx != -1:
+		_character_left.set_character(lcharidx, null, null)
+	if rcharidx != -1:
+		_character_right.set_character(rcharidx, null, null)
+	
 	_joined.erase(character_data)
 
 

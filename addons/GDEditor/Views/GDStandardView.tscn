@@ -2,19 +2,7 @@
 
 [ext_resource path="res://test/Haha.png" type="Texture" id=1]
 [ext_resource path="res://addons/GDEditor/Views/GDStandardView.gd" type="Script" id=2]
-
-[sub_resource type="GDScript" id=1]
-script/source = "extends MarginContainer
-
-
-func set_texture(texture: Texture, ofs: int) -> void:
-	get_child(ofs).set_texture(texture)
-
-
-func clear_textures() -> void:
-	for child in get_children():
-		child.set_texture(null)
-"
+[ext_resource path="res://addons/GDEditor/Views/CharacterRect.gd" type="Script" id=3]
 
 [node name="StandardView" type="Panel"]
 margin_right = 1024.0
@@ -27,9 +15,9 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
-s_left_char = {
+s_joined_characters = {
 }
-s_right_char = {
+s_joined_claims = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -45,7 +33,7 @@ __meta__ = {
 margin_right = 334.0
 margin_bottom = 270.0
 size_flags_horizontal = 3
-script = SubResource( 1 )
+script = ExtResource( 3 )
 
 [node name="CharacterLeftRect" type="TextureRect" parent="HBoxContainer/CharacterLeft"]
 margin_right = 334.0
@@ -114,7 +102,7 @@ margin_left = 689.0
 margin_right = 1024.0
 margin_bottom = 270.0
 size_flags_horizontal = 3
-script = SubResource( 1 )
+script = ExtResource( 3 )
 
 [node name="CharacterRightRect" type="TextureRect" parent="HBoxContainer/CharacterRight"]
 margin_right = 335.0

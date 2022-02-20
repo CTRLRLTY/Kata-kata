@@ -95,12 +95,13 @@ func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
 	
 	for action in actions_left:
 		var gn : GDGraphNode = dgraph.get_node(action.from)
+		
 		dialogue_view.render_node(gn, cursor)
 	
 	dialogue_view.render_node(graph_node, cursor)
 	
 	for action in actions_right:
-		var gn : GDGraphNode
+		var gn : GDGraphNode = dgraph.get_node(action.to)
 		dialogue_view.render_node(gn, cursor)
 
 
