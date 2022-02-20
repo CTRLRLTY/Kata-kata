@@ -41,7 +41,7 @@ func _on_TabMenuPopup_save_dialogue() -> void:
 func _on_TabMenuPopup_preview_dialogue() -> void:
 	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
 	dialogue_preview.visible = not dialogue_preview.visible
-	dialogue_preview.clear()
+	dialogue_preview.reset()
 	
 	_graph_editor_container.save_editor(_tabs.current_tab)
 
@@ -82,7 +82,7 @@ func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
 	
 	if cursor.is_end():
 		cursor.reset()
-		dialogue_view.clear()
+		dialogue_view.reset()
 		return
 	
 	if cursor.is_start():

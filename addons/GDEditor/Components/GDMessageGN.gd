@@ -25,6 +25,14 @@ func get_character_selection() -> OptionButton:
 	return _character_selection as OptionButton
 
 
+func get_character_data() -> CharacterData:
+	return _character_selection.get_selected_metadata()
+
+
+func get_expression_data() -> CharacterExpressionData:
+	return _expression_selection.get_selected_metadata()
+
+
 func connect_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
 	if self is graph_node.get_script():
 		# deny action outport to connect to GDMessageGN action inport

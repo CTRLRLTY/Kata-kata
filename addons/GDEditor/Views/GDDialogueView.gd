@@ -95,7 +95,7 @@ func clear_choices() -> void:
 	pass
 
 
-func clear() -> void:
+func reset() -> void:
 	pass
 
 

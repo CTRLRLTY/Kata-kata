@@ -12,12 +12,23 @@ func _ready() -> void:
 	_character_selection.graph_node = self
 
 
+func connect_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
+	if _character_selection.selected == -1:
+		return false
+	
+	return true
+
+
 func get_component_name() -> String:
 	return "Character Left"
 
 
 func get_character_selection() -> OptionButton:
 	return _character_selection
+
+
+func get_character_data() -> CharacterData:
+	return _character_selection.get_selected_metadata()
 
 
 func _on_CharacterSelection_character_selected_left() -> void:

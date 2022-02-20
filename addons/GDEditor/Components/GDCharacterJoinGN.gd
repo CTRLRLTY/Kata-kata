@@ -54,15 +54,12 @@ func get_character_selection() -> OptionButton:
 
 
 func connect_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
-	if graph_node is GDMessageGN:
-		if not get_character_data():
-			return false
-		
-		get_dialogue_view().character_join(get_character_data(), self)
-		
-		return true
+	if not get_character_data():
+		return false
 	
-	return false
+	get_dialogue_view().character_join(get_character_data(), self)
+	
+	return true
 
 
 func disconnect_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
