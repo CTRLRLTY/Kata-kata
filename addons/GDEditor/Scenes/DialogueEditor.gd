@@ -101,7 +101,7 @@ func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
 	dialogue_view.render_node(graph_node, cursor)
 	
 	for action in actions_right:
-		var gn : GDGraphNode = dgraph.get_node(action.from)
+		var gn : GDGraphNode = dgraph.get_node(action.to)
 		dialogue_view.render_node(gn, cursor)
 
 
