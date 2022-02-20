@@ -137,7 +137,10 @@ func character_join(character_data: CharacterData, holder: GDCharacterJoinGN) ->
 	var position : String = holder.CharacterPosition\
 			.keys()[holder.get_character_position()].to_lower()
 	
-	get("s_%s_char" % position)[holder.s_character_offset] = character_data
+	if not get("s_%s_char" % position).has(holder.s_character_offset):
+		get("s_%s_char" % position)[holder.s_character_offset] = []
+	
+	get("s_%s_char" % position)[holder.s_character_offset].append(character_data)
 
 
 func character_left(character_data: CharacterData, holder: GDGraphNode) -> void:
@@ -149,8 +152,8 @@ func character_left(character_data: CharacterData, holder: GDGraphNode) -> void:
 		if claims.empty():
 			var position : String = holder.CharacterPosition\
 					.keys()[holder.get_character_position()].to_lower()
-				
-			get("s_%s_char" % position).erase(holder.s_character_offset)
+			
+			get("s_%s_char" % position)[holder.s_character_offset].erase(character_data)
 			
 			_joined_characters.erase(character_data)
 			emit_signal("character_left", character_data)
