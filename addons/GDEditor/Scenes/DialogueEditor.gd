@@ -58,8 +58,8 @@ func _on_Tabs_tab_added() -> void:
 	
 	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
 	
-	dialogue_preview.connect("next", self, "_on_dialogue_view_next", [dialogue_preview])
-	dialogue_preview.connect("choice", self, "_on_dialogue_view_choice", [dialogue_preview])
+#	dialogue_preview.connect("next", self, "_on_dialogue_view_next", [dialogue_preview])
+#	dialogue_preview.connect("choice", self, "_on_dialogue_view_choice", [dialogue_preview])
 
 
 func _on_Tabs_tab_changed(tab: int) -> void:
@@ -73,40 +73,8 @@ func _on_Tabs_tab_changed(tab: int) -> void:
 	_tools_container.add_tools(dialogue_preview.get_tools())
 
 
-func _on_dialogue_view_next(dialogue_view: GDDialogueView) -> void:
-	var dgraph : DialogueGraph = _graph_editor_container.get_editor_graph(_tabs.current_tab)
-	var cursor := dgraph.cursor()
-	
-	if not cursor.is_valid():
-		return
-	
-	if cursor.is_end():
-		cursor.reset()
-		dialogue_view.reset()
-		return
-	
-	if cursor.is_start():
-		cursor.next()
-	
-	var graph_node : GDGraphNode = dgraph.get_node(cursor.get_node_name())
-	
-	var actions_left : Array = cursor.get_actions_left()
-	var actions_right : Array = cursor.get_actions_right()
-	
-	for action in actions_left:
-		var gn : GDGraphNode = dgraph.get_node(action.from)
-		
-		dialogue_view.render_node(gn, cursor)
-	
-	dialogue_view.render_node(graph_node, cursor)
-	
-	for action in actions_right:
-		var gn : GDGraphNode = dgraph.get_node(action.to)
-		dialogue_view.render_node(gn, cursor)
-
-
-func _on_dialogue_view_choice(choice: int, dialogue_view: GDDialogueView) -> void:
-	pass
+#func _on_dialogue_view_choice(choice: int, dialogue_view: GDDialogueView) -> void:
+#	pass
 
 
 func _on_PreviewOptions_item_selected(index: int) -> void:

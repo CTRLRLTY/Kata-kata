@@ -17,7 +17,7 @@ func render(graph_node: GDMessageGN, dialogue_viewer: GDDialogueView, cursor: GD
 		if dialogue_viewer.has_character_join(character_data):
 			dialogue_viewer.show_character(character_data, expression_data)
 	
-	cursor.next()
+	cursor.nextf()
 
 
 func read(graph_node: GDMessageGN) -> String:

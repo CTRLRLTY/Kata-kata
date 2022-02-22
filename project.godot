@@ -94,6 +94,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Components/GDEndGN.gd"
 }, {
+"base": "GDDialogueReader",
+"class": "GDEndReader",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Readers/GDEndReader.gd"
+}, {
 "base": "VSplitContainer",
 "class": "GDGraphEditor",
 "language": "GDScript",
@@ -139,6 +144,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Components/GDStartGN.gd"
 }, {
+"base": "GDDialogueReader",
+"class": "GDStartReader",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Readers/GDStartReader.gd"
+}, {
 "base": "Reference",
 "class": "GDUtil",
 "language": "GDScript",
@@ -167,6 +177,7 @@ _global_script_class_icons={
 "GDDummyView": "",
 "GDEmitterGN": "",
 "GDEndGN": "",
+"GDEndReader": "",
 "GDGraphEditor": "",
 "GDGraphNode": "",
 "GDMessageGN": "",
@@ -176,6 +187,7 @@ _global_script_class_icons={
 "GDSetterGN": "",
 "GDStandardView": "",
 "GDStartGN": "",
+"GDStartReader": "",
 "GDUtil": "",
 "PortRect": ""
 }

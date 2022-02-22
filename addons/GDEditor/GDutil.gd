@@ -355,3 +355,11 @@ static func line_centroidv(points : PoolVector2Array) -> Vector2:
 	var ret = points[1] + points[0]
 	
 	return ret/2
+
+
+static func cursor_copy(cursor: GDDialogueCursor) -> GDDialogueCursor:
+	var ret := GDDialogueCursor.new(cursor.s_port_table)
+	ret.s_cursor = cursor.s_cursor.duplicate(true)
+	ret.s_node_name = cursor.s_node_name
+	
+	return ret

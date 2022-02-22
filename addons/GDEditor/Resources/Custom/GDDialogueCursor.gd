@@ -2,139 +2,254 @@ extends Resource
 
 class_name GDDialogueCursor
 
+signal prev
+signal next
+
 export var s_cursor : Dictionary
-export var s_start : Dictionary
-export var s_end : Array
+export var s_node_name : String
+
+# port_table dictionary:
+# 	? = may or may not exist
+#	
+#	Structure:
+#	-> node_name(String)?:
+#		-> to(String):
+#			-> PortType.UNIVERSAL(int)?:
+#				-> left_port(int): [{node_name: String, node_left_port: int}, ...]
+#				-> left_port(int)...
+#			-> PortType.ACTION(int)?:
+#				-> left_port(int): [{node_name: String, node_left_port: int}, ...]
+#				-> left_port(int)...
+#			-> PortType.FLOW(int)?:
+#				-> left_port(int): [{node_name: String, node_left_port: int}, ...]
+#				-> left_port(int)...
+#		-> from(String):
+#			-> PortType.UNIVERSAL(int)?:
+#				-> right_port(int): [{node_name: String, node_right_port: int}, ...]
+#				-> right_port(int)...
+#			-> PortType.ACTION(int)?:
+#				-> right_port(int): [{node_name: String, node_right_port: int}, ...]
+#				-> right_port(int)...
+#			-> PortType.FLOW(int)?:
+#				-> right_port(int): [{node_name: String, node_right_port: int}, ...]
+#				-> right_port(int)...
+#	-> node_name(String)....
 export var s_port_table : Dictionary
 
-var _prev : Dictionary
-var _valid := false
 
-func _init(graph_edit: GraphEdit) -> void:
-	assert(graph_edit.has_method("connected_ports"))
+func _init(port_table: Dictionary) -> void:
+	s_port_table = port_table.duplicate(true)
 	
-	var connection_list = graph_edit.get_connection_list()
-	var start = GDUtil.array_dictionary_popv(connection_list, [{"from": "Start"}])
-	
-	if start:
-		s_start = start
-		s_port_table[start.from] = graph_edit.connected_ports(start.from)
-		_populate_port_table(start, graph_edit)
-	
-		s_cursor = start()
-		
-		# Validate whether the cursor has path to a GDEndGN node.
-		if not s_end.empty():
-			while not is_end():
-				for connection in get_flows_right():
-					if s_end.has(connection):
-						_valid = true
-						break
-				
-				next()
-		
+	if s_port_table.has("Start"):
 		reset()
 
 
 func get_node_name() -> String:
-	return s_cursor.name
-
-
-func get_actions_left() -> Array:
-	return s_cursor.from.action.duplicate()
-
-
-func get_actions_right() -> Array:
-	return s_cursor.to.action.duplicate()
-
-
-func get_universals_left() -> Array:
-	return s_cursor.from.universal.duplicate()
-
-
-func get_universals_right() -> Array:
-	return s_cursor.to.universal.duplicate()
-
-
-func get_flows_left() -> Array:
-	return s_cursor.from.flow.duplicate()
-
-
-func get_flows_right() -> Array:
-	return s_cursor.to.flow.duplicate()
-
-
-func size() -> int:
-	return s_port_table.size()
+	return s_node_name
 
 
 func reset() -> void:
-	s_cursor = start()
+	s_cursor = s_port_table["Start"]
+	s_node_name = "Start"
 
 
-func start() -> Dictionary:
-	return s_port_table.get("Start", {}) 
+func port_leftu() -> Array:
+	return port_left(PortRect.PortType.UNIVERSAL)
 
 
-func end() -> Array:
-	return s_end
+func port_rightu() -> Array:
+	return port_right(PortRect.PortType.UNIVERSAL)
 
 
-func is_end() -> bool:
+func port_lefta() -> Array:
+	return port_left(PortRect.PortType.ACTION)
+
+
+func port_righta() -> Array:
+	return port_right(PortRect.PortType.ACTION)
+
+
+func port_leftf() -> Array:
+	return port_left(PortRect.PortType.FLOW)
+
+
+func port_rightf() -> Array:
+	return port_right(PortRect.PortType.FLOW)
+
+
+func connection_leftu(port: int) -> Array:
+	return connection_left(PortRect.PortType.UNIVERSAL, port)
+
+
+func connection_rightu(port: int) -> Array:
+	return connection_right(PortRect.PortType.UNIVERSAL, port)
+
+
+func connection_lefta(port: int) -> Array:
+	return connection_left(PortRect.PortType.ACTION, port)
+
+
+func connection_righta(port: int) -> Array:
+	return connection_right(PortRect.PortType.ACTION, port)
+
+
+func connection_leftf(port: int) -> Array:
+	return connection_left(PortRect.PortType.FLOW, port)
+
+
+func connection_rightf(port: int) -> Array:
+	return connection_right(PortRect.PortType.FLOW, port)
+
+
+func nextu(idx := 0) -> void:
+	next(PortRect.PortType.UNIVERSAL, idx)
+
+
+func nexta(idx := 0) -> void:
+	next(PortRect.PortType.ACTION, idx)
+
+
+func nextf(idx := 0) -> void:
+	next(PortRect.PortType.FLOW, idx)
+
+
+func prevu(idx := 0 ) -> void:
+	prev(PortRect.PortType.UNIVERSAL, idx)
+
+
+func preva(idx := 0) -> void:
+	prev(PortRect.PortType.ACTION, idx)
+
+
+func prevf(idx := 0) -> void:
+	prev(PortRect.PortType.FLOW, idx)
+
+
+func next_portu(port: int, idx := 0) -> void:
+	next_port(PortRect.PortType.UNIVERSAL, port, idx)
+
+
+func next_porta(port: int, idx := 0) -> void:
+	next_port(PortRect.PortType.ACTION, port, idx)
+
+
+func next_portf(port: int, idx := 0) -> void:
+	next_port(PortRect.PortType.FLOW, port, idx)
+
+
+func prev_portu(port: int, idx := 0) -> void:
+	prev_port(PortRect.PortType.UNIVERSAL, port, idx)
+
+
+func prev_porta(port: int, idx := 0) -> void:
+	prev_port(PortRect.PortType.ACTION, port, idx)
+
+
+func prev_portf(port: int, idx := 0) -> void:
+	prev_port(PortRect.PortType.FLOW, port, idx)
+
+
+func end() -> bool:
 	return s_cursor.empty()
 
 
-func is_start() -> bool:
-	return s_cursor == start() or s_start.empty()
+func port_left(port_type: int) -> Array:
+	if end():
+		return []
+	
+	if not s_cursor.from.has(port_type):
+		return []
+	
+	var types : Dictionary = s_cursor.from[port_type]
+	
+	var ports := types.keys()
+	ports.sort()
+	
+	return ports
 
 
-func is_valid() -> bool:
-	return _valid
+func port_right(port_type: int) -> Array:
+	if end():
+		return []
+	
+	if not s_cursor.to.has(port_type):
+		return []
+	
+	var types : Dictionary = s_cursor.to[port_type]
+
+	var ports := types.keys()
+	ports.sort()
+	
+	return ports
 
 
-func next(fork := 0) -> void:
-	if is_end():
+func connection_left(port_type: int, port: int) -> Array:
+	if end():
+		return []
+	
+	var port_types : Dictionary = s_cursor.from.get(port_type, {})
+	
+	return port_types.get(port, [])
+
+
+func connection_right(port_type: int, port: int) -> Array:
+	if end():
+		return []
+	
+	var port_types : Dictionary = s_cursor.to.get(port_type, {})
+
+	return port_types.get(port, [])
+
+
+func next(port_type: int, idx := 0) -> void:
+	var port_list := port_right(port_type)
+	
+	var port := 0
+	
+	if idx > -1 and idx < port_list.size():
+		port = port_list[idx]
+	
+	next_port(port_type, port, idx)
+
+
+func prev(port_type: int, idx := 0) -> void:
+	var port_list := port_left(port_type)
+
+	var port := 0
+
+	if idx > -1 and idx < port_list.size():
+		port = port_list[idx]
+
+	prev_port(port_type, port, idx)
+
+
+func next_port(port_type: int, port : int, idx := 0) -> void:
+	if s_cursor.empty():
 		return
 	
-	_prev = s_cursor
+	var port_list : Array = connection_right(port_type, port)
 	
-	if s_cursor.to.flow.empty():
-		s_cursor = {}
-		return
-	
-	fork = clamp(fork, 0, s_cursor.to.flow.size())
-	var connection = s_cursor.to.flow[fork]
-
-	s_cursor = s_port_table.get(connection.to, {})
-
-
-func prev(fork := -777) -> void:
-	if is_start():
-		return
-	
-	if fork == -777:
-		s_cursor = _prev
+	if port_list.empty():
+		s_node_name = ""
 	else:
-		fork = clamp(fork, 0, s_cursor.from.flow.size() - 1)
-		var connection = s_cursor.from.flow[fork]
+		s_node_name = port_list[idx].name
 
-		s_cursor = s_port_table.get(connection.from, start())
+	s_cursor = s_port_table.get(s_node_name, {})
 	
-	
-func _populate_port_table(connection: Dictionary, dialogue_graph: GraphEdit) -> void:
-	assert(dialogue_graph.has_method("connected_ports"))
-	
-	var graph_node : GDGraphNode = dialogue_graph.get_node(connection.to)
+	emit_signal("next")
 
-	if graph_node is GDEndGN:
-		s_end.append(connection)
-		
+
+func prev_port(port_type: int, port: int, idx := 0) -> void:
+	if s_cursor.empty():
 		return
+	
+	var port_list : Array = connection_left(port_type, port)
+	
+	if port_list.empty():
+		s_node_name = ""
+	else:
+		s_node_name = port_list[idx].name
 
-	var node_connection : Dictionary = graph_node.get_connections()
+	s_cursor = s_port_table.get(s_node_name, {})
 	
-	s_port_table[node_connection.name] = node_connection
-	
-	for port in node_connection.to:
-		for connection in node_connection.to[port]:
-			_populate_port_table(connection, dialogue_graph)
+	emit_signal("prev")

@@ -44,32 +44,26 @@ func render(graph_node: GDPipeGN, dialogue_viewer: GDDialogueView, cursor: GDDia
 	if not awaitable.is_finished():
 		yield(awaitable, "finished")
 	
+	var output_type : int = graph_node.get_output_ports_type()
+	
 	match graph_node.s_type:
 		GDPipeGN.PipeType.CONDITION:
 			var evaluation : bool = awaitable.get_data()
 			
-			var flows := cursor.get_flows_right()
-			
-			var next_index := 0
-			
-			if evaluation:
-				# Output true port
-				next_index = GDUtil.array_dictionary_findv(flows, [{"from_port": 0}])
-				assert(next_index != -1, "%s Output port 0 has no connection" % [graph_node.name])
-			else:
-				# Output false port
-				next_index = GDUtil.array_dictionary_findv(flows, [{"from_port": 1}])
-				assert(next_index != -1, "%s Output port 1 has no connection" % [graph_node.name])
-			
-			cursor.next(next_index)
-			
-		GDPipeGN.PipeType.WAIT_FOR:
-			cursor.next()
-			
-		GDPipeGN.PipeType.WAIT_TILL:
-			cursor.next()
+			# true port = 0
+			# false port = 1
+			cursor.next_port(output_type, int(not evaluation))
 		
-	dialogue_viewer.next()
+		GDPipeGN.PipeType.WAIT_FOR:
+			cursor.next(output_type)
+		
+		GDPipeGN.PipeType.WAIT_TILL:
+			cursor.next(output_type)
+	
+	
+	match output_type:
+		PortRect.PortType.FLOW:
+			dialogue_viewer.next()
 
 
 func read(graph_node: GDPipeGN) -> Awaitable:

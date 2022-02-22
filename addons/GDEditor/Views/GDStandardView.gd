@@ -28,14 +28,7 @@ func _ready() -> void:
 		file_system.connect("file_removed", self, "_on_file_removed")
 
 
-func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		if event.pressed:
-			if event.button_index == BUTTON_LEFT:
-				next()
-
-
-func _get_components() -> Array:
+func _dialogue_components() -> Array:
 	return [
 		load(GDUtil.resolve("GDStartGN.tscn")),
 		load(GDUtil.resolve("GDEndGN.tscn")),
@@ -59,7 +52,7 @@ func _get_components() -> Array:
 	]
 
 
-func _get_tools() -> Array:
+func _tool_buttons() -> Array:
 	return [load(GDUtil.resolve("ToolCharacterOpen.tscn"))]
 
 
@@ -115,9 +108,14 @@ func show_character(character: CharacterData, expression: CharacterExpressionDat
 		return
 
 	var position : String = GDCharacterJoinGN.CharacterPosition.keys()[jdata.position].to_lower()
+	var texture : Texture
+	
+	if expression:
+		texture = expression.expression_texture
+		
 	
 	get("_character_%s" % [position]).set_character(jdata.offset,
-			expression.expression_texture, character)
+			texture, character)
 
 
 # Checks the runtime join

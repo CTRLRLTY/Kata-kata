@@ -22,6 +22,10 @@ func get_component_name() -> String:
 	return "GDGraphNode"
 
 
+func get_readers() -> Array:
+	return []
+
+
 func get_dialogue_editor() -> Control:
 	return GDUtil.get_dialogue_editor()
 
@@ -31,7 +35,7 @@ func get_dialogue_graph() -> GraphEdit:
 
 
 func get_connections() -> Dictionary:
-	return get_dialogue_graph().connected_ports(name)
+	return get_dialogue_graph().s_port_table.get(name)
 
 
 func get_port_rects_left() -> Array:

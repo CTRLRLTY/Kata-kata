@@ -10,25 +10,40 @@ signal choice(idx)
 var _components := []
 var _reader_table := {}
 var _tools_tested := false
+var _dgraph : GraphEdit
+
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.pressed:
+			if event.button_index == BUTTON_LEFT:
+				next()
+				emit_signal("next")
 
 
 func get_components() -> Array:
 	if _components.empty():
-		for component in _get_components():
+		for component in _dialogue_components():
 			assert(component is Dictionary or component is PackedScene)
 			
 			if component is PackedScene:
 				var c := {}
 				var scene = component.instance()
+				
 				assert(scene is GDGraphNode)
 				
-				c["readers"] = []
+				c["readers"] = scene.get_readers()
 				c["scene"] = component
 				c["name"] = scene.get_component_name()
-				_reader_table[component.resource_path] = []
+				
+				for reader in c.readers:
+					assert(reader is GDDialogueReader)
+				
+				_reader_table[component.resource_path] = c.readers
 				
 				scene.free()
 				_components.append(c)
+				
 			elif component is Dictionary:
 				assert(component.has("scene"))
 				assert(component.scene is PackedScene)
@@ -36,7 +51,7 @@ func get_components() -> Array:
 				var scene = component.scene.instance()
 				assert(scene is GDGraphNode)
 				
-				component.readers = component.get("readers", [])
+				component.readers = component.get("readers", scene.get_readers())
 				component.name = component.get("name", scene.get_component_name())
 				
 				scene.free()
@@ -44,10 +59,11 @@ func get_components() -> Array:
 				assert(component.readers is Array)
 				
 				var scene_path = component.scene.resource_path
-				_reader_table[scene_path] = component.readers
 				
 				for reader in component.readers:
 					assert(reader is GDDialogueReader)
+				
+				_reader_table[scene_path] = component.readers
 				
 				_components.append(component)
 	
@@ -56,7 +72,7 @@ func get_components() -> Array:
 
 func get_tools() -> Array:
 	if not _tools_tested:
-		for tool_scene in _get_tools():
+		for tool_scene in _tool_buttons():
 			assert(tool_scene is PackedScene)
 			
 			var scene = tool_scene.instance()
@@ -67,7 +83,15 @@ func get_tools() -> Array:
 	
 		_tools_tested = true
 	
-	return _get_tools()
+	return _tool_buttons()
+
+
+func get_dialogue_graph() -> GraphEdit:
+	return _dgraph
+
+
+func set_dialogue_graph(dgraph: GraphEdit) -> void:
+	_dgraph = dgraph
 
 
 func set_text_box(text: String) -> void:
@@ -80,7 +104,47 @@ func render_node(node: GDGraphNode, cursor: GDDialogueCursor) -> void:
 
 
 func next() -> void:
-	emit_signal("next")
+	var dgraph := get_dialogue_graph()
+	
+	var cursor : GDDialogueCursor = dgraph.cursor()
+	
+	if cursor.end():
+		return
+	
+	
+	var node_name := cursor.get_node_name()
+	var graph_node : GDGraphNode = dgraph.get_node(node_name)
+	
+	var actions_left : Array = cursor.port_lefta()
+	var actions_right : Array = cursor.port_righta()
+	
+	
+	for port in actions_left:
+		for conn in cursor.connection_lefta(port):
+			var cursor_copy : GDDialogueCursor = GDUtil.cursor_copy(cursor)
+			
+			cursor_copy.prev_porta(port)
+			cursor_copy.connect("prev", self, "__on_cursor_prev", [cursor_copy])
+			
+			var gn : GDGraphNode = dgraph.get_node(conn.name)
+			
+			render_node(gn, cursor_copy)
+	
+	
+	for port in actions_right:
+		for conn in cursor.connection_righta(port):
+			var cursor_copy : GDDialogueCursor = GDUtil.cursor_copy(cursor)
+			
+			cursor_copy.next_porta(port)
+			cursor_copy.connect("next", self, "__on_cursor_next", [cursor_copy])
+			
+			var gn : GDGraphNode = dgraph.get_node(conn.name)
+			
+			render_node(gn, cursor_copy)
+	
+	
+	render_node(graph_node, cursor)
+
 
 
 func show_choices(question: PoolStringArray) -> void:
@@ -103,9 +167,17 @@ func save() -> void:
 	pass
 
 
-func _get_components() -> Array:
+func _dialogue_components() -> Array:
 	return []
 
 
-func _get_tools() -> Array:
+func _tool_buttons() -> Array:
 	return []
+
+
+func __on_cursor_next(cursor: GDDialogueCursor) -> void:
+	print_debug("action: " + cursor.get_node_name())
+
+
+func __on_cursor_prev(cursor: GDDialogueCursor) -> void:
+	pass

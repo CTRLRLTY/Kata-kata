@@ -34,6 +34,8 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 	
 	var current_dialogue_view := get_dialogue_preview()
 	
+	dialogue_view.set_dialogue_graph(get_dialogue_graph())
+	
 	if current_dialogue_view:
 		current_dialogue_view.queue_free()
 		
