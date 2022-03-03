@@ -9,8 +9,8 @@ signal character_deleted(character_data)
 signal character_left(character_data)
 signal character_renamed(character_data)
 
-
-export var s_joined_characters : Dictionary
+# s_joined_claims Dictionary:
+#	-> CharacterData: [GDCharacterJoinGN, ...]
 export var s_joined_claims : Dictionary
 
 
@@ -18,7 +18,10 @@ onready var _character_left := find_node("CharacterLeft")
 onready var _character_right := find_node("CharacterRight")
 onready var _choice_container := find_node("ChoiceContainer")
 onready var _text_box := find_node("TextBox")
-onready var _joined := []
+
+# _joined Dictionary:
+#	-> CharacterData: GDCharacterJoinGN
+onready var _joined := {}
 
 
 func _ready() -> void:
@@ -94,7 +97,7 @@ func get_character_datas() -> Array:
 
 
 func get_joined_characters() -> Array:
-	return s_joined_characters.keys()
+	return s_joined_claims.keys()
 
 
 func set_text_box(text: String) -> void:
@@ -102,20 +105,22 @@ func set_text_box(text: String) -> void:
 
 
 func show_character(character: CharacterData, expression: CharacterExpressionData) -> void:
-	var jdata : Dictionary = s_joined_characters.get(character)
+	var gn : GDCharacterJoinGN
 	
-	if not jdata:
+	if _joined.has(character):
+		gn = _joined[character]
+	
+	if not gn:
 		return
-
-	var position : String = GDCharacterJoinGN.CharacterPosition.keys()[jdata.position].to_lower()
+	
+	var position : String = gn.get_character_position_string()
+	var offset : int = gn.s_character_offset
 	var texture : Texture
 	
 	if expression:
 		texture = expression.expression_texture
-		
 	
-	get("_character_%s" % [position]).set_character(jdata.offset,
-			texture, character)
+	get("_character_%s" % [position]).set_character(offset, texture, character)
 
 
 # Checks the runtime join
@@ -124,29 +129,33 @@ func has_character_join(character_data: CharacterData) -> bool:
 
 
 # Runtime join
-func character_rjoin(character_data: CharacterData) -> void:
-	if _joined.has(character_data):
-		return
+func character_rjoin(gn: GDCharacterJoinGN) -> void:
+	var character_data := gn.get_character_data()
 	
-	_joined.append(character_data)
+	if character_data:
+		_joined[character_data] = gn
 
 
 # Runtime left
 func character_rleft(character_data: CharacterData) -> void:
-	var lcharidx : int = _character_left.find_character(character_data)
-	var rcharidx : int = _character_right.find_character(character_data)
+	if not _joined.has(character_data):
+		return
 	
-	if lcharidx != -1:
-		_character_left.set_character(lcharidx, null, null)
-	if rcharidx != -1:
-		_character_right.set_character(rcharidx, null, null)
+	var gn : GDCharacterJoinGN = _joined[character_data]
+	var position := gn.get_character_position_string()
+	var offset := gn.s_character_offset
+	
+	var character_rect = get("_character_%s" % [position])
+	var index : int = character_rect.find_character(character_data)
+	
+	if index != -1:
+		character_rect.set_character(index, null, null)
 	
 	_joined.erase(character_data)
 
 
-func character_join(character_data: CharacterData, holder: GDCharacterJoinGN) -> void:
-	if not character_data or not is_instance_valid(holder):
-		return
+func character_join(holder: GDCharacterJoinGN) -> void:
+	var character_data := holder.get_character_data()
 	
 	var claims : Array =  s_joined_claims.get(character_data, [])
 	
@@ -156,10 +165,6 @@ func character_join(character_data: CharacterData, holder: GDCharacterJoinGN) ->
 	claims.append(holder)
 	
 	s_joined_claims[character_data] = claims
-	s_joined_characters[character_data] = {
-		"position": holder.get_character_position(),
-		"offset": holder.s_character_offset
-	}
 
 
 func character_left(character_data: CharacterData, holder: GDGraphNode) -> void:
@@ -169,10 +174,6 @@ func character_left(character_data: CharacterData, holder: GDGraphNode) -> void:
 		claims.erase(holder)
 		
 		if claims.empty():
-			var position : String = holder.CharacterPosition\
-					.keys()[holder.get_character_position()].to_lower()
-			
-			s_joined_characters.erase(character_data)
 			emit_signal("character_left", character_data)
 
 

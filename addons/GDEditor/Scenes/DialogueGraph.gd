@@ -172,9 +172,9 @@ func _on_disconnection_request(from: String, from_slot: int, to: String, to_slot
 	var to_table : Dictionary = s_port_table[to]
 	
 	GDUtil.array_dictionary_popv(from_table.to[from_port_type][from_slot], 
-			[{"name": to, "port": from_slot}])
+			[{"name": to, "port": to_slot}])
 	GDUtil.array_dictionary_popv(to_table.from[to_port_type][to_slot], 
-			[{"name": from, "port": to_slot}])
+			[{"name": from, "port": from_slot}])
 	
 	disconnect_node(from, from_slot, to, to_slot)
 

@@ -52,13 +52,13 @@ func render(graph_node: GDPipeGN, dialogue_viewer: GDDialogueView, cursor: GDDia
 			
 			# true port = 0
 			# false port = 1
-			cursor.next_port(output_type, int(not evaluation))
+			cursor.next_all(output_type, int(not evaluation))
 		
 		GDPipeGN.PipeType.WAIT_FOR:
-			cursor.next(output_type)
+			cursor.next_all(output_type, 0)
 		
 		GDPipeGN.PipeType.WAIT_TILL:
-			cursor.next(output_type)
+			cursor.next_all(output_type, 0)
 	
 	
 	match output_type:

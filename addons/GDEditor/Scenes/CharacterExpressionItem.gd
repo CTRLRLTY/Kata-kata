@@ -16,6 +16,14 @@ func _ready() -> void:
 	_expression_texture_rect.texture = expression_data.expression_texture
 
 
+func get_texture() -> Texture:
+	return _expression_texture_rect.texture
+
+
+func set_texture(texture: Texture):
+	_expression_texture_rect.texture = texture
+
+
 func _on_focus_entered() -> void:
 	add_stylebox_override("panel", get_stylebox("CharacterExpressionFocus"))
 	

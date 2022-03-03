@@ -71,5 +71,5 @@ func _on_FileDialog_file_selected(path: String) -> void:
 	var texture_resource : Texture = load(path)
 	
 	if selected_expression:
-		selected_expression.expression_texture_rect.texture = texture_resource
+		selected_expression.set_texture(texture_resource) 
 		selected_expression.expression_data.expression_texture = texture_resource

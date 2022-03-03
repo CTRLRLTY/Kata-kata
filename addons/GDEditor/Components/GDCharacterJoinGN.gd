@@ -49,6 +49,10 @@ func get_character_position() -> int:
 	return _position_btn.pressed as int
 
 
+func get_character_position_string() -> String:
+	return CharacterPosition.keys()[get_character_position()].to_lower()
+
+
 func get_character_selection() -> OptionButton:
 	return _character_selection as OptionButton
 
@@ -57,7 +61,7 @@ func connect_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
 	if not get_character_data():
 		return false
 	
-	get_dialogue_view().character_join(get_character_data(), self)
+	get_dialogue_view().character_join(self)
 	
 	return true
 
@@ -85,7 +89,7 @@ func _on_CharacterSelection_pressed() -> void:
 func _on_CharacterSelection_item_selected(index: int) -> void:
 	if is_connection_connected_output(0):
 		get_dialogue_view().character_left(s_previous_selected_character, self)
-		get_dialogue_view().character_join(get_character_data(), self)
+		get_dialogue_view().character_join(self)
 	
 	_expression_selection.clear()
 

@@ -57,9 +57,6 @@ func _on_Tabs_tab_added() -> void:
 	_graph_editor_container.show_editor(current_tab)
 	
 	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
-	
-#	dialogue_preview.connect("next", self, "_on_dialogue_view_next", [dialogue_preview])
-#	dialogue_preview.connect("choice", self, "_on_dialogue_view_choice", [dialogue_preview])
 
 
 func _on_Tabs_tab_changed(tab: int) -> void:
@@ -71,10 +68,6 @@ func _on_Tabs_tab_changed(tab: int) -> void:
 	
 	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(tab)
 	_tools_container.add_tools(dialogue_preview.get_tools())
-
-
-#func _on_dialogue_view_choice(choice: int, dialogue_view: GDDialogueView) -> void:
-#	pass
 
 
 func _on_PreviewOptions_item_selected(index: int) -> void:

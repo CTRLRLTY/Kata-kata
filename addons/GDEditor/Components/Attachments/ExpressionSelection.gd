@@ -29,13 +29,14 @@ func _on_pressed() -> void:
 	
 	clear()
 	
-	for expression in character_data.character_expressions:
-		assert(expression is CharacterExpressionData)
-		
-		var idx: int = get_item_count()
-		
-		add_item(expression.expression_name)
-		set_item_metadata(idx, expression)
-		
-		if expression == selected_expression:
-			select(idx)
+	if character_data:
+		for expression in character_data.character_expressions:
+			assert(expression is CharacterExpressionData)
+			
+			var idx: int = get_item_count()
+			
+			add_item(expression.expression_name)
+			set_item_metadata(idx, expression)
+			
+			if expression == selected_expression:
+				select(idx)

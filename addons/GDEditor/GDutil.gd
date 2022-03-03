@@ -46,8 +46,8 @@ static func get_gaelog_path() -> String:
 static func get_icon(icon_name : String) -> Texture:
 	var ret : Texture
 	
-	if _state.has("editor_interface"):
-		ret = _state["editor_interface"].get_base_control().get_icon(icon_name, "EditorIcons")
+	if get_editor_plugin():
+		ret = get_editor_interface().get_base_control().get_icon(icon_name, "EditorIcons")
 	else:
 		# All icons has to be a .png
 		ret = load(resolve(icon_name + ".png")) as Texture
@@ -55,9 +55,15 @@ static func get_icon(icon_name : String) -> Texture:
 	return ret
 
 
-# Returns EditorPlugin
 static func get_editor_plugin() -> EditorPlugin:
 	return _state.get("editor_plugin")
+
+
+static func get_editor_interface() -> EditorInterface:
+	if get_editor_plugin():
+		return get_editor_plugin().get_editor_interface()
+	
+	return null
 
 
 static func get_file_system_dock() -> FileSystemDock:
@@ -318,7 +324,8 @@ static func resolve(res_name : String) -> String:
 			get_component_dir(),
 			get_attachment_dir(),
 			get_view_dir(),
-			get_tool_dir()
+			get_tool_dir(),
+			"res://addons/GDEditor/Resources/Custom/"
 		]
 		
 		for path in managed:
@@ -355,11 +362,3 @@ static func line_centroidv(points : PoolVector2Array) -> Vector2:
 	var ret = points[1] + points[0]
 	
 	return ret/2
-
-
-static func cursor_copy(cursor: GDDialogueCursor) -> GDDialogueCursor:
-	var ret := GDDialogueCursor.new(cursor.s_port_table)
-	ret.s_cursor = cursor.s_cursor.duplicate(true)
-	ret.s_node_name = cursor.s_node_name
-	
-	return ret

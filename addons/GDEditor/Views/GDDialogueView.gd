@@ -108,9 +108,11 @@ func next() -> void:
 	
 	var cursor : GDDialogueCursor = dgraph.cursor()
 	
+	if not cursor.is_connected("flow_skipped", self, "__on_cursor_flow_skipped"):
+		cursor.connect("flow_skipped", self , "__on_cursor_flow_skipped")
+	
 	if cursor.end():
 		return
-	
 	
 	var node_name := cursor.get_node_name()
 	var graph_node : GDGraphNode = dgraph.get_node(node_name)
@@ -120,28 +122,21 @@ func next() -> void:
 	
 	
 	for port in actions_left:
-		for conn in cursor.connection_lefta(port):
-			var cursor_copy : GDDialogueCursor = GDUtil.cursor_copy(cursor)
-			
-			cursor_copy.prev_porta(port)
+		for cursor_copy in cursor.branch_lefta(port):
 			cursor_copy.connect("prev", self, "__on_cursor_prev", [cursor_copy])
 			
-			var gn : GDGraphNode = dgraph.get_node(conn.name)
+			var gn : GDGraphNode = dgraph.get_node(cursor_copy.get_node_name())
 			
 			render_node(gn, cursor_copy)
 	
 	
 	for port in actions_right:
-		for conn in cursor.connection_righta(port):
-			var cursor_copy : GDDialogueCursor = GDUtil.cursor_copy(cursor)
-			
-			cursor_copy.next_porta(port)
+		for cursor_copy in cursor.branch_righta(port):
 			cursor_copy.connect("next", self, "__on_cursor_next", [cursor_copy])
 			
-			var gn : GDGraphNode = dgraph.get_node(conn.name)
+			var gn : GDGraphNode = dgraph.get_node(cursor_copy.get_node_name())
 			
 			render_node(gn, cursor_copy)
-	
 	
 	render_node(graph_node, cursor)
 
@@ -181,3 +176,7 @@ func __on_cursor_next(cursor: GDDialogueCursor) -> void:
 
 func __on_cursor_prev(cursor: GDDialogueCursor) -> void:
 	pass
+
+
+func __on_cursor_flow_skipped():
+	next()

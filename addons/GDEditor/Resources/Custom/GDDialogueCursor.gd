@@ -4,6 +4,7 @@ class_name GDDialogueCursor
 
 signal prev
 signal next
+signal flow_skipped
 
 export var s_cursor : Dictionary
 export var s_node_name : String
@@ -101,6 +102,14 @@ func connection_rightf(port: int) -> Array:
 	return connection_right(PortRect.PortType.FLOW, port)
 
 
+func branch_lefta(port: int) -> Array:
+	return branch_left(PortRect.PortType.ACTION, port)
+
+
+func branch_righta(port: int) -> Array:
+	return branch_right(PortRect.PortType.ACTION, port)
+
+
 func nextu(idx := 0) -> void:
 	next(PortRect.PortType.UNIVERSAL, idx)
 
@@ -113,7 +122,7 @@ func nextf(idx := 0) -> void:
 	next(PortRect.PortType.FLOW, idx)
 
 
-func prevu(idx := 0 ) -> void:
+func prevu(idx := 0) -> void:
 	prev(PortRect.PortType.UNIVERSAL, idx)
 
 
@@ -147,6 +156,39 @@ func prev_porta(port: int, idx := 0) -> void:
 
 func prev_portf(port: int, idx := 0) -> void:
 	prev_port(PortRect.PortType.FLOW, port, idx)
+
+
+func next_alla(port: int) -> void:
+	next_all(PortRect.PortType.ACTION, port)
+
+
+func prev_alla(port: int) -> void:
+	prev_all(PortRect.PortType.ACTION, port)
+
+
+func next_flow(port := -1) -> void:
+	if port == -1:
+		nextf()
+	else:
+		next_portf(port)
+
+
+func skip_flow(port := -1) -> void:
+	next_flow(port)
+	
+	emit_signal("flow_skipped")
+
+
+func prev_flow(port : int) -> void:
+	prev_portf(port)
+
+
+func next_action(port: int) -> void:
+	next_alla(port)
+
+
+func prev_action(port: int) -> void:
+	prev_alla(port)
 
 
 func end() -> bool:
@@ -201,6 +243,40 @@ func connection_right(port_type: int, port: int) -> Array:
 	return port_types.get(port, [])
 
 
+# Returns an Array of GDDialogueCursor or an empty array
+func branch_left(port_type: int, port: int) -> Array:
+	var cursor_list := []
+	
+	var idx := 0
+	
+	for conn in connection_left(port_type, port):
+		var cursor = copy()
+		cursor.prev_port(port_type, port, idx)
+		
+		cursor_list.append(cursor)
+		
+		idx += 1
+	
+	return cursor_list
+
+
+# Returns an Array of GDDialogueCursor or an empty array
+func branch_right(port_type: int, port: int) -> Array:
+	var cursor_list := []
+	
+	var idx := 0
+	
+	for conn in connection_right(port_type, port):
+		var cursor = copy()
+		cursor.next_port(port_type, port, idx)
+		
+		cursor_list.append(cursor)
+		
+		idx += 1
+	
+	return cursor_list
+
+
 func next(port_type: int, idx := 0) -> void:
 	var port_list := port_right(port_type)
 	
@@ -221,6 +297,26 @@ func prev(port_type: int, idx := 0) -> void:
 		port = port_list[idx]
 
 	prev_port(port_type, port, idx)
+
+
+func next_all(port_type: int, port: int) -> void:
+	var idx := 0
+	
+	for conn in connection_right(port_type, port):
+		var cursor = copy(true)
+		cursor.next_port(port_type, port, idx)
+		
+		idx += 1
+
+
+func prev_all(port_type: int, port: int) -> void:
+	var idx := 0
+	
+	for conn in connection_left(port_type, port):
+		var cursor = copy()
+		cursor.prev_port(port_type, port, idx)
+		
+		idx += 1
 
 
 func next_port(port_type: int, port : int, idx := 0) -> void:
@@ -253,3 +349,17 @@ func prev_port(port_type: int, port: int, idx := 0) -> void:
 	s_cursor = s_port_table.get(s_node_name, {})
 	
 	emit_signal("prev")
+
+
+func copy(copy_user_signal := false):
+	# using load() as cyclic dependency workaround
+	var ret = load(GDUtil.resolve("GDDialogueCursor.gd")).new(s_port_table)
+	ret.s_cursor = s_cursor.duplicate(true)
+	ret.s_node_name = s_node_name
+
+	if copy_user_signal:
+		for signal_name in ["prev", "next", "flow_skipped"]:
+			for connection in get_signal_connection_list(signal_name):
+				ret.connect(connection.signal, connection.target, connection.method, connection.binds)
+	
+	return ret
