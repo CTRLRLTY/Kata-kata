@@ -102,14 +102,14 @@ func disconnect_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> boo
 	return true
 
 
-func disconnect_input(port: int) -> void:
-	if is_connection_connected_input(port):
-		get_dialogue_graph().disconnect_node_input(name, port)
+func disconnect_input(slot: int) -> void:
+	if is_connection_connected_input(slot):
+		get_dialogue_graph().disconnect_node_input(name, slot)
 
 
-func disconnect_output(port: int) -> void:
-	if is_connection_connected_output(port):
-		get_dialogue_graph().disconnect_node_output(name, port)
+func disconnect_output(slot: int) -> void:
+	if is_connection_connected_output(slot):
+		get_dialogue_graph().disconnect_node_output(name, slot)
 
 
 func disconnect_all_ports() -> void:
@@ -117,7 +117,7 @@ func disconnect_all_ports() -> void:
 		get_dialogue_graph().clear_node_connections(self)
 
 
-func port2slot(slot: int, pos: int) -> int:
+func slot2port(slot: int, pos: int) -> int:
 	assert(pos == Port.LEFT or pos == Port.RIGHT)
 	
 	var pos_string = Port.keys()[pos].to_lower()
@@ -132,7 +132,7 @@ func port2slot(slot: int, pos: int) -> int:
 	return -1
 
 
-func slot2port(port: int, pos: int) -> int:
+func port2slot(port: int, pos: int) -> int:
 	assert(pos == Port.LEFT or pos == Port.RIGHT)
 	
 	var pos_string = Port.keys()[pos].to_lower()
@@ -141,7 +141,7 @@ func slot2port(port: int, pos: int) -> int:
 	for idx in range(get_child_count()):
 		if call("is_slot_enabled_%s" % pos_string, idx):
 			if port == 0:
-				return acc
+				return acc - 1
 			
 			acc += 1
 				
