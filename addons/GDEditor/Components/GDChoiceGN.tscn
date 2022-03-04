@@ -33,10 +33,10 @@ slot/0/right_enabled = false
 slot/0/right_type = 0
 slot/0/right_color = Color( 1, 1, 1, 1 )
 slot/1/left_enabled = true
-slot/1/left_type = 2
+slot/1/left_type = 0
 slot/1/left_color = Color( 0.13, 0.55, 0.13, 1 )
 slot/1/right_enabled = true
-slot/1/right_type = 2
+slot/1/right_type = 0
 slot/1/right_color = Color( 0.13, 0.55, 0.13, 1 )
 slot/2/left_enabled = false
 slot/2/left_type = 0
@@ -48,6 +48,7 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+s_choices = PoolStringArray( "" )
 
 [node name="Header" type="MarginContainer" parent="."]
 margin_left = 15.0
@@ -87,7 +88,6 @@ mouse_filter = 2
 
 [node name="InPort" parent="MainFlowPort" instance=ExtResource( 5 )]
 margin_bottom = 14.0
-s_port_type = 2
 s_port_enable = true
 
 [node name="InPortLabel" type="Label" parent="MainFlowPort"]
@@ -107,7 +107,6 @@ text = "Next Line"
 margin_left = 185.0
 margin_right = 195.0
 margin_bottom = 14.0
-s_port_type = 2
 s_port_enable = true
 
 [node name="MainChoice" parent="." instance=ExtResource( 3 )]

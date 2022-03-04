@@ -29,6 +29,7 @@ func _ready() -> void:
 	
 	if file_system:
 		file_system.connect("file_removed", self, "_on_file_removed")
+	
 
 
 func _dialogue_components() -> Array:
@@ -39,7 +40,10 @@ func _dialogue_components() -> Array:
 			"scene": load(GDUtil.resolve("GDMessageGN.tscn")),
 			"readers": [GDMessageReader.new()]
 		},
-		load(GDUtil.resolve("GDChoiceGN.tscn")),
+		{
+			"scene": load(GDUtil.resolve("GDChoiceGN.tscn")),
+			"readers": [GDChoiceReader.new()]
+		},
 		{
 			"scene": load(GDUtil.resolve("GDCharacterJoinGN.tscn")),
 			"readers": [GDCharacterJoinReader.new()]
@@ -179,6 +183,9 @@ func show_choices(questions: PoolStringArray) -> void:
 		button.text = question
 		
 		_choice_container.add_child(button)
+		button.connect("pressed", self, "_on_ChoiceBtn_pressed", [button])
+	
+	_choice_container.show()
 
 
 func hide_choices() -> void:
@@ -187,7 +194,7 @@ func hide_choices() -> void:
 
 func clear_choices() -> void:
 	for child in _choice_container.get_children():
-		queue_free()
+		child.queue_free()
 
 
 func reset() -> void:
@@ -201,3 +208,7 @@ func reset() -> void:
 func _on_file_removed(fname: String) -> void:
 	if fname.get_base_dir() + "/" == GDUtil.get_characters_dir():
 		emit_signal("character_file_deleted", fname)
+
+
+func _on_ChoiceBtn_pressed(choice_button: Button) -> void:
+	select_choice(choice_button.get_index())

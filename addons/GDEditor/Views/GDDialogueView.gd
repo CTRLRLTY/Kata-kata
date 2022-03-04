@@ -5,12 +5,15 @@ extends Control
 class_name GDDialogueView
 
 signal next
-signal choice(idx)
+
+signal choice_selected(idx)
 
 var _components := []
 var _reader_table := {}
 var _tools_tested := false
 var _dgraph : GraphEdit
+
+var _blocked := false
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -18,7 +21,6 @@ func _gui_input(event: InputEvent) -> void:
 		if event.pressed:
 			if event.button_index == BUTTON_LEFT:
 				next()
-				emit_signal("next")
 
 
 func get_components() -> Array:
@@ -94,8 +96,8 @@ func set_dialogue_graph(dgraph: GraphEdit) -> void:
 	_dgraph = dgraph
 
 
-func set_text_box(text: String) -> void:
-	pass
+func block_next(block: bool) -> void:
+	_blocked = block
 
 
 func render_node(node: GDGraphNode, cursor: GDDialogueCursor) -> void:
@@ -104,6 +106,9 @@ func render_node(node: GDGraphNode, cursor: GDDialogueCursor) -> void:
 
 
 func next() -> void:
+	if _blocked:
+		return
+	
 	var dgraph := get_dialogue_graph()
 	
 	var cursor : GDDialogueCursor = dgraph.cursor()
@@ -118,7 +123,16 @@ func next() -> void:
 	var graph_node : GDGraphNode = dgraph.get_node(node_name)
 	
 	render_node(graph_node, cursor)
+	
+	emit_signal("next")
 
+
+func select_choice(idx: int) -> void:
+	emit_signal("choice_selected", idx)
+
+
+func set_text_box(text: String) -> void:
+	pass
 
 
 func show_choices(question: PoolStringArray) -> void:

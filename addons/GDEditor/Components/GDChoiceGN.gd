@@ -4,17 +4,19 @@ extends GDGraphNode
 
 class_name GDChoiceGN
 
-export(String) var s_choice_main
-export(PoolStringArray) var s_choice_extras
+export var s_choices : PoolStringArray
 
 var _original_height := rect_size.y
 
 
 func _ready() -> void:
-	$MainChoice/LineEdit.text = s_choice_main
+	if s_choices.empty():
+		s_choices.append("")
+	else:
+		$MainChoice/LineEdit.text = s_choices[0]
 	
-	for choice in s_choice_extras:
-		_add_choice(choice)
+		for choice in Array(s_choices).slice(1, s_choices.size()):
+			_add_choice(choice)
 
 
 func get_component_name() -> String:
@@ -25,7 +27,7 @@ func _choice_size() -> int:
 	var acc := 0
 	
 	for child in get_children():
-		if child.filename == GDUtil.resolve("ChoiceEditRect.tscn"):
+		if child.filename == self.filename:
 			acc += 1
 			
 	return acc
@@ -38,11 +40,10 @@ func _choice_index(choice_node : Control):
 		if child == choice_node:
 			break
 		
-		if child.filename == GDUtil.resolve("ChoiceEditRect.tscn"):
+		if child.filename == choice_node.filename:
 			acc += 1
 		
-	# -1 to not count main_choice
-	return acc - 1
+	return acc
 
 
 func _add_choice(value := "") -> void:
@@ -63,7 +64,7 @@ func _add_choice(value := "") -> void:
 	add_child(flowport)
 	add_child(edits)
 	
-	s_choice_extras.append(value)
+	s_choices.append(value)
 
 
 func _on_AddChoice_pressed() -> void:
@@ -71,7 +72,7 @@ func _on_AddChoice_pressed() -> void:
 	
 	
 func _remove_choice_edit(flowport: Control, choice_edit: Control) -> void:
-	s_choice_extras.remove(_choice_index(choice_edit))
+	s_choices.remove(_choice_index(choice_edit))
 
 	# They have to be freed in this order	
 	choice_edit.queue_free()
@@ -88,8 +89,8 @@ func _readjust_rect_size() -> void:
 
 
 func _on_MainChoiceEdit_text_changed(new_text: String) -> void:
-	s_choice_main = new_text
+	s_choices[0] = new_text
 
 
 func _on_choice_edit_text_changed(new_text: String, choice_edit : Control)  -> void:
-	s_choice_extras[_choice_index(choice_edit)] = new_text
+	s_choices[_choice_index(choice_edit)] = new_text
