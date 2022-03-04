@@ -94,6 +94,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Components/GDEmitterGN.gd"
 }, {
+"base": "GDDialogueReader",
+"class": "GDEmitterReader",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Readers/GDEmitterReader.gd"
+}, {
 "base": "GDGraphNode",
 "class": "GDEndGN",
 "language": "GDScript",
@@ -182,6 +187,7 @@ _global_script_class_icons={
 "GDDialogueView": "",
 "GDDummyView": "",
 "GDEmitterGN": "",
+"GDEmitterReader": "",
 "GDEndGN": "",
 "GDEndReader": "",
 "GDGraphEditor": "",

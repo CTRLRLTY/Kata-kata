@@ -29,7 +29,6 @@ func _ready() -> void:
 	
 	if file_system:
 		file_system.connect("file_removed", self, "_on_file_removed")
-	
 
 
 func _dialogue_components() -> Array:
@@ -44,6 +43,7 @@ func _dialogue_components() -> Array:
 			"scene": load(GDUtil.resolve("GDChoiceGN.tscn")),
 			"readers": [GDChoiceReader.new()]
 		},
+		load(GDUtil.resolve("GDEmitterGN.tscn")),
 		{
 			"scene": load(GDUtil.resolve("GDCharacterJoinGN.tscn")),
 			"readers": [GDCharacterJoinReader.new()]

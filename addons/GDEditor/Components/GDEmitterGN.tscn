@@ -1,75 +1,48 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/GDEditor/Components/GDEmitterGN.gd" type="Script" id=2]
 
-[sub_resource type="StyleBoxFlat" id=1]
-content_margin_left = 15.0
-content_margin_right = 15.0
-content_margin_top = 15.0
-content_margin_bottom = 15.0
-bg_color = Color( 0.152941, 0.172549, 0.223529, 1 )
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-corner_detail = 20
-
 [node name="Emitter" type="GraphNode"]
 margin_top = 232.0
-margin_right = 180.0
-margin_bottom = 310.0
+margin_right = 169.0
+margin_bottom = 296.0
 mouse_filter = 1
 custom_constants/port_offset = 14
 custom_constants/separation = 0
-custom_styles/frame = SubResource( 1 )
-slot/0/left_enabled = false
+title = "Emitter"
+slot/0/left_enabled = true
 slot/0/left_type = 0
-slot/0/left_color = Color( 1, 1, 1, 1 )
-slot/0/right_enabled = false
+slot/0/left_color = Color( 0.13, 0.55, 0.13, 1 )
+slot/0/right_enabled = true
 slot/0/right_type = 0
-slot/0/right_color = Color( 1, 1, 1, 1 )
-slot/1/left_enabled = false
-slot/1/left_type = 0
-slot/1/left_color = Color( 0.4, 0.8, 0.67, 1 )
-slot/1/right_enabled = false
-slot/1/right_type = 1
-slot/1/right_color = Color( 0.4, 0.2, 0.6, 1 )
+slot/0/right_color = Color( 0.13, 0.55, 0.13, 1 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Header" type="MarginContainer" parent="."]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 165.0
-margin_bottom = 39.0
-mouse_filter = 2
-custom_constants/margin_right = 0
-custom_constants/margin_left = 0
-custom_constants/margin_bottom = 10
-
-[node name="Title" type="Label" parent="Header"]
-margin_right = 150.0
-margin_bottom = 14.0
-text = "Emitter"
-
 [node name="FlowPort" type="HBoxContainer" parent="."]
-margin_left = 15.0
-margin_top = 39.0
-margin_right = 165.0
-margin_bottom = 63.0
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 153.0
+margin_bottom = 48.0
 mouse_filter = 2
 custom_constants/separation = 0
 
 [node name="InPort" parent="FlowPort" instance=ExtResource( 1 )]
+s_port_enable = true
 
-[node name="SignalEdit" type="LineEdit" parent="FlowPort"]
+[node name="EventEdit" type="LineEdit" parent="FlowPort"]
 margin_left = 10.0
-margin_right = 150.0
+margin_right = 127.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-placeholder_text = "Signal Name"
+placeholder_text = "Event"
 
-[connection signal="text_changed" from="FlowPort/SignalEdit" to="." method="_on_SignalEdit_text_changed"]
+[node name="InPort2" parent="FlowPort" instance=ExtResource( 1 )]
+margin_left = 127.0
+margin_right = 137.0
+s_port_enable = true
+
+[connection signal="text_changed" from="FlowPort/EventEdit" to="." method="_on_SignalEdit_text_changed"]
