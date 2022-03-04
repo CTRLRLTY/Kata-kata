@@ -72,4 +72,9 @@ func _on_Tabs_tab_changed(tab: int) -> void:
 
 func _on_PreviewOptions_item_selected(index: int) -> void:
 	var dialogue_view : GDDialogueView = _preview_options.get_item_metadata(index).instance()
-	_graph_editor_container.get_editor(_tabs.current_tab).set_dialogue_preview(dialogue_view)
+	var graph_editor = _graph_editor_container.get_editor(_tabs.current_tab)
+	
+	var dialogue_graph : DialogueGraph = load(GDUtil.resolve("DialogueGraph.tscn")).instance()
+	
+	graph_editor.set_dialogue_preview(dialogue_view)
+	graph_editor.set_dialogue_graph(dialogue_graph)

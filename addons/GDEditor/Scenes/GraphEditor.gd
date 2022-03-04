@@ -6,6 +6,7 @@ class_name GDGraphEditor
 
 
 onready var _node_selection := find_node("NodeSelection")
+onready var _main := $MainContainer
 
 
 func _ready() -> void:
@@ -26,7 +27,18 @@ func get_dialogue_preview() -> GDDialogueView:
 
 
 func get_dialogue_graph() -> DialogueGraph:
-	return $"MainContainer/DialogueGraph" as DialogueGraph
+	return _main.get_child(1) as DialogueGraph
+
+
+func set_dialogue_graph(dgraph: DialogueGraph) -> void:
+	var current_dgraph : DialogueGraph = get_dialogue_graph()
+	
+	if is_instance_valid(current_dgraph):
+		current_dgraph.queue_free()
+	
+	dgraph.connect("graph_node_added", self, "_on_DialogueGraph_graph_node_added")
+	
+	_main.add_child(dgraph)
 
 
 func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
