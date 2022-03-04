@@ -18,8 +18,8 @@ func _ready() -> void:
 		_tabs.add_tab("[empty]")
 
 
-func get_graph_editor_container() -> Control:
-	return _graph_editor_container as Control
+func get_graph_editor_container() -> GDGraphEditorContainer:
+	return _graph_editor_container as GDGraphEditorContainer
 
 
 func get_tabs() -> Tabs:

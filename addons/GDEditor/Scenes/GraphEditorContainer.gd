@@ -3,16 +3,22 @@ tool
 extends Control
 
 
+class_name GDGraphEditorContainer
+
+
 func get_editor(idx: int) -> GDGraphEditor:
 	return get_child(idx) as GDGraphEditor
 
 
 func get_active_editor() -> GDGraphEditor:
-	for child in get_children():
-		if child.visible:
-			return child
+#	for child in get_children():
+#		if child.visible:
+#			return child
+#
+#	return null
+	var tabs : Tabs = GDUtil.get_dialogue_editor().get_tabs()
 	
-	return null
+	return get_editor(tabs.current_tab) 
 
 
 func get_editor_graph(idx: int) -> DialogueGraph:

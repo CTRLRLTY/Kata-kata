@@ -114,6 +114,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Scenes/GraphEditor.gd"
 }, {
+"base": "Control",
+"class": "GDGraphEditorContainer",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Scenes/GraphEditorContainer.gd"
+}, {
 "base": "GraphNode",
 "class": "GDGraphNode",
 "language": "GDScript",
@@ -191,6 +196,7 @@ _global_script_class_icons={
 "GDEndGN": "",
 "GDEndReader": "",
 "GDGraphEditor": "",
+"GDGraphEditorContainer": "",
 "GDGraphNode": "",
 "GDMessageGN": "",
 "GDMessageReader": "",
