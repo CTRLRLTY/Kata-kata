@@ -39,10 +39,6 @@ func _dialogue_components() -> Array:
 			"scene": load(GDUtil.resolve("GDMessageGN.tscn")),
 			"readers": [GDMessageReader.new()]
 		},
-		{
-			"scene": load(GDUtil.resolve("GDPipeGN.tscn")),
-			"readers": [GDPipeReader.new()]
-		},
 		load(GDUtil.resolve("GDChoiceGN.tscn")),
 		{
 			"scene": load(GDUtil.resolve("GDCharacterJoinGN.tscn")),

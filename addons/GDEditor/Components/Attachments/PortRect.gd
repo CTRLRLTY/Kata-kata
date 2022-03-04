@@ -5,9 +5,9 @@ extends ReferenceRect
 class_name PortRect
 
 enum PortType {
+	FLOW,
 	UNIVERSAL,
 	ACTION,
-	FLOW,
 }
 
 enum {

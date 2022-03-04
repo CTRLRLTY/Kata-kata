@@ -4,5 +4,5 @@ class_name GDStartReader
 
 
 func render(graph_node: GDGraphNode, dialogue_viewer: GDDialogueView, cursor: GDDialogueCursor) -> void:
-	cursor.nextf(0)
+	cursor.next_flow()
 	dialogue_viewer.next()

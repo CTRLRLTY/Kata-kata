@@ -53,3 +53,8 @@ func _on_CharacterSelection_character_selected_left() -> void:
 
 func _on_MessageEdit_text_changed() -> void:
 	s_message = _message_edit.text
+
+
+func _on_EditBtn_toggled(button_pressed: bool) -> void:
+	_message_edit.visible = button_pressed
+	_message_edit.grab_focus()

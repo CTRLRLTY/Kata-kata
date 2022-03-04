@@ -1,140 +1,51 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ComponentFirstBG.stylebox" type="StyleBox" id=1]
 [ext_resource path="res://addons/GDEditor/Components/GDMessageGN.gd" type="Script" id=2]
 [ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/GDEditor/Components/Attachments/CharacterSelectionJoined.gd" type="Script" id=4]
 [ext_resource path="res://addons/GDEditor/Components/Attachments/ExpressionSelection.gd" type="Script" id=5]
 
-[sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 0.662745, 0.682353, 0.733333, 1 )
-
 [node name="Message" type="GraphNode"]
 margin_left = 38.0
 margin_top = 162.0
 margin_right = 302.0
-margin_bottom = 394.0
+margin_bottom = 310.0
 mouse_filter = 1
-custom_constants/port_offset = 14
-custom_constants/separation = 0
-custom_styles/frame = ExtResource( 1 )
+custom_constants/port_offset = 10
+custom_constants/separation = 15
 title = "Message"
-slot/0/left_enabled = false
+slot/0/left_enabled = true
 slot/0/left_type = 0
-slot/0/left_color = Color( 1, 1, 1, 1 )
-slot/0/right_enabled = false
+slot/0/left_color = Color( 0.13, 0.55, 0.13, 1 )
+slot/0/right_enabled = true
 slot/0/right_type = 0
-slot/0/right_color = Color( 1, 1, 1, 1 )
-slot/1/left_enabled = true
+slot/0/right_color = Color( 0.13, 0.55, 0.13, 1 )
+slot/1/left_enabled = false
 slot/1/left_type = 1
-slot/1/left_color = Color( 0.4, 0.2, 0.6, 1 )
-slot/1/right_enabled = true
+slot/1/left_color = Color( 0.4, 0.8, 0.67, 1 )
+slot/1/right_enabled = false
 slot/1/right_type = 1
-slot/1/right_color = Color( 0.4, 0.2, 0.6, 1 )
-slot/2/left_enabled = true
-slot/2/left_type = 2
+slot/1/right_color = Color( 0.4, 0.8, 0.67, 1 )
+slot/2/left_enabled = false
+slot/2/left_type = 0
 slot/2/left_color = Color( 0.13, 0.55, 0.13, 1 )
-slot/2/right_enabled = true
-slot/2/right_type = 2
+slot/2/right_enabled = false
+slot/2/right_type = 0
 slot/2/right_color = Color( 0.13, 0.55, 0.13, 1 )
-slot/3/left_enabled = false
-slot/3/left_type = 0
-slot/3/left_color = Color( 1, 1, 1, 1 )
-slot/3/right_enabled = false
-slot/3/right_type = 0
-slot/3/right_color = Color( 1, 1, 1, 1 )
 script = ExtResource( 2 )
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="Header" type="MarginContainer" parent="."]
-margin_left = 15.0
-margin_top = 45.0
-margin_right = 249.0
-margin_bottom = 122.0
-mouse_filter = 2
-custom_constants/margin_right = 0
-custom_constants/margin_left = 0
-custom_constants/margin_bottom = 27
-
-[node name="GridContainer" type="GridContainer" parent="Header"]
-margin_right = 234.0
-margin_bottom = 50.0
-custom_constants/vseparation = 10
-custom_constants/hseparation = 10
-columns = 2
-
-[node name="Title" type="Label" parent="Header/GridContainer"]
-margin_top = 3.0
-margin_right = 69.0
-margin_bottom = 17.0
-text = "Character"
-
-[node name="CharacterSelection" type="OptionButton" parent="Header/GridContainer"]
-margin_left = 79.0
-margin_right = 234.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-script = ExtResource( 4 )
-
-[node name="Label" type="Label" parent="Header/GridContainer"]
-margin_top = 33.0
-margin_right = 69.0
-margin_bottom = 47.0
-text = "Expression"
-
-[node name="ExpressionSelection" type="OptionButton" parent="Header/GridContainer"]
-margin_left = 79.0
-margin_top = 30.0
-margin_right = 234.0
-margin_bottom = 50.0
-size_flags_horizontal = 3
-script = ExtResource( 5 )
-
-[node name="ActionPort" type="HBoxContainer" parent="."]
-margin_left = 15.0
-margin_top = 122.0
-margin_right = 249.0
-margin_bottom = 136.0
-
-[node name="InPort" parent="ActionPort" instance=ExtResource( 3 )]
-margin_bottom = 14.0
-s_port_type = 1
-s_port_enable = true
-
-[node name="InPortLabel" type="Label" parent="ActionPort"]
-margin_left = 14.0
-margin_right = 35.0
-margin_bottom = 14.0
-text = "Pre"
-
-[node name="OutPortLabel" type="Label" parent="ActionPort"]
-margin_left = 192.0
-margin_right = 220.0
-margin_bottom = 14.0
-size_flags_horizontal = 10
-text = "Post"
-
-[node name="OutPort" parent="ActionPort" instance=ExtResource( 3 )]
-margin_left = 224.0
-margin_right = 234.0
-margin_bottom = 14.0
-size_flags_horizontal = 8
-s_port_type = 1
-s_port_enable = true
-
 [node name="FlowPort" type="HBoxContainer" parent="."]
-margin_left = 15.0
-margin_top = 136.0
-margin_right = 249.0
-margin_bottom = 150.0
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 248.0
+margin_bottom = 38.0
 mouse_filter = 2
 
 [node name="InPort" parent="FlowPort" instance=ExtResource( 3 )]
 margin_bottom = 14.0
-s_port_type = 2
 s_port_enable = true
 
 [node name="InPortLabel" type="Label" parent="FlowPort"]
@@ -144,40 +55,102 @@ margin_bottom = 14.0
 text = "Previous"
 
 [node name="OutPortLabel" type="Label" parent="FlowPort"]
-margin_left = 190.0
-margin_right = 220.0
+margin_left = 188.0
+margin_right = 218.0
 margin_bottom = 14.0
 size_flags_horizontal = 10
 text = "Next"
 
 [node name="OutPort" parent="FlowPort" instance=ExtResource( 3 )]
-margin_left = 224.0
-margin_right = 234.0
+margin_left = 222.0
+margin_right = 232.0
 margin_bottom = 14.0
-s_port_type = 2
 s_port_enable = true
 
-[node name="Body" type="MarginContainer" parent="."]
-margin_left = 15.0
-margin_top = 150.0
-margin_right = 249.0
-margin_bottom = 247.0
+[node name="CharacterSection" type="MarginContainer" parent="."]
+margin_left = 16.0
+margin_top = 53.0
+margin_right = 248.0
+margin_bottom = 103.0
 mouse_filter = 2
 custom_constants/margin_right = 0
-custom_constants/margin_top = 17
 custom_constants/margin_left = 0
 
-[node name="MessageEdit" type="TextEdit" parent="Body"]
-margin_top = 17.0
-margin_right = 234.0
-margin_bottom = 97.0
+[node name="GridContainer" type="GridContainer" parent="CharacterSection"]
+margin_right = 232.0
+margin_bottom = 50.0
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+columns = 2
+
+[node name="Title" type="Label" parent="CharacterSection/GridContainer"]
+margin_top = 3.0
+margin_right = 69.0
+margin_bottom = 17.0
+text = "Character"
+
+[node name="CharacterSelection" type="OptionButton" parent="CharacterSection/GridContainer"]
+margin_left = 79.0
+margin_right = 232.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+script = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="CharacterSection/GridContainer"]
+margin_top = 33.0
+margin_right = 69.0
+margin_bottom = 47.0
+text = "Expression"
+
+[node name="ExpressionSelection" type="OptionButton" parent="CharacterSection/GridContainer"]
+margin_left = 79.0
+margin_top = 30.0
+margin_right = 232.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+script = ExtResource( 5 )
+
+[node name="TextSection" type="HBoxContainer" parent="."]
+margin_left = 16.0
+margin_top = 118.0
+margin_right = 248.0
+margin_bottom = 138.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="TextSection"]
+margin_top = 3.0
+margin_right = 27.0
+margin_bottom = 17.0
+text = "Text"
+
+[node name="EditBtn" type="Button" parent="TextSection"]
+margin_left = 196.0
+margin_right = 232.0
+margin_bottom = 20.0
+size_flags_horizontal = 10
+toggle_mode = true
+text = "Edit"
+
+[node name="MessageEdit" type="TextEdit" parent="TextSection/EditBtn"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -140.5
+margin_top = 23.0
+margin_right = 140.5
+margin_bottom = 185.0
 rect_min_size = Vector2( 0, 80 )
-custom_styles/normal = SubResource( 6 )
 draw_tabs = true
 draw_spaces = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[connection signal="character_selected_left" from="Header/GridContainer/CharacterSelection" to="." method="_on_CharacterSelection_character_selected_left"]
-[connection signal="item_selected" from="Header/GridContainer/CharacterSelection" to="." method="_on_CharacterSelection_item_selected"]
-[connection signal="pressed" from="Header/GridContainer/CharacterSelection" to="Header/GridContainer/CharacterSelection" method="_on_pressed"]
-[connection signal="pressed" from="Header/GridContainer/ExpressionSelection" to="Header/GridContainer/ExpressionSelection" method="_on_pressed"]
-[connection signal="text_changed" from="Body/MessageEdit" to="." method="_on_MessageEdit_text_changed"]
+[connection signal="character_selected_left" from="CharacterSection/GridContainer/CharacterSelection" to="." method="_on_CharacterSelection_character_selected_left"]
+[connection signal="item_selected" from="CharacterSection/GridContainer/CharacterSelection" to="." method="_on_CharacterSelection_item_selected"]
+[connection signal="pressed" from="CharacterSection/GridContainer/CharacterSelection" to="CharacterSection/GridContainer/CharacterSelection" method="_on_pressed"]
+[connection signal="pressed" from="CharacterSection/GridContainer/ExpressionSelection" to="CharacterSection/GridContainer/ExpressionSelection" method="_on_pressed"]
+[connection signal="toggled" from="TextSection/EditBtn" to="." method="_on_EditBtn_toggled"]
+[connection signal="text_changed" from="TextSection/EditBtn/MessageEdit" to="." method="_on_MessageEdit_text_changed"]

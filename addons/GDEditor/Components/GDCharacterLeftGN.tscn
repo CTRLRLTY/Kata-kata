@@ -31,11 +31,11 @@ slot/0/right_enabled = false
 slot/0/right_type = 1
 slot/0/right_color = Color( 0.4, 0.2, 0.6, 1 )
 slot/1/left_enabled = true
-slot/1/left_type = 1
-slot/1/left_color = Color( 0.4, 0.2, 0.6, 1 )
-slot/1/right_enabled = false
-slot/1/right_type = 1
-slot/1/right_color = Color( 0.4, 0.2, 0.6, 1 )
+slot/1/left_type = 0
+slot/1/left_color = Color( 0.13, 0.55, 0.13, 1 )
+slot/1/right_enabled = true
+slot/1/right_type = 0
+slot/1/right_color = Color( 0.13, 0.55, 0.13, 1 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -68,16 +68,22 @@ custom_constants/separation = 0
 [node name="PortRect" parent="Body" instance=ExtResource( 1 )]
 margin_bottom = 20.0
 mouse_filter = 2
-s_port_type = 1
 s_port_enable = true
 
 [node name="CharacterSelection" type="OptionButton" parent="Body"]
 margin_left = 10.0
-margin_right = 150.0
+margin_right = 140.0
 margin_bottom = 20.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 script = ExtResource( 3 )
+
+[node name="PortRect2" parent="Body" instance=ExtResource( 1 )]
+margin_left = 140.0
+margin_right = 150.0
+margin_bottom = 20.0
+mouse_filter = 2
+s_port_enable = true
 
 [connection signal="character_selected_left" from="Body/CharacterSelection" to="." method="_on_CharacterSelection_character_selected_left"]
 [connection signal="pressed" from="Body/CharacterSelection" to="Body/CharacterSelection" method="_on_pressed"]

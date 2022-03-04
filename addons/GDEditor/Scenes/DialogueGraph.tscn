@@ -7,12 +7,16 @@
 margin_left = 226.0
 margin_right = 1024.0
 margin_bottom = 552.0
+custom_constants/bezier_len_neg = 10
+custom_constants/bezier_len_pos = -10
 right_disconnects = true
 scroll_offset = Vector2( 0, -93 )
 minimap_enabled = false
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
+}
+s_port_table = {
 }
 
 [node name="DGPopupMenu" type="PopupMenu" parent="."]

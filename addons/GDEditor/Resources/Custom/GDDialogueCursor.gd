@@ -4,7 +4,7 @@ class_name GDDialogueCursor
 
 signal prev
 signal next
-signal flow_skipped
+signal skipped
 
 export var s_cursor : Dictionary
 export var s_node_name : String
@@ -54,20 +54,17 @@ func reset() -> void:
 	s_node_name = "Start"
 
 
-func port_leftu() -> Array:
-	return port_left(PortRect.PortType.UNIVERSAL)
+func next_flow(port := -1) -> void:
+	if port == -1:
+		next(PortRect.PortType.FLOW)
+	else:
+		next_port(PortRect.PortType.FLOW, port)
 
 
-func port_rightu() -> Array:
-	return port_right(PortRect.PortType.UNIVERSAL)
-
-
-func port_lefta() -> Array:
-	return port_left(PortRect.PortType.ACTION)
-
-
-func port_righta() -> Array:
-	return port_right(PortRect.PortType.ACTION)
+func skip_flow(port := -1) -> void:
+	next_flow(port)
+	
+	emit_signal("skipped")
 
 
 func port_leftf() -> Array:
@@ -78,117 +75,12 @@ func port_rightf() -> Array:
 	return port_right(PortRect.PortType.FLOW)
 
 
-func connection_leftu(port: int) -> Array:
-	return connection_left(PortRect.PortType.UNIVERSAL, port)
-
-
-func connection_rightu(port: int) -> Array:
-	return connection_right(PortRect.PortType.UNIVERSAL, port)
-
-
-func connection_lefta(port: int) -> Array:
-	return connection_left(PortRect.PortType.ACTION, port)
-
-
-func connection_righta(port: int) -> Array:
-	return connection_right(PortRect.PortType.ACTION, port)
-
-
 func connection_leftf(port: int) -> Array:
 	return connection_left(PortRect.PortType.FLOW, port)
 
 
 func connection_rightf(port: int) -> Array:
 	return connection_right(PortRect.PortType.FLOW, port)
-
-
-func branch_lefta(port: int) -> Array:
-	return branch_left(PortRect.PortType.ACTION, port)
-
-
-func branch_righta(port: int) -> Array:
-	return branch_right(PortRect.PortType.ACTION, port)
-
-
-func nextu(idx := 0) -> void:
-	next(PortRect.PortType.UNIVERSAL, idx)
-
-
-func nexta(idx := 0) -> void:
-	next(PortRect.PortType.ACTION, idx)
-
-
-func nextf(idx := 0) -> void:
-	next(PortRect.PortType.FLOW, idx)
-
-
-func prevu(idx := 0) -> void:
-	prev(PortRect.PortType.UNIVERSAL, idx)
-
-
-func preva(idx := 0) -> void:
-	prev(PortRect.PortType.ACTION, idx)
-
-
-func prevf(idx := 0) -> void:
-	prev(PortRect.PortType.FLOW, idx)
-
-
-func next_portu(port: int, idx := 0) -> void:
-	next_port(PortRect.PortType.UNIVERSAL, port, idx)
-
-
-func next_porta(port: int, idx := 0) -> void:
-	next_port(PortRect.PortType.ACTION, port, idx)
-
-
-func next_portf(port: int, idx := 0) -> void:
-	next_port(PortRect.PortType.FLOW, port, idx)
-
-
-func prev_portu(port: int, idx := 0) -> void:
-	prev_port(PortRect.PortType.UNIVERSAL, port, idx)
-
-
-func prev_porta(port: int, idx := 0) -> void:
-	prev_port(PortRect.PortType.ACTION, port, idx)
-
-
-func prev_portf(port: int, idx := 0) -> void:
-	prev_port(PortRect.PortType.FLOW, port, idx)
-
-
-func next_alla(port: int) -> void:
-	next_all(PortRect.PortType.ACTION, port)
-
-
-func prev_alla(port: int) -> void:
-	prev_all(PortRect.PortType.ACTION, port)
-
-
-func next_flow(port := -1) -> void:
-	if port == -1:
-		nextf()
-	else:
-		next_portf(port)
-
-
-func skip_flow(port := -1) -> void:
-	next_flow(port)
-	
-	emit_signal("flow_skipped")
-
-
-func prev_flow(port : int) -> void:
-	prev_portf(port)
-
-
-func next_action(port: int) -> void:
-	next_alla(port)
-
-
-func prev_action(port: int) -> void:
-	prev_alla(port)
 
 
 func end() -> bool:
@@ -297,26 +189,6 @@ func prev(port_type: int, idx := 0) -> void:
 		port = port_list[idx]
 
 	prev_port(port_type, port, idx)
-
-
-func next_all(port_type: int, port: int) -> void:
-	var idx := 0
-	
-	for conn in connection_right(port_type, port):
-		var cursor = copy(true)
-		cursor.next_port(port_type, port, idx)
-		
-		idx += 1
-
-
-func prev_all(port_type: int, port: int) -> void:
-	var idx := 0
-	
-	for conn in connection_left(port_type, port):
-		var cursor = copy()
-		cursor.prev_port(port_type, port, idx)
-		
-		idx += 1
 
 
 func next_port(port_type: int, port : int, idx := 0) -> void:

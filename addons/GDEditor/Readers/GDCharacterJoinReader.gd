@@ -14,3 +14,5 @@ func render(graph_node: GDCharacterJoinGN, dialogue_view: GDDialogueView, cursor
 		
 		if expression_data:
 			dialogue_view.show_character(character_data, expression_data)
+	
+	cursor.skip_flow()
