@@ -9,34 +9,6 @@ signal skipped
 export var s_cursor : Dictionary
 export var s_node_name : String
 
-# port_table dictionary:
-# 	? = may or may not exist
-#	
-#	Structure:
-#	-> node_name(String)?:
-#		-> to(String):
-#			-> PortType.UNIVERSAL(int)?:
-#				-> left_port(int): [{node_name: String, node_left_port: int}, ...]
-#				-> left_port(int)...
-#			-> PortType.ACTION(int)?:
-#				-> left_port(int): [{node_name: String, node_left_port: int}, ...]
-#				-> left_port(int)...
-#			-> PortType.FLOW(int)?:
-#				-> left_port(int): [{node_name: String, node_left_port: int}, ...]
-#				-> left_port(int)...
-#		-> from(String):
-#			-> PortType.UNIVERSAL(int)?:
-#				-> right_port(int): [{node_name: String, node_right_port: int}, ...]
-#				-> right_port(int)...
-#			-> PortType.ACTION(int)?:
-#				-> right_port(int): [{node_name: String, node_right_port: int}, ...]
-#				-> right_port(int)...
-#			-> PortType.FLOW(int)?:
-#				-> right_port(int): [{node_name: String, node_right_port: int}, ...]
-#				-> right_port(int)...
-#	-> node_name(String)....
-#export var s_port_table : Dictionary
-
 export var pt : Resource = GDPortMap.new()
 
 

@@ -37,16 +37,29 @@ func _ready() -> void:
 
 
 func disconnect_node(from: String, from_port: int, to: String, to_port: int) -> void:
-	var from_type : int = get_node(from).get_connection_output_type(from_port)
-	var to_type : int = get_node(to).get_connection_input_type(to_port)
+	var from_node : GDGraphNode = get_node(from)
+	var to_node : GDGraphNode = get_node(to)
+	
+	var from_type : int = from_node.get_connection_output_type(from_port)
+	var to_type : int = to_node.get_connection_input_type(to_port)
+	
+	to_node.set_branch_index(0)
 	
 	pt.disconnect_node(from, from_type, from_port, to, to_type, to_port)
+	
+	if from_type == from_node.PortType.FLOW:
+		if from_node.is_connected("branch_updated", self, "_chain_branch_update"):
+			from_node.disconnect("branch_updated", self, "_chain_branch_update")
+	
 	.disconnect_node(from, from_port, to, to_port)
 
 
 func connect_node(from: String, from_port: int, to: String, to_port: int) -> int:
-	var from_type : int = get_node(from).get_connection_output_type(from_port)
-	var to_type : int = get_node(to).get_connection_input_type(to_port)
+	var from_node : GDGraphNode = get_node(from)
+	var to_node : GDGraphNode = get_node(to)
+	
+	var from_type : int = from_node.get_connection_output_type(from_port)
+	var to_type : int = to_node.get_connection_input_type(to_port)
 	
 	pt.connect_node(from, from_type, from_port, to, to_type, to_port)
 	
@@ -120,6 +133,16 @@ func disconnect_node_output(node_name: String, port: int) -> void:
 		disconnect_node(connection.from, connection.from_port, connection.to, connection.to_port)
 
 
+func _chain_branch_update(from_node: GDGraphNode, to_node: GDGraphNode, slot: int) -> void:
+	var flow_ports := from_node.get_ports(from_node.PortType.FLOW, from_node.Port.RIGHT)
+	var flow_index := flow_ports.find(slot)
+	
+	if from_node.get_branch_index() == 0:
+		to_node.set_branch_index(0)
+	else:
+		to_node.set_branch_index(from_node.get_branch_index() + flow_index)
+
+
 func _on_connection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
 	if from == to:
 		return
@@ -127,8 +150,8 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	var from_node : GDGraphNode = get_node(from)
 	var to_node : GDGraphNode = get_node(to)
 
-	var from_port_type := from_node.get_connection_output_type(from_slot)
-	var to_port_type := to_node.get_connection_input_type(to_slot)
+	var from_type := from_node.get_connection_output_type(from_slot)
+	var to_type := to_node.get_connection_input_type(to_slot)
 	
 	if not from_node.connect_to(to_node, to_slot, from_slot) or \
 	   not to_node.connect_from(from_node, from_slot, to_slot)\
@@ -136,20 +159,26 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 		return
 	
 	# One to many connection check
-	match from_port_type:
+	match from_type:
 		PortRect.PortType.FLOW:
 			if is_node_right_connected(from, from_slot):
 				disconnect_node_output(from, from_slot)
-		
+			
+			if not from_node.is_connected("branch_updated", self, "_chain_branch_update"):
+				from_node.connect("branch_updated", self, "_chain_branch_update", [from_node, to_node, from_slot])
+			
+			_chain_branch_update(from_node, to_node, from_slot)
+	
 	connect_node(from, from_slot, to, to_slot)
+	
 
 
 func _on_disconnection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
 	var from_node : GDGraphNode = get_node(from)
 	var to_node : GDGraphNode = get_node(to)
 	
-	var from_port_type := from_node.get_connection_output_type(from_slot)
-	var to_port_type := to_node.get_connection_input_type(to_slot)
+	var from_type := from_node.get_connection_output_type(from_slot)
+	var to_type := to_node.get_connection_input_type(to_slot)
 	
 	if not from_node.disconnect_to(to_node, to_slot, from_slot) or \
 	   not to_node.disconnect_from(from_node, from_slot, to_slot)\

@@ -4,15 +4,16 @@ extends GraphNode
 
 class_name GDGraphNode
 
+signal branch_updated
+
 enum Port {
 	LEFT,
 	RIGHT
 }
 
 enum PortType {
-	UNIVERSAL = PortRect.PortType.UNIVERSAL,
-	ACTION = PortRect.PortType.ACTION,
-	FLOW = PortRect.PortType.FLOW,
+	ANY = -1
+	FLOW = GDPortMap.PORT_FLOW
 }
 
 var _dialogue_view : Control
@@ -39,6 +40,8 @@ func set_branch_index(num: int) -> void:
 	
 	_branch_index = num
 	set_meta("branch_index", num)
+	
+	emit_signal("branch_updated")
 
 
 func get_dialogue_view() -> Control:
@@ -75,28 +78,6 @@ func get_dialogue_graph() -> GraphEdit:
 
 func get_connections() -> Dictionary:
 	return get_dialogue_graph().s_port_table.get(name)
-
-
-func get_port_rects_left() -> Array:
-	var port_rects := []
-	for i in range(get_child_count()):
-		if is_slot_enabled_left(i):
-			var section : Control = get_child(i)
-			var port_rect : PortRect = section.get_child(0)
-			port_rects.append(port_rect)
-	
-	return port_rects
-
-
-func get_port_rects_right() -> Array:
-	var port_rects := []
-	
-	for i in range(get_child_count()):
-		if is_slot_enabled_right(i):
-			var section : Control = get_child(i)
-			var port_rect : PortRect = section.get_child(section.get_child_count() - 1)
-			port_rects.append(port_rect)	
-	return port_rects
 
 
 func is_connection_connected_input(slot: int) -> bool:
@@ -146,6 +127,33 @@ func disconnect_output(slot: int) -> void:
 func disconnect_all_ports() -> void:
 	if get_dialogue_graph():
 		get_dialogue_graph().clear_node_connections(self)
+
+
+func get_ports(port_type: int, pos: int) -> Array:
+	assert(pos == Port.LEFT or pos == Port.RIGHT)
+	
+	var ports := []
+	
+	var pos_string : String = Port.keys()[pos].to_lower()
+	var f_enable := "is_slot_enabled_%s" % pos_string
+	var f_type := "get_slot_type_%s" % pos_string
+	
+	var port_count := 0
+	
+	for child in get_children():
+		var idx : int = child.get_index()
+		
+		if call(f_enable, idx):
+			match port_type:
+				PortType.ANY:
+					ports.append(port_count)
+				_:
+					if call(f_type, idx) == port_type:
+						ports.append(port_count)
+			
+			port_count += 1
+	
+	return ports
 
 
 func slot2port(slot: int, pos: int) -> int:

@@ -41,16 +41,6 @@ func get_expression_data() -> CharacterExpressionData:
 	return _expression_selection.get_selected_metadata()
 
 
-func connect_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
-	if self is graph_node.get_script():
-		# deny action outport to connect to GDMessageGN action inport
-		if graph_node.get_connection_input_type(from_slot) == PortType.ACTION and \
-			get_connection_output_type(to_slot) == PortType.ACTION:
-			return false
-	
-	return true
-
-
 func _on_CharacterSelection_item_selected(index: int) -> void:
 	_expression_selection.clear()
 
