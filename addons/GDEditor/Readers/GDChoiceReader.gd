@@ -5,9 +5,7 @@ extends GDDialogueReader
 class_name GDChoiceReader
 
 
-func render(graph_node: GDChoiceGN, dialogue_viewer: GDDialogueView, cursor: GDDialogueCursor) -> void:
-	var choices : PoolStringArray = graph_node.s_choices
-	
+func render(choices : PoolStringArray, dialogue_viewer: GDDialogueView, cursor: GDDialogueCursor) -> void:
 	dialogue_viewer.show_choices(choices)
 	dialogue_viewer.block_next(true)
 	

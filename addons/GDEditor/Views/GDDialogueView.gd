@@ -8,12 +8,12 @@ signal next
 
 signal choice_selected(idx)
 
-var _components := []
-var _reader_table := {}
 var _tools_tested := false
 var _dgraph : GraphEdit
 
 var _blocked := false
+
+var _dialogue_data : GDDialogueData
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -23,53 +23,71 @@ func _gui_input(event: InputEvent) -> void:
 				next()
 
 
-func get_components() -> Array:
-	if _components.empty():
-		for component in _dialogue_components():
-			assert(component is Dictionary or component is PackedScene)
-			
-			if component is PackedScene:
-				var c := {}
-				var scene = component.instance()
-				
-				assert(scene is GDGraphNode)
-				
-				c["readers"] = scene.get_readers()
-				c["scene"] = component
-				c["name"] = scene.get_component_name()
-				
-				for reader in c.readers:
-					assert(reader is GDDialogueReader)
-				
-				_reader_table[component.resource_path] = c.readers
-				
-				scene.free()
-				_components.append(c)
-				
-			elif component is Dictionary:
-				assert(component.has("scene"))
-				assert(component.scene is PackedScene)
-				
-				var scene = component.scene.instance()
-				assert(scene is GDGraphNode)
-				
-				component.readers = component.get("readers", scene.get_readers())
-				component.name = component.get("name", scene.get_component_name())
-				
-				scene.free()
-				
-				assert(component.readers is Array)
-				
-				var scene_path = component.scene.resource_path
-				
-				for reader in component.readers:
-					assert(reader is GDDialogueReader)
-				
-				_reader_table[scene_path] = component.readers
-				
-				_components.append(component)
+func get_reader_table() -> Dictionary:
+	var reader_table := {}
 	
-	return _components
+	for component in _dialogue_components():
+		if component is PackedScene:
+			var scene : GDGraphNode = component.instance()
+			
+			assert(scene is GDGraphNode)
+			
+			var readers := scene.get_readers()
+			
+			reader_table[component.resource_path] = readers
+			
+			scene.free()
+			
+		elif component is Dictionary:
+			assert(component.has("scene"))
+			assert(component.scene is PackedScene)
+			
+			var scene : GDGraphNode = component.scene.instance()
+			
+			assert(scene is GDGraphNode)
+			
+			var readers : Array = component.get("readers", scene.get_readers())
+			
+			reader_table[component.scene.resource_path] = readers
+			
+			scene.free()
+	
+	return reader_table
+
+
+
+func get_components() -> Array:
+	var components := []
+	
+	for component in _dialogue_components():
+		assert(component is Dictionary or component is PackedScene)
+		
+		if component is PackedScene:
+			var c := {}
+			var scene = component.instance()
+			
+			assert(scene is GDGraphNode)
+			
+			c["scene"] = component
+			c["name"] = scene.get_component_name()
+			
+			scene.free()
+			components.append(c)
+			
+		elif component is Dictionary:
+			assert(component.has("scene"))
+			assert(component.scene is PackedScene)
+			
+			var scene = component.scene.instance()
+			assert(scene is GDGraphNode)
+			
+			component.name = component.get("name", scene.get_component_name())
+			
+			scene.free()
+			
+			components.append(component)
+	
+	return components
 
 
 func get_tools() -> Array:
@@ -96,22 +114,31 @@ func set_dialogue_graph(dgraph: GraphEdit) -> void:
 	_dgraph = dgraph
 
 
+func set_dialogue_data(data: GDDialogueData) -> void:
+	_dialogue_data = data
+
+
 func block_next(block: bool) -> void:
 	_blocked = block
 
 
-func render_node(node: GDGraphNode, cursor: GDDialogueCursor) -> void:
-	for reader in _reader_table[node.filename]:
-		reader.render(node, self, cursor)
+func render_node(node_name: String, cursor: GDDialogueCursor) -> void:
+	assert(_dialogue_data, "_dialogue_data must be set before calling render_node()")
+	
+	var data = _dialogue_data.data_table[node_name]
+	var readers = _dialogue_data.reader_table
+	
+	for reader in readers[node_name]:
+		reader.render(data, self, cursor)
 
 
 func next() -> void:
+	assert(_dialogue_data, "_dialogue_data must be set before calling next()")
+	
 	if _blocked:
 		return
 	
-	var dgraph := get_dialogue_graph()
-	
-	var cursor : GDDialogueCursor = dgraph.cursor()
+	var cursor : GDDialogueCursor = _dialogue_data.cursor
 	
 	if not cursor.is_connected("skipped", self, "__on_cursor_skipped"):
 		cursor.connect("skipped", self , "__on_cursor_skipped")
@@ -120,9 +147,8 @@ func next() -> void:
 		return
 	
 	var node_name := cursor.get_node_name()
-	var graph_node : GDGraphNode = dgraph.get_node(node_name)
 	
-	render_node(graph_node, cursor)
+	render_node(node_name, cursor)
 	
 	emit_signal("next")
 

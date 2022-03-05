@@ -148,3 +148,7 @@ func port2slot(port: int, pos: int) -> int:
 		port = max(port - 1, 0)
 			
 	return -1
+
+
+func get_save_data():
+	pass

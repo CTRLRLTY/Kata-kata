@@ -4,7 +4,7 @@ extends GDGraphNode
 
 class_name GDEmitterGN
 
-export(String) var s_event_name
+export var s_event_name : String
 
 onready var _event_edit := find_node("EventEdit")
 
@@ -15,6 +15,10 @@ func _ready() -> void:
 
 func get_component_name() -> String:
 	return "Emitter"
+
+
+func get_save_data() -> String:
+	return s_event_name
 
 
 func get_readers() -> Array:

@@ -37,6 +37,15 @@ func get_component_name() -> String:
 	return "Character Join"
 
 
+func get_save_data() -> Dictionary:
+	return {
+		"character": get_character_data(),
+		"expression": get_expression_data(),
+		"position": get_character_position_string(),
+		"offset": s_character_offset
+	}
+
+
 func get_character_data() -> CharacterData:
 	return _character_selection.get_selected_metadata()
 

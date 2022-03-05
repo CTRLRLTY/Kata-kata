@@ -17,6 +17,14 @@ func _ready() -> void:
 	_expression_selection.graph_node = self
 
 
+func get_save_data() -> Dictionary:
+	return {
+		"character": get_character_data(),
+		"expression": get_expression_data(),
+		"text": s_message
+	}
+
+
 func get_component_name() -> String:
 	return "Message"
 

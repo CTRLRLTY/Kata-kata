@@ -11,7 +11,6 @@ export var s_port_table : Dictionary
 
 var _selected_nodes := []
 var _copy_buffer := []
-var _dialogue_cursor : GDDialogueCursor
 
 onready var popup_menu: PopupMenu = $DGPopupMenu
 
@@ -58,23 +57,13 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 
 
 func save() -> void:
-	var packer := PackedScene.new()
-	popup_menu.owner = self
+#	var packer := PackedScene.new()
+#	popup_menu.owner = self
 	
 	s_connection_list = get_connection_list()
-	_dialogue_cursor = GDDialogueCursor.new(s_port_table)
-	
-	print_debug(_dialogue_cursor.s_port_table.keys())
 #	packer.pack(self)
 #
 #	ResourceSaver.save("res://test/test.tscn", packer)
-	
-	
-func cursor() -> GDDialogueCursor:
-	if not _dialogue_cursor:
-		_dialogue_cursor = GDDialogueCursor.new(s_port_table)
-		
-	return _dialogue_cursor
 
 
 func is_node_right_connected(node_name: String, slot: int) -> bool:

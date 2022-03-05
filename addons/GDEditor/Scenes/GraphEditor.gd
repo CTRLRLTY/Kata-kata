@@ -4,6 +4,7 @@ extends VSplitContainer
 
 class_name GDGraphEditor
 
+var _dialogue_data : GDDialogueData
 
 onready var _node_selection := find_node("NodeSelection")
 onready var _main := $MainContainer
@@ -28,6 +29,10 @@ func get_dialogue_preview() -> GDDialogueView:
 
 func get_dialogue_graph() -> DialogueGraph:
 	return _main.get_child(1) as DialogueGraph
+
+
+func get_dialogue_data() -> GDDialogueData:
+	return _dialogue_data
 
 
 func set_dialogue_graph(dgraph: DialogueGraph) -> void:
@@ -72,8 +77,25 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 
 
 func save() -> void:
-	get_dialogue_preview().save()
-	get_dialogue_graph().save()
+	var dv := get_dialogue_preview()
+	var dgraph := get_dialogue_graph()
+	
+	dgraph.save()
+	dv.save()
+	
+	var reader_table := dv.get_reader_table()
+	
+	_dialogue_data = GDDialogueData.new()
+	_dialogue_data.cursor = GDDialogueCursor.new(dgraph.s_port_table)
+	
+	for gn in dgraph.get_children():
+		if gn is GDGraphNode:
+			var readers : Array = reader_table[gn.filename]
+			
+			_dialogue_data.reader_table[gn.name] = readers
+			_dialogue_data.data_table[gn.name] = gn.get_save_data()
+	
+	dv.set_dialogue_data(_dialogue_data)
 
 
 func _on_DialogueGraph_graph_node_added(graph_node: GDGraphNode) -> void:

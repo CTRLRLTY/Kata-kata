@@ -105,22 +105,20 @@ func set_text_box(text: String) -> void:
 
 
 func show_character(character: CharacterData, expression: CharacterExpressionData) -> void:
-	var gn : GDCharacterJoinGN
+	var data : Dictionary
 	
 	if _joined.has(character):
-		gn = _joined[character]
+		data = _joined[character]
 	
-	if not gn:
+	if not data:
 		return
 	
-	var position : String = gn.get_character_position_string()
-	var offset : int = gn.s_character_offset
 	var texture : Texture
 	
 	if expression:
 		texture = expression.expression_texture
 	
-	get("_character_%s" % [position]).set_character(offset, texture, character)
+	get("_character_%s" % [data.position]).set_character(data.offset, texture, character)
 
 
 # Checks the runtime join
@@ -129,11 +127,12 @@ func has_character_join(character_data: CharacterData) -> bool:
 
 
 # Runtime join
-func character_rjoin(gn: GDCharacterJoinGN) -> void:
-	var character_data := gn.get_character_data()
-	
+func character_rjoin(character_data: CharacterData, pos: String, offset: int) -> void:
 	if character_data:
-		_joined[character_data] = gn
+		_joined[character_data] = {
+			"position": pos,
+			"offset": offset
+		}
 
 
 # Runtime left
@@ -141,9 +140,9 @@ func character_rleft(character_data: CharacterData) -> void:
 	if not _joined.has(character_data):
 		return
 	
-	var gn : GDCharacterJoinGN = _joined[character_data]
-	var position := gn.get_character_position_string()
-	var offset := gn.s_character_offset
+	var data : Dictionary = _joined[character_data]
+	var position : String = data.position
+	var offset : int = data.offset
 	
 	var character_rect = get("_character_%s" % [position])
 	var index : int = character_rect.find_character(character_data)

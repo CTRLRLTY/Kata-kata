@@ -23,6 +23,10 @@ func get_component_name() -> String:
 	return "Character Left"
 
 
+func get_save_data() -> CharacterData:
+	return get_character_data()
+
+
 func get_character_selection() -> OptionButton:
 	return _character_selection
 

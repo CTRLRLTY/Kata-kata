@@ -23,6 +23,10 @@ func get_component_name() -> String:
 	return "Choice"
 
 
+func get_save_data() -> PoolStringArray:
+	return s_choices
+
+
 func _choice_size() -> int:
 	var acc := 0
 	
