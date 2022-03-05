@@ -36,6 +36,23 @@ func _ready() -> void:
 		connect_node(conn.from, conn.from_port, conn.to, conn.to_port)
 
 
+func disconnect_node(from: String, from_port: int, to: String, to_port: int) -> void:
+	var from_type : int = get_node(from).get_connection_output_type(from_port)
+	var to_type : int = get_node(to).get_connection_input_type(to_port)
+	
+	pt.disconnect_node(from, from_type, from_port, to, to_type, to_port)
+	.disconnect_node(from, from_port, to, to_port)
+
+
+func connect_node(from: String, from_port: int, to: String, to_port: int) -> int:
+	var from_type : int = get_node(from).get_connection_output_type(from_port)
+	var to_type : int = get_node(to).get_connection_input_type(to_port)
+	
+	pt.connect_node(from, from_type, from_port, to, to_type, to_port)
+	
+	return .connect_node(from, from_port, to, to_port)
+
+
 func can_drop_data(_position: Vector2, data) -> bool:
 	return data is Dictionary and data.get("value_type", "") == "GDGraphNodeScene" 
 
@@ -123,8 +140,7 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 		PortRect.PortType.FLOW:
 			if is_node_right_connected(from, from_slot):
 				disconnect_node_output(from, from_slot)
-	
-	pt.connect_node(from, from_port_type, from_slot, to, to_port_type, to_slot)
+		
 	connect_node(from, from_slot, to, to_slot)
 
 
@@ -139,8 +155,6 @@ func _on_disconnection_request(from: String, from_slot: int, to: String, to_slot
 	   not to_node.disconnect_from(from_node, from_slot, to_slot)\
 	:
 		return
-	
-	pt.disconnect_node(from, from_port_type, from_slot, to, to_port_type, to_slot)
 	
 	disconnect_node(from, from_slot, to, to_slot)
 
