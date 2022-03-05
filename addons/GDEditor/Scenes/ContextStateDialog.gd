@@ -82,7 +82,7 @@ func _update_value_inputnode(state_type : int, value = null) -> void:
 
 
 func _on_about_to_show() -> void:
-	assert(state_data, "state_data has to be assigned before showing this dialog")
+	assert(state_data, "state_data has to be assigned before showing this dialog, use open() instead.")
 
 
 func _on_popup_hide() -> void:

@@ -35,13 +35,15 @@ export var s_node_name : String
 #				-> right_port(int): [{node_name: String, node_right_port: int}, ...]
 #				-> right_port(int)...
 #	-> node_name(String)....
-export var s_port_table : Dictionary
+#export var s_port_table : Dictionary
+
+export var pt : Resource = GDPortMap.new()
 
 
-func _init(port_table: Dictionary) -> void:
-	s_port_table = port_table.duplicate(true)
+func _init(port_table := GDPortMap.new()) -> void:
+	pt = port_table.copy()
 	
-	if s_port_table.has("Start"):
+	if pt.has_node("Start"):
 		reset()
 
 
@@ -50,7 +52,7 @@ func get_node_name() -> String:
 
 
 func reset() -> void:
-	s_cursor = s_port_table["Start"]
+	s_cursor = pt.get_table("Start")
 	s_node_name = "Start"
 
 
@@ -91,82 +93,28 @@ func port_left(port_type: int) -> Array:
 	if end():
 		return []
 	
-	if not s_cursor.from.has(port_type):
-		return []
-	
-	var types : Dictionary = s_cursor.from[port_type]
-	
-	var ports := types.keys()
-	ports.sort()
-	
-	return ports
+	return pt.node_connected_lport(get_node_name(), port_type)
 
 
 func port_right(port_type: int) -> Array:
 	if end():
 		return []
 	
-	if not s_cursor.to.has(port_type):
-		return []
-	
-	var types : Dictionary = s_cursor.to[port_type]
-
-	var ports := types.keys()
-	ports.sort()
-	
-	return ports
+	return pt.node_connected_rport(get_node_name(), port_type)
 
 
 func connection_left(port_type: int, port: int) -> Array:
 	if end():
 		return []
 	
-	var port_types : Dictionary = s_cursor.from.get(port_type, {})
-	
-	return port_types.get(port, [])
+	return pt.node_connection_left(get_node_name(), port_type, port)
 
 
 func connection_right(port_type: int, port: int) -> Array:
 	if end():
 		return []
 	
-	var port_types : Dictionary = s_cursor.to.get(port_type, {})
-
-	return port_types.get(port, [])
-
-
-# Returns an Array of GDDialogueCursor or an empty array
-func branch_left(port_type: int, port: int) -> Array:
-	var cursor_list := []
-	
-	var idx := 0
-	
-	for conn in connection_left(port_type, port):
-		var cursor = copy()
-		cursor.prev_port(port_type, port, idx)
-		
-		cursor_list.append(cursor)
-		
-		idx += 1
-	
-	return cursor_list
-
-
-# Returns an Array of GDDialogueCursor or an empty array
-func branch_right(port_type: int, port: int) -> Array:
-	var cursor_list := []
-	
-	var idx := 0
-	
-	for conn in connection_right(port_type, port):
-		var cursor = copy()
-		cursor.next_port(port_type, port, idx)
-		
-		cursor_list.append(cursor)
-		
-		idx += 1
-	
-	return cursor_list
+	return pt.node_connection_right(get_node_name(), port_type, port)
 
 
 func next(port_type: int, idx := 0) -> void:
@@ -195,14 +143,14 @@ func next_port(port_type: int, port : int, idx := 0) -> void:
 	if s_cursor.empty():
 		return
 	
-	var port_list : Array = connection_right(port_type, port)
+	var conn_list : Array = connection_right(port_type, port)
 	
-	if port_list.empty():
+	if conn_list.empty():
 		s_node_name = ""
 	else:
-		s_node_name = port_list[idx].name
+		s_node_name = conn_list[idx].name
 
-	s_cursor = s_port_table.get(s_node_name, {})
+	s_cursor = pt.get_table(s_node_name)
 	
 	emit_signal("next")
 
@@ -211,21 +159,21 @@ func prev_port(port_type: int, port: int, idx := 0) -> void:
 	if s_cursor.empty():
 		return
 	
-	var port_list : Array = connection_left(port_type, port)
+	var conn_list : Array = connection_left(port_type, port)
 	
-	if port_list.empty():
+	if conn_list.empty():
 		s_node_name = ""
 	else:
-		s_node_name = port_list[idx].name
+		s_node_name = conn_list[idx].name
 
-	s_cursor = s_port_table.get(s_node_name, {})
+	s_cursor = pt.get_table(s_node_name)
 	
 	emit_signal("prev")
 
 
 func copy(copy_user_signal := false):
 	# using load() as cyclic dependency workaround
-	var ret = load(GDUtil.resolve("GDDialogueCursor.gd")).new(s_port_table)
+	var ret = load(GDUtil.resolve("GDDialogueCursor.gd")).new(pt.port_table)
 	ret.s_cursor = s_cursor.duplicate(true)
 	ret.s_node_name = s_node_name
 

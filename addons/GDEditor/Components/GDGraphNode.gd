@@ -16,6 +16,45 @@ enum PortType {
 }
 
 var _dialogue_view : Control
+var _graph_editor : Control
+
+var _branch_index := 0
+
+
+func _ready() -> void:
+	if not has_meta("branch_index"):
+		set_meta("branch_index", _branch_index)
+	
+	set_branch_index(get_meta("branch_index"))
+
+
+func get_branch_index() -> int:
+	return _branch_index
+
+
+func set_branch_index(num: int) -> void:
+	var bare_title = title.trim_suffix("[%d]" % _branch_index)
+	
+	title = bare_title + "[%d]" % num
+	
+	_branch_index = num
+	set_meta("branch_index", num)
+
+
+func get_dialogue_view() -> Control:
+	return _dialogue_view
+
+
+func set_dialogue_view(dialogue_view: Control) -> void:
+	_dialogue_view = dialogue_view
+
+
+func get_graph_editor() -> Control:
+	return _graph_editor
+
+
+func set_graph_editor(ge: Control) -> void:
+	_graph_editor = ge
 
 
 func get_component_name() -> String:
@@ -47,14 +86,6 @@ func get_port_rects_left() -> Array:
 			port_rects.append(port_rect)
 	
 	return port_rects
-
-
-func get_dialogue_view() -> Control:
-	return _dialogue_view
-
-
-func set_dialogue_view(dialogue_view: Control) -> void:
-	_dialogue_view = dialogue_view
 
 
 func get_port_rects_right() -> Array:

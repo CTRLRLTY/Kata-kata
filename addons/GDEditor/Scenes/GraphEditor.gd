@@ -6,9 +6,9 @@ class_name GDGraphEditor
 
 var _dialogue_data : GDDialogueData
 
-onready var _node_selection := find_node("NodeSelection")
 onready var _main := $MainContainer
-
+onready var _node_selection := find_node("NodeSelection")
+onready var _state_tree := _main.find_node("ContextStateTree")
 
 func _ready() -> void:
 	if not get_dialogue_preview():
@@ -33,6 +33,10 @@ func get_dialogue_graph() -> DialogueGraph:
 
 func get_dialogue_data() -> GDDialogueData:
 	return _dialogue_data
+
+
+func get_state_tree() -> GDContextStateTree:
+	return _state_tree as GDContextStateTree
 
 
 func set_dialogue_graph(dgraph: DialogueGraph) -> void:
@@ -86,7 +90,7 @@ func save() -> void:
 	var reader_table := dv.get_reader_table()
 	
 	_dialogue_data = GDDialogueData.new()
-	_dialogue_data.cursor = GDDialogueCursor.new(dgraph.s_port_table)
+	_dialogue_data.cursor = GDDialogueCursor.new(dgraph.pt)
 	
 	for gn in dgraph.get_children():
 		if gn is GDGraphNode:
@@ -100,3 +104,4 @@ func save() -> void:
 
 func _on_DialogueGraph_graph_node_added(graph_node: GDGraphNode) -> void:
 	graph_node.set_dialogue_view(get_dialogue_preview())
+	graph_node.set_graph_editor(self)

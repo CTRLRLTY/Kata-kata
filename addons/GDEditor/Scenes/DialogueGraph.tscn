@@ -17,8 +17,6 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-s_port_table = {
-}
 
 [node name="DGPopupMenu" type="PopupMenu" parent="."]
 margin_right = 20.0

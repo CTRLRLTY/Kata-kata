@@ -2,10 +2,13 @@ tool
 
 extends Tree
 
+class_name GDContextStateTree
+
 signal state_changed
 
 const ITEM_SUFFIX_SEPERATOR = "="
 
+# ContextStateData Array
 var _state_list : Array
 
 onready var state_popup := $ContextStatePopup

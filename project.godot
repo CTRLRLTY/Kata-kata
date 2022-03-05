@@ -59,6 +59,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Readers/GDChoiceReader.gd"
 }, {
+"base": "Tree",
+"class": "GDContextStateTree",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Scenes/ContextStateTree.gd"
+}, {
 "base": "Resource",
 "class": "GDDialogueCursor",
 "language": "GDScript",
@@ -149,6 +154,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Readers/GDPipeReader.gd"
 }, {
+"base": "Resource",
+"class": "GDPortMap",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Resources/Custom/GDPortMap.gd"
+}, {
 "base": "GDGraphNode",
 "class": "GDSetterGN",
 "language": "GDScript",
@@ -190,6 +200,7 @@ _global_script_class_icons={
 "GDCharacterLeftReader": "",
 "GDChoiceGN": "",
 "GDChoiceReader": "",
+"GDContextStateTree": "",
 "GDDialogueCursor": "",
 "GDDialogueData": "",
 "GDDialogueEditor": "",
@@ -208,6 +219,7 @@ _global_script_class_icons={
 "GDMessageReader": "",
 "GDPipeGN": "",
 "GDPipeReader": "",
+"GDPortMap": "",
 "GDSetterGN": "",
 "GDStandardView": "",
 "GDStartGN": "",

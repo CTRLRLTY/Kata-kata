@@ -7,7 +7,8 @@ class_name DialogueGraph
 signal graph_node_added(graph_node)
 
 export var s_connection_list : Array
-export var s_port_table : Dictionary
+
+export var pt : Resource = GDPortMap.new()
 
 var _selected_nodes := []
 var _copy_buffer := []
@@ -47,6 +48,8 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 			if child is GDStartGN:
 				printerr("GraphEdit already has a StartNode")
 				return
+		
+		gn.set_branch_index(1)
 	
 	emit_signal("graph_node_added", gn)
 	
@@ -110,38 +113,18 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	var from_port_type := from_node.get_connection_output_type(from_slot)
 	var to_port_type := to_node.get_connection_input_type(to_slot)
 	
-	# One to many connection check
-	match from_port_type:
-		PortRect.PortType.FLOW:
-			continue
-		PortRect.PortType.UNIVERSAL:
-			continue
-		_:
-			if is_node_right_connected(from, from_slot):
-				return
-	
 	if not from_node.connect_to(to_node, to_slot, from_slot) or \
 	   not to_node.connect_from(from_node, from_slot, to_slot)\
 	:
 		return
 	
-	var from_table : Dictionary = s_port_table.get(from, {"to": {}, "from": {}})
-	var to_table : Dictionary = s_port_table.get(to, {"to": {}, "from": {}})
+	# One to many connection check
+	match from_port_type:
+		PortRect.PortType.FLOW:
+			if is_node_right_connected(from, from_slot):
+				disconnect_node_output(from, from_slot)
 	
-	from_table.to[from_port_type] = from_table.to.get(from_port_type, {})
-	from_table.to[from_port_type][from_slot] = from_table.to[from_port_type].get(from_slot, [])
-	to_table.from[to_port_type] = to_table.from.get(to_port_type, {})
-	to_table.from[to_port_type][to_slot] = to_table.from[to_port_type].get(to_slot, [])
-	
-	var from_connlist : Array = from_table.to[from_port_type][from_slot]
-	var to_connlist : Array = to_table.from[to_port_type][to_slot]
-	
-	from_connlist.append({"name": to, "port": to_slot})
-	to_connlist.append({"name": from, "port": from_slot})
-	
-	s_port_table[from] = from_table
-	s_port_table[to] = to_table
-	
+	pt.connect_node(from, from_port_type, from_slot, to, to_port_type, to_slot)
 	connect_node(from, from_slot, to, to_slot)
 
 
@@ -156,14 +139,8 @@ func _on_disconnection_request(from: String, from_slot: int, to: String, to_slot
 	   not to_node.disconnect_from(from_node, from_slot, to_slot)\
 	:
 		return
-		
-	var from_table : Dictionary = s_port_table[from]
-	var to_table : Dictionary = s_port_table[to]
 	
-	GDUtil.array_dictionary_popv(from_table.to[from_port_type][from_slot], 
-			[{"name": to, "port": to_slot}])
-	GDUtil.array_dictionary_popv(to_table.from[to_port_type][to_slot], 
-			[{"name": from, "port": from_slot}])
+	pt.disconnect_node(from, from_port_type, from_slot, to, to_port_type, to_slot)
 	
 	disconnect_node(from, from_slot, to, to_slot)
 

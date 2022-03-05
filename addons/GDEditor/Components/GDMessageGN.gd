@@ -4,7 +4,7 @@ extends GDGraphNode
 
 class_name GDMessageGN
 
-export(String, MULTILINE) var s_message 
+export(String, MULTILINE) var s_message
 
 onready var _message_edit := find_node("MessageEdit")
 onready var _character_selection := find_node("CharacterSelection")
