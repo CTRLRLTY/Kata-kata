@@ -20,7 +20,7 @@ margin_bottom = 105.0
 mouse_filter = 1
 custom_constants/port_offset = 14
 custom_constants/separation = 15
-title = "Setter"
+title = "Setter[0]"
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color( 0.13, 0.55, 0.13, 1 )
@@ -35,7 +35,8 @@ slot/1/right_type = 0
 slot/1/right_color = Color( 1, 1, 1, 1 )
 script = ExtResource( 2 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"branch": 0
 }
 s_state = SubResource( 1 )
 

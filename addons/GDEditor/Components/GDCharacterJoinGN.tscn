@@ -1,26 +1,13 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Icons/GuiVisibilityVisible.png" type="Texture" id=1]
 [ext_resource path="res://addons/GDEditor/Components/GDCharacterJoinGN.gd" type="Script" id=2]
-[ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/GUIVisibilityHidden.png" type="Texture" id=4]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Play.png" type="Texture" id=5]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/PlayBackwards.png" type="Texture" id=6]
 [ext_resource path="res://addons/GDEditor/Components/Attachments/CharacterSelection.gd" type="Script" id=7]
 [ext_resource path="res://addons/GDEditor/Components/Attachments/ExpressionSelection.gd" type="Script" id=8]
 [ext_resource path="res://addons/GDEditor/Components/Attachments/OffsetBtn.gd" type="Script" id=9]
-
-[sub_resource type="StyleBoxFlat" id=1]
-content_margin_left = 15.0
-content_margin_right = 15.0
-content_margin_top = 15.0
-content_margin_bottom = 15.0
-bg_color = Color( 0.152941, 0.172549, 0.223529, 1 )
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-corner_detail = 20
 
 [sub_resource type="StyleBoxLine" id=2]
 color = Color( 1, 0.945098, 0.945098, 1 )
@@ -36,20 +23,18 @@ margin_right = 180.0
 margin_bottom = 76.0
 rect_min_size = Vector2( 180, 0 )
 mouse_filter = 1
-custom_constants/port_offset = 12
-custom_constants/separation = 0
-custom_styles/frame = SubResource( 1 )
-title = "[0]"
-slot/0/left_enabled = false
+custom_constants/separation = 15
+title = "CharacterJoin"
+slot/0/left_enabled = true
 slot/0/left_type = 0
-slot/0/left_color = Color( 1, 1, 1, 1 )
-slot/0/right_enabled = false
+slot/0/left_color = Color( 0.129412, 0.54902, 0.129412, 1 )
+slot/0/right_enabled = true
 slot/0/right_type = 0
-slot/0/right_color = Color( 1, 1, 1, 1 )
-slot/1/left_enabled = true
+slot/0/right_color = Color( 0.129412, 0.54902, 0.129412, 1 )
+slot/1/left_enabled = false
 slot/1/left_type = 0
-slot/1/left_color = Color( 0.13, 0.55, 0.13, 1 )
-slot/1/right_enabled = true
+slot/1/left_color = Color( 0.129412, 0.54902, 0.129412, 1 )
+slot/1/right_enabled = false
 slot/1/right_type = 0
 slot/1/right_color = Color( 0.13, 0.55, 0.13, 1 )
 script = ExtResource( 2 )
@@ -58,20 +43,14 @@ __meta__ = {
 "branch": 0
 }
 
-[node name="Header" type="MarginContainer" parent="."]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 165.0
-margin_bottom = 41.0
-mouse_filter = 2
-custom_constants/margin_bottom = 10
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Header"]
-margin_right = 150.0
-margin_bottom = 16.0
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 164.0
+margin_bottom = 40.0
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="Header/HBoxContainer"]
+[node name="Title" type="Label" parent="HBoxContainer"]
 margin_right = 87.0
 margin_bottom = 16.0
 size_flags_vertical = 5
@@ -79,13 +58,13 @@ text = "Character Join"
 align = 1
 valign = 1
 
-[node name="Buttons" type="HBoxContainer" parent="Header/HBoxContainer"]
-margin_left = 96.0
-margin_right = 150.0
+[node name="Buttons" type="HBoxContainer" parent="HBoxContainer"]
+margin_left = 94.0
+margin_right = 148.0
 margin_bottom = 16.0
 size_flags_horizontal = 10
 
-[node name="OffsetBtn" type="HBoxContainer" parent="Header/HBoxContainer/Buttons"]
+[node name="OffsetBtn" type="HBoxContainer" parent="HBoxContainer/Buttons"]
 margin_top = 1.0
 margin_right = 14.0
 margin_bottom = 15.0
@@ -94,7 +73,7 @@ size_flags_vertical = 4
 custom_constants/separation = 2
 script = ExtResource( 9 )
 
-[node name="OffsetBtn1" type="Button" parent="Header/HBoxContainer/Buttons/OffsetBtn"]
+[node name="OffsetBtn1" type="Button" parent="HBoxContainer/Buttons/OffsetBtn"]
 margin_right = 2.0
 margin_bottom = 14.0
 mouse_default_cursor_shape = 2
@@ -103,7 +82,7 @@ custom_styles/normal = SubResource( 2 )
 toggle_mode = true
 group = SubResource( 3 )
 
-[node name="OffsetBtn2" type="Button" parent="Header/HBoxContainer/Buttons/OffsetBtn"]
+[node name="OffsetBtn2" type="Button" parent="HBoxContainer/Buttons/OffsetBtn"]
 margin_left = 4.0
 margin_right = 6.0
 margin_bottom = 14.0
@@ -113,7 +92,7 @@ custom_styles/normal = SubResource( 2 )
 toggle_mode = true
 group = SubResource( 3 )
 
-[node name="OffsetBtn3" type="Button" parent="Header/HBoxContainer/Buttons/OffsetBtn"]
+[node name="OffsetBtn3" type="Button" parent="HBoxContainer/Buttons/OffsetBtn"]
 margin_left = 8.0
 margin_right = 10.0
 margin_bottom = 14.0
@@ -123,7 +102,7 @@ custom_styles/normal = SubResource( 2 )
 toggle_mode = true
 group = SubResource( 3 )
 
-[node name="OffsetBtn4" type="Button" parent="Header/HBoxContainer/Buttons/OffsetBtn"]
+[node name="OffsetBtn4" type="Button" parent="HBoxContainer/Buttons/OffsetBtn"]
 margin_left = 12.0
 margin_right = 14.0
 margin_bottom = 14.0
@@ -133,7 +112,7 @@ custom_styles/normal = SubResource( 2 )
 toggle_mode = true
 group = SubResource( 3 )
 
-[node name="PositionBtn" type="TextureButton" parent="Header/HBoxContainer/Buttons"]
+[node name="PositionBtn" type="TextureButton" parent="HBoxContainer/Buttons"]
 margin_left = 18.0
 margin_right = 34.0
 margin_bottom = 16.0
@@ -142,7 +121,7 @@ toggle_mode = true
 texture_normal = ExtResource( 6 )
 texture_pressed = ExtResource( 5 )
 
-[node name="ExpandBtn" type="TextureButton" parent="Header/HBoxContainer/Buttons"]
+[node name="ExpandBtn" type="TextureButton" parent="HBoxContainer/Buttons"]
 margin_left = 38.0
 margin_right = 54.0
 margin_bottom = 16.0
@@ -154,29 +133,23 @@ texture_normal = ExtResource( 1 )
 texture_pressed = ExtResource( 4 )
 
 [node name="Body" type="HBoxContainer" parent="."]
-margin_left = 15.0
-margin_top = 41.0
-margin_right = 165.0
-margin_bottom = 61.0
+margin_left = 16.0
+margin_top = 55.0
+margin_right = 164.0
+margin_bottom = 75.0
 mouse_filter = 2
 size_flags_horizontal = 3
 custom_constants/separation = 0
 
-[node name="PortRect2" parent="Body" instance=ExtResource( 3 )]
-margin_bottom = 20.0
-mouse_filter = 2
-s_port_enable = true
-
 [node name="VBoxContainer" type="VBoxContainer" parent="Body"]
-margin_left = 10.0
-margin_right = 140.0
+margin_right = 148.0
 margin_bottom = 20.0
 mouse_filter = 2
 size_flags_horizontal = 3
 custom_constants/separation = 10
 
 [node name="CharacterSelection" type="OptionButton" parent="Body/VBoxContainer"]
-margin_right = 130.0
+margin_right = 148.0
 margin_bottom = 20.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -203,15 +176,8 @@ mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 script = ExtResource( 8 )
 
-[node name="PortRect" parent="Body" instance=ExtResource( 3 )]
-margin_left = 140.0
-margin_right = 150.0
-margin_bottom = 20.0
-mouse_filter = 2
-s_port_enable = true
-
-[connection signal="selected" from="Header/HBoxContainer/Buttons/OffsetBtn" to="." method="_on_OffsetBtn_selected"]
-[connection signal="toggled" from="Header/HBoxContainer/Buttons/ExpandBtn" to="." method="_on_ExpandBtn_toggled"]
+[connection signal="selected" from="HBoxContainer/Buttons/OffsetBtn" to="." method="_on_OffsetBtn_selected"]
+[connection signal="toggled" from="HBoxContainer/Buttons/ExpandBtn" to="." method="_on_ExpandBtn_toggled"]
 [connection signal="item_selected" from="Body/VBoxContainer/CharacterSelection" to="." method="_on_CharacterSelection_item_selected"]
 [connection signal="pressed" from="Body/VBoxContainer/CharacterSelection" to="." method="_on_CharacterSelection_pressed"]
 [connection signal="pressed" from="Body/VBoxContainer/CharacterSelection" to="Body/VBoxContainer/CharacterSelection" method="_on_pressed"]
