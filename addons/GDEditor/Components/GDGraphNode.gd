@@ -4,7 +4,7 @@ extends GraphNode
 
 class_name GDGraphNode
 
-signal branch_updated
+signal depth_updated(old_depth, new_depth)
 
 enum Port {
 	LEFT,
@@ -19,28 +19,28 @@ enum PortType {
 var _dialogue_view : Control
 var _graph_editor : Control
 
-var _branch := 0
+var _depth := 0
 
 func _ready() -> void:
-	if not has_meta("branch"):
-		set_meta("branch", _branch)
+	if not has_meta("depth"):
+		set_meta("depth", _depth)
 	
-	set_branch(get_meta("branch"))
+	set_depth(get_meta("depth"))
 
 
-func get_branch() -> int:
-	return _branch
+func get_depth() -> int:
+	return _depth
 
 
-func set_branch(num: int) -> void:
-	var bare_title = title.trim_suffix("[%d]" % _branch)
+func set_depth(num: int) -> void:
+	var bare_title = title.trim_suffix("[%d]" % _depth)
+	
+	emit_signal("depth_updated", _depth, num)
 	
 	title = bare_title + "[%d]" % num
 	
-	_branch = num
-	set_meta("branch", num)
-	
-	emit_signal("branch_updated")
+	_depth = num
+	set_meta("depth", num)
 
 
 func get_dialogue_view() -> Control:

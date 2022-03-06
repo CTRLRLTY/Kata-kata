@@ -8,7 +8,8 @@ signal graph_node_added(graph_node)
 
 export var s_connection_list : Array
 
-export var pt : Resource = GDPortMap.new()
+# GDPortMap
+export var s_port_map : Resource 
 
 var _selected_nodes := []
 var _copy_buffer := []
@@ -37,7 +38,7 @@ func _ready() -> void:
 	for conn in s_connection_list:
 		connect_node(conn.from, conn.from_port, conn.to, conn.to_port)
 	
-	_pt = GDPortMap.create(pt)
+	_pt = GDPortMap.create(s_port_map)
 	
 	port_map().connect("connected", self, "_on_node_connected")
 	port_map().connect("disconnected", self, "_on_node_disconnected")
@@ -71,15 +72,16 @@ func port_map() -> GDPortMap:
 func save() -> void:
 #	var packer := PackedScene.new()
 #	popup_menu.owner = self
-	pt = _pt
+	s_port_map = _pt
 	s_connection_list = get_connection_list()
 #	packer.pack(self)
 #
 #	ResourceSaver.save("res://test/test.tscn", packer)
 
 
-func _chain_branch_update(from_node: GDGraphNode, to_node: GDGraphNode) -> void:
-	to_node.set_branch(to_node.get_branch() + 1)
+func _chain_depth_update(old_depth: int, new_depth: int, next_node : GDGraphNode) -> void:
+	next_node.set_depth(next_node.get_depth() - old_depth)
+	next_node.set_depth(next_node.get_depth() + new_depth)
 
 
 func _on_connection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
@@ -103,11 +105,13 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 			if port_map().right_connected(from, from_slot):
 				port_map().right_disconnect(from, from_slot)
 			
-			if not from_node.is_connected("branch_updated", self, "_chain_branch_update"):
-				from_node.connect("branch_updated", self, "_chain_branch_update", [from_node, to_node])
+			if not from_node.is_connected("depth_updated", self, "_chain_depth_update"):
+				from_node.connect("depth_updated", self, "_chain_depth_update", [to_node])
 			
-			_chain_branch_update(from_node, to_node)
-	
+			if not port_map().has_connection(from, to):
+				to_node.set_depth(to_node.get_depth() + from_node.get_depth() + 1)
+		
+		
 	port_map().connect_node(from, from_type, from_slot, to, to_type, to_slot)
 
 
@@ -163,4 +167,13 @@ func _on_node_connected(from: String, from_slot: int, to: String, to_slot: int) 
 
 
 func _on_node_disconnected(from: String, from_slot: int, to: String, to_slot: int) -> void:
+	var from_node : GDGraphNode = get_node(from)
+	var to_node : GDGraphNode = get_node(to)
+	
+	if not port_map().has_connection(from, to):
+		to_node.set_depth(to_node.get_depth() - from_node.get_depth() - 1)
+	
+		if from_node.is_connected("depth_updated", self, "_chain_depth_update"):
+			from_node.disconnect("depth_updated", self, "_chain_depth_update")
+	
 	disconnect_node(from, from_slot, to, to_slot)

@@ -12,6 +12,28 @@
 [sub_resource type="Resource" id=3]
 script = ExtResource( 4 )
 _tm = {
+"End": {
+"from": {
+0: {
+0: {
+"Start": [ 0 ]
+}
+}
+},
+"to": {
+}
+},
+"Start": {
+"from": {
+},
+"to": {
+0: {
+0: {
+"End": [ 0 ]
+}
+}
+}
+}
 }
 
 [node name="GraphEditor" type="VSplitContainer"]
