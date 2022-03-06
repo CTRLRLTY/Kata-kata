@@ -56,6 +56,8 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 			if child is GDStartGN:
 				printerr("GraphEdit already has a StartNode")
 				return
+	elif gn is GDEndGN:
+		gn.set_depth(1)
 	
 	emit_signal("graph_node_added", gn)
 	
@@ -79,9 +81,9 @@ func save() -> void:
 #	ResourceSaver.save("res://test/test.tscn", packer)
 
 
-func _chain_depth_update(old_depth: int, new_depth: int, next_node : GDGraphNode) -> void:
-	next_node.set_depth(next_node.get_depth() - old_depth)
-	next_node.set_depth(next_node.get_depth() + new_depth)
+func _chain_depth_update(old_depth: int, new_depth: int, prev_node : GDGraphNode) -> void:
+	prev_node.set_depth(prev_node.get_depth() - old_depth)
+	prev_node.set_depth(prev_node.get_depth() + new_depth)
 
 
 func _on_connection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
@@ -105,11 +107,11 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 			if port_map().right_connected(from, from_slot):
 				port_map().right_disconnect(from, from_slot)
 			
-			if not from_node.is_connected("depth_updated", self, "_chain_depth_update"):
-				from_node.connect("depth_updated", self, "_chain_depth_update", [to_node])
+			if not to_node.is_connected("depth_updated", self, "_chain_depth_update"):
+				to_node.connect("depth_updated", self, "_chain_depth_update", [from_node])
 			
 			if not port_map().has_connection(from, to):
-				to_node.set_depth(to_node.get_depth() + from_node.get_depth() + 1)
+				from_node.set_depth(to_node.get_depth() + from_node.get_depth())
 		
 		
 	port_map().connect_node(from, from_type, from_slot, to, to_type, to_slot)
@@ -171,9 +173,9 @@ func _on_node_disconnected(from: String, from_slot: int, to: String, to_slot: in
 	var to_node : GDGraphNode = get_node(to)
 	
 	if not port_map().has_connection(from, to):
-		to_node.set_depth(to_node.get_depth() - from_node.get_depth() - 1)
+		from_node.set_depth(from_node.get_depth() - to_node.get_depth())
 	
-		if from_node.is_connected("depth_updated", self, "_chain_depth_update"):
-			from_node.disconnect("depth_updated", self, "_chain_depth_update")
+		if to_node.is_connected("depth_updated", self, "_chain_depth_update"):
+			to_node.disconnect("depth_updated", self, "_chain_depth_update")
 	
 	disconnect_node(from, from_slot, to, to_slot)
