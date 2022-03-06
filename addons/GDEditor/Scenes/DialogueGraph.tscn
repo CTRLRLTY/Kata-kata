@@ -6,7 +6,9 @@
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 3 )
-_data = {
+_tm = {
+}
+_nm = {
 }
 
 [node name="DialogueGraph" type="GraphEdit"]

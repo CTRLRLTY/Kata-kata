@@ -12,7 +12,7 @@ func _ready() -> void:
 	_character_selection.graph_node = self
 
 
-func connect_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
+func connection_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
 	if _character_selection.selected == -1:
 		return false
 	

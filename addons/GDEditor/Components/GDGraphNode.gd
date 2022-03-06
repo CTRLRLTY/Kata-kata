@@ -19,27 +19,26 @@ enum PortType {
 var _dialogue_view : Control
 var _graph_editor : Control
 
-var _branch_index := 0
-
+var _branch := 0
 
 func _ready() -> void:
-	if not has_meta("branch_index"):
-		set_meta("branch_index", _branch_index)
+	if not has_meta("branch"):
+		set_meta("branch", _branch)
 	
-	set_branch_index(get_meta("branch_index"))
+	set_branch(get_meta("branch"))
 
 
-func get_branch_index() -> int:
-	return _branch_index
+func get_branch() -> int:
+	return _branch
 
 
-func set_branch_index(num: int) -> void:
-	var bare_title = title.trim_suffix("[%d]" % _branch_index)
+func set_branch(num: int) -> void:
+	var bare_title = title.trim_suffix("[%d]" % _branch)
 	
 	title = bare_title + "[%d]" % num
 	
-	_branch_index = num
-	set_meta("branch_index", num)
+	_branch = num
+	set_meta("branch", num)
 	
 	emit_signal("branch_updated")
 
@@ -98,20 +97,20 @@ func is_connection_connected_output(slot: int) -> bool:
 	return false
 
 
-func connect_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
-	return true
+func connection_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
+	return _connection_from(graph_node, to_slot, from_slot)
 
 
-func connect_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
-	return true
+func connection_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
+	return _connection_to(graph_node, from_slot, to_slot)
 
 
-func disconnect_from(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
-	return true
+func disconnection_from(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
+	return _disconnection_from(graph_node, from_slot, to_slot)
 
 
-func disconnect_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
-	return true
+func disconnection_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
+	return _disconnection_to(graph_node, to_slot, from_slot)
 
 
 func disconnect_input(slot: int) -> void:
@@ -191,3 +190,20 @@ func port2slot(port: int, pos: int) -> int:
 
 func get_save_data():
 	pass
+
+
+
+func _connection_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
+	return true
+
+
+func _connection_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
+	return true
+
+
+func _disconnection_from(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
+	return true
+
+
+func _disconnection_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
+	return true

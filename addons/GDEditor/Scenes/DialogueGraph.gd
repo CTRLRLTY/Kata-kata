@@ -43,7 +43,7 @@ func disconnect_node(from: String, from_port: int, to: String, to_port: int) -> 
 	var from_type : int = from_node.get_connection_output_type(from_port)
 	var to_type : int = to_node.get_connection_input_type(to_port)
 	
-	to_node.set_branch_index(0)
+	to_node.set_branch(max(to_node.get_branch() - 1, 0))
 	
 	pt.disconnect_node(from, from_type, from_port, to, to_type, to_port)
 	
@@ -52,18 +52,6 @@ func disconnect_node(from: String, from_port: int, to: String, to_port: int) -> 
 			from_node.disconnect("branch_updated", self, "_chain_branch_update")
 	
 	.disconnect_node(from, from_port, to, to_port)
-
-
-func connect_node(from: String, from_port: int, to: String, to_port: int) -> int:
-	var from_node : GDGraphNode = get_node(from)
-	var to_node : GDGraphNode = get_node(to)
-	
-	var from_type : int = from_node.get_connection_output_type(from_port)
-	var to_type : int = to_node.get_connection_input_type(to_port)
-	
-	pt.connect_node(from, from_type, from_port, to, to_type, to_port)
-	
-	return .connect_node(from, from_port, to, to_port)
 
 
 func can_drop_data(_position: Vector2, data) -> bool:
@@ -78,8 +66,6 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 			if child is GDStartGN:
 				printerr("GraphEdit already has a StartNode")
 				return
-		
-		gn.set_branch_index(1)
 	
 	emit_signal("graph_node_added", gn)
 	
@@ -133,14 +119,8 @@ func disconnect_node_output(node_name: String, port: int) -> void:
 		disconnect_node(connection.from, connection.from_port, connection.to, connection.to_port)
 
 
-func _chain_branch_update(from_node: GDGraphNode, to_node: GDGraphNode, slot: int) -> void:
-	var flow_ports := from_node.get_ports(from_node.PortType.FLOW, from_node.Port.RIGHT)
-	var flow_index := flow_ports.find(slot)
-	
-	if from_node.get_branch_index() == 0:
-		to_node.set_branch_index(0)
-	else:
-		to_node.set_branch_index(from_node.get_branch_index() + flow_index)
+func _chain_branch_update(from_node: GDGraphNode, to_node: GDGraphNode) -> void:
+	to_node.set_branch(to_node.get_branch() + 1)
 
 
 func _on_connection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
@@ -153,10 +133,12 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	var from_type := from_node.get_connection_output_type(from_slot)
 	var to_type := to_node.get_connection_input_type(to_slot)
 	
-	if not from_node.connect_to(to_node, to_slot, from_slot) or \
-	   not to_node.connect_from(from_node, from_slot, to_slot)\
+	if not from_node.connection_to(to_node, to_slot, from_slot) or \
+	   not to_node.connection_from(from_node, from_slot, to_slot)\
 	:
 		return
+	
+	pt.connect_node(from, from_type, from_slot, to, to_type, to_slot)
 	
 	# One to many connection check
 	match from_type:
@@ -165,12 +147,11 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 				disconnect_node_output(from, from_slot)
 			
 			if not from_node.is_connected("branch_updated", self, "_chain_branch_update"):
-				from_node.connect("branch_updated", self, "_chain_branch_update", [from_node, to_node, from_slot])
+				from_node.connect("branch_updated", self, "_chain_branch_update", [from_node, to_node])
 			
-			_chain_branch_update(from_node, to_node, from_slot)
+			_chain_branch_update(from_node, to_node)
 	
 	connect_node(from, from_slot, to, to_slot)
-	
 
 
 func _on_disconnection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
@@ -180,8 +161,8 @@ func _on_disconnection_request(from: String, from_slot: int, to: String, to_slot
 	var from_type := from_node.get_connection_output_type(from_slot)
 	var to_type := to_node.get_connection_input_type(to_slot)
 	
-	if not from_node.disconnect_to(to_node, to_slot, from_slot) or \
-	   not to_node.disconnect_from(from_node, from_slot, to_slot)\
+	if not from_node.disconnection_to(to_node, to_slot, from_slot) or \
+	   not to_node.disconnection_from(from_node, from_slot, to_slot)\
 	:
 		return
 	

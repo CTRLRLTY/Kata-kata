@@ -56,7 +56,7 @@ func get_output_ports_type() -> int:
 	return get_connection_output_type(0)
 
 
-func connect_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
+func connection_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
 	var from_type := get_connection_input_type(from_slot)
 	
 	if from_type == PortType.UNIVERSAL:

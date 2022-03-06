@@ -66,7 +66,7 @@ func get_character_selection() -> OptionButton:
 	return _character_selection as OptionButton
 
 
-func connect_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
+func _connection_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
 	if not get_character_data():
 		return false
 	
@@ -75,7 +75,7 @@ func connect_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
 	return true
 
 
-func disconnect_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
+func _disconnection_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
 	get_dialogue_view().character_left(get_character_data(), self)
 	
 	return true
