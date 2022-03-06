@@ -33,10 +33,6 @@ func _init(table := {}) -> void:
 	_tm = table
 
 
-func get_table(node_name: String) -> Dictionary:
-	return _tm.get(node_name, {})
-
-
 func has_connection_port(from: String, from_slot: int, to: String, to_slot: int) -> bool:
 	var ap := right_all_port(from)
 	
