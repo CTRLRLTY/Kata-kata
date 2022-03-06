@@ -37,7 +37,7 @@ func get_table(node_name: String) -> Dictionary:
 	return _tm.get(node_name, {})
 
 
-func has_connection(from: String, from_slot: int, to: String, to_slot: int) -> bool:
+func has_connection_port(from: String, from_slot: int, to: String, to_slot: int) -> bool:
 	var ap := right_all_port(from)
 	
 	if not ap.has(from_slot):
@@ -47,6 +47,16 @@ func has_connection(from: String, from_slot: int, to: String, to_slot: int) -> b
 		return false
 
 	return true
+
+
+func has_connection(from: String, to: String) -> bool:
+	var ap := right_all_port(from)
+	
+	for port in ap:
+		if ap[port].has(to):
+			return true
+	
+	return false
 
 
 func has_node(node_name: String) -> bool:
@@ -90,10 +100,6 @@ func disconnect_node(from: String, from_type: int, from_slot: int, to: String, t
 	
 	if t.empty():
 		to_connlist.erase(from)
-
-
-func connections(from: String, to: String):
-	pass
 
 
 func left_type_port_connection(node_name: String, type: int, port: int) -> Dictionary:
