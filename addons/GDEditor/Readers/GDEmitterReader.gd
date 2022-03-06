@@ -6,4 +6,4 @@ class_name GDEmitterReader
 func render(event_name : String, dialogue_viewer, cursor: GDDialogueCursor) -> void:
 	Gaelog.emit_signal("event", event_name)
 	
-	cursor.skip_flow()
+	cursor.skip(0)

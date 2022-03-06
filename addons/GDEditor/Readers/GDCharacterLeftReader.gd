@@ -7,4 +7,4 @@ func render(character: CharacterData, dialogue_view: GDDialogueView, cursor: GDD
 	if dialogue_view.has_method("character_rleft"):
 		dialogue_view.character_rleft(character)
 	
-	cursor.skip_flow()
+	cursor.skip(0)

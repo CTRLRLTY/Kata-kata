@@ -17,21 +17,16 @@ enum {
 #					-> node_name(String): [port(int), ...],
 #					-> node_name(String)?...
 #				-> left_port(int)...
+#			-> port_type(int)...
 #		-> from(String)?:
 #			-> port_type(int)?:
 #				-> left_port(int):
 #					-> node_name(String): [port(int), ...],
 #					-> node_name(String)?...
 #				-> left_port(int)...
+#			-> port_type(int)...
 #	-> node_name(String)....
 export var _tm : Dictionary
-
-# _nm dictionary:
-# 
-#	Structure:
-#	-> node_name(String)?:
-#		-> 
-export var _nm : Dictionary
 
 
 func _init(table := {}) -> void:
@@ -42,12 +37,13 @@ func get_table(node_name: String) -> Dictionary:
 	return _tm.get(node_name, {})
 
 
-func is_node_connected(from: String, from_type: int, from_slot: int, to: String, to_slot: int) -> bool:
-	var connlist := node_connection_right(from, from_type, from_slot)
+func is_node_connected(from: String, from_slot: int, to: String, to_slot: int) -> bool:
+#	var con := right_all_type(from)
+#
+#	for type in con:
+#		con[type]
 	
-	var m : Array = connlist.get(to, [])
-	
-	return m.has(to_slot)
+	return false
 
 
 func has_node(node_name: String) -> bool:
@@ -64,7 +60,7 @@ func connect_node(from: String, from_type: int, from_slot: int, to: String, to_t
 	
 	to_table.from[to_type] = to_table.from.get(to_type, {})
 	to_table.from[to_type][to_slot] = to_table.from[to_type].get(to_slot, {})
-	to_table.from[to_type][to_slot][from] = to_table.from[to_type][from_slot].get(from, [])
+	to_table.from[to_type][to_slot][from] = to_table.from[to_type][to_slot].get(from, [])
 	
 	var fcn : Array = from_table.to[from_type][from_slot][to]
 	var tcn : Array = to_table.from[to_type][to_slot][from]
@@ -77,8 +73,8 @@ func connect_node(from: String, from_type: int, from_slot: int, to: String, to_t
 
 
 func disconnect_node(from: String, from_type: int, from_slot: int, to: String, to_type: int, to_slot: int) -> void:
-	var from_connlist := node_connection_right(from, from_type, from_slot)
-	var to_connlist := node_connection_left(to, to_type, to_slot)
+	var from_connlist := right_type_port_connection(from, from_type, from_slot)
+	var to_connlist := left_type_port_connection(to, to_type, to_slot)
 	
 	var f : Array = from_connlist.get(to, [])
 	var t : Array = to_connlist.get(from, [])
@@ -93,39 +89,56 @@ func disconnect_node(from: String, from_type: int, from_slot: int, to: String, t
 		to_connlist.erase(from)
 
 
-func node_connections(from: String, to: String):
+func connections(from: String, to: String):
 	pass
 
 
-
-func node_connected_ltypes(node_name: String) -> Array:
-	return _tm.get(node_name)["from"].keys()
-
-
-func node_connected_rtypes(node_name: String) -> Array:
-	return _tm.get(node_name)["to"].keys()
+func left_type_port_connection(node_name: String, type: int, port: int) -> Dictionary:
+	return left_type_all_port(node_name, type).get(port, {})
 
 
-func node_connected_lport(node_name: String, type: int) -> Array:
-	var ports : Array = _tm.get(node_name, {}).get("from", {}).get(type, {}).keys()
-	ports.sort()
+func right_type_port_connection(node_name: String, type: int, port: int) -> Dictionary:
+	return right_type_all_port(node_name, type).get(port, {})
+
+
+func left_type_all_port(node_name: String, type: int) -> Dictionary:
+	return left_all_type(node_name).get(type, {})
+
+
+func right_type_all_port(node_name: String, type: int) -> Dictionary:
+	return right_all_type(node_name).get(type, {})
+
+
+func left_all_port(node_name: String) -> Dictionary:
+	var all_port := {}
 	
-	return ports
-
-
-func node_connected_rport(node_name: String, type: int) -> Array:
-	var ports : Array = _tm.get(node_name, {}).get("to", {}).get(type, {}).keys()
-	ports.sort()
+	var at := left_all_type(node_name)
 	
-	return ports
+	for type in at:
+		for port in at[type]:
+			all_port[port] = at[type][port]
+	
+	return all_port
 
 
-func node_connection_left(node_name: String, type: int, port: int) -> Dictionary:
-	return _tm.get(node_name, {}).get("from", {}).get(type, {}).get(port, {})
+func right_all_port(node_name: String) -> Dictionary:
+	var all_port := {}
+	
+	var at := right_all_type(node_name)
+	
+	for type in at:
+		for port in at[type]:
+			all_port[port] = at[type][port]
+	
+	return all_port
 
 
-func node_connection_right(node_name: String, type: int, port: int) -> Dictionary:
-	return _tm.get(node_name, {}).get("to", {}).get(type, {}).get(port, {})
+func left_all_type(node_name: String) -> Dictionary:
+	return _tm.get(node_name, {}).get("from", {})
+
+
+func right_all_type(node_name: String) -> Dictionary:
+	return _tm.get(node_name, {}).get("to", {})
 
 
 func copy():

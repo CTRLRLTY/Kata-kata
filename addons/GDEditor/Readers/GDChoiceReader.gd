@@ -14,4 +14,4 @@ func render(choices : PoolStringArray, dialogue_viewer: GDDialogueView, cursor: 
 	dialogue_viewer.block_next(false)
 	dialogue_viewer.clear_choices()
 	
-	cursor.skip_flow(port)
+	cursor.skip(port)

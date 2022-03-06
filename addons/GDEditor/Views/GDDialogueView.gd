@@ -143,10 +143,11 @@ func next() -> void:
 	if not cursor.is_connected("skipped", self, "__on_cursor_skipped"):
 		cursor.connect("skipped", self , "__on_cursor_skipped")
 	
-	if cursor.end():
+	if cursor.is_end():
 		return
 	
-	var node_name := cursor.get_node_name()
+	var node_name := cursor.current()
+	print_debug(node_name)
 	
 	render_node(node_name, cursor)
 	

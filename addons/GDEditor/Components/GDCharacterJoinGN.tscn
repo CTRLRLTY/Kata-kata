@@ -39,6 +39,7 @@ mouse_filter = 1
 custom_constants/port_offset = 12
 custom_constants/separation = 0
 custom_styles/frame = SubResource( 1 )
+title = "[0]"
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color( 1, 1, 1, 1 )
@@ -53,7 +54,8 @@ slot/1/right_type = 0
 slot/1/right_color = Color( 0.13, 0.55, 0.13, 1 )
 script = ExtResource( 2 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"branch": 0
 }
 
 [node name="Header" type="MarginContainer" parent="."]

@@ -12,4 +12,4 @@ func render(data, dialogue_viewer: GDDialogueView, cursor: GDDialogueCursor) -> 
 		if dialogue_viewer.has_character_join(data.character):
 			dialogue_viewer.show_character(data.character, data.expression)
 	
-	cursor.next_flow()
+	cursor.next(0)

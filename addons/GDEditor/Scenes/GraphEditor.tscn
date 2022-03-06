@@ -11,7 +11,7 @@
 
 [sub_resource type="Resource" id=3]
 script = ExtResource( 4 )
-_data = {
+_tm = {
 }
 
 [node name="GraphEditor" type="VSplitContainer"]
@@ -110,3 +110,5 @@ StateColumnTitle = "Dialogue States"
 [node name="DialogueGraph" parent="MainContainer" instance=ExtResource( 8 )]
 scroll_offset = Vector2( -14, -270 )
 pt = SubResource( 3 )
+
+[connection signal="graph_node_added" from="MainContainer/DialogueGraph" to="." method="_on_DialogueGraph_graph_node_added"]
