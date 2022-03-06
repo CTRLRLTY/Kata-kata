@@ -34,24 +34,9 @@ func _ready() -> void:
 	
 	for conn in s_connection_list:
 		connect_node(conn.from, conn.from_port, conn.to, conn.to_port)
-
-
-func disconnect_node(from: String, from_port: int, to: String, to_port: int) -> void:
-	var from_node : GDGraphNode = get_node(from)
-	var to_node : GDGraphNode = get_node(to)
 	
-	var from_type : int = from_node.get_connection_output_type(from_port)
-	var to_type : int = to_node.get_connection_input_type(to_port)
-	
-	to_node.set_branch(max(to_node.get_branch() - 1, 0))
-	
-	pt.disconnect_node(from, from_port, to, to_port)
-	
-	if from_type == from_node.PortType.FLOW:
-		if from_node.is_connected("branch_updated", self, "_chain_branch_update"):
-			from_node.disconnect("branch_updated", self, "_chain_branch_update")
-	
-	.disconnect_node(from, from_port, to, to_port)
+	port_map().connect("connected", self, "_on_node_connected")
+	port_map().connect("disconnected", self, "_on_node_disconnected")
 
 
 func can_drop_data(_position: Vector2, data) -> bool:
@@ -75,6 +60,10 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 	gn.offset = (scroll_offset + position) / zoom
 
 
+func port_map() -> GDPortMap:
+	return pt as GDPortMap
+
+
 func save() -> void:
 #	var packer := PackedScene.new()
 #	popup_menu.owner = self
@@ -83,40 +72,6 @@ func save() -> void:
 #	packer.pack(self)
 #
 #	ResourceSaver.save("res://test/test.tscn", packer)
-
-
-func is_node_right_connected(node_name: String, slot: int) -> bool:
-	return GDUtil.array_dictionary_hasv(
-				get_connection_list(), [{"from": node_name, "from_port": slot}])
-
-
-func is_node_left_connected(node_name: String, slot: int) -> bool:
-	return GDUtil.array_dictionary_hasv(
-			get_connection_list(), [{"to": node_name, "to_port": slot}])
-
-
-func clear_node_connections(gn: GDGraphNode) -> void:
-	var connections := GDUtil.array_dictionary_matchallv(get_connection_list(),
-			[{"from": gn.name}, {"to": gn.name}])
-
-	for connection in connections:
-		disconnect_node(connection.from, connection.from_port, connection.to, connection.to_port)
-
-
-func disconnect_node_input(node_name: String, port: int) -> void:
-	var connections := GDUtil.array_dictionary_matchallv(get_connection_list(),
-			[{"to": node_name, "to_port": port}])
-	
-	for connection in connections:
-		disconnect_node(connection.from, connection.from_port, connection.to, connection.to_port)
-
-
-func disconnect_node_output(node_name: String, port: int) -> void:
-	var connections := GDUtil.array_dictionary_matchallv(get_connection_list(),
-			[{"from": node_name, "from_port": port}])
-	
-	for connection in connections:
-		disconnect_node(connection.from, connection.from_port, connection.to, connection.to_port)
 
 
 func _chain_branch_update(from_node: GDGraphNode, to_node: GDGraphNode) -> void:
@@ -138,20 +93,19 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	:
 		return
 	
-	pt.connect_node(from, from_type, from_slot, to, to_type, to_slot)
-	
 	# One to many connection check
 	match from_type:
 		PortRect.PortType.FLOW:
-			if is_node_right_connected(from, from_slot):
-				disconnect_node_output(from, from_slot)
+			if port_map().left_connected(to, to_slot):
+				port_map().left_disconnect(to, to_slot)
+#				disconnect_node_output(from, from_slot)
 			
 			if not from_node.is_connected("branch_updated", self, "_chain_branch_update"):
 				from_node.connect("branch_updated", self, "_chain_branch_update", [from_node, to_node])
 			
 			_chain_branch_update(from_node, to_node)
 	
-	connect_node(from, from_slot, to, to_slot)
+	port_map().connect_node(from, from_type, from_slot, to, to_type, to_slot)
 
 
 func _on_disconnection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
@@ -166,7 +120,7 @@ func _on_disconnection_request(from: String, from_slot: int, to: String, to_slot
 	:
 		return
 	
-	disconnect_node(from, from_slot, to, to_slot)
+	port_map().disconnect_node(from, from_slot, to, to_slot)
 
 
 func _on_popup_request(position: Vector2) -> void:
@@ -186,7 +140,7 @@ func _on_popup_menu_pressed(id: int) -> void:
 			
 		popup_menu.Item.DELETE:
 			for node in _selected_nodes:
-				clear_node_connections(node)
+#				clear_node_connections(node)
 				
 				node.queue_free()
 			
@@ -199,3 +153,11 @@ func _on_node_selected(node: Node) -> void:
 	
 func _on_node_unselected(node: Node) -> void:
 	_selected_nodes.erase(node)
+
+
+func _on_node_connected(from: String, from_slot: int, to: String, to_slot: int) -> void:
+	connect_node(from, from_slot, to, to_slot)
+
+
+func _on_node_disconnected(from: String, from_slot: int, to: String, to_slot: int) -> void:
+	disconnect_node(from, from_slot, to, to_slot)

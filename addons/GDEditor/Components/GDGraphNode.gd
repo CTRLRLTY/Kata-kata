@@ -75,15 +75,11 @@ func get_dialogue_graph() -> GraphEdit:
 	return get_parent() as GraphEdit
 
 
-func get_connections() -> Dictionary:
-	return get_dialogue_graph().s_port_table.get(name)
-
-
 func is_connection_connected_input(slot: int) -> bool:
 	var dialogue_graph = get_dialogue_graph()
 	
-	if dialogue_graph:
-		return dialogue_graph.is_node_left_connected(name, slot)
+#	if dialogue_graph:
+#		return dialogue_graph.is_node_left_connected(name, slot)
 	
 	return false
 
@@ -91,8 +87,8 @@ func is_connection_connected_input(slot: int) -> bool:
 func is_connection_connected_output(slot: int) -> bool:
 	var dialogue_graph = get_dialogue_graph()
 	
-	if dialogue_graph:
-		return dialogue_graph.is_node_right_connected(name, slot)
+#	if dialogue_graph:
+#		return dialogue_graph.is_node_right_connected(name, slot)
 	
 	return false
 
@@ -114,18 +110,16 @@ func disconnection_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> 
 
 
 func disconnect_input(slot: int) -> void:
-	if is_connection_connected_input(slot):
-		get_dialogue_graph().disconnect_node_input(name, slot)
+	pass
 
 
 func disconnect_output(slot: int) -> void:
-	if is_connection_connected_output(slot):
-		get_dialogue_graph().disconnect_node_output(name, slot)
+	pass
 
 
 func disconnect_all_ports() -> void:
 	if get_dialogue_graph():
-		get_dialogue_graph().clear_node_connections(self)
+		pass
 
 
 func get_ports(port_type: int, pos: int) -> Array:

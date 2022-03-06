@@ -62,6 +62,12 @@ func has_node(node_name: String) -> bool:
 	return _tm.has(node_name)
 
 
+#func clear_connection(node_name: String) -> void:
+#	var lp := left_all_port(node_name)
+#	var rp := right_all_type(node_name)
+#	
+
+
 func connect_node(from: String, from_type: int, from_slot: int, to: String, to_type: int, to_slot: int) -> void:
 	var from_table : Dictionary = _tm.get(from, {"to": {}, "from": {}})
 	var to_table : Dictionary = _tm.get(to, {"to": {}, "from": {}})
@@ -159,6 +165,34 @@ func left_all_type(node_name: String) -> Dictionary:
 
 func right_all_type(node_name: String) -> Dictionary:
 	return _tm.get(node_name, {}).get("to", {})
+
+
+func left_disconnect(node_name: String, left_port: int) -> void:
+	var ap := left_all_port(node_name)
+	
+	for other_node in ap[left_port]:
+		for right_port in ap[left_port][other_node]:
+			disconnect_node(other_node, right_port, node_name, left_port)
+
+
+func right_disconnect(node_name: String, right_port: int) -> void:
+	var ap := right_all_port(node_name)
+	
+	for other_node in ap[right_port]:
+		for left_port in ap[right_port][other_node]:
+			disconnect_node(node_name, right_port, other_node, left_port)
+
+
+func left_connected(node_name: String, left_port: int) -> bool:
+	var ap := left_all_port(node_name)
+	
+	return not ap.get(left_port, {}).empty()
+
+
+func right_connected(node_name: String, right_port: int) -> bool:
+	var ap := right_all_port(node_name)
+	
+	return not ap.get(right_port, {}).empty()
 
 
 func copy():

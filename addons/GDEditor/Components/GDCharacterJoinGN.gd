@@ -106,7 +106,7 @@ func _on_CharacterSelection_item_selected(index: int) -> void:
 func _on_CharacterSelection_selected_character_deleted() -> void:
 	_character_selection.clear()
 	_expression_selection.clear()
-	disconnect_output(0)
+	get_dialogue_graph().port_map().right_disconnect(name, 0)
 
 
 func _on_OffsetBtn_selected(idx: int) -> void:
