@@ -78,8 +78,8 @@ func _on_AddChoice_pressed() -> void:
 func _remove_choice_edit(flowport: Control, choice_edit: Control) -> void:
 	s_choices.remove(_choice_index(choice_edit))
 	
-	disconnect_all_ports()
-	
+#	disconnect_all_ports()
+	port_map().clear_connection(name)
 	# They have to be freed in this order	
 	choice_edit.queue_free()
 	flowport.queue_free()

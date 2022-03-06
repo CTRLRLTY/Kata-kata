@@ -71,26 +71,16 @@ func get_dialogue_editor() -> Control:
 	return GDUtil.get_dialogue_editor()
 
 
+# Assumes dialogue_grapt is DialogueGraph
 func get_dialogue_graph() -> GraphEdit:
 	return get_parent() as GraphEdit
 
 
-func is_connection_connected_input(slot: int) -> bool:
-	var dialogue_graph = get_dialogue_graph()
+func port_map() -> GDPortMap:
+	if get_dialogue_graph():
+		return get_dialogue_graph().port_map()
 	
-#	if dialogue_graph:
-#		return dialogue_graph.is_node_left_connected(name, slot)
-	
-	return false
-
-
-func is_connection_connected_output(slot: int) -> bool:
-	var dialogue_graph = get_dialogue_graph()
-	
-#	if dialogue_graph:
-#		return dialogue_graph.is_node_right_connected(name, slot)
-	
-	return false
+	return GDPortMap.new()
 
 
 func connection_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
@@ -107,14 +97,6 @@ func disconnection_from(graph_node: GDGraphNode, from_slot: int, to_slot: int) -
 
 func disconnection_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
 	return _disconnection_to(graph_node, to_slot, from_slot)
-
-
-func disconnect_input(slot: int) -> void:
-	pass
-
-
-func disconnect_output(slot: int) -> void:
-	pass
 
 
 func disconnect_all_ports() -> void:

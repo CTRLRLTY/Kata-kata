@@ -36,4 +36,4 @@ func get_character_data() -> CharacterData:
 
 
 func _on_CharacterSelection_character_selected_left() -> void:
-	disconnect_input(0)
+	port_map().right_disconnect(name, 0)

@@ -96,9 +96,8 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	# One to many connection check
 	match from_type:
 		PortRect.PortType.FLOW:
-			if port_map().left_connected(to, to_slot):
-				port_map().left_disconnect(to, to_slot)
-#				disconnect_node_output(from, from_slot)
+			if port_map().right_connected(from, from_slot):
+				port_map().right_disconnect(from, from_slot)
 			
 			if not from_node.is_connected("branch_updated", self, "_chain_branch_update"):
 				from_node.connect("branch_updated", self, "_chain_branch_update", [from_node, to_node])
@@ -140,7 +139,7 @@ func _on_popup_menu_pressed(id: int) -> void:
 			
 		popup_menu.Item.DELETE:
 			for node in _selected_nodes:
-#				clear_node_connections(node)
+				port_map().clear_connection(node.name)
 				
 				node.queue_free()
 			

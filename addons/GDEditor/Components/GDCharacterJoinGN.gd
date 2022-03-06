@@ -96,7 +96,7 @@ func _on_CharacterSelection_pressed() -> void:
 
 
 func _on_CharacterSelection_item_selected(index: int) -> void:
-	if is_connection_connected_output(0):
+	if port_map().right_connected(name, 0):
 		get_dialogue_view().character_left(s_previous_selected_character, self)
 		get_dialogue_view().character_join(self)
 	
@@ -106,7 +106,7 @@ func _on_CharacterSelection_item_selected(index: int) -> void:
 func _on_CharacterSelection_selected_character_deleted() -> void:
 	_character_selection.clear()
 	_expression_selection.clear()
-	get_dialogue_graph().port_map().right_disconnect(name, 0)
+	port_map().right_disconnect(name, 0)
 
 
 func _on_OffsetBtn_selected(idx: int) -> void:

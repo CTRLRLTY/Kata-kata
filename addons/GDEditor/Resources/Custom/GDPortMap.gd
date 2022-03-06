@@ -62,10 +62,15 @@ func has_node(node_name: String) -> bool:
 	return _tm.has(node_name)
 
 
-#func clear_connection(node_name: String) -> void:
-#	var lp := left_all_port(node_name)
-#	var rp := right_all_type(node_name)
-#	
+func clear_connection(node_name: String) -> void:
+	var lp := left_all_port(node_name)
+	var rp := right_all_port(node_name)
+	
+	for port in lp:
+		left_disconnect(node_name, port)
+	
+	for port in rp:
+		right_disconnect(node_name, port)
 
 
 func connect_node(from: String, from_type: int, from_slot: int, to: String, to_type: int, to_slot: int) -> void:
