@@ -9,6 +9,18 @@ enum {
 signal connected(from, from_slot, to, to_slot)
 signal disconnected(from, from_slot, to, to_slot)
 
+
+static func create(pm : Resource = null):
+	var script = load(GDUtil.resolve("GDPortMap.gd"))
+	
+	if not pm:
+		return script.new()
+	
+	assert("_tm" in pm, "pm is not a valid port_map resource")
+	assert(pm._tm is Dictionary, "pm is not a valid port_map resource")	
+	
+	return script.new(pm._tm)
+
 # _tm dictionary:
 # 	? = may or may not exist
 #	

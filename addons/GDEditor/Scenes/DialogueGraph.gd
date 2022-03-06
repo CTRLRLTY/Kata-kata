@@ -13,6 +13,8 @@ export var pt : Resource = GDPortMap.new()
 var _selected_nodes := []
 var _copy_buffer := []
 
+var _pt : GDPortMap
+
 onready var popup_menu: PopupMenu = $DGPopupMenu
 
 
@@ -34,6 +36,8 @@ func _ready() -> void:
 	
 	for conn in s_connection_list:
 		connect_node(conn.from, conn.from_port, conn.to, conn.to_port)
+	
+	_pt = GDPortMap.create(pt)
 	
 	port_map().connect("connected", self, "_on_node_connected")
 	port_map().connect("disconnected", self, "_on_node_disconnected")
@@ -61,13 +65,13 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 
 
 func port_map() -> GDPortMap:
-	return pt as GDPortMap
+	return _pt
 
 
 func save() -> void:
 #	var packer := PackedScene.new()
 #	popup_menu.owner = self
-	
+	pt = _pt
 	s_connection_list = get_connection_list()
 #	packer.pack(self)
 #
