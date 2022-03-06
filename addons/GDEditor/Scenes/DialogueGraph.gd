@@ -45,7 +45,7 @@ func disconnect_node(from: String, from_port: int, to: String, to_port: int) -> 
 	
 	to_node.set_branch(max(to_node.get_branch() - 1, 0))
 	
-	pt.disconnect_node(from, from_type, from_port, to, to_type, to_port)
+	pt.disconnect_node(from, from_port, to, to_port)
 	
 	if from_type == from_node.PortType.FLOW:
 		if from_node.is_connected("branch_updated", self, "_chain_branch_update"):

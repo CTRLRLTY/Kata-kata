@@ -86,22 +86,22 @@ func connect_node(from: String, from_type: int, from_slot: int, to: String, to_t
 	emit_signal("connected", from, from_slot, to, to_slot)
 
 
-func disconnect_node(from: String, from_type: int, from_slot: int, to: String, to_type: int, to_slot: int) -> void:
-	var from_connlist := right_type_port_connection(from, from_type, from_slot)
-	var to_connlist := left_type_port_connection(to, to_type, to_slot)
-	
+func disconnect_node(from: String, from_slot: int, to: String, to_slot: int) -> void:
+	var from_connlist := right_port_connection(from, from_slot)
+	var to_connlist := left_port_connection(to, to_slot)
+
 	var f : Array = from_connlist.get(to, [])
 	var t : Array = to_connlist.get(from, [])
-	
+
 	f.erase(to_slot)
 	t.erase(from_slot)
-	
+
 	if f.empty():
 		from_connlist.erase(to)
-	
+
 	if t.empty():
 		to_connlist.erase(from)
-	
+
 	emit_signal("disconnected", from, from_slot, to, to_slot)
 
 
@@ -119,6 +119,14 @@ func left_type_all_port(node_name: String, type: int) -> Dictionary:
 
 func right_type_all_port(node_name: String, type: int) -> Dictionary:
 	return right_all_type(node_name).get(type, {})
+
+
+func left_port_connection(node_name: String, port: int) -> Dictionary:
+	return left_all_port(node_name).get(port, {})
+
+
+func right_port_connection(node_name: String, port: int) -> Dictionary:
+	return right_all_port(node_name).get(port, {})
 
 
 func left_all_port(node_name: String) -> Dictionary:
