@@ -13,17 +13,17 @@ enum {
 #	-> node_name(String)?:
 #		-> to(String)?:
 #			-> port_type(int)?:
-#				-> left_port(int):
+#				-> port(int):
 #					-> node_name(String): [port(int), ...],
 #					-> node_name(String)?...
-#				-> left_port(int)...
+#				-> port(int)...
 #			-> port_type(int)...
 #		-> from(String)?:
 #			-> port_type(int)?:
-#				-> left_port(int):
+#				-> port(int):
 #					-> node_name(String): [port(int), ...],
 #					-> node_name(String)?...
-#				-> left_port(int)...
+#				-> port(int)...
 #			-> port_type(int)...
 #	-> node_name(String)....
 export var _tm : Dictionary
@@ -37,13 +37,16 @@ func get_table(node_name: String) -> Dictionary:
 	return _tm.get(node_name, {})
 
 
-func is_node_connected(from: String, from_slot: int, to: String, to_slot: int) -> bool:
-#	var con := right_all_type(from)
-#
-#	for type in con:
-#		con[type]
+func has_connection(from: String, from_slot: int, to: String, to_slot: int) -> bool:
+	var ap := right_all_port(from)
 	
-	return false
+	if not ap.has(from_slot):
+		return false
+	
+	if not ap[from_slot].has(to):
+		return false
+
+	return true
 
 
 func has_node(node_name: String) -> bool:
