@@ -6,6 +6,9 @@ enum {
 	PORT_FLOW
 }
 
+signal connected(from, from_slot, to, to_slot)
+signal disconnected(from, from_slot, to, to_slot)
+
 # _tm dictionary:
 # 	? = may or may not exist
 #	
@@ -79,6 +82,8 @@ func connect_node(from: String, from_type: int, from_slot: int, to: String, to_t
 	
 	_tm[from] = from_table
 	_tm[to] = to_table
+	
+	emit_signal("connected", from, from_slot, to, to_slot)
 
 
 func disconnect_node(from: String, from_type: int, from_slot: int, to: String, to_type: int, to_slot: int) -> void:
@@ -96,6 +101,8 @@ func disconnect_node(from: String, from_type: int, from_slot: int, to: String, t
 	
 	if t.empty():
 		to_connlist.erase(from)
+	
+	emit_signal("disconnected", from, from_slot, to, to_slot)
 
 
 func left_type_port_connection(node_name: String, type: int, port: int) -> Dictionary:
