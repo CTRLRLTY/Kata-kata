@@ -144,16 +144,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Readers/GDMessageReader.gd"
 }, {
-"base": "GDGraphNode",
-"class": "GDPipeGN",
-"language": "GDScript",
-"path": "res://addons/GDEditor/Components/GDPipeGN.gd"
-}, {
-"base": "GDDialogueReader",
-"class": "GDPipeReader",
-"language": "GDScript",
-"path": "res://addons/GDEditor/Readers/GDPipeReader.gd"
-}, {
 "base": "Resource",
 "class": "GDPortMap",
 "language": "GDScript",
@@ -217,8 +207,6 @@ _global_script_class_icons={
 "GDGraphNode": "",
 "GDMessageGN": "",
 "GDMessageReader": "",
-"GDPipeGN": "",
-"GDPipeReader": "",
 "GDPortMap": "",
 "GDSetterGN": "",
 "GDStandardView": "",

@@ -90,7 +90,7 @@ func save() -> void:
 	var reader_table := dv.get_reader_table()
 	
 	_dialogue_data = GDDialogueData.new()
-	_dialogue_data.cursor = GDDialogueCursor.new(dgraph.pt)
+	_dialogue_data.cursor = GDDialogueCursor.new(dgraph.port_map())
 	
 	for gn in dgraph.get_children():
 		if gn is GDGraphNode:

@@ -8,7 +8,7 @@ signal skipped
 
 export var s_current : String
 
-export var s_pt : Resource = GDPortMap.new()
+export var s_pt : Resource 
 
 
 func _init(port_table := GDPortMap.new()) -> void:
@@ -46,7 +46,7 @@ func next(port : int) -> void:
 
 
 func port_map() -> GDPortMap:
-	return s_pt as GDPortMap
+	return GDPortMap.create(s_pt)
 
 
 func is_end() -> bool:

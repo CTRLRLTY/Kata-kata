@@ -72,13 +72,13 @@ func port_map() -> GDPortMap:
 
 
 func save() -> void:
-#	var packer := PackedScene.new()
-#	popup_menu.owner = self
+	var packer := PackedScene.new()
+	popup_menu.owner = self
 	s_port_map = _pt
 	s_connection_list = get_connection_list()
-#	packer.pack(self)
-#
-#	ResourceSaver.save("res://test/test.tscn", packer)
+	packer.pack(self)
+
+	ResourceSaver.save("res://test/test.tscn", packer)
 
 
 func _chain_depth_update(old_depth: int, new_depth: int, prev_node : GDGraphNode) -> void:

@@ -35,11 +35,13 @@ func _on_id_pressed(id: int) -> void:
 	match id:
 		MENU_PREVIEW_DIALOGUE:
 			emit_signal("preview_dialogue")
-			
 		MENU_NEW_DIALOGUE:
 			$DialogueNamePrompt.popup_centered()
 		MENU_SAVE_DIALOGUE:
 			emit_signal("save_dialogue")
+		MENU_OPEN_DIALOGUE:
+#			emit_signal("open_dialogue")
+			pass
 
 
 func _preview_visible() -> bool:
