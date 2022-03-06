@@ -6,13 +6,11 @@ margin_top = 80.0
 margin_right = 210.0
 margin_bottom = 125.0
 mouse_filter = 2
-custom_constants/margin_top = 17
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="LineEdit" type="LineEdit" parent="."]
-margin_top = 17.0
 margin_right = 195.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 0, 28 )

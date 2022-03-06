@@ -1,118 +1,68 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ButtonDarkBG.stylebox" type="StyleBox" id=2]
 [ext_resource path="res://addons/GDEditor/Components/Attachments/ChoiceEditRect.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/GDEditor/Components/GDChoiceGN.gd" type="Script" id=4]
-[ext_resource path="res://addons/GDEditor/Components/Attachments/PortRect.tscn" type="PackedScene" id=5]
-
-[sub_resource type="StyleBoxFlat" id=1]
-content_margin_left = 15.0
-content_margin_right = 15.0
-content_margin_top = 15.0
-content_margin_bottom = 15.0
-bg_color = Color( 0.152941, 0.172549, 0.223529, 1 )
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-corner_detail = 20
 
 [node name="Choice" type="GraphNode"]
 margin_left = 15.0
 margin_top = 15.0
 margin_right = 240.0
-margin_bottom = 165.0
+margin_bottom = 114.0
 mouse_filter = 1
-custom_constants/port_offset = 14
-custom_constants/separation = 0
-custom_styles/frame = SubResource( 1 )
-slot/0/left_enabled = false
+custom_constants/separation = 15
+title = "Branch[0]"
+slot/0/left_enabled = true
 slot/0/left_type = 0
-slot/0/left_color = Color( 1, 1, 1, 1 )
-slot/0/right_enabled = false
+slot/0/left_color = Color( 0.129412, 0.54902, 0.129412, 1 )
+slot/0/right_enabled = true
 slot/0/right_type = 0
-slot/0/right_color = Color( 1, 1, 1, 1 )
-slot/1/left_enabled = true
+slot/0/right_color = Color( 0.129412, 0.54902, 0.129412, 1 )
+slot/1/left_enabled = false
 slot/1/left_type = 0
-slot/1/left_color = Color( 0.13, 0.55, 0.13, 1 )
-slot/1/right_enabled = true
+slot/1/left_color = Color( 0.129412, 0.54902, 0.129412, 1 )
+slot/1/right_enabled = false
 slot/1/right_type = 0
 slot/1/right_color = Color( 0.13, 0.55, 0.13, 1 )
-slot/2/left_enabled = false
-slot/2/left_type = 0
-slot/2/left_color = Color( 1, 1, 1, 1 )
-slot/2/right_enabled = false
-slot/2/right_type = 0
-slot/2/right_color = Color( 1, 1, 1, 1 )
 script = ExtResource( 4 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"branch": 0
 }
 s_choices = PoolStringArray( "" )
 
-[node name="Header" type="MarginContainer" parent="."]
-margin_left = 15.0
-margin_top = 15.0
-margin_right = 210.0
-margin_bottom = 66.0
-mouse_filter = 2
-custom_constants/margin_right = 0
-custom_constants/margin_left = 0
-custom_constants/margin_bottom = 27
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Header"]
-margin_right = 195.0
-margin_bottom = 24.0
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 209.0
+margin_bottom = 48.0
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="Header/HBoxContainer"]
+[node name="Title" type="Label" parent="HBoxContainer"]
 margin_top = 5.0
 margin_right = 50.0
 margin_bottom = 19.0
 text = "Choices"
 
-[node name="AddChoice" type="Button" parent="Header/HBoxContainer"]
-margin_left = 113.0
-margin_right = 195.0
+[node name="AddChoice" type="Button" parent="HBoxContainer"]
+margin_left = 111.0
+margin_right = 193.0
 margin_bottom = 24.0
 size_flags_horizontal = 10
 custom_styles/normal = ExtResource( 2 )
 text = "Add Choice"
 
-[node name="MainFlowPort" type="HBoxContainer" parent="."]
-margin_left = 15.0
-margin_top = 66.0
-margin_right = 210.0
-margin_bottom = 80.0
-mouse_filter = 2
-
-[node name="InPort" parent="MainFlowPort" instance=ExtResource( 5 )]
-margin_bottom = 14.0
-s_port_enable = true
-
-[node name="InPortLabel" type="Label" parent="MainFlowPort"]
-margin_left = 14.0
-margin_right = 100.0
-margin_bottom = 14.0
-text = "Previous Line"
-
-[node name="OutPortLabel" type="Label" parent="MainFlowPort"]
-margin_left = 120.0
-margin_right = 181.0
-margin_bottom = 14.0
-size_flags_horizontal = 10
-text = "Next Line"
-
-[node name="OutPort" parent="MainFlowPort" instance=ExtResource( 5 )]
-margin_left = 185.0
-margin_right = 195.0
-margin_bottom = 14.0
-s_port_enable = true
-
 [node name="MainChoice" parent="." instance=ExtResource( 3 )]
-custom_constants/margin_bottom = 0
+margin_left = 16.0
+margin_top = 63.0
+margin_right = 209.0
+margin_bottom = 91.0
 
-[connection signal="pressed" from="Header/HBoxContainer/AddChoice" to="." method="_on_AddChoice_pressed"]
+[node name="LineEdit" parent="MainChoice" index="0"]
+margin_right = 193.0
+margin_bottom = 28.0
+
+[connection signal="pressed" from="HBoxContainer/AddChoice" to="." method="_on_AddChoice_pressed"]
 [connection signal="text_changed" from="MainChoice/LineEdit" to="." method="_on_MainChoiceEdit_text_changed"]
 
 [editable path="MainChoice"]
