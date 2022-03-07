@@ -39,8 +39,7 @@ func _ready() -> void:
 	add_valid_left_disconnect_type(PortRect.PortType.FLOW)
 	add_valid_left_disconnect_type(PortRect.PortType.UNIVERSAL)
 	
-	if not s_port_map:
-		s_port_map = GDPortMap.create() 
+	s_port_map = GDPortMap.create(s_port_map) 
 	
 	port_map().connect("connected", self, "_on_node_connected")
 	port_map().connect("disconnected", self, "_on_node_disconnected")

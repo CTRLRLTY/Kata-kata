@@ -55,8 +55,7 @@ func next(port : int) -> void:
 
 
 func port_map() -> GDPortMap:
-#	return GDPortMap.create(pt)
-	return pt as GDPortMap
+	return GDPortMap.create(pt)
 
 
 func is_end() -> bool:
