@@ -137,7 +137,9 @@ func render_node(node_name: String, cursor: GDDialogueCursor) -> void:
 
 
 func next() -> void:
-	assert(_dialogue_data, "_dialogue_data must be set before calling next()")
+	if not _dialogue_data:
+		print_debug("_dialogue_data must be set before calling next()")
+		return
 	
 	if _blocked:
 		return

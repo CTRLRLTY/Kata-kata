@@ -16,6 +16,8 @@ func _ready() -> void:
 				GDUtil.resolve("GDStandardView.tscn")).instance()
 		
 		set_dialogue_preview(standard_view)
+	
+	get_dialogue_graph().owner = self
 
 
 func get_dialogue_preview() -> GDDialogueView:
@@ -46,7 +48,7 @@ func set_dialogue_graph(dgraph: DialogueGraph) -> void:
 		current_dgraph.queue_free()
 	
 	dgraph.connect("graph_node_added", self, "_on_DialogueGraph_graph_node_added")
-	
+	dgraph.owner = self
 	_main.add_child(dgraph)
 
 
@@ -80,7 +82,8 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 		_node_selection.set_item_metadata(idx, component_scene)
 
 
-func save() -> void:
+func save(file_path: String) -> void:
+	var packer := PackedScene.new()
 	var dv := get_dialogue_preview()
 	var dgraph := get_dialogue_graph()
 	
@@ -100,6 +103,10 @@ func save() -> void:
 			_dialogue_data.data_table[gn.name] = gn.get_save_data()
 	
 	dv.set_dialogue_data(_dialogue_data)
+	
+	packer.pack(self)
+
+	ResourceSaver.save(file_path, packer)
 
 
 func _on_DialogueGraph_graph_node_added(graph_node: GDGraphNode) -> void:

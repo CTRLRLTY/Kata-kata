@@ -40,9 +40,7 @@ func show_editor(idx: int) -> void:
 	get_child(idx).show()
 
 
-func add_editor(idx := -1) -> void:
-	var graph_editor: Control = load(GDUtil.resolve("GraphEditor.tscn")).instance()
-	
+func add_editor(graph_editor: GDGraphEditor, idx := -1) -> void:
 	add_child(graph_editor)
 
 	if not graph_editor.is_inside_tree():
@@ -52,8 +50,13 @@ func add_editor(idx := -1) -> void:
 		move_child(graph_editor, idx)
 
 
-func save_editor(idx: int) -> void:
-	get_child(idx).save()
+func remove_editor(idx: int) -> void:
+	if idx > 0 and idx < get_child_count():
+		get_child(idx).queue_free()
+
+
+func save_editor(idx: int, file_name: String) -> void:
+	get_child(idx).save(file_name)
 
 
 func save_editors() -> void:

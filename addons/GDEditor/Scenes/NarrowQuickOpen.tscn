@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/GDEditor/Scenes/NarrowQuickOpen.gd" type="Script" id=1]
+
+[node name="NarrowQuickOpen" type="ConfirmationDialog"]
+margin_left = 76.0
+margin_top = 12.0
+margin_right = 276.0
+margin_bottom = 85.0
+window_title = "Available View"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 192.0
+margin_bottom = 73.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Search" type="Label" parent="VBoxContainer"]
+margin_right = 184.0
+margin_bottom = 14.0
+text = "Search:"
+
+[node name="SearchBox" type="LineEdit" parent="VBoxContainer"]
+margin_top = 18.0
+margin_right = 184.0
+margin_bottom = 42.0
+
+[node name="Matches" type="Label" parent="VBoxContainer"]
+margin_top = 46.0
+margin_right = 184.0
+margin_bottom = 60.0
+text = "Matches:"
+
+[node name="SearchOptions" type="Tree" parent="VBoxContainer"]
+margin_top = 64.0
+margin_right = 184.0
+margin_bottom = 65.0
+size_flags_vertical = 3
+custom_constants/draw_guides = 1
+allow_reselect = true
+hide_folding = true
+hide_root = true
+select_mode = 1
+
+[connection signal="about_to_show" from="." to="." method="_on_about_to_show"]
+[connection signal="gui_input" from="VBoxContainer/SearchBox" to="." method="_on_SearchBox_gui_input"]
+[connection signal="text_changed" from="VBoxContainer/SearchBox" to="." method="_on_SearchBox_text_changed"]
+[connection signal="item_activated" from="VBoxContainer/SearchOptions" to="." method="_on_SearchOptions_item_activated"]

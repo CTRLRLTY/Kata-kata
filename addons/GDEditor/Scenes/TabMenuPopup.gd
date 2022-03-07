@@ -5,6 +5,7 @@ extends PopupMenu
 signal preview_dialogue
 signal new_dialogue(dialogue_name)
 signal save_dialogue
+signal open_dialogue(graph_editor)
 
 
 enum {
@@ -39,9 +40,8 @@ func _on_id_pressed(id: int) -> void:
 			$DialogueNamePrompt.popup_centered()
 		MENU_SAVE_DIALOGUE:
 			emit_signal("save_dialogue")
-#		MENU_OPEN_DIALOGUE:
-#			emit_signal("open_dialogue")
-			
+		MENU_OPEN_DIALOGUE:
+			$DialogueQuickOpen.popup_dialog("PackedScene", GDUtil.get_save_dir())
 
 
 func _preview_visible() -> bool:
@@ -61,3 +61,19 @@ func _on_about_to_show() -> void:
 		set_item_text(MENU_PREVIEW_DIALOGUE, "Preview [on]")
 	else:
 		set_item_text(MENU_PREVIEW_DIALOGUE, "Preview [off]")
+
+
+func _on_DialogueQuickOpen_confirmed() -> void:
+	var file_name = $DialogueQuickOpen.get_selected()
+	
+	print_debug("DialogueQuickOpen Selected: %s" % file_name)
+	
+	if not file_name.empty():
+		var file_path : String = "res://" + file_name
+		
+		var graph_editor = load(file_path).instance()
+		print_debug("Loading GDGraphEditor: %s" % file_path)
+		
+		if graph_editor is GDGraphEditor:
+			emit_signal("open_dialogue", graph_editor)
+			print_debug("GDGraphEditor Loaded: ", graph_editor)

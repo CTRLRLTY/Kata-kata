@@ -3,6 +3,7 @@ tool
 extends Tabs
 
 signal tab_added
+signal tab_closed(tab)
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -48,10 +49,16 @@ func _on_tab_close(tab: int) -> void:
 	if not get_tab_count():
 		add_tab("[empty]")
 		current_tab = 0
+	
+	emit_signal("tab_closed", tab)
 
 
 func _on_TabMenuPopup_new_dialogue(dialogue_name : String) -> void:
 	add_tab(dialogue_name)
+
+
+func _on_TabMenuPopup_open_dialogue(graph_editor : GDGraphEditor) -> void:
+	add_tab(graph_editor.filename.get_file().get_basename())
 
 
 func _on_NameEdit_text_entered(new_text: String) -> void:
@@ -61,4 +68,3 @@ func _on_NameEdit_text_entered(new_text: String) -> void:
 
 func _on_NameEdit_hide() -> void:
 	set_tab_title(current_tab, $NameEdit.text)
-

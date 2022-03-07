@@ -1,0 +1,203 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://addons/GDEditor/Components/GDStartGN.gd" type="Script" id=1]
+[ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.gd" type="Script" id=2]
+[ext_resource path="res://addons/GDEditor/Scenes/GraphEditor.gd" type="Script" id=3]
+[ext_resource path="res://addons/GDEditor/Scenes/ContextStateTree.gd" type="Script" id=4]
+[ext_resource path="res://addons/GDEditor/Resources/Custom/GDPortMap.gd" type="Script" id=5]
+[ext_resource path="res://addons/GDEditor/Resources/Icons/Search.png" type="Texture" id=6]
+[ext_resource path="res://addons/GDEditor/Scenes/NodeSelection.gd" type="Script" id=7]
+[ext_resource path="res://addons/GDEditor/Components/GDStartGN.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/GDEditor/Scenes/ContextStateTree.tscn" type="PackedScene" id=9]
+[ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.tscn" type="PackedScene" id=10]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 5 )
+_tm = {
+"End": {
+"from": {
+0: {
+0: {
+}
+}
+},
+"to": {
+}
+},
+"Message": {
+"from": {
+0: {
+0: {
+}
+}
+},
+"to": {
+0: {
+0: {
+}
+}
+}
+},
+"Start": {
+"from": {
+},
+"to": {
+0: {
+0: {
+}
+}
+}
+}
+}
+
+[node name="GraphEditor2" type="VSplitContainer"]
+margin_right = 1092.0
+margin_bottom = 576.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainContainer" type="HSplitContainer" parent="."]
+margin_right = 1092.0
+margin_bottom = 576.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeftDock" type="PanelContainer" parent="MainContainer"]
+margin_right = 212.0
+margin_bottom = 576.0
+rect_min_size = Vector2( 200, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VSplitContainer" type="VSplitContainer" parent="MainContainer/LeftDock"]
+margin_left = 6.0
+margin_top = 4.0
+margin_right = 206.0
+margin_bottom = 572.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpperHalf" type="VBoxContainer" parent="MainContainer/LeftDock/VSplitContainer"]
+margin_right = 200.0
+margin_bottom = 209.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.6
+
+[node name="Section" type="Label" parent="MainContainer/LeftDock/VSplitContainer/UpperHalf"]
+margin_right = 200.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+text = "Components"
+
+[node name="NodeSelection" type="ItemList" parent="MainContainer/LeftDock/VSplitContainer/UpperHalf"]
+margin_top = 30.0
+margin_right = 200.0
+margin_bottom = 209.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/line_separation = 0
+custom_styles/selected = SubResource( 2 )
+items = [ "Start", null, false, "End", null, false, "Message", null, false, "Choice", null, false, "Emitter", null, false, "Character Join", null, false, "Character Left", null, false ]
+script = ExtResource( 7 )
+
+[node name="LowerHalf" type="VBoxContainer" parent="MainContainer/LeftDock/VSplitContainer"]
+margin_top = 217.0
+margin_right = 200.0
+margin_bottom = 568.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Section" type="Label" parent="MainContainer/LeftDock/VSplitContainer/LowerHalf"]
+margin_right = 200.0
+margin_bottom = 26.0
+text = "Context State"
+
+[node name="LineEdit2" type="LineEdit" parent="MainContainer/LeftDock/VSplitContainer/LowerHalf"]
+margin_top = 30.0
+margin_right = 200.0
+margin_bottom = 56.0
+size_flags_horizontal = 3
+clear_button_enabled = true
+right_icon = ExtResource( 6 )
+placeholder_text = "Filter nodes"
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="ContextStateTree" type="Tree" parent="MainContainer/LeftDock/VSplitContainer/LowerHalf" instance=ExtResource( 9 )]
+margin_top = 60.0
+margin_right = 200.0
+margin_bottom = 351.0
+rect_min_size = Vector2( 200, 0 )
+rect_clip_content = false
+size_flags_vertical = 3
+allow_reselect = true
+allow_rmb_select = true
+select_mode = 1
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+StateColumnTitle = "Dialogue States"
+
+[node name="DialogueGraph" type="GraphEdit" parent="MainContainer" instance=ExtResource( 10 )]
+margin_left = 220.0
+margin_right = 1092.0
+margin_bottom = 576.0
+custom_constants/bezier_len_neg = -10
+custom_constants/bezier_len_pos = -10
+right_disconnects = true
+scroll_offset = Vector2( -43.3397, -415.267 )
+snap_distance = 5
+use_snap = false
+minimap_enabled = false
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+s_port_map = SubResource( 3 )
+
+[node name="Start" type="GraphNode" parent="MainContainer/DialogueGraph" instance=ExtResource( 8 )]
+margin_left = 155.0
+margin_top = 114.0
+margin_right = 323.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 140, 66 )
+mouse_filter = 1
+title = "Dialogue Root[0]"
+offset = Vector2( 111.66, -301.267 )
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 0.129412, 0.54902, 0.129412, 1 )
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color( 0.129412, 0.54902, 0.129412, 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"branch_index": 0,
+"depth": 0
+}
+
+[connection signal="button_pressed" from="MainContainer/LeftDock/VSplitContainer/LowerHalf/ContextStateTree" to="MainContainer/LeftDock/VSplitContainer/LowerHalf/ContextStateTree" method="_on_button_pressed"]
+[connection signal="item_edited" from="MainContainer/LeftDock/VSplitContainer/LowerHalf/ContextStateTree" to="MainContainer/LeftDock/VSplitContainer/LowerHalf/ContextStateTree" method="_on_item_edited"]
+[connection signal="item_rmb_selected" from="MainContainer/LeftDock/VSplitContainer/LowerHalf/ContextStateTree" to="MainContainer/LeftDock/VSplitContainer/LowerHalf/ContextStateTree" method="_on_item_rmb_selected"]
+[connection signal="connection_request" from="MainContainer/DialogueGraph" to="MainContainer/DialogueGraph" method="_on_connection_request"]
+[connection signal="disconnection_request" from="MainContainer/DialogueGraph" to="MainContainer/DialogueGraph" method="_on_disconnection_request"]
+[connection signal="graph_node_added" from="MainContainer/DialogueGraph" to="." method="_on_DialogueGraph_graph_node_added"]
+[connection signal="node_selected" from="MainContainer/DialogueGraph" to="MainContainer/DialogueGraph" method="_on_node_selected"]
+[connection signal="node_unselected" from="MainContainer/DialogueGraph" to="MainContainer/DialogueGraph" method="_on_node_unselected"]
+[connection signal="popup_request" from="MainContainer/DialogueGraph" to="MainContainer/DialogueGraph" method="_on_popup_request"]

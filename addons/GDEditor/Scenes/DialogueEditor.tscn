@@ -3,7 +3,7 @@
 [ext_resource path="res://addons/GDEditor/Scenes/GraphEditorContainer.gd" type="Script" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueEditor.gd" type="Script" id=2]
 [ext_resource path="res://addons/GDEditor/Scenes/ViewBtn.gd" type="Script" id=3]
-[ext_resource path="res://addons/GDEditor/Scenes/DialogueQuickOpen.gd" type="Script" id=4]
+[ext_resource path="res://addons/GDEditor/Scenes/NarrowQuickOpen.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/MainPanelBG.tres" type="StyleBox" id=5]
 [ext_resource path="res://addons/GDEditor/Scenes/Tabs.gd" type="Script" id=6]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Close.png" type="Texture" id=7]
@@ -51,7 +51,7 @@ custom_constants/separation = 0
 alignment = 2
 
 [node name="ToolsContainer" type="HBoxContainer" parent="VBoxContainer/TopContainer"]
-margin_left = 751.0
+margin_left = 725.0
 margin_right = 751.0
 margin_bottom = 26.0
 custom_constants/separation = 5
@@ -73,53 +73,7 @@ text = "Standard"
 clip_text = true
 script = ExtResource( 3 )
 
-[node name="DialogueQuickOpen" type="ConfirmationDialog" parent="VBoxContainer/TopContainer/ViewBtn"]
-visible = true
-margin_left = 76.0
-margin_top = 12.0
-margin_right = 276.0
-margin_bottom = 85.0
-window_title = "Available View"
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen"]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 192.0
-margin_bottom = 73.0
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Search" type="Label" parent="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer"]
-margin_right = 184.0
-margin_bottom = 14.0
-text = "Search:"
-
-[node name="SearchBox" type="LineEdit" parent="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer"]
-margin_top = 18.0
-margin_right = 184.0
-margin_bottom = 42.0
-
-[node name="Matches" type="Label" parent="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer"]
-margin_top = 46.0
-margin_right = 184.0
-margin_bottom = 60.0
-text = "Matches:"
-
-[node name="SearchOptions" type="Tree" parent="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer"]
-margin_top = 64.0
-margin_right = 184.0
-margin_bottom = 65.0
-size_flags_vertical = 3
-custom_constants/draw_guides = 1
-allow_reselect = true
-hide_folding = true
-hide_root = true
+[node name="QuickOpen" parent="VBoxContainer/TopContainer/ViewBtn" instance=ExtResource( 4 )]
 
 [node name="TabMenuBtn" type="ToolButton" parent="VBoxContainer/TopContainer"]
 margin_left = 972.0
@@ -195,6 +149,9 @@ margin_right = 183.0
 margin_bottom = 21.0
 text = "Confirm"
 
+[node name="DialogueQuickOpen" parent="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" instance=ExtResource( 4 )]
+window_title = "Saved Dialogue Editor"
+
 [node name="TabContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 36.0
 margin_right = 1000.0
@@ -236,24 +193,24 @@ size_flags_vertical = 3
 custom_styles/panel = SubResource( 5 )
 script = ExtResource( 1 )
 
+[connection signal="pressed" from="VBoxContainer/TopContainer/ToolsContainer/CharacterOpenBtn" to="VBoxContainer/TopContainer/ToolsContainer/CharacterOpenBtn" method="_on_pressed"]
 [connection signal="pressed" from="VBoxContainer/TopContainer/ViewBtn" to="VBoxContainer/TopContainer/ViewBtn" method="_on_pressed"]
 [connection signal="view_changed" from="VBoxContainer/TopContainer/ViewBtn" to="." method="_on_view_changed"]
-[connection signal="about_to_show" from="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen" to="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen" method="_on_about_to_show"]
-[connection signal="confirmed" from="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen" to="VBoxContainer/TopContainer/ViewBtn" method="_on_quick_open_confirmed"]
-[connection signal="gui_input" from="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer/SearchBox" to="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen" method="_on_SearchBox_gui_input"]
-[connection signal="text_changed" from="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer/SearchBox" to="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen" method="_on_SearchBox_text_changed"]
-[connection signal="item_activated" from="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer/SearchOptions" to="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen" method="_on_SearchOptions_item_activated"]
 [connection signal="pressed" from="VBoxContainer/TopContainer/TabMenuBtn" to="VBoxContainer/TabContainer" method="_on_TabMenuBtn_pressed"]
 [connection signal="about_to_show" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" method="_on_about_to_show"]
 [connection signal="id_pressed" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" method="_on_id_pressed"]
 [connection signal="new_dialogue" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TabContainer/Tabs" method="_on_TabMenuPopup_new_dialogue"]
+[connection signal="open_dialogue" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="." method="_on_TabMenuPopup_open_dialogue"]
+[connection signal="open_dialogue" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TabContainer/Tabs" method="_on_TabMenuPopup_open_dialogue"]
 [connection signal="preview_dialogue" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="." method="_on_TabMenuPopup_preview_dialogue"]
 [connection signal="save_dialogue" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="." method="_on_TabMenuPopup_save_dialogue"]
 [connection signal="confirmed" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" method="_on_DialogueNamePrompt_confirmed"]
 [connection signal="pressed" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/CancelBtn" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_CancelBtn_pressed"]
 [connection signal="pressed" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/ConfirmBtn" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_ConfirmBtn_pressed"]
+[connection signal="confirmed" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueQuickOpen" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" method="_on_DialogueQuickOpen_confirmed"]
 [connection signal="tab_added" from="VBoxContainer/TabContainer/Tabs" to="." method="_on_Tabs_tab_added"]
 [connection signal="tab_changed" from="VBoxContainer/TabContainer/Tabs" to="." method="_on_Tabs_tab_changed"]
 [connection signal="tab_close" from="VBoxContainer/TabContainer/Tabs" to="VBoxContainer/TabContainer/Tabs" method="_on_tab_close"]
+[connection signal="tab_closed" from="VBoxContainer/TabContainer/Tabs" to="." method="_on_Tabs_tab_closed"]
 [connection signal="hide" from="VBoxContainer/TabContainer/Tabs/NameEdit" to="VBoxContainer/TabContainer/Tabs" method="_on_NameEdit_hide"]
 [connection signal="text_entered" from="VBoxContainer/TabContainer/Tabs/NameEdit" to="VBoxContainer/TabContainer/Tabs" method="_on_NameEdit_text_entered"]

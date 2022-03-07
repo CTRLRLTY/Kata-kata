@@ -6,6 +6,9 @@ extends ConfirmationDialog
 onready var _search_box : LineEdit = find_node("SearchBox")
 onready var _search_options : Tree = find_node("SearchOptions")
 
+var _search_path : String
+var _base_type : String
+
 
 func _ready() -> void:
 	get_ok().text = "Open"
@@ -16,7 +19,10 @@ func _ready() -> void:
 	_search_options.hide_folding = true
 
 
-func popup_dialog() -> void:
+func popup_dialog(base_type: String, search_path: String) -> void:
+	_base_type = base_type
+	_search_path = search_path
+	
 	popup_centered_ratio(0.4)
 	_search_box.grab_focus()
 
@@ -40,7 +46,7 @@ func _update_search() -> void:
 		print_debug("can't call get_file_system() when not running in Editor")
 		return
 	
-	var efsd := fs.get_filesystem_path(GDUtil.get_view_dir())
+	var efsd := fs.get_filesystem_path(_search_path)
 	
 	var file_count := efsd.get_file_count()
 	
@@ -50,9 +56,9 @@ func _update_search() -> void:
 		# 6 == 'res://'.lenght()
 		file = file.substr(6, file.length())
 		
-		if efsd.get_file_type(i) == "PackedScene" and _search_box.text.is_subsequence_ofi(file):
+		if efsd.get_file_type(i) == _base_type and _search_box.text.is_subsequence_ofi(file):
 			var ti := _search_options.create_item(root)
-			var icon := GDUtil.get_icon("PackedScene")
+			var icon := GDUtil.get_icon(_base_type)
 			
 			ti.set_text(0, file)
 			ti.set_icon(0, icon)
