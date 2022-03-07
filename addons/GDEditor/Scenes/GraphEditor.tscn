@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/GraphEditor.gd" type="Script" id=1]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Search.png" type="Texture" id=2]
@@ -9,16 +9,18 @@
 [ext_resource path="res://addons/GDEditor/Resources/Custom/GDDialogueData.gd" type="Script" id=7]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.tscn" type="PackedScene" id=8]
 
-[sub_resource type="Resource" id=3]
+[sub_resource type="Resource" id=6]
 script = ExtResource( 4 )
 table = {
+}
+depth = {
 }
 
 [sub_resource type="Resource" id=4]
 script = ExtResource( 5 )
 root = ""
 current = ""
-pt = SubResource( 3 )
+pt = SubResource( 6 )
 
 [sub_resource type="Resource" id=5]
 script = ExtResource( 7 )
@@ -30,11 +32,6 @@ reader_table = {
 view_path = ""
 
 [sub_resource type="StyleBoxEmpty" id=2]
-
-[sub_resource type="Resource" id=6]
-script = ExtResource( 4 )
-table = {
-}
 
 [node name="GraphEditor" type="VSplitContainer"]
 margin_top = 36.0

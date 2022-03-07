@@ -193,7 +193,6 @@ size_flags_vertical = 3
 custom_styles/panel = SubResource( 5 )
 script = ExtResource( 1 )
 
-[connection signal="pressed" from="VBoxContainer/TopContainer/ToolsContainer/CharacterOpenBtn" to="VBoxContainer/TopContainer/ToolsContainer/CharacterOpenBtn" method="_on_pressed"]
 [connection signal="pressed" from="VBoxContainer/TopContainer/ViewBtn" to="VBoxContainer/TopContainer/ViewBtn" method="_on_pressed"]
 [connection signal="view_changed" from="VBoxContainer/TopContainer/ViewBtn" to="." method="_on_view_changed"]
 [connection signal="pressed" from="VBoxContainer/TopContainer/TabMenuBtn" to="VBoxContainer/TabContainer" method="_on_TabMenuBtn_pressed"]

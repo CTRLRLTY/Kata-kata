@@ -116,6 +116,9 @@ func save(file_path: String) -> void:
 	# Last update
 	for gn in dg.get_children():
 		if gn is GDGraphNode:
+			if gn.get_depth() == 0:
+				port_map.clear_left(gn.name)
+			
 			dialogue_data.data_table[gn.name] = gn.get_save_data()
 			
 			if gn is GDStartGN:

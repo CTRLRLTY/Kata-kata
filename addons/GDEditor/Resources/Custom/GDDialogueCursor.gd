@@ -42,14 +42,24 @@ func next(port : int) -> void:
 	if current.empty():
 		return
 	
-	var previous = current
-	
 	var flow_ports := port_map().right_type_all_port(current, pt.PORT_FLOW)
 	
 	assert(not flow_ports.empty(), "%s has no flow port" % current)
 	
+	# use a correct port instead
 	if not flow_ports.has(port):
 		port = flow_ports.keys().front()
+	
+	# this port has no connection
+	if flow_ports[port].empty():
+		port = -1
+		
+		# find port that has connection
+		for p in flow_ports:
+			if not flow_ports[p].empty():
+				port = p
+		
+		assert(port != -1, "%s has not output flow port connection")
 	
 	var nodes := port_map().right_type_port_connection(current, pt.PORT_FLOW, port).keys()
 	current = nodes.front() if nodes.front() else ""
