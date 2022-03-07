@@ -7,6 +7,7 @@ class_name GDDialogueView
 signal next
 
 signal choice_selected(idx)
+signal dialogue_end
 
 var _tools_tested := false
 var _dgraph : GraphEdit
@@ -120,6 +121,11 @@ func set_dialogue_graph(dgraph: GraphEdit) -> void:
 
 func set_dialogue_data(data: GDDialogueData) -> void:
 	_dialogue_data = data
+	
+	var cursor : GDDialogueCursor = _dialogue_data.cursor
+	
+	if not cursor.is_connected("skipped", self, "__on_cursor_skipped"):
+		cursor.connect("skipped", self , "__on_cursor_skipped")
 
 
 func block_next(block: bool) -> void:
@@ -145,12 +151,6 @@ func next() -> void:
 		return
 	
 	var cursor : GDDialogueCursor = _dialogue_data.cursor
-	
-	if not cursor.is_connected("skipped", self, "__on_cursor_skipped"):
-		cursor.connect("skipped", self , "__on_cursor_skipped")
-	
-	if cursor.is_end():
-		return
 	
 	var node_name := cursor.current()
 	print_debug(node_name)
