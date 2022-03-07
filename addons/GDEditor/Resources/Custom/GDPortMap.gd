@@ -16,12 +16,14 @@ static func create(pm : Resource = null):
 	if not pm:
 		return script.new()
 	
+	assert("depth" in pm, "pm is not a valid port_map resource")
 	assert("table" in pm, "pm is not a valid port_map resource")
 	assert(pm.table is Dictionary, "pm is not a valid port_map resource")	
 	
-	
 	var port_map = script.new()
+	
 	port_map.table = pm.table
+	port_map.depth = pm.depth
 	
 	return port_map
 
@@ -46,6 +48,9 @@ static func create(pm : Resource = null):
 #			-> port_type(int)...
 #	-> node_name(String)....
 export var table : Dictionary
+
+# node_name -> node_depth
+export var depth : Dictionary
 
 
 func has_connection_port(from: String, from_slot: int, to: String, to_slot: int) -> bool:

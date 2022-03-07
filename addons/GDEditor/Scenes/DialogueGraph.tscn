@@ -8,6 +8,8 @@
 script = ExtResource( 3 )
 table = {
 }
+depth = {
+}
 
 [node name="DialogueGraph" type="GraphEdit"]
 margin_left = 226.0

@@ -94,6 +94,8 @@ func save() -> void:
 func _chain_depth_update(old_depth: int, new_depth: int, prev_node : GDGraphNode) -> void:
 	prev_node.set_depth(prev_node.get_depth() - old_depth)
 	prev_node.set_depth(prev_node.get_depth() + new_depth)
+	
+	port_map().depth[prev_node.name] = prev_node.get_depth()
 
 
 func _on_connection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
@@ -122,6 +124,9 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 			
 			if not port_map().has_connection(from, to):
 				from_node.set_depth(to_node.get_depth() + from_node.get_depth())
+			
+			port_map().depth[from_node.name] = from_node.get_depth()
+			port_map().depth[to_node.name] = to_node.get_depth()
 		
 		
 	port_map().connect_node(from, from_type, from_slot, to, to_type, to_slot)
@@ -185,6 +190,7 @@ func _on_node_disconnected(from: String, from_slot: int, to: String, to_slot: in
 	
 	if not port_map().has_connection(from, to):
 		from_node.set_depth(from_node.get_depth() - to_node.get_depth())
+		port_map().depth[from_node.name] = from_node.get_depth()
 	
 		if to_node.is_connected("depth_updated", self, "_chain_depth_update"):
 			to_node.disconnect("depth_updated", self, "_chain_depth_update")
