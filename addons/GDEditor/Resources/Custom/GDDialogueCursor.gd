@@ -13,26 +13,24 @@ static func create(cursor: Resource = null):
 	if not cursor:
 		return script.new()
 	
+	assert("root" in cursor, "cursor is not a valid GDDialogueCursor")
 	assert("current" in cursor, "cursor is not a valid GDDialogueCursor")
 	assert("pt" in cursor, "cursor is not a valid GDDialogueCursor")
 	
 	var instance = script.new(cursor.pt)
+	instance.root = cursor.root
 	instance.current = cursor.current
 	
 	return instance
 
 
-export var current : String
-
+export var root : String 
+export var current : String 
 export var pt : Resource 
 
 
-func current() -> String:
-	return current
-
-
 func reset() -> void:
-	current = "Start"
+	current = root
 
 
 func skip(port : int) -> void:

@@ -215,6 +215,7 @@ func right_connected(node_name: String, right_port: int) -> bool:
 
 
 func copy():
-	var pt = load(GDUtil.resolve("GDPortMap.gd")).new(table.duplicate(true))
+	var pt = load(GDUtil.resolve("GDPortMap.gd")).new()
+	pt.table = table.duplicate(true)
 	
 	return pt

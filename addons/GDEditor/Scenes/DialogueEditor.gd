@@ -69,6 +69,7 @@ func _on_preview_dialogue() -> void:
 func _on_open_dialogue(graph_editor: GDGraphEditor) -> void:
 	print_debug("Opening dialogue: %s" % graph_editor.filename)
 	var tab_name : String = graph_editor.filename.get_file().get_basename()
+	
 	_add_graph_editor(graph_editor, tab_name)
 
 
