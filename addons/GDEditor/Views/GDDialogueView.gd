@@ -153,7 +153,6 @@ func next() -> void:
 	var cursor : GDDialogueCursor = _dialogue_data.cursor
 	
 	var node_name := cursor.current
-	print_debug(node_name)
 	
 	render_node(node_name, cursor)
 	
