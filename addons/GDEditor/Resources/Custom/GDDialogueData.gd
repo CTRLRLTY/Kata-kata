@@ -5,17 +5,12 @@ class_name GDDialogueData
 # assumes dialogue_view is GDDialogueView. 
 # assumes dialogue_graph is GDDialogueGraph.
 # This is a workaround to cyclic dependency
-static func create_from(dialogue_graph: GraphEdit, dialogue_view: Control, is_copy := false):
+static func create_from(dialogue_graph: GraphEdit, dialogue_view: Control):
 	var data = load(GDUtil.resolve("GDDialogueData.gd")).new()
 	
 	var cursor = load(GDUtil.resolve("GDDialogueCursor.gd")).new()
 	
-	var port_map
-	
-	if is_copy:
-		dialogue_graph.port_map()
-	else:
-		port_map  = dialogue_graph.port_map().copy()
+	var port_map = dialogue_graph.port_map().copy()
 
 	var reader_table : Dictionary = dialogue_view.get_reader_table()
 	

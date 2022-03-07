@@ -16,7 +16,6 @@ enum PortType {
 	FLOW = GDPortMap.PORT_FLOW
 }
 
-var _dialogue_view : Control
 var _graph_editor : Control
 
 var _depth := 0
@@ -44,11 +43,10 @@ func set_depth(num: int) -> void:
 
 
 func get_dialogue_view() -> Control:
-	return _dialogue_view
-
-
-func set_dialogue_view(dialogue_view: Control) -> void:
-	_dialogue_view = dialogue_view
+	if get_graph_editor():
+		return get_graph_editor().get_dialogue_preview()
+	
+	return null
 
 
 func get_graph_editor() -> Control:

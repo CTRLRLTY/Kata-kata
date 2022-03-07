@@ -95,7 +95,7 @@ func save(file_path: String) -> void:
 	dgraph.save()
 	dv.save()
 	
-	_dialogue_data = GDDialogueData.create_from(dgraph, dv, true)
+	_dialogue_data = GDDialogueData.create_from(dgraph, dv)
 	
 	dv.set_dialogue_data(_dialogue_data)
 	
@@ -106,5 +106,4 @@ func save(file_path: String) -> void:
 
 
 func _on_DialogueGraph_graph_node_added(graph_node: GDGraphNode) -> void:
-	graph_node.set_dialogue_view(get_dialogue_preview())
 	graph_node.set_graph_editor(self)
