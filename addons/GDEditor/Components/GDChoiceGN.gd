@@ -14,9 +14,10 @@ func _ready() -> void:
 		s_choices.append("")
 	else:
 		$MainChoice/LineEdit.text = s_choices[0]
-	
-		for choice in Array(s_choices).slice(1, s_choices.size()):
-			_add_choice(choice)
+		
+		if _choice_size() != s_choices.size():
+			for choice in Array(s_choices).slice(1, s_choices.size()):
+				_add_choice(choice)
 
 
 func get_component_name() -> String:

@@ -27,7 +27,8 @@ slot/1/right_color = Color( 0.13, 0.55, 0.13, 1 )
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false,
-"branch": 0
+"branch": 0,
+"depth": 0
 }
 s_choices = PoolStringArray( "" )
 
