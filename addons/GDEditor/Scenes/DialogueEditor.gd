@@ -29,7 +29,6 @@ func get_tools_container() -> Control:
 	return _tools_container as Control
 
 
-
 func _add_graph_editor(graph_editor: GDGraphEditor, tab_name: String, tab_index := -1) -> void:
 	_graph_editor_container.add_editor(graph_editor)
 	# wait till editor is added
@@ -45,7 +44,7 @@ func _add_graph_editor(graph_editor: GDGraphEditor, tab_name: String, tab_index 
 	print_debug("Added GDGraphEditor to graph_editor_container")
 
 
-func _on_TabMenuPopup_save_dialogue() -> void:
+func _on_save_dialogue() -> void:
 	var file_name : String = _tabs.get_tab_title(_tabs.current_tab)
 	
 	if file_name.is_valid_filename() and not file_name == "[empty]":
@@ -56,19 +55,24 @@ func _on_TabMenuPopup_save_dialogue() -> void:
 		_graph_editor_container.save_editor(_tabs.current_tab, file_path)
 
 
-func _on_TabMenuPopup_preview_dialogue() -> void:
+func _on_new_dialogue(dialogue_name) -> void:
+	_add_graph_editor(
+			load(GDUtil.resolve("GraphEditor.tscn")).instance(), dialogue_name)
+
+
+func _on_preview_dialogue() -> void:
 	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
 	dialogue_preview.visible = not dialogue_preview.visible
 	dialogue_preview.reset()
 
 
-func _on_TabMenuPopup_open_dialogue(graph_editor: GDGraphEditor) -> void:
+func _on_open_dialogue(graph_editor: GDGraphEditor) -> void:
 	print_debug("Opening dialogue: %s" % graph_editor.filename)
 	var tab_name : String = graph_editor.filename.get_file().get_basename()
 	_add_graph_editor(graph_editor, tab_name)
 
 
-func _on_Tabs_tab_changed(tab: int) -> void:
+func _on_tab_changed(tab: int) -> void:
 	_tools_container.clear_tools()
 	var previous_dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(
 			_graph_editor_container.get_active_editor().get_index())
@@ -77,6 +81,11 @@ func _on_Tabs_tab_changed(tab: int) -> void:
 	
 	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(tab)
 	_tools_container.add_tools(dialogue_preview.get_tools())
+
+
+func _on_tab_closed(tab) -> void:
+	_graph_editor_container.remove_editor(tab)
+	_graph_editor_container.show_editor(_tabs.current_tab)
 
 
 func _on_view_changed(dialogue_view: GDDialogueView) -> void:
@@ -94,12 +103,3 @@ func _on_view_changed(dialogue_view: GDDialogueView) -> void:
 	graph_editor.set_dialogue_graph(dialogue_graph)
 	
 	_tools_container.set_tools(dialogue_view.get_tools())
-
-
-func _on_Tabs_tab_closed(tab) -> void:
-	_graph_editor_container.remove_editor(tab)
-	_graph_editor_container.show_editor(_tabs.current_tab)
-
-
-func _on_new_dialogue(dialogue_name) -> void:
-	_add_graph_editor(load(GDUtil.resolve("GraphEditor.tscn")).instance(), dialogue_name)

@@ -6,6 +6,22 @@ signal prev
 signal next
 signal skipped
 
+
+static func create(cursor: Resource = null):
+	var script = load(GDUtil.resolve("GDDialogueCursor.gd"))
+	
+	if not cursor:
+		return script.new()
+	
+	assert("s_current" in cursor, "cursor is not a valid GDDialogueCursor")
+	assert("s_pt" in cursor, "cursor is not a valid GDDialogueCursor")
+	
+	var instance = script.new(cursor.s_pt)
+	instance.s_current = cursor.s_current
+	
+	return instance
+
+
 export var s_current : String
 
 export var s_pt : Resource 
