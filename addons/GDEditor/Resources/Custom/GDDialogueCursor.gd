@@ -13,33 +13,31 @@ static func create(cursor: Resource = null):
 	if not cursor:
 		return script.new()
 	
-	assert("s_current" in cursor, "cursor is not a valid GDDialogueCursor")
-	assert("s_pt" in cursor, "cursor is not a valid GDDialogueCursor")
+	assert("current" in cursor, "cursor is not a valid GDDialogueCursor")
+	assert("pt" in cursor, "cursor is not a valid GDDialogueCursor")
 	
-	var instance = script.new(cursor.s_pt)
-	instance.s_current = cursor.s_current
+	var instance = script.new(cursor.pt)
+	instance.current = cursor.current
 	
 	return instance
 
 
-export var s_current : String
+export var current : String
 
-export var s_pt : Resource 
+export var pt : Resource 
 
 
-func _init(port_table := GDPortMap.new()) -> void:
-	s_pt = port_table.copy()
-	
+func _init() -> void:
 	if port_map().has_node("Start"):
 		reset()
 
 
 func current() -> String:
-	return s_current
+	return current
 
 
 func reset() -> void:
-	s_current = "Start"
+	current = "Start"
 
 
 func skip(port : int) -> void:
@@ -48,22 +46,22 @@ func skip(port : int) -> void:
 
 
 func next(port : int) -> void:
-	if s_current.empty():
+	if current.empty():
 		return
 	
-	var flow_ports := port_map().right_type_all_port(s_current, s_pt.PORT_FLOW)
-	assert(flow_ports.has(port), "%s has no flow port on slot %d" % [s_current, port])
+	var flow_ports := port_map().right_type_all_port(current, pt.PORT_FLOW)
+	assert(flow_ports.has(port), "%s has no flow port on slot %d" % [current, port])
 	
 
-	var nodes := port_map().right_type_port_connection(s_current, s_pt.PORT_FLOW, port).keys()
-	s_current = nodes.front() if nodes.front() else ""
+	var nodes := port_map().right_type_port_connection(current, pt.PORT_FLOW, port).keys()
+	current = nodes.front() if nodes.front() else ""
 	
 	emit_signal("next")
 
 
 func port_map() -> GDPortMap:
-	return GDPortMap.create(s_pt)
+	return GDPortMap.create(pt)
 
 
 func is_end() -> bool:
-	return s_current.empty()
+	return current.empty()

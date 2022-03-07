@@ -4,3 +4,5 @@
 
 [node name="Gaelog" type="Node"]
 script = ExtResource( 1 )
+
+[node name="Viewers" type="CanvasLayer" parent="."]

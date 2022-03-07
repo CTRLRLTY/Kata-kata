@@ -51,7 +51,7 @@ custom_constants/separation = 0
 alignment = 2
 
 [node name="ToolsContainer" type="HBoxContainer" parent="VBoxContainer/TopContainer"]
-margin_left = 751.0
+margin_left = 725.0
 margin_right = 751.0
 margin_bottom = 26.0
 custom_constants/separation = 5

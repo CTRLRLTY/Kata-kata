@@ -16,12 +16,16 @@ static func create(pm : Resource = null):
 	if not pm:
 		return script.new()
 	
-	assert("_tm" in pm, "pm is not a valid port_map resource")
-	assert(pm._tm is Dictionary, "pm is not a valid port_map resource")	
+	assert("table" in pm, "pm is not a valid port_map resource")
+	assert(pm.table is Dictionary, "pm is not a valid port_map resource")	
 	
-	return script.new(pm._tm)
+	
+	var port_map = script.new()
+	port_map.table = pm.table
+	
+	return port_map
 
-# _tm dictionary:
+# table dictionary:
 # 	? = may or may not exist
 #	
 #	Structure:
@@ -41,11 +45,7 @@ static func create(pm : Resource = null):
 #				-> port(int)...
 #			-> port_type(int)...
 #	-> node_name(String)....
-export var _tm : Dictionary
-
-
-func _init(table := Dictionary()) -> void:
-	_tm = table
+export var table : Dictionary
 
 
 func has_connection_port(from: String, from_slot: int, to: String, to_slot: int) -> bool:
@@ -71,7 +71,7 @@ func has_connection(from: String, to: String) -> bool:
 
 
 func has_node(node_name: String) -> bool:
-	return _tm.has(node_name)
+	return table.has(node_name)
 
 
 func clear_connection(node_name: String) -> void:
@@ -88,8 +88,8 @@ func clear_connection(node_name: String) -> void:
 
 
 func connect_node(from: String, from_type: int, from_slot: int, to: String, to_type: int, to_slot: int) -> void:
-	var from_table : Dictionary = _tm.get(from, {"to": {}, "from": {}})
-	var to_table : Dictionary = _tm.get(to, {"to": {}, "from": {}})
+	var from_table : Dictionary = table.get(from, {"to": {}, "from": {}})
+	var to_table : Dictionary = table.get(to, {"to": {}, "from": {}})
 	
 	from_table.to[from_type] = from_table.to.get(from_type, {})
 	from_table.to[from_type][from_slot] = from_table.to[from_type].get(from_slot, {})
@@ -105,8 +105,8 @@ func connect_node(from: String, from_type: int, from_slot: int, to: String, to_t
 	fcn.append(to_slot)
 	tcn.append(from_slot)
 	
-	_tm[from] = from_table
-	_tm[to] = to_table
+	table[from] = from_table
+	table[to] = to_table
 	
 	emit_signal("connected", from, from_slot, to, to_slot)
 
@@ -179,11 +179,11 @@ func right_all_port(node_name: String) -> Dictionary:
 
 
 func left_all_type(node_name: String) -> Dictionary:
-	return _tm.get(node_name, {}).get("from", {})
+	return table.get(node_name, {}).get("from", {})
 
 
 func right_all_type(node_name: String) -> Dictionary:
-	return _tm.get(node_name, {}).get("to", {})
+	return table.get(node_name, {}).get("to", {})
 
 
 func left_disconnect(node_name: String, left_port: int) -> void:
@@ -215,6 +215,6 @@ func right_connected(node_name: String, right_port: int) -> bool:
 
 
 func copy():
-	var pt = load(GDUtil.resolve("GDPortMap.gd")).new(_tm.duplicate(true))
+	var pt = load(GDUtil.resolve("GDPortMap.gd")).new(table.duplicate(true))
 	
 	return pt

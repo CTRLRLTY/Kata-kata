@@ -97,8 +97,14 @@ func save(file_path: String) -> void:
 	
 	var reader_table := dv.get_reader_table()
 	
+	var cursor := GDDialogueCursor.new()
+	cursor.pt = dgraph.port_map()
+	
 	_dialogue_data = GDDialogueData.new()
-	_dialogue_data.cursor = GDDialogueCursor.new(dgraph.port_map())
+	_dialogue_data.cursor = cursor
+	_dialogue_data.view_path = dv.filename
+	
+	print_debug(_dialogue_data.cursor.pt.table.keys())
 	
 	for gn in dgraph.get_children():
 		if gn is GDGraphNode:
@@ -106,12 +112,16 @@ func save(file_path: String) -> void:
 			
 			_dialogue_data.reader_table[gn.name] = readers
 			_dialogue_data.data_table[gn.name] = gn.get_save_data()
+		
+		if gn is GDStartGN:
+			cursor.current = gn.name
 	
 	dv.set_dialogue_data(_dialogue_data)
 	
 	packer.pack(self)
 
 	ResourceSaver.save(file_path, packer)
+	ResourceSaver.save(GDUtil.get_save_dir()+"test.tres", _dialogue_data)
 
 
 func _on_DialogueGraph_graph_node_added(graph_node: GDGraphNode) -> void:
