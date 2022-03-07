@@ -42,6 +42,8 @@ func next(port : int) -> void:
 	if current.empty():
 		return
 	
+	var previous = current
+	
 	var flow_ports := port_map().right_type_all_port(current, pt.PORT_FLOW)
 	
 	assert(not flow_ports.empty(), "%s has no flow port" % current)

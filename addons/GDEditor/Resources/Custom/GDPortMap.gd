@@ -80,16 +80,24 @@ func has_node(node_name: String) -> bool:
 
 
 func clear_connection(node_name: String) -> void:
-	var lp := left_all_port(node_name)
-	var rp := right_all_port(node_name)
-	
 	# Their order of disconnection is important, as it effect how depth are modified.
 	# 	It should be disconnected right then left in that order respectively.
-	for port in rp:
-		right_disconnect(node_name, port)
+	clear_right(node_name)
+	clear_left(node_name)
+
+
+func clear_left(node_name: String) -> void:
+	var ap := left_all_port(node_name)
 	
-	for port in lp:
+	for port in ap:
 		left_disconnect(node_name, port)
+
+
+func clear_right(node_name: String) -> void:
+	var ap := right_all_port(node_name)
+	
+	for port in ap:
+		right_disconnect(node_name, port)
 
 
 func connect_node(from: String, from_type: int, from_slot: int, to: String, to_type: int, to_slot: int) -> void:
