@@ -95,38 +95,7 @@ func save(file_path: String) -> void:
 	dgraph.save()
 	dv.save()
 	
-	var reader_table := dv.get_reader_table()
-	
-	var cursor := GDDialogueCursor.new()
-	var port_map : GDPortMap = dgraph.port_map().copy()
-	
-	cursor.pt = port_map
-	
-	_dialogue_data = GDDialogueData.new()
-	_dialogue_data.cursor = cursor
-	_dialogue_data.view_path = dv.filename
-	
-	print_debug(_dialogue_data.cursor.pt.table.keys())
-	
-	for gn in dgraph.get_children():
-		if gn is GDGraphNode:
-			if gn.get_depth() == 0:
-				port_map.table.erase(gn.name)
-				
-				continue
-			
-			var readers : Array = reader_table[gn.filename]
-			
-			_dialogue_data.reader_table[gn.name] = readers
-			_dialogue_data.data_table[gn.name] = gn.get_save_data()
-		
-			if gn is GDStartGN:
-				cursor.root = gn.name
-	
-	if cursor.root.empty():
-		port_map.table.clear()
-	
-	cursor.current = cursor.root
+	_dialogue_data = GDDialogueData.create_from(dgraph, dv)
 	
 	dv.set_dialogue_data(_dialogue_data)
 	

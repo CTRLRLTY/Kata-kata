@@ -5,7 +5,6 @@ signal dialogue_end
 
 var view_layer : int setget set_view_layer, get_view_layer
 
-
 onready var _viewers := $Viewers
 
 
