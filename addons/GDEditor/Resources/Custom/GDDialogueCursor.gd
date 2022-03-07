@@ -27,11 +27,6 @@ export var current : String
 export var pt : Resource 
 
 
-func _init() -> void:
-	if port_map().has_node("Start"):
-		reset()
-
-
 func current() -> String:
 	return current
 
@@ -60,7 +55,8 @@ func next(port : int) -> void:
 
 
 func port_map() -> GDPortMap:
-	return GDPortMap.create(pt)
+#	return GDPortMap.create(pt)
+	return pt as GDPortMap
 
 
 func is_end() -> bool:
