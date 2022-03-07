@@ -18,6 +18,10 @@ var _value_list : Array
 
 func _enter_tree() -> void:
 	item_container = find_node("ItemContainer")
+
+
+func _ready() -> void:
+	connect("about_to_show", self, "_on_about_to_show")
 	
 	
 func get_value_list() -> Array:

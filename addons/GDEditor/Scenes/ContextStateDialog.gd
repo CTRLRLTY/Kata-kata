@@ -18,6 +18,9 @@ onready var array_dialog := value_array.get_node("ValueArrayDialog")
 
 
 func _ready() -> void:
+	connect("about_to_show", self, "_on_about_to_show")
+	connect("popup_hide", self, "_on_popup_hide")
+	
 	value_edit.connect("focus_exited", self, "_on_ValueEdit_focus_exited", [value_edit])
 
 

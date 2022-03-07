@@ -137,8 +137,6 @@ margin_right = 204.0
 margin_bottom = 20.0
 text = "Apply"
 
-[connection signal="about_to_show" from="." to="." method="_on_about_to_show"]
-[connection signal="popup_hide" from="." to="." method="_on_popup_hide"]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/GridContainer/TypeOption" to="." method="_on_TypeOption_item_selected"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/GridContainer/ArrayColumn/ArrayCheck" to="." method="_on_ArrayCheck_toggled"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/GridContainer/ArrayColumn/ArraySize" to="." method="_on_ArraySize_value_changed"]

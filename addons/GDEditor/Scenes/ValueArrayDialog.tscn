@@ -44,7 +44,6 @@ PanelContainer/styles/panel = SubResource( 8 )
 PanelContainer/styles/top_drop = SubResource( 9 )
 
 [node name="ValueArrayDialog" type="WindowDialog"]
-visible = true
 margin_left = 196.0
 margin_top = -23.0
 margin_right = 415.0
@@ -100,5 +99,3 @@ custom_constants/separation = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[connection signal="about_to_show" from="." to="." method="_on_about_to_show"]
