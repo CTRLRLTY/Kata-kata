@@ -1,15 +1,37 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/GraphEditor.gd" type="Script" id=1]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Search.png" type="Texture" id=2]
 [ext_resource path="res://addons/GDEditor/Scenes/NodeSelection.gd" type="Script" id=3]
 [ext_resource path="res://addons/GDEditor/Resources/Custom/GDPortMap.gd" type="Script" id=4]
+[ext_resource path="res://addons/GDEditor/Resources/Custom/GDDialogueCursor.gd" type="Script" id=5]
 [ext_resource path="res://addons/GDEditor/Scenes/ContextStateTree.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/GDEditor/Resources/Custom/GDDialogueData.gd" type="Script" id=7]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.tscn" type="PackedScene" id=8]
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 4 )
+table = {
+}
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 5 )
+root = ""
+current = ""
+pt = SubResource( 3 )
+
+[sub_resource type="Resource" id=5]
+script = ExtResource( 7 )
+cursor = SubResource( 4 )
+data_table = {
+}
+reader_table = {
+}
+view_path = ""
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
-[sub_resource type="Resource" id=3]
+[sub_resource type="Resource" id=6]
 script = ExtResource( 4 )
 table = {
 }
@@ -24,6 +46,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+dialogue_data = SubResource( 5 )
 
 [node name="MainContainer" type="HSplitContainer" parent="."]
 margin_right = 1024.0
@@ -109,7 +132,7 @@ StateColumnTitle = "Dialogue States"
 
 [node name="DialogueGraph" parent="MainContainer" instance=ExtResource( 8 )]
 scroll_offset = Vector2( -14, -270 )
-s_port_map = SubResource( 3 )
+s_port_map = SubResource( 6 )
 
 [connection signal="graph_node_add" from="MainContainer/DialogueGraph" to="." method="_on_graph_node_add"]
 [connection signal="graph_node_added" from="MainContainer/DialogueGraph" to="." method="_on_graph_node_added"]

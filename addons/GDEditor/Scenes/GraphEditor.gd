@@ -4,16 +4,24 @@ extends VSplitContainer
 
 class_name GDGraphEditor
 
-var dialogue_data : GDDialogueData
-
-## GDDialogueData
-#export var dialogue_data : Resource
+# GDDialogueData
+export var dialogue_data : Resource
 
 onready var _main := $MainContainer
 onready var _node_selection := find_node("NodeSelection")
 onready var _state_tree := _main.find_node("ContextStateTree")
 
 func _ready() -> void:
+	var port_map : GDPortMap = get_dialogue_graph().port_map()
+	
+	if not dialogue_data:
+		dialogue_data = GDDialogueData.new()
+		dialogue_data.cursor = GDDialogueCursor.new()
+	
+	# This is to link our cursor port_map with the dialogue_graph port_map, 
+	# since they are passed by reference
+	dialogue_data.cursor.pt = port_map
+	
 	if not get_dialogue_preview():
 		var standard_view : GDDialogueView = load(
 				GDUtil.resolve("GDStandardView.tscn")).instance()
@@ -22,7 +30,6 @@ func _ready() -> void:
 	
 	get_dialogue_graph().owner = self
 	
-	dialogue_data = GDDialogueData.create_from(get_dialogue_graph(), get_dialogue_preview())
 
 
 func get_dialogue_preview() -> GDDialogueView:
@@ -94,12 +101,27 @@ func save(file_path: String) -> void:
 	
 	var packer := PackedScene.new()
 	var dv := get_dialogue_preview()
-	var dgraph := get_dialogue_graph()
+	var dg := get_dialogue_graph()
 	
-	dgraph.save()
+	dg.save()
 	dv.save()
 	
-#	dialogue_data = GDDialogueData.create_from(dgraph, dv)
+	dialogue_data.view_path = dv.filename
+	
+	var port_map : GDPortMap = get_dialogue_graph().port_map()
+	var cursor = dialogue_data.cursor
+	
+	cursor.pt = port_map
+	
+	# Last update
+	for gn in dg.get_children():
+		if gn is GDGraphNode:
+			dialogue_data.data_table[gn.name] = gn.get_save_data()
+			
+			if gn is GDStartGN:
+				cursor.root = gn.name
+	
+	cursor.current = cursor.root
 	
 	dv.set_dialogue_data(dialogue_data)
 	
@@ -133,5 +155,6 @@ func _on_graph_node_removed(node_name: String) -> void:
 	dialogue_data.data_table.erase(node_name)
 
 
+# Only matters in editor
 func _on_graph_node_value_updated(gn: GDGraphNode) -> void:
 	dialogue_data.data_table[gn.name] = gn.get_save_data()
