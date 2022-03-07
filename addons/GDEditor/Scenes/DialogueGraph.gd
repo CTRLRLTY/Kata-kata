@@ -4,7 +4,11 @@ extends GraphEdit
 
 class_name DialogueGraph
 
+# emitted before added to child
+signal graph_node_add(graph_node)
+# emitted after added to child and is ready
 signal graph_node_added(graph_node)
+signal graph_node_removed(node_name)
 
 export var s_connection_list : Array
 
@@ -63,12 +67,15 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 	elif gn is GDEndGN:
 		gn.set_depth(1)
 	
-	emit_signal("graph_node_added", gn)
+	emit_signal("graph_node_add", gn)
 	
 	add_child(gn)
 	
 	gn.owner = owner
 	gn.offset = (scroll_offset + position) / zoom
+	
+	yield(get_tree(), "idle_frame")
+	emit_signal("graph_node_added", gn)
 
 
 func port_map() -> GDPortMap:
@@ -153,6 +160,7 @@ func _on_popup_menu_pressed(id: int) -> void:
 		popup_menu.Item.DELETE:
 			for node in _selected_nodes:
 				port_map().clear_connection(node.name)
+				emit_signal("graph_node_removed", node.name)
 				
 				node.queue_free()
 			

@@ -5,6 +5,7 @@ extends GraphNode
 class_name GDGraphNode
 
 signal depth_updated(old_depth, new_depth)
+signal value_updated
 
 enum Port {
 	LEFT,
@@ -72,6 +73,10 @@ func get_dialogue_editor() -> Control:
 # Assumes dialogue_grapt is DialogueGraph
 func get_dialogue_graph() -> GraphEdit:
 	return get_parent() as GraphEdit
+
+
+func update_value() -> void:
+	emit_signal("value_updated")
 
 
 func port_map() -> GDPortMap:

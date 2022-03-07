@@ -51,6 +51,7 @@ func _on_CharacterSelection_character_selected_left() -> void:
 
 func _on_MessageEdit_text_changed() -> void:
 	s_message = _message_edit.text
+	update_value()
 
 
 func _on_EditBtn_toggled(button_pressed: bool) -> void:

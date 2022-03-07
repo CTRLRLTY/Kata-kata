@@ -61,13 +61,11 @@ func _on_new_dialogue(dialogue_name) -> void:
 
 
 func _on_preview_dialogue() -> void:
-	var dv : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
-	var dg : DialogueGraph = _graph_editor_container.get_editor_graph(_tabs.current_tab)
-
-	if not dv.visible:
-		var data : GDDialogueData = GDDialogueData.create_from(dg, dv)
+	var ge : GDGraphEditor = _graph_editor_container.get_active_editor()
+	var dv = ge.get_dialogue_preview()
 	
-		dv.set_dialogue_data(data)
+	if not dv.visible:
+		dv.set_dialogue_data(ge.dialogue_data)
 		dv.show()
 
 

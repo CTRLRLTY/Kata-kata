@@ -10,7 +10,7 @@ static func create_from(dialogue_graph: GraphEdit, dialogue_view: Control):
 	
 	var cursor = load(GDUtil.resolve("GDDialogueCursor.gd")).new()
 	
-	var port_map = dialogue_graph.port_map().copy()
+	var port_map = dialogue_graph.port_map()
 
 	var reader_table : Dictionary = dialogue_view.get_reader_table()
 	

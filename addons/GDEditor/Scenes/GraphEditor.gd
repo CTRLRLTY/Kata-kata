@@ -4,7 +4,10 @@ extends VSplitContainer
 
 class_name GDGraphEditor
 
-var _dialogue_data : GDDialogueData
+var dialogue_data : GDDialogueData
+
+## GDDialogueData
+#export var dialogue_data : Resource
 
 onready var _main := $MainContainer
 onready var _node_selection := find_node("NodeSelection")
@@ -18,6 +21,8 @@ func _ready() -> void:
 		set_dialogue_preview(standard_view)
 	
 	get_dialogue_graph().owner = self
+	
+	dialogue_data = GDDialogueData.create_from(get_dialogue_graph(), get_dialogue_preview())
 
 
 func get_dialogue_preview() -> GDDialogueView:
@@ -33,10 +38,6 @@ func get_dialogue_graph() -> DialogueGraph:
 	return _main.get_child(1) as DialogueGraph
 
 
-func get_dialogue_data() -> GDDialogueData:
-	return _dialogue_data
-
-
 func get_state_tree() -> GDContextStateTree:
 	return _state_tree as GDContextStateTree
 
@@ -47,7 +48,10 @@ func set_dialogue_graph(dgraph: DialogueGraph) -> void:
 	if is_instance_valid(current_dgraph):
 		current_dgraph.queue_free()
 	
-	dgraph.connect("graph_node_added", self, "_on_DialogueGraph_graph_node_added")
+	dgraph.connect("graph_node_add", self, "_on_graph_node_add")
+	dgraph.connect("graph_node_added", self, "_on_graph_node_added")
+	dgraph.connect("graph_node_removed", self, "_on_graph_node_removed")
+	
 	dgraph.owner = self
 	_main.add_child(dgraph)
 
@@ -95,15 +99,39 @@ func save(file_path: String) -> void:
 	dgraph.save()
 	dv.save()
 	
-	_dialogue_data = GDDialogueData.create_from(dgraph, dv)
+#	dialogue_data = GDDialogueData.create_from(dgraph, dv)
 	
-	dv.set_dialogue_data(_dialogue_data)
+	dv.set_dialogue_data(dialogue_data)
 	
 	packer.pack(self)
 
 	ResourceSaver.save(file_path, packer)
-	ResourceSaver.save(GDUtil.get_save_dir()+"test.tres", _dialogue_data)
+	ResourceSaver.save(GDUtil.get_save_dir()+"test.tres", dialogue_data)
 
 
-func _on_DialogueGraph_graph_node_added(graph_node: GDGraphNode) -> void:
-	graph_node.set_graph_editor(self)
+func _on_graph_node_add(gn: GDGraphNode) -> void:
+	gn.set_graph_editor(self)
+
+
+func _on_graph_node_added(gn: GDGraphNode) -> void:
+	var reader_table := get_dialogue_preview().get_reader_table()
+	var readers : Array = reader_table[gn.filename]
+	var node_name := gn.name
+	
+	dialogue_data.reader_table[node_name] = readers
+	dialogue_data.data_table[node_name] = gn.get_save_data()
+	
+	if gn is GDStartGN:
+		dialogue_data.cursor.root = node_name
+		dialogue_data.cursor.current = node_name
+	
+	gn.connect("value_updated", self, "_on_graph_node_value_updated", [gn])
+
+
+func _on_graph_node_removed(node_name: String) -> void:
+	dialogue_data.reader_table.erase(node_name)
+	dialogue_data.data_table.erase(node_name)
+
+
+func _on_graph_node_value_updated(gn: GDGraphNode) -> void:
+	dialogue_data.data_table[gn.name] = gn.get_save_data()
