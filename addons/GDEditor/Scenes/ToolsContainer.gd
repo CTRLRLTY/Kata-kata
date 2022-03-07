@@ -15,14 +15,19 @@ func get_dialogue_editor() -> Control:
 	return GDUtil.get_dialogue_editor()
 
 
+func set_tools(tools: Array) -> void:
+	clear_tools()
+	add_tools(tools)
+
+
 func save() -> void:
 	for child in get_children():
 		if child.has_method("save"):
-			child.save()
+			child.save
 
 
 func add_child(btn: Node, legible_unique_name := false) -> void:
-	assert(btn is TextureButton)
+	assert(btn is TextureButton, "ToolsContainer child must be a texture button")
 	
 	btn.expand = true
 	btn.rect_min_size = Vector2(26, 26)

@@ -30,4 +30,3 @@ func _on_quick_open_confirmed() -> void:
 			text = dv.get_view_name()
 			
 			emit_signal("view_changed", dv)
-	

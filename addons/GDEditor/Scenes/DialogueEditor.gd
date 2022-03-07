@@ -65,9 +65,8 @@ func _on_Tabs_tab_changed(tab: int) -> void:
 	_tools_container.add_tools(dialogue_preview.get_tools())
 
 
-func _on_view_changed(dv: GDDialogueView) -> void:
+func _on_view_changed(dialogue_view: GDDialogueView) -> void:
 	var current_view : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
-	var dialogue_view : GDDialogueView = dv
 	
 	if dialogue_view is current_view.get_script():
 		print_debug("Selecting same view... No change.")
@@ -79,3 +78,5 @@ func _on_view_changed(dv: GDDialogueView) -> void:
 	
 	graph_editor.set_dialogue_preview(dialogue_view)
 	graph_editor.set_dialogue_graph(dialogue_graph)
+	
+	_tools_container.set_tools(dialogue_view.get_tools())
