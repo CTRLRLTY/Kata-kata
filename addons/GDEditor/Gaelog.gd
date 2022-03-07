@@ -26,6 +26,7 @@ func show_dialogue(data : GDDialogueData) -> void:
 		view = load(data.view_path).instance()
 		_viewers.add_child(view)
 	
+	view.reset()
 	view.set_dialogue_data(data)
 	_show_view(view)
 
