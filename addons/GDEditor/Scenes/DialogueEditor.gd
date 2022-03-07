@@ -13,8 +13,6 @@ onready var _tools_container := find_node("ToolsContainer")
 func _ready() -> void:
 	GDUtil.set_dialogue_editor(self)
 	
-	_add_graph_editor(load("res://addons/GDEditor/Saves/owhnoo.tscn").instance(), "az")
-	
 	if not _graph_editor_container.get_editor_count():
 		_add_graph_editor(load(GDUtil.resolve("GraphEditor.tscn")).instance(), "[empty]")
 

@@ -83,6 +83,11 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 
 
 func save(file_path: String) -> void:
+	var d := Directory.new()
+	
+	if not d.dir_exists(GDUtil.get_save_dir()):
+		d.make_dir(GDUtil.get_save_dir())
+	
 	var packer := PackedScene.new()
 	var dv := get_dialogue_preview()
 	var dgraph := get_dialogue_graph()
