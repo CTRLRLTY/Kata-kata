@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/GraphEditorContainer.gd" type="Script" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueEditor.gd" type="Script" id=2]
-[ext_resource path="res://addons/GDEditor/Views/GDDummyView.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/GDEditor/Scenes/ViewBtn.gd" type="Script" id=3]
+[ext_resource path="res://addons/GDEditor/Scenes/DialogueQuickOpen.gd" type="Script" id=4]
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/MainPanelBG.tres" type="StyleBox" id=5]
 [ext_resource path="res://addons/GDEditor/Scenes/Tabs.gd" type="Script" id=6]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Close.png" type="Texture" id=7]
@@ -11,8 +12,6 @@
 [ext_resource path="res://addons/GDEditor/Scenes/TabMenuPopup.gd" type="Script" id=10]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueNamePrompt.gd" type="Script" id=11]
 [ext_resource path="res://addons/GDEditor/Scenes/ToolsContainer.gd" type="Script" id=12]
-[ext_resource path="res://addons/GDEditor/Views/GDStandardView.tscn" type="PackedScene" id=13]
-[ext_resource path="res://addons/GDEditor/Scenes/PreviewOptions.gd" type="Script" id=14]
 
 [sub_resource type="StyleBoxLine" id=6]
 color = Color( 1, 1, 1, 0.364706 )
@@ -52,28 +51,74 @@ custom_constants/separation = 0
 alignment = 2
 
 [node name="ToolsContainer" type="HBoxContainer" parent="VBoxContainer/TopContainer"]
-margin_left = 801.0
-margin_right = 801.0
+margin_left = 751.0
+margin_right = 751.0
 margin_bottom = 26.0
 custom_constants/separation = 5
 script = ExtResource( 12 )
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/TopContainer"]
-margin_left = 801.0
-margin_right = 822.0
+margin_left = 751.0
+margin_right = 772.0
 margin_bottom = 26.0
 custom_constants/separation = 21
 custom_styles/separator = SubResource( 6 )
 
-[node name="PreviewOptions" type="OptionButton" parent="VBoxContainer/TopContainer"]
-margin_left = 822.0
+[node name="ViewBtn" type="Button" parent="VBoxContainer/TopContainer"]
+margin_left = 772.0
 margin_right = 972.0
 margin_bottom = 26.0
-rect_min_size = Vector2( 150, 0 )
-text = "GDStandardView"
-items = [ "GDStandardView", null, false, 0, ExtResource( 13 ), "GDDummyView", null, false, 1, ExtResource( 3 ) ]
-selected = 0
-script = ExtResource( 14 )
+rect_min_size = Vector2( 200, 0 )
+text = "Standard"
+clip_text = true
+script = ExtResource( 3 )
+
+[node name="DialogueQuickOpen" type="ConfirmationDialog" parent="VBoxContainer/TopContainer/ViewBtn"]
+visible = true
+margin_left = 76.0
+margin_top = 12.0
+margin_right = 276.0
+margin_bottom = 85.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 192.0
+margin_bottom = 37.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Search" type="Label" parent="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer"]
+margin_right = 184.0
+margin_bottom = 14.0
+text = "Search:"
+
+[node name="SearchBox" type="LineEdit" parent="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer"]
+margin_top = 18.0
+margin_right = 184.0
+margin_bottom = 42.0
+
+[node name="Matches" type="Label" parent="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer"]
+margin_top = 46.0
+margin_right = 184.0
+margin_bottom = 60.0
+text = "Matches:"
+
+[node name="SearchOptions" type="Tree" parent="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer"]
+margin_top = 64.0
+margin_right = 184.0
+margin_bottom = 65.0
+size_flags_vertical = 3
+custom_constants/draw_guides = 1
+allow_reselect = true
+hide_folding = true
+hide_root = true
 
 [node name="TabMenuBtn" type="ToolButton" parent="VBoxContainer/TopContainer"]
 margin_left = 972.0
@@ -190,7 +235,13 @@ size_flags_vertical = 3
 custom_styles/panel = SubResource( 5 )
 script = ExtResource( 1 )
 
-[connection signal="item_selected" from="VBoxContainer/TopContainer/PreviewOptions" to="." method="_on_PreviewOptions_item_selected"]
+[connection signal="pressed" from="VBoxContainer/TopContainer/ViewBtn" to="VBoxContainer/TopContainer/ViewBtn" method="_on_pressed"]
+[connection signal="view_changed" from="VBoxContainer/TopContainer/ViewBtn" to="." method="_on_view_changed"]
+[connection signal="about_to_show" from="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen" to="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen" method="_on_about_to_show"]
+[connection signal="confirmed" from="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen" to="VBoxContainer/TopContainer/ViewBtn" method="_on_quick_open_confirmed"]
+[connection signal="gui_input" from="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer/SearchBox" to="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen" method="_on_SearchBox_gui_input"]
+[connection signal="text_changed" from="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer/SearchBox" to="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen" method="_on_SearchBox_text_changed"]
+[connection signal="item_activated" from="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen/VBoxContainer/SearchOptions" to="VBoxContainer/TopContainer/ViewBtn/DialogueQuickOpen" method="_on_SearchOptions_item_activated"]
 [connection signal="pressed" from="VBoxContainer/TopContainer/TabMenuBtn" to="VBoxContainer/TabContainer" method="_on_TabMenuBtn_pressed"]
 [connection signal="about_to_show" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" method="_on_about_to_show"]
 [connection signal="id_pressed" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" method="_on_id_pressed"]

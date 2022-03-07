@@ -70,8 +70,9 @@ func _on_Tabs_tab_changed(tab: int) -> void:
 	_tools_container.add_tools(dialogue_preview.get_tools())
 
 
-func _on_PreviewOptions_item_selected(index: int) -> void:
-	var dialogue_view : GDDialogueView = _preview_options.get_item_metadata(index).instance()
+func _on_view_changed(dv: GDDialogueView) -> void:
+	var dialogue_view : GDDialogueView = dv
+	
 	var graph_editor = _graph_editor_container.get_editor(_tabs.current_tab)
 	
 	var dialogue_graph : DialogueGraph = load(GDUtil.resolve("DialogueGraph.tscn")).instance()

@@ -76,6 +76,13 @@ static func get_file_system_dock() -> FileSystemDock:
 	return null
 
 
+static func get_file_system() -> EditorFileSystem:
+	if get_editor_interface():
+		return get_editor_interface().get_resource_filesystem()
+
+	return null
+
+
 # Returns GDDialogueEditor class
 static func get_dialogue_editor() -> Control:
 	return _state.get("dialogue_editor")

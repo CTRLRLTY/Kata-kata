@@ -59,6 +59,10 @@ func _tool_buttons() -> Array:
 	return [load(GDUtil.resolve("ToolCharacterOpen.tscn"))]
 
 
+func get_view_name() -> String:
+	return "Standard View"
+
+
 func get_class() -> String:
 	return "GDStandardView"
 

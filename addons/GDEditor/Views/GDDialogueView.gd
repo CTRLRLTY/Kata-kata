@@ -23,6 +23,10 @@ func _gui_input(event: InputEvent) -> void:
 				next()
 
 
+func get_view_name() -> String:
+	return "Dialogue View"
+
+
 func get_reader_table() -> Dictionary:
 	var reader_table := {}
 	
