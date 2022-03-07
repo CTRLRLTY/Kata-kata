@@ -8,7 +8,6 @@ class_name GDDialogueEditor
 onready var _tabs := find_node("Tabs")
 onready var _graph_editor_container := find_node("GraphEditorContainer")
 onready var _tools_container := find_node("ToolsContainer")
-onready var _preview_options := find_node("PreviewOptions")
 
 
 func _ready() -> void:
@@ -28,10 +27,6 @@ func get_tabs() -> Tabs:
 
 func get_tools_container() -> Control:
 	return _tools_container as Control
-
-
-func get_preview_options() -> Control:
-	return _preview_options as Control
 
 
 func _on_TabMenuPopup_save_dialogue() -> void:
@@ -71,7 +66,12 @@ func _on_Tabs_tab_changed(tab: int) -> void:
 
 
 func _on_view_changed(dv: GDDialogueView) -> void:
+	var current_view : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
 	var dialogue_view : GDDialogueView = dv
+	
+	if dialogue_view is current_view.get_script():
+		print_debug("Selecting same view... No change.")
+		return
 	
 	var graph_editor = _graph_editor_container.get_editor(_tabs.current_tab)
 	
