@@ -95,7 +95,7 @@ func save(file_path: String) -> void:
 	dgraph.save()
 	dv.save()
 	
-	_dialogue_data = GDDialogueData.create_from(dgraph, dv)
+	_dialogue_data = GDDialogueData.create_from(dgraph, dv, true)
 	
 	dv.set_dialogue_data(_dialogue_data)
 	
