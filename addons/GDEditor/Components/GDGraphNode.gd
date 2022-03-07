@@ -24,6 +24,8 @@ var _depth := 0
 func _ready() -> void:
 	if not has_meta("depth"):
 		set_meta("depth", _depth)
+	else:
+		_depth = get_meta("depth")
 	
 	set_depth(get_meta("depth"))
 
