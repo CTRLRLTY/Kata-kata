@@ -1,40 +1,12 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/GraphEditor.gd" type="Script" id=1]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Search.png" type="Texture" id=2]
 [ext_resource path="res://addons/GDEditor/Scenes/NodeSelection.gd" type="Script" id=3]
-[ext_resource path="res://addons/GDEditor/Resources/Custom/GDPortMap.gd" type="Script" id=4]
 [ext_resource path="res://addons/GDEditor/Scenes/ContextStateTree.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.tscn" type="PackedScene" id=8]
 
 [sub_resource type="StyleBoxEmpty" id=2]
-
-[sub_resource type="Resource" id=3]
-script = ExtResource( 4 )
-_tm = {
-"End": {
-"from": {
-0: {
-0: {
-"Start": [ 0 ]
-}
-}
-},
-"to": {
-}
-},
-"Start": {
-"from": {
-},
-"to": {
-0: {
-0: {
-"End": [ 0 ]
-}
-}
-}
-}
-}
 
 [node name="GraphEditor" type="VSplitContainer"]
 margin_top = 36.0
@@ -131,6 +103,5 @@ StateColumnTitle = "Dialogue States"
 
 [node name="DialogueGraph" parent="MainContainer" instance=ExtResource( 8 )]
 scroll_offset = Vector2( -14, -270 )
-pt = SubResource( 3 )
 
 [connection signal="graph_node_added" from="MainContainer/DialogueGraph" to="." method="_on_DialogueGraph_graph_node_added"]

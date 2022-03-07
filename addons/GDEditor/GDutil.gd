@@ -35,6 +35,10 @@ static func get_attachment_dir() -> String:
 	return get_component_dir() + "Attachments/"
 
 
+static func get_save_dir() -> String:
+	return "res://addons/GDEditor/Saves/"
+
+
 static func get_icon_dir() -> String:
 	return "res://addons/GDEditor/Resources/Icons/"
 
