@@ -1,7 +1,7 @@
 extends Node
 
 signal event(event_name)
-
+signal dialogue_end
 
 var view_layer : int setget set_view_layer, get_view_layer
 
@@ -24,6 +24,9 @@ func show_dialogue(data : GDDialogueData) -> void:
 	
 	if not has_view:
 		view = load(data.view_path).instance()
+		
+		view.connect("dialogue_end", self, "_on_view_end", [view])
+		
 		_viewers.add_child(view)
 	
 	view.reset()
@@ -42,3 +45,8 @@ func get_view_layer() -> int:
 func _show_view(view: GDDialogueView) -> void:
 	for child in _viewers.get_children():
 		child.visible = child == view
+
+
+func _on_view_end(view: GDDialogueView) -> void:
+	view.hide()
+	emit_signal("dialogue_end")
