@@ -22,9 +22,3 @@ __meta__ = {
 margin_right = 20.0
 margin_bottom = 20.0
 script = ExtResource( 2 )
-
-[connection signal="connection_request" from="." to="." method="_on_connection_request"]
-[connection signal="disconnection_request" from="." to="." method="_on_disconnection_request"]
-[connection signal="node_selected" from="." to="." method="_on_node_selected"]
-[connection signal="node_unselected" from="." to="." method="_on_node_unselected"]
-[connection signal="popup_request" from="." to="." method="_on_popup_request"]

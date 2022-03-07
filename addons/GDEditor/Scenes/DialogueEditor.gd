@@ -13,10 +13,10 @@ onready var _tools_container := find_node("ToolsContainer")
 func _ready() -> void:
 	GDUtil.set_dialogue_editor(self)
 	
+	_add_graph_editor(load("res://addons/GDEditor/Saves/owhnoo.tscn").instance(), "az")
+	
 	if not _graph_editor_container.get_editor_count():
-		_tabs.add_tab("[empty]")
-		
-	var ge = load("res://addons/GDEditor/Saves/hello.tscn").instance()
+		_add_graph_editor(load(GDUtil.resolve("GraphEditor.tscn")).instance(), "[empty]")
 
 
 func get_graph_editor_container() -> GDGraphEditorContainer:
@@ -31,13 +31,15 @@ func get_tools_container() -> Control:
 	return _tools_container as Control
 
 
-func _add_graph_editor(graph_editor: GDGraphEditor, tab_index := -1) -> void:
+
+func _add_graph_editor(graph_editor: GDGraphEditor, tab_name: String, tab_index := -1) -> void:
 	_graph_editor_container.add_editor(graph_editor)
 	# wait till editor is added
 	yield(get_tree(), "idle_frame")
 	
-	var current_tab: int = _tabs.get_tab_count() - 1
+	var current_tab: int = _tabs.get_tab_count()
 	
+	_tabs.add_tab(tab_name)
 	_tabs.set_current_tab(current_tab)
 	_graph_editor_container.show_editor(current_tab)
 	
@@ -62,13 +64,10 @@ func _on_TabMenuPopup_preview_dialogue() -> void:
 	dialogue_preview.reset()
 
 
-func _on_Tabs_tab_added() -> void:
-	_add_graph_editor(load(GDUtil.resolve("GraphEditor.tscn")).instance())
-
-
 func _on_TabMenuPopup_open_dialogue(graph_editor: GDGraphEditor) -> void:
 	print_debug("Opening dialogue: %s" % graph_editor.filename)
-	_add_graph_editor(graph_editor)
+	var tab_name : String = graph_editor.filename.get_file().get_basename()
+	_add_graph_editor(graph_editor, tab_name)
 
 
 func _on_Tabs_tab_changed(tab: int) -> void:
@@ -102,3 +101,7 @@ func _on_view_changed(dialogue_view: GDDialogueView) -> void:
 func _on_Tabs_tab_closed(tab) -> void:
 	_graph_editor_container.remove_editor(tab)
 	_graph_editor_container.show_editor(_tabs.current_tab)
+
+
+func _on_new_dialogue(dialogue_name) -> void:
+	_add_graph_editor(load(GDUtil.resolve("GraphEditor.tscn")).instance(), dialogue_name)

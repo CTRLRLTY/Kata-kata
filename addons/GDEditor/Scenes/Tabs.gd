@@ -2,7 +2,6 @@ tool
 
 extends Tabs
 
-signal tab_added
 signal tab_closed(tab)
 
 
@@ -33,7 +32,6 @@ func _gui_input(event: InputEvent) -> void:
 
 func add_tab(title := "", icon: Texture = null) -> void:
 	.add_tab(title, icon)
-	emit_signal("tab_added")
 	emit_signal("tab_changed", get_tab_count() - 1)
 
 
@@ -51,14 +49,6 @@ func _on_tab_close(tab: int) -> void:
 		current_tab = 0
 	
 	emit_signal("tab_closed", tab)
-
-
-func _on_TabMenuPopup_new_dialogue(dialogue_name : String) -> void:
-	add_tab(dialogue_name)
-
-
-func _on_TabMenuPopup_open_dialogue(graph_editor : GDGraphEditor) -> void:
-	add_tab(graph_editor.filename.get_file().get_basename())
 
 
 func _on_NameEdit_text_entered(new_text: String) -> void:

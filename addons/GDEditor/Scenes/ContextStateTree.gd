@@ -19,6 +19,10 @@ export(String) var StateColumnTitle
 
 func _ready() -> void:
 	_state_list = []
+	
+	connect("button_pressed", self, "_on_button_pressed")
+	connect("item_edited", self, "_on_item_edited")
+	connect("item_rmb_selected", self, "_on_item_rmb_selected")
 		
 	if not get_root():
 		var root := create_item()

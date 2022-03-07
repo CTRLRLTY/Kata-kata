@@ -21,6 +21,12 @@ onready var popup_menu: PopupMenu = $DGPopupMenu
 
 func _ready() -> void:
 	popup_menu.connect("id_pressed", self, "_on_popup_menu_pressed")
+
+	connect("connection_request", self, "_on_connection_request")
+	connect("disconnection_request", self, "_on_disconnection_request")
+	connect("node_selected", self, "_on_node_selected")
+	connect("node_unselected", self, "_on_node_unselected")
+	connect("popup_request", self, "_on_popup_request")
 	
 	add_valid_connection_type(PortRect.PortType.UNIVERSAL, PortRect.PortType.UNIVERSAL)
 	add_valid_connection_type(PortRect.PortType.UNIVERSAL, PortRect.PortType.ACTION)
@@ -35,13 +41,13 @@ func _ready() -> void:
 	add_valid_left_disconnect_type(PortRect.PortType.FLOW)
 	add_valid_left_disconnect_type(PortRect.PortType.UNIVERSAL)
 	
-	for conn in s_connection_list:
-		connect_node(conn.from, conn.from_port, conn.to, conn.to_port)
-	
 	_pt = GDPortMap.create(s_port_map)
 	
 	port_map().connect("connected", self, "_on_node_connected")
 	port_map().connect("disconnected", self, "_on_node_disconnected")
+	
+	for conn in s_connection_list:
+		connect_node(conn.from, conn.from_port, conn.to, conn.to_port)
 
 
 func can_drop_data(_position: Vector2, data) -> bool:
