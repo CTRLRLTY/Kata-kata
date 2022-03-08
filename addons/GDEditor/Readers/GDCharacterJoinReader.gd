@@ -1,3 +1,5 @@
+tool
+
 extends GDDialogueReader
 
 class_name GDCharacterJoinReader

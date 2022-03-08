@@ -7,20 +7,26 @@ class_name GDGraphEditor
 # GDDialogueData
 export var dialogue_data : Resource
 
+# GDDialogueCursor
+export var cursor : Resource
+
 onready var _main := $MainContainer
 onready var _node_selection := find_node("NodeSelection")
 onready var _state_tree := _main.find_node("ContextStateTree")
+
 
 func _ready() -> void:
 	var port_map : GDPortMap = get_dialogue_graph().port_map()
 	
 	if not dialogue_data:
 		dialogue_data = GDDialogueData.new()
-		dialogue_data.cursor = GDDialogueCursor.new()
+	
+	if not cursor:
+		cursor = GDDialogueCursor.new()
 	
 	# This is to link our cursor port_map with the dialogue_graph port_map, 
 	# since they are passed by reference
-	dialogue_data.cursor.pt = port_map
+	cursor.pt = port_map
 	
 	if not get_dialogue_preview():
 		var standard_view : GDDialogueView = load(
@@ -81,6 +87,12 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 		add_child(dialogue_view)
 		move_child(dialogue_view, 0)
 	
+	dialogue_view.owner = self
+	
+	
+	dialogue_view.connect("next", self, "_on_dialogue_next", [dialogue_view])
+	cursor.connect("skipped", self, "_on_dialogue_next", [dialogue_view])
+	
 	yield(get_tree(), "idle_frame")
 	
 	_node_selection.clear()
@@ -111,7 +123,6 @@ func save(file_path: String) -> void:
 	dialogue_data.view_path = dv.filename
 	
 	var port_map : GDPortMap = get_dialogue_graph().port_map()
-	var cursor : GDDialogueCursor = dialogue_data.cursor
 	
 	cursor.pt = port_map
 	
@@ -135,8 +146,6 @@ func save(file_path: String) -> void:
 	
 	cursor.current = cursor.root
 	
-	dv.set_dialogue_data(dialogue_data)
-	
 	packer.pack(self)
 	
 	ResourceSaver.save(file_path, packer)
@@ -156,8 +165,8 @@ func _on_graph_node_added(gn: GDGraphNode) -> void:
 	dialogue_data.data_table[node_name] = gn.get_save_data()
 	
 	if gn is GDStartGN:
-		dialogue_data.cursor.root = node_name
-		dialogue_data.cursor.current = node_name
+		cursor.root = node_name
+		cursor.current = node_name
 	
 	gn.connect("value_updated", self, "_on_graph_node_value_updated", [gn])
 
@@ -170,3 +179,7 @@ func _on_graph_node_removed(node_name: String) -> void:
 # Only matters in editor
 func _on_graph_node_value_updated(gn: GDGraphNode) -> void:
 	dialogue_data.data_table[gn.name] = gn.get_save_data()
+
+
+func _on_dialogue_next(dv: GDDialogueView) -> void:
+	Gaelog.render_data(dv, dialogue_data, cursor)

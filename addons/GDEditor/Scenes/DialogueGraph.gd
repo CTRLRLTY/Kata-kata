@@ -13,7 +13,7 @@ signal graph_node_removed(node_name)
 export var s_connection_list : Array
 
 # GDPortMap
-export var s_port_map : Resource 
+export var pt : Resource 
 
 var _selected_nodes := []
 var _copy_buffer := []
@@ -43,7 +43,8 @@ func _ready() -> void:
 	add_valid_left_disconnect_type(PortRect.PortType.FLOW)
 	add_valid_left_disconnect_type(PortRect.PortType.UNIVERSAL)
 	
-	s_port_map = GDPortMap.create(s_port_map) 
+	if not pt:
+		pt = GDPortMap.new()
 	
 	port_map().connect("connected", self, "_on_node_connected")
 	port_map().connect("disconnected", self, "_on_node_disconnected")
@@ -66,12 +67,15 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 			if child is GDStartGN:
 				printerr("GraphEdit already has a StartNode")
 				return
-	elif gn is GDEndGN:
-		gn.set_depth(1)
 	
 	emit_signal("graph_node_add", gn)
 	
 	add_child(gn)
+	
+	var node_name := gn.name
+	
+	if gn is GDEndGN:
+		port_map().set_node_depth(node_name, 1) 
 	
 	gn.owner = owner
 	gn.offset = (scroll_offset + position) / zoom
@@ -81,7 +85,7 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 
 
 func port_map() -> GDPortMap:
-	return s_port_map as GDPortMap
+	return pt as GDPortMap
 
 
 func save() -> void:
@@ -93,7 +97,6 @@ func _chain_depth_update(old_depth: int, new_depth: int, prev_node : GDGraphNode
 	var node_name := prev_node.name
 	var node_depth := port_map().get_node_depth(node_name)
 	port_map().set_node_depth(prev_node.name, node_depth + new_depth - old_depth)
-	
 
 
 func _on_connection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
@@ -184,8 +187,9 @@ func _on_node_disconnected(from: String, from_slot: int, to: String, to_slot: in
 		var to_node : GDGraphNode = get_node(to)
 		var from_depth := port_map().get_node_depth(from)
 		var to_depth := port_map().get_node_depth(to)
+		var depth := from_depth - to_depth
 		
-		port_map().set_node_depth(from , from_depth - to_depth)
+		port_map().set_node_depth(from , depth)
 	
 		if to_node.is_connected("depth_updated", self, "_chain_depth_update"):
 			to_node.disconnect("depth_updated", self, "_chain_depth_update")

@@ -1,3 +1,5 @@
+tool
+
 extends Reference
 
 class_name GDDialogueReader

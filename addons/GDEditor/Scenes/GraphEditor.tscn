@@ -9,6 +9,27 @@
 [ext_resource path="res://addons/GDEditor/Resources/Custom/GDDialogueData.gd" type="Script" id=7]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.tscn" type="PackedScene" id=8]
 
+[sub_resource type="Resource" id=5]
+script = ExtResource( 7 )
+data_table = {
+"End": null,
+"Message": {
+"character": null,
+"expression": null,
+"text": "asd"
+},
+"Start": null
+}
+reader_table = {
+"End": [ Object(Reference,"script":Resource( "res://addons/GDEditor/Readers/GDEndReader.gd" ))
+ ],
+"Message": [ Object(Reference,"script":Resource( "res://addons/GDEditor/Readers/GDMessageReader.gd" ))
+ ],
+"Start": [ Object(Reference,"script":Resource( "res://addons/GDEditor/Readers/GDStartReader.gd" ))
+ ]
+}
+view_path = "res://addons/GDEditor/Views/GDStandardView.tscn"
+
 [sub_resource type="Resource" id=6]
 script = ExtResource( 4 )
 table = {
@@ -16,20 +37,11 @@ table = {
 depth = {
 }
 
-[sub_resource type="Resource" id=4]
+[sub_resource type="Resource" id=7]
 script = ExtResource( 5 )
 root = ""
 current = ""
 pt = SubResource( 6 )
-
-[sub_resource type="Resource" id=5]
-script = ExtResource( 7 )
-cursor = SubResource( 4 )
-data_table = {
-}
-reader_table = {
-}
-view_path = ""
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
@@ -44,6 +56,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 dialogue_data = SubResource( 5 )
+cursor = SubResource( 7 )
 
 [node name="MainContainer" type="HSplitContainer" parent="."]
 margin_right = 1024.0
@@ -129,7 +142,7 @@ StateColumnTitle = "Dialogue States"
 
 [node name="DialogueGraph" parent="MainContainer" instance=ExtResource( 8 )]
 scroll_offset = Vector2( -14, -270 )
-s_port_map = SubResource( 6 )
+pt = SubResource( 6 )
 
 [connection signal="graph_node_add" from="MainContainer/DialogueGraph" to="." method="_on_graph_node_add"]
 [connection signal="graph_node_added" from="MainContainer/DialogueGraph" to="." method="_on_graph_node_added"]

@@ -20,8 +20,11 @@ var _dialogue_data : GDDialogueData
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed:
+			if _blocked:
+				return
+			
 			if event.button_index == BUTTON_LEFT:
-				next()
+				emit_signal("next")
 
 
 func get_view_name() -> String:
@@ -58,7 +61,6 @@ func get_reader_table() -> Dictionary:
 			scene.free()
 	
 	return reader_table
-
 
 
 func get_components() -> Array:
@@ -119,44 +121,18 @@ func set_dialogue_graph(dgraph: GraphEdit) -> void:
 	_dgraph = dgraph
 
 
-func set_dialogue_data(data: GDDialogueData) -> void:
-	_dialogue_data = data
-	
-	var cursor : GDDialogueCursor = _dialogue_data.cursor
-	
-	if not cursor.is_connected("skipped", self, "__on_cursor_skipped"):
-		cursor.connect("skipped", self , "__on_cursor_skipped")
-
-
 func block_next(block: bool) -> void:
 	_blocked = block
 
 
-func render_node(node_name: String, cursor: GDDialogueCursor) -> void:
-	assert(_dialogue_data, "_dialogue_data must be set before calling render_node()")
-	
-	var data = _dialogue_data.data_table[node_name]
-	var readers = _dialogue_data.reader_table
-	
-	for reader in readers[node_name]:
-		reader.render(data, self, cursor)
-
-
-func next() -> void:
-	if not _dialogue_data:
-		print_debug("_dialogue_data must be set before calling next()")
-		return
-	
-	if _blocked:
-		return
-	
-	var cursor : GDDialogueCursor = _dialogue_data.cursor
-	
-	var node_name := cursor.current
-	
-	render_node(node_name, cursor)
-	
-	emit_signal("next")
+#func render_node(node_name: String, cursor: GDDialogueCursor) -> void:
+#	assert(_dialogue_data, "_dialogue_data must be set before calling render_node()")
+#
+#	var data = _dialogue_data.data_table[node_name]
+#	var readers = _dialogue_data.reader_table
+#
+#	for reader in readers[node_name]:
+#		reader.render(data, self, cursor)
 
 
 func select_choice(idx: int) -> void:
@@ -193,7 +169,3 @@ func _dialogue_components() -> Array:
 
 func _tool_buttons() -> Array:
 	return []
-
-
-func __on_cursor_skipped():
-	next()

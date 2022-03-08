@@ -1,7 +1,21 @@
+tool
+
 extends Node
 
 signal event(event_name)
 signal dialogue_end
+
+
+static func render_data(dv: GDDialogueView, data: GDDialogueData, cursor: GDDialogueCursor) -> void:
+	var node_name := cursor.current
+	var d = data.data_table[node_name]
+	var readers = data.reader_table[node_name]
+	
+	print_debug("rendering %s" % node_name)
+	
+	for reader in readers:
+		reader.render(d, dv, cursor)
+
 
 var view_layer : int setget set_view_layer, get_view_layer
 
