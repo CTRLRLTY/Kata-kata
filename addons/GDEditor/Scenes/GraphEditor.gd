@@ -42,7 +42,9 @@ func get_dialogue_preview() -> GDDialogueView:
 
 
 func get_dialogue_graph() -> DialogueGraph:
-	return _main.get_child(1) as DialogueGraph
+	var gd := _main.get_child(1) as DialogueGraph
+	
+	return gd
 
 
 func get_state_tree() -> GDContextStateTree:
@@ -136,7 +138,7 @@ func save(file_path: String) -> void:
 	dv.set_dialogue_data(dialogue_data)
 	
 	packer.pack(self)
-
+	
 	ResourceSaver.save(file_path, packer)
 	ResourceSaver.save(GDUtil.get_save_dir()+"test.tres", dialogue_data)
 

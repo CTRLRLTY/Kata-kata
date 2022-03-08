@@ -1,29 +1,22 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/GDEditor/Resources/Styleboxes/ButtonDarkBG.stylebox" type="StyleBox" id=2]
-[ext_resource path="res://addons/GDEditor/Components/Attachments/ChoiceEditRect.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/GDEditor/Components/GDChoiceGN.gd" type="Script" id=4]
 
 [node name="Choice" type="GraphNode"]
 margin_left = 15.0
 margin_top = 15.0
 margin_right = 240.0
-margin_bottom = 114.0
+margin_bottom = 78.0
 mouse_filter = 1
 custom_constants/separation = 15
 title = "Branch[0]"
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color( 0.129412, 0.54902, 0.129412, 1 )
-slot/0/right_enabled = true
+slot/0/right_enabled = false
 slot/0/right_type = 0
 slot/0/right_color = Color( 0.129412, 0.54902, 0.129412, 1 )
-slot/1/left_enabled = false
-slot/1/left_type = 0
-slot/1/left_color = Color( 0.129412, 0.54902, 0.129412, 1 )
-slot/1/right_enabled = false
-slot/1/right_type = 0
-slot/1/right_color = Color( 0.13, 0.55, 0.13, 1 )
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false,
@@ -32,20 +25,20 @@ __meta__ = {
 }
 s_choices = PoolStringArray( "" )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="Header" type="HBoxContainer" parent="."]
 margin_left = 16.0
 margin_top = 24.0
 margin_right = 209.0
 margin_bottom = 48.0
 mouse_filter = 2
 
-[node name="Title" type="Label" parent="HBoxContainer"]
+[node name="Title" type="Label" parent="Header"]
 margin_top = 5.0
 margin_right = 50.0
 margin_bottom = 19.0
 text = "Choices"
 
-[node name="AddChoice" type="Button" parent="HBoxContainer"]
+[node name="AddChoice" type="Button" parent="Header"]
 margin_left = 111.0
 margin_right = 193.0
 margin_bottom = 24.0
@@ -53,17 +46,4 @@ size_flags_horizontal = 10
 custom_styles/normal = ExtResource( 2 )
 text = "Add Choice"
 
-[node name="MainChoice" parent="." instance=ExtResource( 3 )]
-margin_left = 16.0
-margin_top = 63.0
-margin_right = 209.0
-margin_bottom = 91.0
-
-[node name="LineEdit" parent="MainChoice" index="0"]
-margin_right = 193.0
-margin_bottom = 28.0
-
-[connection signal="pressed" from="HBoxContainer/AddChoice" to="." method="_on_AddChoice_pressed"]
-[connection signal="text_changed" from="MainChoice/LineEdit" to="." method="_on_MainChoiceEdit_text_changed"]
-
-[editable path="MainChoice"]
+[connection signal="pressed" from="Header/AddChoice" to="." method="_on_AddChoice_pressed"]

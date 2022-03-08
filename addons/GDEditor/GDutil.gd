@@ -70,6 +70,13 @@ static func get_editor_interface() -> EditorInterface:
 	return null
 
 
+static func get_inspector() -> EditorInspector:
+	if get_editor_interface():
+		return get_editor_interface().get_inspector()
+	
+	return null
+
+
 static func get_file_system_dock() -> FileSystemDock:
 	var editor_plugin := get_editor_plugin()
 	
