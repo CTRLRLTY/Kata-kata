@@ -116,18 +116,20 @@ func save(file_path: String) -> void:
 	# Last update
 	for gn in dg.get_children():
 		if gn is GDGraphNode:
+			var node_name : String = gn.name
 			
 			# disconnect dangling nodes
 			if gn.get_depth() == 0:
-				port_map.clear_left(gn.name)
+				port_map.clear_left(node_name)
 			
-			dialogue_data.data_table[gn.name] = gn.get_save_data()
+			dialogue_data.data_table[node_name] = gn.get_save_data()
 			
 			if gn is GDStartGN:
-				cursor.root = gn.name
+				if port_map.right_connected(node_name, 0):
+					cursor.root = node_name
+				else:
+					port_map.set_node_depth(node_name, 0)
 	
-#	if cursor.root.empty():
-#		c
 	
 	cursor.current = cursor.root
 	
