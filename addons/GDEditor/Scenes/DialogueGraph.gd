@@ -42,9 +42,8 @@ func _ready() -> void:
 	
 	add_valid_left_disconnect_type(PortRect.PortType.FLOW)
 	add_valid_left_disconnect_type(PortRect.PortType.UNIVERSAL)
-	
-	if not pt:
-		pt = GDPortMap.new()
+
+	pt = GDPortMap.create(pt)
 	
 	port_map().connect("connected", self, "_on_node_connected")
 	port_map().connect("disconnected", self, "_on_node_disconnected")
@@ -74,13 +73,15 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 	
 	var node_name := gn.name
 	
-	if gn is GDEndGN:
-		port_map().set_node_depth(node_name, 1) 
-	
 	gn.owner = owner
 	gn.offset = (scroll_offset + position) / zoom
 	
+	if gn is GDEndGN:
+		port_map().set_node_depth(node_name, 1) 
+	
+	
 	yield(get_tree(), "idle_frame")
+	
 	emit_signal("graph_node_added", gn)
 
 

@@ -2,14 +2,7 @@
 
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.gd" type="Script" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/DGPopupMenu.gd" type="Script" id=2]
-[ext_resource path="res://addons/GDEditor/Resources/Custom/GDPortMap.gd" type="Script" id=3]
 
-[sub_resource type="Resource" id=1]
-script = ExtResource( 3 )
-table = {
-}
-depth = {
-}
 
 [node name="DialogueGraph" type="GraphEdit"]
 margin_left = 226.0
@@ -25,7 +18,6 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-s_port_map = SubResource( 1 )
 
 [node name="DGPopupMenu" type="PopupMenu" parent="."]
 margin_right = 20.0

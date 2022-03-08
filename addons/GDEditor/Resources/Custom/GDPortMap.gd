@@ -244,4 +244,4 @@ func set_node_depth(node_name: String, depth: int) -> void:
 
 
 func get_node_depth(node_name: String) -> int:
-	return depth.get(node_name, -1)
+	return depth.get(node_name, 0)
