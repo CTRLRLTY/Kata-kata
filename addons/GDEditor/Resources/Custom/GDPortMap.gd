@@ -8,6 +8,7 @@ enum {
 
 signal connected(from, from_slot, to, to_slot)
 signal disconnected(from, from_slot, to, to_slot)
+signal depth_set(node_name, depth)
 
 
 static func create(pm : Resource = null):
@@ -232,3 +233,13 @@ func copy():
 	pt.table = table.duplicate(true)
 	
 	return pt
+
+
+func set_node_depth(node_name: String, depth: int) -> void:
+	self.depth[node_name] = depth
+	
+	emit_signal("depth_set", node_name, depth)
+
+
+func get_node_depth(node_name: String) -> int:
+	return depth.get(node_name, -1)

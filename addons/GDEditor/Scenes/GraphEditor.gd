@@ -109,13 +109,15 @@ func save(file_path: String) -> void:
 	dialogue_data.view_path = dv.filename
 	
 	var port_map : GDPortMap = get_dialogue_graph().port_map()
-	var cursor = dialogue_data.cursor
+	var cursor : GDDialogueCursor = dialogue_data.cursor
 	
 	cursor.pt = port_map
 	
 	# Last update
 	for gn in dg.get_children():
 		if gn is GDGraphNode:
+			
+			# disconnect dangling nodes
 			if gn.get_depth() == 0:
 				port_map.clear_left(gn.name)
 			
@@ -123,6 +125,9 @@ func save(file_path: String) -> void:
 			
 			if gn is GDStartGN:
 				cursor.root = gn.name
+	
+#	if cursor.root.empty():
+#		c
 	
 	cursor.current = cursor.root
 	
