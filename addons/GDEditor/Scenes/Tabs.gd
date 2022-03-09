@@ -42,10 +42,7 @@ func _on_tab_close(tab: int) -> void:
 	if $NameEdit.visible:
 		return
 
-	if current_tab == tab:
-		remove_tab(tab)
-	else:
-		current_tab = tab
+	remove_tab(tab)
 	
 	emit_signal("tab_closed", tab)
 
