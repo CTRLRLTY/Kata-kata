@@ -42,7 +42,7 @@ func _add_choice(value := "") -> void:
 	flowport.connect("remove_choice", self, "_remove_choice_edit", [flowport, edits], CONNECT_ONESHOT)
 	flowport.connect("tree_exited", self, "_readjust_rect_size", [], CONNECT_ONESHOT)
 	
-	edits.connect("text_changed", self, "_on_choice_edit_text_changed", [edits])
+	edits.connect("text_changed", self, "_on_choice_text_changed", [edits])
 	
 	add_child(flowport)
 	add_child(edits)
@@ -52,6 +52,7 @@ func _add_choice(value := "") -> void:
 	edits.owner = owner
 	
 	s_choices.append(value)
+	update_value()
 
 
 func _on_AddChoice_pressed() -> void:
@@ -76,11 +77,8 @@ func _readjust_rect_size() -> void:
 	rect_size.y = _original_height
 
 
-func _on_MainChoiceEdit_text_changed(new_text: String) -> void:
-	s_choices[0] = new_text
-
-
-func _on_choice_edit_text_changed(new_text: String, edit: LineEdit)  -> void:
+func _on_choice_text_changed(new_text: String, edit: LineEdit) -> void:
 	var index : int = _choice_index(edit)
 	
 	s_choices[index] = new_text
+	update_value()

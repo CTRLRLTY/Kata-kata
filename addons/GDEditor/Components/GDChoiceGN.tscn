@@ -23,7 +23,6 @@ __meta__ = {
 "branch": 0,
 "depth": 0
 }
-s_choices = PoolStringArray( "" )
 
 [node name="Header" type="HBoxContainer" parent="."]
 margin_left = 16.0
