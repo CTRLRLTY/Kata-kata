@@ -5,7 +5,7 @@ extends Resource
 class_name GDDialogueData
 
 # GDPortMap
-export var s_port_map : Resource
+export var s_port_map : Resource = null
 
 export var data_table : Dictionary
 

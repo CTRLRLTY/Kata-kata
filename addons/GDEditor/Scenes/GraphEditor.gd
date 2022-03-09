@@ -8,7 +8,7 @@ class_name GDGraphEditor
 export var dialogue_data : Resource = null
 
 # GDDialogueCursor
-export var cursor : Resource = null 
+export var cursor : Resource = null
 
 onready var _main := $MainContainer
 onready var _node_selection := find_node("NodeSelection")

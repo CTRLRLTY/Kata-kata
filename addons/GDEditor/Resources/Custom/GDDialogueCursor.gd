@@ -34,7 +34,7 @@ static func create(cursor: Resource = null):
 
 export var root : String 
 export var current : String 
-export var pt : Resource 
+export var pt : Resource = null
 
 
 func reset() -> void:

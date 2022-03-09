@@ -4,7 +4,7 @@ extends GDGraphNode
 
 class_name GDSetterGN
 
-export var s_state : Resource = ContextStateData.new()
+export var s_state : Resource = null
 
 onready var _member_option := find_node("MemberOption")
 onready var _state_dialog := find_node("ContextStateDialog")

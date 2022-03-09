@@ -13,7 +13,6 @@ signal character_renamed(character_data)
 #	-> CharacterData: [GDCharacterJoinGN, ...]
 export var s_joined_claims : Dictionary
 
-
 onready var _character_left := find_node("CharacterLeft")
 onready var _character_right := find_node("CharacterRight")
 onready var _choice_container := find_node("ChoiceContainer")

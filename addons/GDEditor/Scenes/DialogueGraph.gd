@@ -13,7 +13,7 @@ signal graph_node_removed(node_name)
 export var s_connection_list : Array
 
 # GDPortMap
-export var pt : Resource 
+export var pt : Resource = null
 
 var _selected_nodes := []
 var _copy_buffer := []

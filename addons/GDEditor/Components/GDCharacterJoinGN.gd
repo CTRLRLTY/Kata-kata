@@ -13,7 +13,7 @@ enum CharacterPosition {
 
 export var s_character_offset := 0
 # CharacterData
-export var s_previous_selected_character : Resource
+export var s_previous_selected_character : Resource = null
 
 
 onready var _position_btn := find_node("PositionBtn")
