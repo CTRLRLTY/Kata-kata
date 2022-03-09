@@ -4,9 +4,17 @@ extends Resource
 
 class_name GDDialogueCursor
 
-signal prev
+signal reset
 signal next
 signal skipped
+signal end
+
+enum {
+	OK = OK,
+	ERR_NO_FLOWPORT,
+	ERR_NO_CONNECTION,
+	ERR_END_REACHED
+}
 
 
 static func create(cursor: Resource = null):
@@ -33,20 +41,34 @@ export var pt : Resource
 
 func reset() -> void:
 	current = root
+	emit_signal("reset")
 
 
 func skip(port : int) -> void:
-	next(port)
-	emit_signal("skipped")
+	print_debug("Skipping %s" % current)
+	if next(port) == OK:
+		print_debug("%s skipped" % current)
+		emit_signal("skipped")
 
 
-func next(port : int) -> void:
+func end() -> void:
+	current = ""
+	print_debug("Ending cursor...")
+	emit_signal("end")
+
+
+func next(port : int) -> int:
 	if current.empty():
-		return
+		print_debug("Cursor end reached...")
+		end()
+		return ERR_END_REACHED
 	
 	var flow_ports := port_map().right_type_all_port(current, pt.PORT_FLOW)
 	
-	assert(not flow_ports.empty(), "%s has no flow port" % current)
+	if flow_ports.empty():
+		print_debug("%s has no flowport. Resetting..." % current)
+		reset()
+		return ERR_NO_FLOWPORT
 	
 	# use a correct port instead
 	if not flow_ports.has(port):
@@ -61,17 +83,18 @@ func next(port : int) -> void:
 			if not flow_ports[p].empty():
 				port = p
 		
-		assert(port != -1, "%s has not output flow port connection")
+		if port == -1:
+			print_debug("%s has no output flowport connection. Resetting..." % current)
+			reset()
+			return ERR_NO_CONNECTION
 	
 	var nodes := port_map().right_type_port_connection(current, pt.PORT_FLOW, port).keys()
 	current = nodes.front() if nodes.front() else ""
 	
 	emit_signal("next")
+	
+	return OK
 
 
 func port_map() -> GDPortMap:
 	return GDPortMap.create(pt)
-
-
-func is_end() -> bool:
-	return current.empty()

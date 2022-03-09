@@ -25,6 +25,9 @@ static func create(pm : Resource = null):
 	
 	var port_map = script.new()
 	
+	var table : Dictionary = pm.table
+	var depth : Dictionary = pm.depth
+	
 	port_map.table = pm.table
 	port_map.depth = pm.depth
 	

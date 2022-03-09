@@ -33,6 +33,8 @@ func _ready() -> void:
 				GDUtil.resolve("GDStandardView.tscn")).instance()
 		
 		set_dialogue_preview(standard_view)
+	else:
+		_setup_preview()
 	
 	get_dialogue_graph().owner = self
 	
@@ -89,22 +91,13 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 	
 	dialogue_view.owner = self
 	
-	
 	dialogue_view.connect("next", self, "_on_dialogue_next", [dialogue_view])
-	cursor.connect("skipped", self, "_on_dialogue_next", [dialogue_view])
 	
 	yield(get_tree(), "idle_frame")
 	
 	_node_selection.clear()
 	
-	for component in dialogue_view.get_components():
-		var component_scene : PackedScene = component.scene
-		
-		var idx : int = _node_selection.get_item_count()
-		var gn : GDGraphNode = component_scene.instance()
-		
-		_node_selection.add_item(component.name)
-		_node_selection.set_item_metadata(idx, component_scene)
+	_setup_preview()
 
 
 func save(file_path: String) -> void:
@@ -143,13 +136,30 @@ func save(file_path: String) -> void:
 				else:
 					port_map.set_node_depth(node_name, 0)
 	
-	
 	cursor.current = cursor.root
 	
 	packer.pack(self)
 	
 	ResourceSaver.save(file_path, packer)
 	ResourceSaver.save(GDUtil.get_save_dir()+"test.tres", dialogue_data)
+
+
+func _setup_preview() -> void:
+	var dialogue_view := get_dialogue_preview()
+	dialogue_view.set_dialogue_graph(get_dialogue_graph())
+	
+	cursor.connect("skipped", self, "_on_dialogue_next", [dialogue_view])
+	cursor.connect("reset", self, "_on_cursor_reset", [dialogue_view])
+	cursor.connect("end", self, "_on_cursor_end", [dialogue_view])
+	
+	for component in dialogue_view.get_components():
+		var component_scene : PackedScene = component.scene
+		
+		var idx : int = _node_selection.get_item_count()
+		var gn : GDGraphNode = component_scene.instance()
+		
+		_node_selection.add_item(component.name)
+		_node_selection.set_item_metadata(idx, component_scene)
 
 
 func _on_graph_node_add(gn: GDGraphNode) -> void:
@@ -182,4 +192,15 @@ func _on_graph_node_value_updated(gn: GDGraphNode) -> void:
 
 
 func _on_dialogue_next(dv: GDDialogueView) -> void:
+	cursor.pt = get_dialogue_graph().port_map()
+	
 	Gaelog.render_data(dv, dialogue_data, cursor)
+
+
+func _on_cursor_reset(dv: GDDialogueView) -> void:
+	dv.reset()
+
+
+func _on_cursor_end(dv: GDDialogueView) -> void:
+	cursor.reset()
+	dv.reset()

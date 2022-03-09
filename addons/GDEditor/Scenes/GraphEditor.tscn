@@ -30,7 +30,7 @@ reader_table = {
 }
 view_path = "res://addons/GDEditor/Views/GDStandardView.tscn"
 
-[sub_resource type="Resource" id=6]
+[sub_resource type="Resource" id=8]
 script = ExtResource( 4 )
 table = {
 }
@@ -39,9 +39,9 @@ depth = {
 
 [sub_resource type="Resource" id=7]
 script = ExtResource( 5 )
-root = ""
-current = ""
-pt = SubResource( 6 )
+root = "Start"
+current = "Start"
+pt = SubResource( 8 )
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
@@ -142,7 +142,7 @@ StateColumnTitle = "Dialogue States"
 
 [node name="DialogueGraph" parent="MainContainer" instance=ExtResource( 8 )]
 scroll_offset = Vector2( -14, -270 )
-pt = SubResource( 6 )
+pt = SubResource( 8 )
 
 [connection signal="graph_node_add" from="MainContainer/DialogueGraph" to="." method="_on_graph_node_add"]
 [connection signal="graph_node_added" from="MainContainer/DialogueGraph" to="." method="_on_graph_node_added"]
