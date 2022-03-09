@@ -46,8 +46,9 @@ func add_editor(graph_editor: GDGraphEditor, idx := -1) -> void:
 
 
 func remove_editor(idx: int) -> void:
-	if idx >= 0 and idx < get_child_count():
-		get_child(idx).queue_free()
+	assert(idx >= 0 and idx < get_child_count(), "Out of bound index")
+	
+	get_child(idx).queue_free()
 
 
 func save_editor(idx: int, file_name: String) -> void:

@@ -91,16 +91,21 @@ func _on_tab_changed(tab: int) -> void:
 
 
 func _on_tab_closed(tab) -> void:
+	var editor : GDGraphEditor = _graph_editor_container.get_editor(tab)
+	
 	_graph_editor_container.remove_editor(tab)
 	
-	# Wait till editor is removed
-	yield(get_tree(), "idle_frame")
+	# wait till editor is deleted
+	while is_instance_valid(editor):
+		yield(get_tree(), "idle_frame")
+	
 	
 	if _tabs.get_tab_count() == 0:
 		add_empty_tab()
 		
 		# Wait till tab is added
-		yield(get_tree(), "idle_frame")
+		while _tabs.get_tab_count() == 0:
+			yield(get_tree(), "idle_frame")
 	
 	change_tab(_tabs.current_tab)
 
