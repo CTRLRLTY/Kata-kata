@@ -11,11 +11,6 @@ func get_editor(idx: int) -> GDGraphEditor:
 
 
 func get_active_editor() -> GDGraphEditor:
-#	for child in get_children():
-#		if child.visible:
-#			return child
-#
-#	return null
 	var tabs : Tabs = GDUtil.get_dialogue_editor().get_tabs()
 	
 	return get_editor(tabs.current_tab) 
@@ -51,7 +46,7 @@ func add_editor(graph_editor: GDGraphEditor, idx := -1) -> void:
 
 
 func remove_editor(idx: int) -> void:
-	if idx > 0 and idx < get_child_count():
+	if idx >= 0 and idx < get_child_count():
 		get_child(idx).queue_free()
 
 

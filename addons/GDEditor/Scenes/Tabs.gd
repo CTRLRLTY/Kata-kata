@@ -32,7 +32,10 @@ func _gui_input(event: InputEvent) -> void:
 
 func add_tab(title := "", icon: Texture = null) -> void:
 	.add_tab(title, icon)
-	emit_signal("tab_changed", get_tab_count() - 1)
+	
+	current_tab = get_tab_count() - 1
+	
+	emit_signal("tab_changed", current_tab)
 
 
 func _on_tab_close(tab: int) -> void:
@@ -43,10 +46,6 @@ func _on_tab_close(tab: int) -> void:
 		remove_tab(tab)
 	else:
 		current_tab = tab
-		
-	if not get_tab_count():
-		add_tab("[empty]")
-		current_tab = 0
 	
 	emit_signal("tab_closed", tab)
 

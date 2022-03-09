@@ -14,8 +14,7 @@ func _ready() -> void:
 	GDUtil.set_dialogue_editor(self)
 	
 	if not _graph_editor_container.get_editor_count():
-		_add_graph_editor(load(GDUtil.resolve("GraphEditor.tscn")).instance(), "[empty]")
-
+		add_empty_tab()
 
 
 func get_graph_editor_container() -> GDGraphEditorContainer:
@@ -30,6 +29,10 @@ func get_tools_container() -> Control:
 	return _tools_container as Control
 
 
+func add_empty_tab() -> void:
+	_add_graph_editor(load(GDUtil.resolve("GraphEditor.tscn")).instance(), "[empty]")
+	
+
 func _add_graph_editor(graph_editor: GDGraphEditor, tab_name: String, tab_index := -1) -> void:
 	_graph_editor_container.add_editor(graph_editor)
 	# wait till editor is added
@@ -41,7 +44,6 @@ func _add_graph_editor(graph_editor: GDGraphEditor, tab_name: String, tab_index 
 	_tabs.set_current_tab(current_tab)
 	_graph_editor_container.show_editor(current_tab)
 	
-	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
 	print_debug("Added GDGraphEditor to graph_editor_container")
 
 
@@ -77,8 +79,6 @@ func _on_open_dialogue(graph_editor: GDGraphEditor) -> void:
 
 func _on_tab_changed(tab: int) -> void:
 	_tools_container.clear_tools()
-	var previous_dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(
-			_graph_editor_container.get_active_editor().get_index())
 	
 	_graph_editor_container.show_editor(tab)
 	
@@ -88,6 +88,13 @@ func _on_tab_changed(tab: int) -> void:
 
 func _on_tab_closed(tab) -> void:
 	_graph_editor_container.remove_editor(tab)
+	
+	if _tabs.get_tab_count() == 0:
+		add_empty_tab()
+		
+		# wait till tab is added
+		yield(get_tree(), "idle_frame")
+	
 	_graph_editor_container.show_editor(_tabs.current_tab)
 
 
