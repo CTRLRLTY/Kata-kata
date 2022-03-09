@@ -65,8 +65,7 @@ func _on_preview_dialogue() -> void:
 	var ge : GDGraphEditor = _graph_editor_container.get_active_editor()
 	var dv = ge.get_dialogue_preview()
 	
-	if not dv.visible:
-		dv.show()
+	dv.visible = not dv.visible
 
 
 func _on_open_dialogue(graph_editor: GDGraphEditor) -> void:
