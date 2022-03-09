@@ -4,6 +4,12 @@ extends Control
 
 class_name GDDialogueView
 
+enum {
+	OK = OK,
+	ERR_BLOCKED
+}
+
+
 signal next
 
 signal choice_selected(idx)
@@ -20,11 +26,16 @@ var _dialogue_data : GDDialogueData
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed:
-			if _blocked:
-				return
-			
 			if event.button_index == BUTTON_LEFT:
-				emit_signal("next")
+				next()
+
+
+func next() -> int:
+	if _blocked:
+		return ERR_BLOCKED
+		
+	emit_signal("next")
+	return OK
 
 
 func get_view_name() -> String:
@@ -125,14 +136,15 @@ func block_next(block: bool) -> void:
 	_blocked = block
 
 
-#func render_node(node_name: String, cursor: GDDialogueCursor) -> void:
-#	assert(_dialogue_data, "_dialogue_data must be set before calling render_node()")
-#
-#	var data = _dialogue_data.data_table[node_name]
-#	var readers = _dialogue_data.reader_table
-#
-#	for reader in readers[node_name]:
-#		reader.render(data, self, cursor)
+func render_data(data: GDDialogueData, cursor: GDDialogueCursor) -> void:
+	var node_name := cursor.current
+	var d = data.data_table[node_name]
+	var readers = data.reader_table[node_name]
+	
+	print_debug("rendering %s" % node_name)
+	
+	for reader in readers:
+		reader.render(d, self, cursor)
 
 
 func select_choice(idx: int) -> void:

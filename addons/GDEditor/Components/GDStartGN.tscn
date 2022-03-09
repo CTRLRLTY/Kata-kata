@@ -9,7 +9,7 @@ margin_right = 193.0
 margin_bottom = 72.0
 rect_min_size = Vector2( 140, 66 )
 mouse_filter = 1
-title = "Dialogue Root"
+title = "Dialogue Root[0]"
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color( 0.129412, 0.54902, 0.129412, 1 )
@@ -19,7 +19,8 @@ slot/0/right_color = Color( 0.129412, 0.54902, 0.129412, 1 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false,
-"branch_index": 0
+"branch_index": 0,
+"depth": 0
 }
 
 [node name="Label" type="Label" parent="."]

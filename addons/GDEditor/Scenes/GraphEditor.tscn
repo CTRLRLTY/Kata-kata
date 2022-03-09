@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/GraphEditor.gd" type="Script" id=1]
 [ext_resource path="res://addons/GDEditor/Resources/Icons/Search.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://addons/GDEditor/Scenes/ContextStateTree.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/GDEditor/Resources/Custom/GDDialogueData.gd" type="Script" id=7]
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/GDEditor/Views/GDStandardView.tscn" type="PackedScene" id=10]
 
 [sub_resource type="Resource" id=5]
 script = ExtResource( 7 )
@@ -57,6 +58,11 @@ __meta__ = {
 }
 dialogue_data = SubResource( 5 )
 cursor = SubResource( 7 )
+
+[node name="StandardView" parent="." instance=ExtResource( 10 )]
+visible = false
+s_joined_claims = {
+}
 
 [node name="MainContainer" type="HSplitContainer" parent="."]
 margin_right = 1024.0

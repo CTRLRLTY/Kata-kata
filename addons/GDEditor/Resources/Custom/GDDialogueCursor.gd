@@ -5,8 +5,6 @@ extends Resource
 class_name GDDialogueCursor
 
 signal reset
-signal next
-signal skipped
 signal end
 
 enum {
@@ -42,13 +40,6 @@ export var pt : Resource
 func reset() -> void:
 	current = root
 	emit_signal("reset")
-
-
-func skip(port : int) -> void:
-	print_debug("Skipping %s" % current)
-	if next(port) == OK:
-		print_debug("%s skipped" % current)
-		emit_signal("skipped")
 
 
 func end() -> void:
@@ -90,8 +81,6 @@ func next(port : int) -> int:
 	
 	var nodes := port_map().right_type_port_connection(current, pt.PORT_FLOW, port).keys()
 	current = nodes.front() if nodes.front() else ""
-	
-	emit_signal("next")
 	
 	return OK
 

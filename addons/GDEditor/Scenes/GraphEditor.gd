@@ -28,6 +28,9 @@ func _ready() -> void:
 	# since they are passed by reference
 	cursor.pt = port_map
 	
+	cursor.connect("reset", self, "_on_cursor_reset")
+	cursor.connect("end", self, "_on_cursor_end")
+	
 	if not get_dialogue_preview():
 		var standard_view : GDDialogueView = load(
 				GDUtil.resolve("GDStandardView.tscn")).instance()
@@ -91,11 +94,7 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 	
 	dialogue_view.owner = self
 	
-	dialogue_view.connect("next", self, "_on_dialogue_next", [dialogue_view])
-	
 	yield(get_tree(), "idle_frame")
-	
-	_node_selection.clear()
 	
 	_setup_preview()
 
@@ -145,12 +144,12 @@ func save(file_path: String) -> void:
 
 
 func _setup_preview() -> void:
+	_node_selection.clear()
+	
 	var dialogue_view := get_dialogue_preview()
 	dialogue_view.set_dialogue_graph(get_dialogue_graph())
 	
-	cursor.connect("skipped", self, "_on_dialogue_next", [dialogue_view])
-	cursor.connect("reset", self, "_on_cursor_reset", [dialogue_view])
-	cursor.connect("end", self, "_on_cursor_end", [dialogue_view])
+	dialogue_view.connect("next", self, "_on_dialogue_next")
 	
 	for component in dialogue_view.get_components():
 		var component_scene : PackedScene = component.scene
@@ -191,16 +190,15 @@ func _on_graph_node_value_updated(gn: GDGraphNode) -> void:
 	dialogue_data.data_table[gn.name] = gn.get_save_data()
 
 
-func _on_dialogue_next(dv: GDDialogueView) -> void:
+func _on_dialogue_next() -> void:
 	cursor.pt = get_dialogue_graph().port_map()
 	
-	Gaelog.render_data(dv, dialogue_data, cursor)
+	get_dialogue_preview().render_data(dialogue_data, cursor)
 
 
-func _on_cursor_reset(dv: GDDialogueView) -> void:
-	dv.reset()
+func _on_cursor_reset() -> void:
+	get_dialogue_preview().reset()
 
 
-func _on_cursor_end(dv: GDDialogueView) -> void:
+func _on_cursor_end() -> void:
 	cursor.reset()
-	dv.reset()
