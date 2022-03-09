@@ -5,10 +5,10 @@ extends VSplitContainer
 class_name GDGraphEditor
 
 # GDDialogueData
-export var dialogue_data : Resource
+export var dialogue_data : Resource = null
 
 # GDDialogueCursor
-export var cursor : Resource
+export var cursor : Resource = null 
 
 onready var _main := $MainContainer
 onready var _node_selection := find_node("NodeSelection")
