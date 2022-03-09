@@ -42,11 +42,20 @@ func get_expression_data() -> CharacterExpressionData:
 
 
 func _on_CharacterSelection_item_selected(index: int) -> void:
-	_expression_selection.clear()
+	_expression_selection.select(0)
+	
+	update_value()
 
 
-func _on_CharacterSelection_character_selected_left() -> void:
-	_expression_selection.clear()
+func _on_CharacterSelection_selected_character_deleted() -> void:
+	_character_selection.select(0)
+	_expression_selection.select(0)
+	
+	update_value()
+
+
+func _on_ExpressionSelection_item_selected(index: int) -> void:
+	update_value()
 
 
 func _on_MessageEdit_text_changed() -> void:

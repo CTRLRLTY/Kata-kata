@@ -16,18 +16,19 @@ func _ready() -> void:
 	yield(get_tree(), "idle_frame")
 	
 	assert(graph_node, "graph_node has to be assigned externally on _ready")
-	assert(graph_node.has_method("get_character_selection"), "graph_node has to implement get_character_selection")
+	
+	if get_item_count() == 0:
+		add_item("None")
 
 
 func _on_pressed() -> void:
-	if graph_node.get_character_selection().selected == -1:
-		return
-		
-	var character_data : CharacterData = graph_node.get_character_selection().get_selected_metadata()
-	
 	var selected_expression : CharacterExpressionData = get_selected_metadata()
 	
 	clear()
+	
+	add_item("None")
+	
+	var character_data : CharacterData = graph_node.get_character_data()
 	
 	if character_data:
 		for expression in character_data.character_expressions:

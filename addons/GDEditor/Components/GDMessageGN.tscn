@@ -2,7 +2,7 @@
 
 [ext_resource path="res://addons/GDEditor/Components/Attachments/FlowPort.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/GDEditor/Components/GDMessageGN.gd" type="Script" id=2]
-[ext_resource path="res://addons/GDEditor/Components/Attachments/CharacterSelectionJoined.gd" type="Script" id=4]
+[ext_resource path="res://addons/GDEditor/Components/Attachments/CharacterSelection.gd" type="Script" id=3]
 [ext_resource path="res://addons/GDEditor/Components/Attachments/ExpressionSelection.gd" type="Script" id=5]
 
 [sub_resource type="Theme" id=4]
@@ -37,7 +37,6 @@ slot/2/right_type = 0
 slot/2/right_color = Color( 0.13, 0.55, 0.13, 1 )
 script = ExtResource( 2 )
 __meta__ = {
-"_edit_use_anchors_": false,
 "branch": 0,
 "depth": 0
 }
@@ -78,7 +77,7 @@ margin_left = 79.0
 margin_right = 232.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
-script = ExtResource( 4 )
+script = ExtResource( 3 )
 
 [node name="Label" type="Label" parent="CharacterSection/GridContainer"]
 margin_top = 33.0
@@ -92,6 +91,9 @@ margin_top = 30.0
 margin_right = 232.0
 margin_bottom = 50.0
 size_flags_horizontal = 3
+text = "None"
+items = [ "None", null, false, 0, null ]
+selected = 0
 script = ExtResource( 5 )
 
 [node name="TextSection" type="HBoxContainer" parent="."]
@@ -132,9 +134,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="character_selected_left" from="CharacterSection/GridContainer/CharacterSelection" to="." method="_on_CharacterSelection_character_selected_left"]
 [connection signal="item_selected" from="CharacterSection/GridContainer/CharacterSelection" to="." method="_on_CharacterSelection_item_selected"]
 [connection signal="pressed" from="CharacterSection/GridContainer/CharacterSelection" to="CharacterSection/GridContainer/CharacterSelection" method="_on_pressed"]
+[connection signal="selected_character_deleted" from="CharacterSection/GridContainer/CharacterSelection" to="." method="_on_CharacterSelection_selected_character_deleted"]
+[connection signal="item_selected" from="CharacterSection/GridContainer/ExpressionSelection" to="." method="_on_ExpressionSelection_item_selected"]
 [connection signal="pressed" from="CharacterSection/GridContainer/ExpressionSelection" to="CharacterSection/GridContainer/ExpressionSelection" method="_on_pressed"]
 [connection signal="toggled" from="TextSection/EditBtn" to="." method="_on_EditBtn_toggled"]
 [connection signal="text_changed" from="TextSection/EditBtn/MessageEdit" to="." method="_on_MessageEdit_text_changed"]

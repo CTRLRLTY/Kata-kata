@@ -12,9 +12,6 @@ enum CharacterPosition {
 
 
 export var s_character_offset := 0
-# CharacterData
-export var s_previous_selected_character : Resource = null
-
 
 onready var _position_btn := find_node("PositionBtn")
 onready var _expand_btn := find_node("ExpandBtn")
@@ -67,18 +64,7 @@ func get_character_selection() -> OptionButton:
 
 
 func _connection_to(graph_node: GDGraphNode, from_slot: int, to_slot: int) -> bool:
-	if not get_character_data():
-		return false
-	
-	get_dialogue_view().character_join(self)
-	
-	return true
-
-
-func _disconnection_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
-	get_dialogue_view().character_left(get_character_data(), self)
-	
-	return true
+	return get_character_data() != null
 
 
 func _on_ExpandBtn_toggled(button_pressed: bool) -> void:
@@ -90,24 +76,28 @@ func _on_VBoxExpression_visibility_changed() -> void:
 	rect_size = Vector2.ZERO
 
 
-func _on_CharacterSelection_pressed() -> void:
-	if _character_selection.selected != -1:
-		s_previous_selected_character = _character_selection.get_selected_metadata()
-
-
 func _on_CharacterSelection_item_selected(index: int) -> void:
-	if port_map().right_connected(name, 0):
-		get_dialogue_view().character_left(s_previous_selected_character, self)
-		get_dialogue_view().character_join(self)
+	_expression_selection.select(0)
 	
-	_expression_selection.clear()
+	update_value()
 
 
 func _on_CharacterSelection_selected_character_deleted() -> void:
-	_character_selection.clear()
-	_expression_selection.clear()
+	_character_selection.select(0)
+	_expression_selection.select(0)
 	port_map().right_disconnect(name, 0)
+	
+	update_value()
+
+
+func _on_ExpressionSelection_item_selected(index: int) -> void:
+	update_value()
 
 
 func _on_OffsetBtn_selected(idx: int) -> void:
 	s_character_offset = idx
+	update_value()
+
+
+func _on_PositionBtn_pressed() -> void:
+	update_value()

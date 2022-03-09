@@ -14,8 +14,6 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
-s_joined_claims = {
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
