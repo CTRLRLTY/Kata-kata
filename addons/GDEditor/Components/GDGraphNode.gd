@@ -17,11 +17,17 @@ enum PortType {
 	FLOW = GDPortMap.PORT_FLOW
 }
 
+export var GraphEditorPath : NodePath
+
 var _graph_editor : Control
 
 var _depth := 0
 
+
 func _ready() -> void:
+	if has_node(GraphEditorPath):
+		_graph_editor = get_node(GraphEditorPath)
+	
 	if not has_meta("depth"):
 		set_meta("depth", _depth)
 	else:
@@ -58,6 +64,8 @@ func get_graph_editor() -> Control:
 
 func set_graph_editor(ge: Control) -> void:
 	_graph_editor = ge
+	
+	GraphEditorPath = ge.get_path()
 
 
 func get_component_name() -> String:

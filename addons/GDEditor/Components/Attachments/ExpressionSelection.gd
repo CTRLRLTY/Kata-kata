@@ -39,5 +39,6 @@ func _on_pressed() -> void:
 			add_item(expression.expression_name)
 			set_item_metadata(idx, expression)
 			
-			if expression == selected_expression:
-				select(idx)
+			if selected_expression:
+				if expression.expression_name == selected_expression.expression_name:
+					select(idx)

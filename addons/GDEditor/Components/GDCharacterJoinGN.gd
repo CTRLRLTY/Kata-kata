@@ -13,6 +13,11 @@ enum CharacterPosition {
 
 export var s_character_offset := 0
 
+# CharacterData
+export var character : Resource = null
+# CharacterExpressionData
+export var expression : Resource = null
+
 onready var _position_btn := find_node("PositionBtn")
 onready var _expand_btn := find_node("ExpandBtn")
 onready var _character_selection := find_node("CharacterSelection")
@@ -26,8 +31,21 @@ func _ready() -> void:
 			find_node("OffsetBtn").hide()
 	
 	_vbox_expression.visible = not _expand_btn.pressed
+	
 	_character_selection.graph_node = self
 	_expression_selection.graph_node = self
+	
+	if character:
+		var index : int = _character_selection.get_item_count()
+		_character_selection.add_item(character.character_name)
+		_character_selection.set_item_metadata(index, character)
+		_character_selection.select(index)
+
+	if expression:
+		var index : int = _expression_selection.get_item_count()
+		_expression_selection.add_item(expression.expression_name)
+		_expression_selection.set_item_metadata(index, expression)
+		_expression_selection.select(index)
 
 
 func get_component_name() -> String:
@@ -78,6 +96,8 @@ func _on_VBoxExpression_visibility_changed() -> void:
 
 func _on_CharacterSelection_item_selected(index: int) -> void:
 	_expression_selection.select(0)
+	character = get_character_data()
+	expression = null
 	
 	update_value()
 
@@ -87,10 +107,15 @@ func _on_CharacterSelection_selected_character_deleted() -> void:
 	_expression_selection.select(0)
 	port_map().right_disconnect(name, 0)
 	
+	character = null
+	expression = null
+	
 	update_value()
 
 
 func _on_ExpressionSelection_item_selected(index: int) -> void:
+	expression = get_expression_data()
+	
 	update_value()
 
 

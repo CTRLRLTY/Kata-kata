@@ -6,7 +6,6 @@ class_name GDGraphEditor
 
 # GDDialogueData
 export var dialogue_data : Resource = null
-
 # GDDialogueCursor
 export var cursor : Resource = null
 
@@ -140,7 +139,7 @@ func save(file_path: String) -> void:
 	packer.pack(self)
 	
 	ResourceSaver.save(file_path, packer)
-	ResourceSaver.save(GDUtil.get_save_dir()+"test.tres", dialogue_data)
+#	ResourceSaver.save(GDUtil.get_save_dir()+"test.tres", dialogue_data)
 
 
 func _setup_preview() -> void:

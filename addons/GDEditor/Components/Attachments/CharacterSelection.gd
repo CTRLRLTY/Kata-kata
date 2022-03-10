@@ -4,6 +4,8 @@ extends OptionButton
 
 signal selected_character_deleted
 
+export var character : String
+
 var graph_node : GDGraphNode
 
 
@@ -22,7 +24,6 @@ func _ready() -> void:
 	if graph_node.get_dialogue_view():
 		graph_node.get_dialogue_view().connect("character_deleted", self, "_on_character_deleted")
 		graph_node.get_dialogue_view().connect("character_renamed", self, "_on_character_renamed")
-	
 	
 	if get_item_count() == 0:
 		add_item("None")
@@ -80,8 +81,8 @@ func _on_pressed() -> void:
 		add_item(character_data.character_name)
 		set_item_metadata(acc, character_data)
 		
-		if character_data == selected_character:
-			select(acc)
+		if selected_character:
+			if character_data.character_name == selected_character.character_name:
+				select(acc)
 		
 		acc += 1
-		

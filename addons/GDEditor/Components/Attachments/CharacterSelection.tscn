@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/GDEditor/Components/Attachments/CharacterSelection.gd" type="Script" id=1]
+
+[node name="CharacterSelection" type="OptionButton"]
+margin_right = 148.0
+margin_bottom = 20.0
+text = "None"
+items = [ "None", null, false, 0, null ]
+selected = 0
+script = ExtResource( 1 )

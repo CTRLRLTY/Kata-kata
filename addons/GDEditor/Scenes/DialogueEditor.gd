@@ -13,6 +13,8 @@ onready var _tools_container := find_node("ToolsContainer")
 func _ready() -> void:
 	GDUtil.set_dialogue_editor(self)
 	
+	_add_graph_editor(load("res://addons/GDEditor/Saves/gr.tscn").instance(), "soup")
+	
 	if not _graph_editor_container.get_editor_count():
 		add_empty_tab()
 
