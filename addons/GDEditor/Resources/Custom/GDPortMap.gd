@@ -257,6 +257,15 @@ func left_disconnect(node_name: String, left_port: int) -> void:
 			disconnect_node(other_node, right_port, node_name, left_port)
 
 
+func left_disconnect_type_all(node_name: String, type: int) -> void:
+	var ap := left_type_all_port(node_name, type)
+	
+	for port in ap:
+		for to_node in ap[port].duplicate(true):
+			for to_port in ap[port][to_node]:
+				disconnect_node(to_node, to_port, node_name, port)
+
+
 func right_disconnect(node_name: String, right_port: int) -> void:
 	var ap := right_all_port(node_name)
 	
@@ -264,6 +273,15 @@ func right_disconnect(node_name: String, right_port: int) -> void:
 		for left_port in ap[right_port][other_node]:
 			disconnect_node(node_name, right_port, other_node, left_port)
 
+
+func right_disconnect_type_all(node_name: String, type: int) -> void:
+	var ap := right_type_all_port(node_name, type)
+	
+	for port in ap:
+		for to_node in ap[port].duplicate(true):
+			for to_port in ap[port][to_node]:
+				disconnect_node(node_name, port, to_node, to_port)
+				
 
 func left_connected(node_name: String, left_port: int) -> bool:
 	var ap := left_all_port(node_name)
@@ -304,3 +322,16 @@ func set_node_depth(node_name: String, depth: int) -> void:
 
 func get_node_depth(node_name: String) -> int:
 	return depth.get(node_name, 0)
+
+
+func update_depth_chain(node_name: String, depth: int) -> void:
+	set_node_depth(node_name, depth)
+	
+	var fap := left_type_all_port(node_name, PORT_FLOW)
+	
+	for port in fap:
+		var conn : Dictionary = fap[port]
+	
+		for from in conn:
+			update_depth_chain(from, depth)
+
