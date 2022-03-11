@@ -110,6 +110,7 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	var from_type := from_node.get_connection_output_type(from_slot)
 	var to_type := to_node.get_connection_input_type(to_slot)
 	
+	
 	if not from_node.connection_to(to_node, to_slot, from_slot) or \
 	   not to_node.connection_from(from_node, from_slot, to_slot)\
 	:

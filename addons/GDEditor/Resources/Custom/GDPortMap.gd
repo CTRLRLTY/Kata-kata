@@ -222,7 +222,7 @@ func right_all_type(node_name: String) -> Dictionary:
 func left_disconnect(node_name: String, left_port: int) -> void:
 	var ap := left_all_port(node_name)
 	
-	for other_node in ap.get(left_port, []):
+	for other_node in ap.get(left_port, {}):
 		for right_port in ap[left_port][other_node]:
 			disconnect_node(other_node, right_port, node_name, left_port)
 
@@ -230,7 +230,7 @@ func left_disconnect(node_name: String, left_port: int) -> void:
 func right_disconnect(node_name: String, right_port: int) -> void:
 	var ap := right_all_port(node_name)
 	
-	for other_node in ap.get(right_port, []):
+	for other_node in ap.get(right_port, {}):
 		for left_port in ap[right_port][other_node]:
 			disconnect_node(node_name, right_port, other_node, left_port)
 
@@ -245,6 +245,18 @@ func right_connected(node_name: String, right_port: int) -> bool:
 	var ap := right_all_port(node_name)
 	
 	return not ap.get(right_port, {}).empty()
+
+
+func left_connected_to(from: String, from_port: int, to: String) -> bool:
+	var ap := left_all_port(from)
+	
+	return ap.get(from_port, {}).has(to)
+
+
+func right_connected_to(from: String, from_port: int, to: String) -> bool:
+	var ap := right_all_port(from)
+	
+	return ap.get(from_port, {}).has(to)
 
 
 func copy():
