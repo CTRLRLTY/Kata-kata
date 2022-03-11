@@ -173,6 +173,13 @@ func right_port_connection(node_name: String, port: int) -> Dictionary:
 	return right_all_port(node_name).get(port, {})
 
 
+# Return value -> {
+#	port(int): {
+#			node_name(String): [port(int), ...],
+#			node_name(String)?...
+#		},
+#	port(int)...
+# }
 func left_all_port(node_name: String) -> Dictionary:
 	var all_port := {}
 	
@@ -185,6 +192,13 @@ func left_all_port(node_name: String) -> Dictionary:
 	return all_port
 
 
+# Return value -> {
+#	port(int): {
+#			node_name(String): [port(int), ...],
+#			node_name(String)?...
+#		},
+#	port(int)...
+# }
 func right_all_port(node_name: String) -> Dictionary:
 	var all_port := {}
 	
@@ -208,7 +222,7 @@ func right_all_type(node_name: String) -> Dictionary:
 func left_disconnect(node_name: String, left_port: int) -> void:
 	var ap := left_all_port(node_name)
 	
-	for other_node in ap[left_port]:
+	for other_node in ap.get(left_port, []):
 		for right_port in ap[left_port][other_node]:
 			disconnect_node(other_node, right_port, node_name, left_port)
 
@@ -216,7 +230,7 @@ func left_disconnect(node_name: String, left_port: int) -> void:
 func right_disconnect(node_name: String, right_port: int) -> void:
 	var ap := right_all_port(node_name)
 	
-	for other_node in ap[right_port]:
+	for other_node in ap.get(right_port, []):
 		for left_port in ap[right_port][other_node]:
 			disconnect_node(node_name, right_port, other_node, left_port)
 
