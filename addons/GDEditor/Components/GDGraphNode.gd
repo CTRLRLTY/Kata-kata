@@ -4,7 +4,6 @@ extends GraphNode
 
 class_name GDGraphNode
 
-signal depth_updated(old_depth, new_depth)
 signal value_updated
 
 enum Port {
@@ -25,8 +24,6 @@ var _depth := 0
 
 
 func _ready() -> void:
-	title = name
-	
 	if has_node(GraphEditorPath):
 		_graph_editor = get_node(GraphEditorPath)
 	
@@ -38,14 +35,21 @@ func _ready() -> void:
 	set_depth(get_meta("depth"))
 
 
+func set_title(t: String) -> void:
+	title = t
+	set_depth(_depth)
+
+
+func get_title() -> String:
+	return title.trim_suffix("[%d]" % _depth)
+
+
 func get_depth() -> int:
 	return _depth
 
 
 func set_depth(num: int) -> void:
 	var bare_title = title.trim_suffix("[%d]" % _depth)
-	
-	emit_signal("depth_updated", _depth, num)
 	
 	title = bare_title + "[%d]" % num
 	

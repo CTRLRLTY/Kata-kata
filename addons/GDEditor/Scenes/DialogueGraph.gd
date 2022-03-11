@@ -16,13 +16,16 @@ export var s_connection_list : Array
 export var pt : Resource = null
 
 var _selected_nodes := []
+var _active_node : GDGraphNode
 var _copy_buffer := []
 
 onready var popup_menu: PopupMenu = $DGPopupMenu
+onready var rename_dialog := $RenameDialog
 
 
 func _ready() -> void:
 	popup_menu.connect("id_pressed", self, "_on_popup_menu_pressed")
+	rename_dialog.connect("node_rename", self, "_on_node_rename_confirmed")
 
 	connect("connection_request", self, "_on_connection_request")
 	connect("disconnection_request", self, "_on_disconnection_request")
@@ -151,7 +154,9 @@ func _on_popup_request(position: Vector2) -> void:
 func _on_popup_menu_pressed(id: int) -> void:
 	match id:
 		popup_menu.Item.RENAME:
-			pass
+			var mpos := get_global_mouse_position()
+			rename_dialog.set_position(mpos)
+			rename_dialog.popup_dialog(_active_node.get_title())
 			
 		popup_menu.Item.COPY:
 			_copy_buffer = _selected_nodes.duplicate()
@@ -164,16 +169,29 @@ func _on_popup_menu_pressed(id: int) -> void:
 				
 				node.queue_free()
 			
+			_active_node = null
 			_selected_nodes.clear()
 
 
+func _on_node_rename_confirmed(new_name: String) -> void:
+	if not _active_node:
+		return
+	
+	_active_node.set_title(new_name)
+
+
 func _on_node_selected(node: Node) -> void:
+	_active_node = node
+	
 	if not _selected_nodes.has(node):
 		print_debug("selected: ", node.name)
 		_selected_nodes.append(node)
 	
 	
 func _on_node_unselected(node: Node) -> void:
+	if _active_node == node:
+		_active_node = null
+	
 	print_debug("unselected: ", node.name)
 	_selected_nodes.erase(node)
 
