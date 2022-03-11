@@ -81,6 +81,22 @@ func has_connection(from: String, to: String) -> bool:
 	return false
 
 
+func is_linked_from(node_name: String, from: String) -> bool:
+	var fap := left_type_all_port(node_name, PORT_FLOW)
+	
+	for port in fap:
+		var conn : Dictionary = fap[port]
+		
+		if conn.has(from):
+			return true
+	
+		for ffrom in conn:
+			if is_linked_from(ffrom, from):
+				return true
+
+	return false
+
+
 func has_node(node_name: String) -> bool:
 	return table.has(node_name)
 
@@ -157,10 +173,24 @@ func right_type_port_connection(node_name: String, type: int, port: int) -> Dict
 	return right_type_all_port(node_name, type).get(port, {})
 
 
+# Return value -> {
+#	port(int): {
+#			node_name(String): [port(int), ...],
+#			node_name(String)?...
+#		},
+#	port(int)...
+# }
 func left_type_all_port(node_name: String, type: int) -> Dictionary:
 	return left_all_type(node_name).get(type, {})
 
 
+# Return value -> {
+#	port(int): {
+#			node_name(String): [port(int), ...],
+#			node_name(String)?...
+#		},
+#	port(int)...
+# }
 func right_type_all_port(node_name: String, type: int) -> Dictionary:
 	return right_all_type(node_name).get(type, {})
 

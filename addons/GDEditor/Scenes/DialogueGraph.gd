@@ -116,17 +116,18 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 	:
 		return
 	
-	# One to many connection check
 	match from_type:
 		PortRect.PortType.FLOW:
+			if port_map().is_linked_from(from, to):
+				return
+			
 			if port_map().right_connected(from, from_slot):
 				port_map().right_disconnect(from, from_slot)
 			
 			if not to_node.is_connected("depth_updated", self, "_chain_depth_update"):
 				to_node.connect("depth_updated", self, "_chain_depth_update", [from_node])
-			
-			if not port_map().has_connection(from, to):
-				port_map().set_node_depth(from, to_node.get_depth() + from_node.get_depth())
+		
+			port_map().set_node_depth(from, to_node.get_depth() + from_node.get_depth())
 		
 		
 	port_map().connect_node(from, from_type, from_slot, to, to_type, to_slot)
@@ -185,16 +186,19 @@ func _on_node_connected(from: String, from_slot: int, to: String, to_slot: int) 
 
 
 func _on_node_disconnected(from: String, from_slot: int, to: String, to_slot: int) -> void:
-	if not port_map().has_connection(from, to):
-		var to_node : GDGraphNode = get_node(to)
-		var from_depth := port_map().get_node_depth(from)
-		var to_depth := port_map().get_node_depth(to)
-		var depth := from_depth - to_depth
-		
-		port_map().set_node_depth(from , depth)
+	var to_node : GDGraphNode = get_node(to)
+	var to_type := to_node.get_connection_input_type(to_slot)
 	
-		if to_node.is_connected("depth_updated", self, "_chain_depth_update"):
-			to_node.disconnect("depth_updated", self, "_chain_depth_update")
+	if to_type == GDPortMap.PORT_FLOW:
+		if not port_map().is_linked_from(from, to):
+			var from_depth := port_map().get_node_depth(from)
+			var to_depth := port_map().get_node_depth(to)
+			var depth := from_depth - to_depth
+			
+			port_map().set_node_depth(from , depth)
+		
+			if to_node.is_connected("depth_updated", self, "_chain_depth_update"):
+				to_node.disconnect("depth_updated", self, "_chain_depth_update")
 	
 	disconnect_node(from, from_slot, to, to_slot)
 
