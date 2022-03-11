@@ -77,6 +77,9 @@ margin_left = 79.0
 margin_right = 232.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
+text = "None"
+items = [ "None", null, false, 0, null ]
+selected = 0
 script = ExtResource( 3 )
 
 [node name="Label" type="Label" parent="CharacterSection/GridContainer"]
