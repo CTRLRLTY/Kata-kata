@@ -38,6 +38,7 @@ func _on_character_deleted(deleted_data: CharacterData) -> void:
 		if deleted_data == character_data:
 			if character_data == get_selected_metadata():
 				clear()
+				add_item("None")
 				emit_signal("selected_character_deleted")
 			else:
 				remove_item(idx)
