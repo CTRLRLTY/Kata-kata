@@ -19,6 +19,7 @@ vertical = true
 [sub_resource type="ButtonGroup" id=3]
 
 [node name="CharacterJoin" type="GraphNode"]
+modulate = Color( 1, 1, 1, 0.5 )
 margin_right = 180.0
 margin_bottom = 81.0
 rect_min_size = Vector2( 180, 0 )
@@ -149,6 +150,7 @@ size_flags_horizontal = 3
 custom_constants/separation = 10
 
 [node name="CharacterSelection" parent="Body/VBoxContainer" instance=ExtResource( 3 )]
+items = [ "None", null, false, 0, null ]
 
 [node name="VBoxExpression" type="VBoxContainer" parent="Body/VBoxContainer"]
 visible = false

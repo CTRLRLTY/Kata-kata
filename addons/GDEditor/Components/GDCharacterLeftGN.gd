@@ -40,3 +40,9 @@ func get_character_data() -> CharacterData:
 func _on_CharacterSelection_selected_character_deleted() -> void:
 	character = null
 	port_map().right_disconnect(name, 0)
+	update_value()
+
+
+func _on_CharacterSelection_item_selected(index: int) -> void:
+	character = get_character_data()
+	update_value()

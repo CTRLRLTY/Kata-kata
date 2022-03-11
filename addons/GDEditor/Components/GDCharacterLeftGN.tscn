@@ -4,12 +4,13 @@
 [ext_resource path="res://addons/GDEditor/Components/Attachments/CharacterSelection.gd" type="Script" id=3]
 
 [node name="CharacterLeft" type="GraphNode"]
+modulate = Color( 1, 1, 1, 0.5 )
 margin_right = 180.0
 margin_bottom = 76.0
 rect_min_size = Vector2( 180, 0 )
 mouse_filter = 1
 custom_constants/separation = 15
-title = "Character Left"
+title = "Character Left[0]"
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color( 0.13, 0.55, 0.13, 1 )
@@ -48,7 +49,11 @@ margin_right = 148.0
 margin_bottom = 20.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
+text = "None"
+items = [ "None", null, false, 0, null ]
+selected = 0
 script = ExtResource( 3 )
 
+[connection signal="item_selected" from="Body/CharacterSelection" to="." method="_on_CharacterSelection_item_selected"]
 [connection signal="pressed" from="Body/CharacterSelection" to="Body/CharacterSelection" method="_on_pressed"]
 [connection signal="selected_character_deleted" from="Body/CharacterSelection" to="." method="_on_CharacterSelection_selected_character_deleted"]
