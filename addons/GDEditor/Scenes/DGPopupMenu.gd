@@ -14,7 +14,7 @@ enum Item {
 func open() -> void:
 	if get_item_count():
 		clear()
-
+	
 	add_item("Rename", Item.RENAME)
 	add_item("Copy", Item.COPY)
 	add_separator("", 999)
@@ -25,7 +25,8 @@ func open() -> void:
 func open_paste() -> void:
 	if get_item_count():
 		clear()
-
+	
+	add_item("Rename", Item.RENAME)
 	add_item("Paste", Item.PASTE)
 	add_item("Copy", Item.COPY)
 	add_separator("", 999)
