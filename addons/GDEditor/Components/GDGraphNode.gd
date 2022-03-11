@@ -49,11 +49,17 @@ func get_depth() -> int:
 
 
 func set_depth(num: int) -> void:
-	var bare_title = title.trim_suffix("[%d]" % _depth)
+	var bare_title = get_title()
 	
 	title = bare_title + "[%d]" % num
 	
 	_depth = num
+	
+	if num > 0:
+		modulate.a = 1
+	else:
+		modulate.a = 0.5
+		
 	set_meta("depth", num)
 
 
