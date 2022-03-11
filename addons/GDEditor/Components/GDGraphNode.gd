@@ -25,6 +25,8 @@ var _depth := 0
 
 
 func _ready() -> void:
+	title = name
+	
 	if has_node(GraphEditorPath):
 		_graph_editor = get_node(GraphEditorPath)
 	

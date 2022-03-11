@@ -6,7 +6,8 @@ enum Item {
 	NONE = 0,
 	DELETE,
 	COPY,
-	PASTE
+	PASTE,
+	RENAME
 }
 
 
@@ -14,6 +15,7 @@ func open() -> void:
 	if get_item_count():
 		clear()
 
+	add_item("Rename", Item.RENAME)
 	add_item("Copy", Item.COPY)
 	add_separator("", 999)
 	add_item("Delete", Item.DELETE)

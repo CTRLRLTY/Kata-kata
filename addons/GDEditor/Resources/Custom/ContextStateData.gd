@@ -11,6 +11,10 @@ enum {
 
 # The state_value is implicitly implied to be homogeneous. 
 #	 The value will always be wrapped in an array, no matter what type.
-export(String) var state_name
-export(Array) var state_value
-export(int) var state_type
+export var state_name : String
+export var state_value : Array
+export var state_type : int
+
+
+func is_array() -> bool:
+	return state_value.size() > 1

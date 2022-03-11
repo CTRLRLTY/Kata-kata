@@ -118,9 +118,7 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 			if port_map().right_connected(from, from_slot):
 				port_map().right_disconnect(from, from_slot)
 			
-			
 			port_map().update_depth_chain(from, to_node.get_depth() + from_node.get_depth())
-		
 		
 	port_map().connect_node(from, from_type, from_slot, to, to_type, to_slot)
 
@@ -152,10 +150,14 @@ func _on_popup_request(position: Vector2) -> void:
 
 func _on_popup_menu_pressed(id: int) -> void:
 	match id:
+		popup_menu.Item.RENAME:
+			pass
+			
 		popup_menu.Item.COPY:
 			_copy_buffer = _selected_nodes.duplicate()
 			
 		popup_menu.Item.DELETE:
+			print("deleting: ", _selected_nodes)
 			for node in _selected_nodes:
 				port_map().clear_connection(node.name)
 				emit_signal("graph_node_removed", node.name)
@@ -166,10 +168,13 @@ func _on_popup_menu_pressed(id: int) -> void:
 
 
 func _on_node_selected(node: Node) -> void:
-	_selected_nodes.append(node)
+	if not _selected_nodes.has(node):
+		print_debug("selected: ", node.name)
+		_selected_nodes.append(node)
 	
 	
 func _on_node_unselected(node: Node) -> void:
+	print_debug("unselected: ", node.name)
 	_selected_nodes.erase(node)
 
 

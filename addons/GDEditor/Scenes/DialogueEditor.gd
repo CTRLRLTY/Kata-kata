@@ -13,7 +13,7 @@ onready var _tools_container := find_node("ToolsContainer")
 func _ready() -> void:
 	GDUtil.set_dialogue_editor(self)
 	
-#	_add_graph_editor(load("res://addons/GDEditor/Saves/jac.tscn").instance(), "test")
+#	_add_graph_editor(load("res://addons/GDEditor/Saves/grrr.tscn").instance(), "test")
 #
 	if not _graph_editor_container.get_editor_count():
 		add_empty_tab()
