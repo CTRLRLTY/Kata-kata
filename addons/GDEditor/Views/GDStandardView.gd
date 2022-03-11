@@ -6,7 +6,6 @@ class_name GDStandardView
 
 signal character_file_deleted(file)
 signal character_deleted(character_data)
-signal character_left(character_data)
 signal character_renamed(character_data)
 
 onready var _character_left := find_node("CharacterLeft")

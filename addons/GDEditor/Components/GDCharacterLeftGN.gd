@@ -4,6 +4,8 @@ extends GDGraphNode
 
 class_name GDCharacterLeftGN
 
+export var character : Resource = null
+
 
 onready var _character_selection : OptionButton = find_node("CharacterSelection")
 
@@ -35,5 +37,6 @@ func get_character_data() -> CharacterData:
 	return _character_selection.get_selected_metadata()
 
 
-func _on_CharacterSelection_character_selected_left() -> void:
+func _on_CharacterSelection_selected_character_deleted() -> void:
+	character = null
 	port_map().right_disconnect(name, 0)
