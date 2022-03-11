@@ -149,7 +149,6 @@ size_flags_horizontal = 3
 custom_constants/separation = 10
 
 [node name="CharacterSelection" parent="Body/VBoxContainer" instance=ExtResource( 3 )]
-items = [ "None", null, false, 0, null ]
 
 [node name="VBoxExpression" type="VBoxContainer" parent="Body/VBoxContainer"]
 visible = false

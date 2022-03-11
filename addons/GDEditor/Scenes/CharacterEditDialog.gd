@@ -11,18 +11,41 @@ onready var _file_dialog := find_node("FileDialog")
 
 
 func add_expression(expression_data : CharacterExpressionData) -> void:
-	var character_expression = load(
-			GDUtil.resolve("CharacterExpressionItem.tscn")).instance()
+	var item : Control = load(GDUtil.resolve("CharacterExpressionItem.tscn")).instance()
+	var name_edit : LineEdit = item.get_name_edit()
 	
-	character_expression.expression_data = expression_data
+	item.expression_data = expression_data
+	item.set_expression_name(_valid_expression_name(expression_data, expression_data.expression_name))
 	
-	character_expression.connect("focus_entered", 
-			self, "_on_CharacterExpression_focus_entered", [character_expression])
-	character_expression.connect("profile_pressed", _file_dialog, "popup_centered")
+	item.connect("focus_entered", self, "_on_expression_item_focus_entered", [item])
+	item.connect("profile_pressed", _file_dialog, "popup_centered")
+	name_edit.connect("focus_exited", self, "_on_expression_name_edit_focus_exited", [item])
 	
-	_expression_container.add_child(character_expression)
+	_expression_container.add_child(item)
 	
-	character_expression.grab_focus()
+	item.grab_focus()
+
+
+func _valid_expression_name(expression: CharacterExpressionData, expression_name: String, incremental := 0, seperator := "_") -> String:	
+	var suffix := seperator + String(incremental)
+	
+	var fullname := expression_name
+	
+	if incremental > 0:
+		fullname  = expression_name + suffix
+	
+	for child in _expression_container.get_children():
+		var e : CharacterExpressionData = child.expression_data
+		
+		if expression == e:
+			continue
+		
+		var en : String = e.expression_name
+		
+		if en == fullname:
+			return _valid_expression_name(expression, expression_name, incremental + 1, seperator)
+	
+	return fullname
 
 
 func _on_about_to_show() -> void:
@@ -36,6 +59,12 @@ func _on_about_to_show() -> void:
 func _on_popup_hide() -> void:
 	for child in _expression_container.get_children():
 		child.queue_free()
+
+
+func _on_expression_name_edit_focus_exited(item: Control) -> void:
+	var edata : CharacterExpressionData = item.expression_data
+	
+	item.set_expression_name(_valid_expression_name(edata, edata.expression_name))
 
 
 func _on_CharacterStateTree_state_changed() -> void:
@@ -63,7 +92,7 @@ func _on_DeleteExpressionBtn_pressed() -> void:
 	selected_expression = null
 
 
-func _on_CharacterExpression_focus_entered(character_expression : Control) -> void:
+func _on_expression_item_focus_entered(character_expression : Control) -> void:
 	selected_expression = character_expression
 
 

@@ -10,6 +10,7 @@ var character_data : CharacterData
 
 onready var _name_label : Label =  find_node("CharacterNameLabel")
 onready var _name_edit : LineEdit = find_node("NameEdit")
+onready var _description_edit : TextEdit = find_node("DescriptionEdit")
 onready var _delete_btn : Button = find_node("DeleteBtn")
 onready var _edit_btn : Button = find_node("EditBtn")
 onready var _profile_texture_rect : TextureRect = find_node("CharacterProfileTextRect")
@@ -48,9 +49,7 @@ func _on_CharacterEditDialog_popup_hide() -> void:
 
 
 func _on_DescriptionEdit_text_changed() -> void:
-	var character_description_edit : TextEdit = get_node(
-		"HBoxContainer/VBoxContainer/EditBtn/CharacterEditDialog/MarginContainer/HSplitContainer/VBoxContainer/GridContainer/DescriptionEdit")
-	character_data.character_description = character_description_edit.text
+	character_data.character_description = _description_edit.text
 
 
 func _on_DeleteBtn_pressed() -> void:
