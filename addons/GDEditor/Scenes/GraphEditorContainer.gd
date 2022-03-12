@@ -10,12 +10,6 @@ func get_editor(idx: int) -> GDGraphEditor:
 	return get_child(idx) as GDGraphEditor
 
 
-func get_active_editor() -> GDGraphEditor:
-	var tabs : Tabs = GDUtil.get_dialogue_editor().get_tabs()
-	
-	return get_editor(tabs.current_tab) 
-
-
 func get_editor_graph(idx: int) -> DialogueGraph:
 	return get_editor(idx).get_dialogue_graph() as DialogueGraph
 

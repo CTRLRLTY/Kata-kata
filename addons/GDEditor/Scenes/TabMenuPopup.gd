@@ -16,6 +16,9 @@ enum {
 	MENU_SAVE_DIALOGUE_AS,
 }
 
+# This variable is set externally, don't touch.
+var active_preview: GDDialogueView
+
 
 func _ready() -> void:
 	# There exist a case where somehow an item 
@@ -44,20 +47,12 @@ func _on_id_pressed(id: int) -> void:
 			$DialogueQuickOpen.popup_dialog("PackedScene", GDUtil.get_save_dir())
 
 
-func _preview_visible() -> bool:
-	var dialogue_editor : GDDialogueEditor = GDUtil.get_dialogue_editor()
-	var graph_editor_container := dialogue_editor.get_graph_editor_container()
-	var graph_editor := graph_editor_container.get_active_editor()
-	
-	return graph_editor.get_dialogue_preview().visible
-
-
 func _on_DialogueNamePrompt_confirmed(dialogue_name) -> void:
 	emit_signal("new_dialogue", dialogue_name)
 
 
 func _on_about_to_show() -> void:
-	if _preview_visible():
+	if active_preview.visible:
 		set_item_text(MENU_PREVIEW_DIALOGUE, "Preview [on]")
 	else:
 		set_item_text(MENU_PREVIEW_DIALOGUE, "Preview [off]")

@@ -4,7 +4,6 @@ extends Control
 
 class_name GDDialogueEditor
 
-
 onready var _tabs := find_node("Tabs")
 onready var _graph_editor_container := find_node("GraphEditorContainer")
 onready var _tools_container := find_node("ToolsContainer")
@@ -13,7 +12,7 @@ onready var _tools_container := find_node("ToolsContainer")
 func _ready() -> void:
 	GDUtil.set_dialogue_editor(self)
 	
-#	_add_graph_editor(load("res://addons/GDEditor/Saves/jek.tscn").instance(), "test")
+	_add_graph_editor(load("res://addons/GDEditor/Saves/uwu.tscn").instance(), "test")
 #
 	if not _graph_editor_container.get_editor_count():
 		add_empty_tab()
@@ -43,6 +42,9 @@ func change_tab(tab: int) -> void:
 	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(tab)
 	_tools_container.add_tools(dialogue_preview.get_tools())
 	
+	print_debug("set active_preview: ", dialogue_preview)
+	propagate_call("set", ["active_preview", dialogue_preview])
+
 
 func _add_graph_editor(graph_editor: GDGraphEditor, tab_name: String, tab_index := -1) -> void:
 	_graph_editor_container.add_editor(graph_editor)
@@ -75,10 +77,10 @@ func _on_new_dialogue(dialogue_name) -> void:
 
 
 func _on_preview_dialogue() -> void:
-	var ge : GDGraphEditor = _graph_editor_container.get_active_editor()
-	var dv = ge.get_dialogue_preview()
+	var dv : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
 	
 	dv.visible = not dv.visible
+	print_debug("tab(%d) preview visibile: " % _tabs.current_tab, dv.visible)
 
 
 func _on_open_dialogue(graph_editor: GDGraphEditor) -> void:
