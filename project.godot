@@ -223,7 +223,7 @@ config/icon="res://addons/GDEditor/Resources/Icons/icon.png"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/explore-editor-theme/plugin.cfg" )
+enabled=PoolStringArray(  )
 
 [input]
 
