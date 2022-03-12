@@ -3,6 +3,7 @@
 [ext_resource path="res://addons/GDEditor/Components/GDEmitterGN.gd" type="Script" id=2]
 
 [node name="Emitter" type="GraphNode"]
+modulate = Color( 1, 1, 1, 0.5 )
 margin_top = 232.0
 margin_right = 169.0
 margin_bottom = 296.0

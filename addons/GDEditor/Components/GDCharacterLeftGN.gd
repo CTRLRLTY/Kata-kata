@@ -1,6 +1,6 @@
 tool
 
-extends GDGraphNode
+extends GDStandardGN
 
 class_name GDCharacterLeftGN
 

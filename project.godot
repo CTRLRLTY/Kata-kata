@@ -29,7 +29,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Scenes/DialogueGraph.gd"
 }, {
-"base": "GDGraphNode",
+"base": "GDStandardGN",
 "class": "GDCharacterJoinGN",
 "language": "GDScript",
 "path": "res://addons/GDEditor/Components/GDCharacterJoinGN.gd"
@@ -39,7 +39,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Readers/GDCharacterJoinReader.gd"
 }, {
-"base": "GDGraphNode",
+"base": "GDStandardGN",
 "class": "GDCharacterLeftGN",
 "language": "GDScript",
 "path": "res://addons/GDEditor/Components/GDCharacterLeftGN.gd"
@@ -49,7 +49,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Readers/GDCharacterLeftReader.gd"
 }, {
-"base": "GDGraphNode",
+"base": "GDStandardGN",
 "class": "GDChoiceGN",
 "language": "GDScript",
 "path": "res://addons/GDEditor/Components/GDChoiceGN.gd"
@@ -94,7 +94,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Views/GDDialogueView.gd"
 }, {
-"base": "GDGraphNode",
+"base": "GDStandardGN",
 "class": "GDEmitterGN",
 "language": "GDScript",
 "path": "res://addons/GDEditor/Components/GDEmitterGN.gd"
@@ -104,7 +104,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Readers/GDEmitterReader.gd"
 }, {
-"base": "GDGraphNode",
+"base": "GDStandardGN",
 "class": "GDEndGN",
 "language": "GDScript",
 "path": "res://addons/GDEditor/Components/GDEndGN.gd"
@@ -129,7 +129,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Components/GDGraphNode.gd"
 }, {
-"base": "GDGraphNode",
+"base": "GDStandardGN",
 "class": "GDMessageGN",
 "language": "GDScript",
 "path": "res://addons/GDEditor/Components/GDMessageGN.gd"
@@ -144,17 +144,22 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/GDEditor/Resources/Custom/GDPortMap.gd"
 }, {
-"base": "GDGraphNode",
+"base": "GDStandardGN",
 "class": "GDSetterGN",
 "language": "GDScript",
 "path": "res://addons/GDEditor/Components/GDSetterGN.gd"
+}, {
+"base": "GDGraphNode",
+"class": "GDStandardGN",
+"language": "GDScript",
+"path": "res://addons/GDEditor/Components/GDStandardGN.gd"
 }, {
 "base": "GDDialogueView",
 "class": "GDStandardView",
 "language": "GDScript",
 "path": "res://addons/GDEditor/Views/GDStandardView.gd"
 }, {
-"base": "GDGraphNode",
+"base": "GDStandardGN",
 "class": "GDStartGN",
 "language": "GDScript",
 "path": "res://addons/GDEditor/Components/GDStartGN.gd"
@@ -203,6 +208,7 @@ _global_script_class_icons={
 "GDMessageReader": "",
 "GDPortMap": "",
 "GDSetterGN": "",
+"GDStandardGN": "",
 "GDStandardView": "",
 "GDStartGN": "",
 "GDStartReader": "",

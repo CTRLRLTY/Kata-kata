@@ -3,13 +3,14 @@
 [ext_resource path="res://addons/GDEditor/Components/GDEndGN.gd" type="Script" id=2]
 
 [node name="End" type="GraphNode"]
+modulate = Color( 1, 1, 1, 0.5 )
 margin_left = 52.0
 margin_top = 54.0
 margin_right = 192.0
 margin_bottom = 120.0
 rect_min_size = Vector2( 140, 66 )
 mouse_filter = 1
-title = "Dialogue End"
+title = "Dialogue End[0]"
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color( 0.13, 0.55, 0.13, 1 )
@@ -19,7 +20,8 @@ slot/0/right_color = Color( 0.13, 0.55, 0.13, 1 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false,
-"branch_index": 0
+"branch_index": 0,
+"depth": 0
 }
 
 [node name="Label" type="Label" parent="."]
