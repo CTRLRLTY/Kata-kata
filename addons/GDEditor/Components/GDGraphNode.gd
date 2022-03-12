@@ -21,11 +21,12 @@ var _depth := 0
 
 
 func _ready() -> void:
-	var GraphEditorPath = get_meta("GraphEditorPath")
-	
-	if GraphEditorPath is NodePath:
-		if not GraphEditorPath and has_node(GraphEditorPath):
-			_graph_editor = get_node(GraphEditorPath)
+	if has_meta("GraphEditorPath"):
+		var GraphEditorPath = get_meta("GraphEditorPath")
+		
+		if GraphEditorPath is NodePath:
+			if not GraphEditorPath and has_node(GraphEditorPath):
+				_graph_editor = get_node(GraphEditorPath)
 	
 	if not has_meta("depth"):
 		set_meta("depth", _depth)
