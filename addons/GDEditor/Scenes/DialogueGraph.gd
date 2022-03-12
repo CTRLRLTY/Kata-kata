@@ -120,8 +120,10 @@ func _on_connection_request(from: String, from_slot: int, to: String, to_slot: i
 			
 			if port_map().right_connected(from, from_slot):
 				port_map().right_disconnect(from, from_slot)
+				
+			var depth = to_node.get_depth() + from_node.get_depth()
 			
-			port_map().update_depth_chain(from, to_node.get_depth() + from_node.get_depth())
+			port_map().update_depth_chain(from, depth)
 		
 	port_map().connect_node(from, from_type, from_slot, to, to_type, to_slot)
 

@@ -324,14 +324,25 @@ func get_node_depth(node_name: String) -> int:
 	return depth.get(node_name, 0)
 
 
-func update_depth_chain(node_name: String, depth: int) -> void:
-	set_node_depth(node_name, depth)
-	
+func update_depth_chain(node_name: String, depth: int, next_depth := 0, head := true) -> void:
+	var current_depth := get_node_depth(node_name)
 	var fap := left_type_all_port(node_name, PORT_FLOW)
+	
+	var d : int
+	
+	if head:
+		d = depth
+		head = false
+	else:
+		d = current_depth + depth - next_depth
+	
 	
 	for port in fap:
 		var conn : Dictionary = fap[port]
 	
 		for from in conn:
-			update_depth_chain(from, depth)
+			update_depth_chain(from, d, current_depth, head)
+	
+	
+	set_node_depth(node_name, d)
 

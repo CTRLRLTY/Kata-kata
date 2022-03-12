@@ -51,7 +51,7 @@ custom_constants/separation = 0
 alignment = 2
 
 [node name="ToolsContainer" type="HBoxContainer" parent="VBoxContainer/TopContainer"]
-margin_left = 725.0
+margin_left = 751.0
 margin_right = 751.0
 margin_bottom = 26.0
 custom_constants/separation = 5
@@ -193,7 +193,6 @@ size_flags_vertical = 3
 custom_styles/panel = SubResource( 5 )
 script = ExtResource( 1 )
 
-[connection signal="pressed" from="VBoxContainer/TopContainer/ToolsContainer/CharacterOpenBtn" to="VBoxContainer/TopContainer/ToolsContainer/CharacterOpenBtn" method="_on_pressed"]
 [connection signal="pressed" from="VBoxContainer/TopContainer/ViewBtn" to="VBoxContainer/TopContainer/ViewBtn" method="_on_pressed"]
 [connection signal="view_changed" from="VBoxContainer/TopContainer/ViewBtn" to="." method="_on_view_changed"]
 [connection signal="pressed" from="VBoxContainer/TopContainer/TabMenuBtn" to="VBoxContainer/TabContainer" method="_on_TabMenuBtn_pressed"]
