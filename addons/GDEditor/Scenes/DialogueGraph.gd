@@ -189,6 +189,8 @@ func _on_node_selected(node: Node) -> void:
 		print_debug("selected: ", node.name)
 		_selected_nodes.append(node)
 	
+	print_debug("active: ", node.name)
+	
 	
 func _on_node_unselected(node: Node) -> void:
 	if _active_node == node:
