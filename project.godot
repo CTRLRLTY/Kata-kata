@@ -219,16 +219,11 @@ _global_script_class_icons={
 [application]
 
 config/name="DialogueEditor"
-run/main_scene="res://addons/GDEditor/Scenes/DialogueEditor.tscn"
 config/icon="res://addons/GDEditor/Resources/Icons/icon.png"
-
-[autoload]
-
-Gaelog="*res://addons/GDEditor/Gaelog.tscn"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/GDEditor/plugin.cfg", "res://addons/explore-editor-theme/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/explore-editor-theme/plugin.cfg" )
 
 [input]
 

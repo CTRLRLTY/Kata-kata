@@ -13,6 +13,7 @@ enum {
 signal next
 
 signal choice_selected(idx)
+signal event(what)
 signal dialogue_end
 
 var _tools_tested := false

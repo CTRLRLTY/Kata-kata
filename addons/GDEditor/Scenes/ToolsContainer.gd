@@ -2,6 +2,9 @@ tool
 
 extends HBoxContainer
 
+# This variable is managed externally, don't touch
+var active_preview: GDDialogueView
+
 var _tools_state := {}
 
 
@@ -43,11 +46,7 @@ func add_tools(tools: Array) -> void:
 			_tools_state[tool_scene] = tool_scene.instance()
 		
 		if not _tools_state[tool_scene].get_parent():
-			var graph_editor_container : Control = get_dialogue_editor().get_graph_editor_container()
-			var dialogue_view : GDDialogueView = graph_editor_container.get_editor_preview(
-					get_dialogue_editor().get_tabs().current_tab)
-					
-			_tools_state[tool_scene].set_dialogue_view(dialogue_view)
+			_tools_state[tool_scene].set_dialogue_view(active_preview)
 			
 			add_child(_tools_state[tool_scene])
 			
