@@ -61,14 +61,14 @@ func _on_about_to_show() -> void:
 func _on_DialogueQuickOpen_confirmed() -> void:
 	var file_name = $DialogueQuickOpen.get_selected()
 	
-	print_debug("DialogueQuickOpen Selected: %s" % file_name)
+	print_debug(self, " DialogueQuickOpen Selected: %s" % file_name)
 	
 	if not file_name.empty():
 		var file_path : String = "res://" + file_name
 		
 		var graph_editor = load(file_path).instance()
-		print_debug("Loading GDGraphEditor: %s" % file_path)
+		print_debug(self, " Loading GDGraphEditor: %s" % file_path)
 		
 		if graph_editor is GDGraphEditor:
 			emit_signal("open_dialogue", graph_editor)
-			print_debug("GDGraphEditor Loaded: ", graph_editor)
+			print_debug(self, " GDGraphEditor Loaded: ", graph_editor)

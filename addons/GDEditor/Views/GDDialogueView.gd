@@ -78,7 +78,7 @@ func get_reader_table() -> Dictionary:
 
 func get_components() -> Array:
 	if _component_cache:
-		print_debug("component chache hit!")
+		print_debug(self, " component chache hit!")
 		return _component_cache
 	
 	var components := []
@@ -148,7 +148,7 @@ func render_data(data: GDDialogueData, cursor: GDDialogueCursor) -> void:
 	var d = data.data_table[node_name]
 	var readers = data.reader_table[node_name]
 	
-	print_debug("rendering %s" % node_name)
+	print_debug(self, " rendering %s" % node_name)
 	
 	for reader in readers:
 		reader.render(d, self, cursor)

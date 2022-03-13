@@ -91,7 +91,7 @@ func _on_item_edited() -> void:
 	
 	# TODO: show a warning popup instead of a print.
 	if not edited.get_text(0).is_valid_identifier():
-		print_debug("state_name has to be a valid identifier")
+		print_debug(self, " state_name has to be a valid identifier")
 		return
 	
 	var state := _get_state(edited)

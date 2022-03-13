@@ -44,27 +44,27 @@ func reset() -> void:
 
 
 func forward(port: int) -> void:
-	print_debug("forwarding %s" % current)
+	print_debug(self, " forwarding %s" % current)
 	next(port)
 	emit_signal("forwarded")
 
 
 func end() -> void:
 	current = ""
-	print_debug("Ending cursor...")
+	print_debug(self, " Ending cursor...")
 	emit_signal("end")
 
 
 func next(port : int) -> int:
 	if current.empty():
-		print_debug("Cursor end reached...")
+		print_debug(self, " Cursor end reached...")
 		end()
 		return ERR_END_REACHED
 	
 	var flow_ports := port_map().right_type_all_port(current, pt.PORT_FLOW)
 	
 	if flow_ports.empty():
-		print_debug("%s has no flowport. Resetting..." % current)
+		print_debug(self, "%s has no flowport. Resetting..." % current)
 		reset()
 		return ERR_NO_FLOWPORT
 	
@@ -82,14 +82,14 @@ func next(port : int) -> int:
 				port = p
 		
 		if port == -1:
-			print_debug("%s has no output flowport connection. Resetting..." % current)
+			print_debug(self, "%s has no output flowport connection. Resetting..." % current)
 			reset()
 			return ERR_NO_CONNECTION
 	
 	var nodes := port_map().right_type_port_connection(current, pt.PORT_FLOW, port).keys()
 	current = nodes.front() if nodes.front() else ""
 	
-	print_debug("cursor current: %s" % current)
+	print_debug(self, "cursor current: %s" % current)
 	
 	return OK
 

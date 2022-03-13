@@ -186,17 +186,17 @@ func _on_node_selected(node: Node) -> void:
 	_active_node = node
 	
 	if not _selected_nodes.has(node):
-		print_debug("selected: ", node.name)
+		print_debug(self, " selected: ", node.name)
 		_selected_nodes.append(node)
 	
-	print_debug("active: ", node.name)
+	print_debug(self, " active: ", node.name)
 	
 	
 func _on_node_unselected(node: Node) -> void:
 	if _active_node == node:
 		_active_node = null
 	
-	print_debug("unselected: ", node.name)
+	print_debug(self, " unselected: ", node.name)
 	_selected_nodes.erase(node)
 
 

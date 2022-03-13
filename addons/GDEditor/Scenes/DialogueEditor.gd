@@ -44,7 +44,7 @@ func change_tab(tab: int) -> void:
 	
 	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(tab)
 	
-	print_debug("set active_preview: ", dialogue_preview)
+	print_debug(self, " set active_preview: ", dialogue_preview)
 	
 	# active_preview must be set before adding tools. Because each add_tools invocation
 	# will set each ToolBtn dialogue_preview, which uses the active_preview.
@@ -64,14 +64,14 @@ func _add_graph_editor(graph_editor: GDGraphEditor, tab_name: String, tab_index 
 	_tabs.set_current_tab(current_tab)
 	_graph_editor_container.show_editor(current_tab)
 	
-	print_debug("Added GDGraphEditor to graph_editor_container")
+	print_debug(self, " Added GDGraphEditor to graph_editor_container")
 
 
 func _on_save_dialogue() -> void:
 	var file_name : String = _tabs.get_tab_title(_tabs.current_tab)
 	
 	if file_name.is_valid_filename() and not file_name == "[empty]":
-		print_debug("Saving tab[%d]..." % _tabs.current_tab)
+		print_debug(self, " Saving tab[%d]..." % _tabs.current_tab)
 		
 		var file_path := GDUtil.get_save_dir() + "/" + file_name + ".tscn"
 		
@@ -87,11 +87,11 @@ func _on_preview_dialogue() -> void:
 	var dv : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
 	
 	dv.visible = not dv.visible
-	print_debug("tab(%d) preview visibile: " % _tabs.current_tab, dv.visible)
+	print_debug(self, " tab(%d) preview visibile: " % _tabs.current_tab, dv.visible)
 
 
 func _on_open_dialogue(graph_editor: GDGraphEditor) -> void:
-	print_debug("Opening dialogue: %s" % graph_editor.filename)
+	print_debug(self, " Opening dialogue: %s" % graph_editor.filename)
 	var tab_name : String = graph_editor.filename.get_file().get_basename()
 	
 	_add_graph_editor(graph_editor, tab_name)
@@ -125,7 +125,7 @@ func _on_view_changed(dialogue_view: GDDialogueView) -> void:
 	var current_view : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
 	
 	if dialogue_view is current_view.get_script():
-		print_debug("Selecting same view... No change.")
+		print_debug(self, " Selecting same view... No change.")
 		return
 	
 	var graph_editor = _graph_editor_container.get_editor(_tabs.current_tab)

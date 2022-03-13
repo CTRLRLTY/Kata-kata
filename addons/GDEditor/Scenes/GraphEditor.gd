@@ -27,7 +27,9 @@ func _ready() -> void:
 	# since they are passed by reference
 	cursor.pt = port_map
 	
-	print_debug(self, " connecting cursor signals...")
+	print_debug(self, " using port_map", port_map)
+	print_debug(self, " using dialogue_data", dialogue_data)
+	print_debug(self, " using cursor", cursor)
 	cursor.connect("reset", self, "_on_cursor_reset")
 	cursor.connect("end", self, "_on_cursor_end")
 	cursor.connect("forwarded", self, "_on_cursor_forwarded")
@@ -145,7 +147,7 @@ func save(file_path: String) -> void:
 
 
 func _setup_preview() -> void:
-	print_debug("setting up preview...")
+	print_debug(self, " setting up preview...")
 	_node_selection.clear()
 	
 	var dialogue_view := get_dialogue_preview()
