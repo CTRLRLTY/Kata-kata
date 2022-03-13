@@ -221,6 +221,14 @@ _global_script_class_icons={
 config/name="DialogueEditor"
 config/icon="res://addons/GDEditor/Resources/Icons/icon.png"
 
+[autoload]
+
+Gaelog="*res://addons/GDEditor/Gaelog.tscn"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/GDEditor/plugin.cfg" )
+
 [input]
 
 scrolling={

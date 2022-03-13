@@ -6,6 +6,7 @@ class_name GDDialogueCursor
 
 signal reset
 signal end
+signal forwarded
 
 enum {
 	OK = OK,
@@ -40,6 +41,12 @@ export var pt : Resource = null
 func reset() -> void:
 	current = root
 	emit_signal("reset")
+
+
+func forward(port: int) -> void:
+	print_debug("forwarding %s" % current)
+	next(port)
+	emit_signal("forwarded")
 
 
 func end() -> void:
@@ -81,6 +88,8 @@ func next(port : int) -> int:
 	
 	var nodes := port_map().right_type_port_connection(current, pt.PORT_FLOW, port).keys()
 	current = nodes.front() if nodes.front() else ""
+	
+	print_debug("cursor current: %s" % current)
 	
 	return OK
 

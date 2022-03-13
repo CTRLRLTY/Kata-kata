@@ -27,8 +27,10 @@ func _ready() -> void:
 	# since they are passed by reference
 	cursor.pt = port_map
 	
+	print_debug(self, " connecting cursor signals...")
 	cursor.connect("reset", self, "_on_cursor_reset")
 	cursor.connect("end", self, "_on_cursor_end")
+	cursor.connect("forwarded", self, "_on_cursor_forwarded")
 	
 	if not get_dialogue_preview():
 		var standard_view : GDDialogueView = load(
@@ -201,3 +203,7 @@ func _on_cursor_reset() -> void:
 
 func _on_cursor_end() -> void:
 	cursor.reset()
+
+
+func _on_cursor_forwarded() -> void:
+	_on_dialogue_next()

@@ -14,5 +14,6 @@ func render(data: Dictionary, dialogue_view: GDDialogueView, cursor: GDDialogueC
 		if data.expression:
 			dialogue_view.show_character(data.character, data.expression)
 
-	cursor.next(0)
-	dialogue_view.next()
+#	cursor.next(0)
+#	dialogue_view.next()
+	cursor.forward(0)
