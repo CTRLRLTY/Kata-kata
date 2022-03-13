@@ -3,6 +3,7 @@ tool
 extends Tabs
 
 signal tab_closed(tab)
+signal tab_renamed(tab, old_name, new_name)
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -37,7 +38,6 @@ func add_tab(title := "", icon: Texture = null) -> void:
 	
 	emit_signal("tab_changed", current_tab)
 
-
 func _on_tab_close(tab: int) -> void:
 	if $NameEdit.visible:
 		return
@@ -49,8 +49,14 @@ func _on_tab_close(tab: int) -> void:
 
 func _on_NameEdit_text_entered(new_text: String) -> void:
 	$NameEdit.hide()
-	set_tab_title(current_tab, new_text)
 
 
 func _on_NameEdit_hide() -> void:
-	set_tab_title(current_tab, $NameEdit.text)
+	var tab_name := get_tab_title(current_tab)
+	var new_name : String = $NameEdit.text
+	
+	if not new_name == tab_name:
+		print_debug(self, " tab(%d) renamed from %s to %s" % [current_tab, tab_name, new_name])
+		set_tab_title(current_tab, new_name)
+		
+		emit_signal("tab_renamed", current_tab, tab_name, new_name)
