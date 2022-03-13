@@ -38,10 +38,8 @@ func _ready() -> void:
 	if has_meta("depth"):
 		_depth = get_meta("depth")
 		print_debug(self, " Metadata:depth ", _depth)
-	else:
-		set_meta("depth", _depth)
 	
-	set_depth(get_meta("depth"))
+	set_depth(_depth)
 
 
 func set_title(t: String) -> void:
