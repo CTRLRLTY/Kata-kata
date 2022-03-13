@@ -43,10 +43,14 @@ func change_tab(tab: int) -> void:
 	_graph_editor_container.show_editor(tab)
 	
 	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(tab)
-	_tools_container.add_tools(dialogue_preview.get_tools())
 	
 	print_debug("set active_preview: ", dialogue_preview)
+	
+	# active_preview must be set before adding tools. Because each add_tools invocation
+	# will set each ToolBtn dialogue_preview, which uses the active_preview.
 	propagate_call("set", ["active_preview", dialogue_preview])
+	
+	_tools_container.add_tools(dialogue_preview.get_tools())
 
 
 func _add_graph_editor(graph_editor: GDGraphEditor, tab_name: String, tab_index := -1) -> void:
