@@ -145,6 +145,15 @@ func block_next(block: bool) -> void:
 
 func render_data(data: GDDialogueData, cursor: GDDialogueCursor) -> void:
 	var node_name := cursor.current
+	
+	if node_name.empty():
+		print_debug(self, " Nothing to render...")
+		return
+	
+	if not data.data_table.has(node_name):
+		print_debug(self, " %s data record does not exist" % node_name)
+		return
+	
 	var d = data.data_table[node_name]
 	var readers = data.reader_table[node_name]
 	
