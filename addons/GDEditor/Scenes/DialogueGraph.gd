@@ -76,8 +76,7 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 				printerr("GraphEdit already has a StartNode")
 				return
 	
-	emit_signal("graph_node_add", gn)
-	
+	_graph_node_add(gn)
 	add_child(gn)
 	
 	var node_name := gn.name
@@ -87,11 +86,6 @@ func drop_data(position: Vector2, data : Dictionary) -> void:
 	
 	if gn is GDEndGN:
 		port_map().set_node_depth(node_name, 1) 
-	
-	
-	yield(get_tree(), "idle_frame")
-	
-	emit_signal("graph_node_added", gn)
 
 
 func port_map() -> GDPortMap:
@@ -101,6 +95,16 @@ func port_map() -> GDPortMap:
 func save() -> void:
 	popup_menu.owner = owner
 	s_connection_list = get_connection_list()
+
+
+# This has to be called before add_child(gn)
+func _graph_node_add(gn: GDGraphNode) -> void:
+	emit_signal("graph_node_add", gn)
+	
+	if not gn.is_inside_tree():
+		yield(gn, "ready")
+	
+	emit_signal("graph_node_added", gn)
 
 
 func _on_connection_request(from: String, from_slot: int, to: String, to_slot: int) -> void:
@@ -168,6 +172,21 @@ func _on_popup_menu_pressed(id: int) -> void:
 			
 		popup_menu.Item.COPY:
 			_copy_buffer = _selected_nodes.duplicate()
+			
+		popup_menu.Item.PASTE:
+			# deselect the selection group
+			set_selected(null)
+			
+			for copy in _copy_buffer:
+				if copy is GDStartGN:
+					continue
+				
+				var gn : GDGraphNode = copy.duplicate()
+				
+				_graph_node_add(gn)
+				add_child(gn)
+				
+				gn.selected = true
 			
 		popup_menu.Item.DELETE:
 			print("deleting: ", _selected_nodes)

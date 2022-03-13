@@ -91,5 +91,9 @@ func _on_MessageEdit_text_changed() -> void:
 
 
 func _on_EditBtn_toggled(button_pressed: bool) -> void:
+	# Might be null when duplicated
+	if not _message_edit:
+		return
+	
 	_message_edit.visible = button_pressed
 	_message_edit.grab_focus()

@@ -82,6 +82,7 @@ func get_graph_editor() -> Control:
 
 
 func set_graph_editor(ge: Control) -> void:
+	print_debug(self, " _graph_editor set ", ge)
 	_graph_editor = ge
 	
 	set_meta("GraphEditorPath", ge.get_path())

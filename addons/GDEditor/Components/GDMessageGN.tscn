@@ -18,6 +18,7 @@ theme = SubResource( 4 )
 custom_constants/port_offset = 10
 custom_constants/separation = 15
 title = "Message[0]"
+resizable = true
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color( 0.13, 0.55, 0.13, 1 )
@@ -41,6 +42,7 @@ __meta__ = {
 "branch": 0,
 "depth": 0
 }
+resize_direction = 0
 
 [node name="FlowPort" parent="." instance=ExtResource( 1 )]
 
