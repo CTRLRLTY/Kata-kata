@@ -175,7 +175,13 @@ func _on_popup_menu_pressed(id: int) -> void:
 			
 		popup_menu.Item.PASTE:
 			# deselect the selection group
+		
+			if _copy_buffer.empty():
+				print_debug(self, " nothing to paste...")
+				return
+			
 			set_selected(null)
+			_selected_nodes.clear()
 			
 			for copy in _copy_buffer:
 				if copy is GDStartGN:
@@ -187,6 +193,8 @@ func _on_popup_menu_pressed(id: int) -> void:
 				add_child(gn)
 				
 				gn.selected = true
+				
+				_selected_nodes.append(gn)
 			
 		popup_menu.Item.DELETE:
 			print("deleting: ", _selected_nodes)
