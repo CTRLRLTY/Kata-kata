@@ -10,6 +10,9 @@ onready var _tools_container := find_node("ToolsContainer")
 
 
 func _ready() -> void:
+	if get_tree().edited_scene_root == self:
+		return
+	
 	GDUtil.set_dialogue_editor(self)
 	
 #	_add_graph_editor(load("res://addons/GDEditor/Saves/uwu.tscn").instance(), "test")

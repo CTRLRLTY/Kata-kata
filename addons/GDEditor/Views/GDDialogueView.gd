@@ -17,11 +17,12 @@ signal event(what)
 signal dialogue_end
 
 var _tools_tested := false
-var _dgraph : GraphEdit
+var _component_cache : Array
+var _dgraph: GraphEdit
 
 var _blocked := false
 
-var _dialogue_data : GDDialogueData
+var _dialogue_data: GDDialogueData
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -76,6 +77,10 @@ func get_reader_table() -> Dictionary:
 
 
 func get_components() -> Array:
+	if _component_cache:
+		print_debug("component chache hit!")
+		return _component_cache
+	
 	var components := []
 	
 	for component in _dialogue_components():
@@ -103,8 +108,9 @@ func get_components() -> Array:
 			component.name = component.get("name", scene.get_component_name())
 			
 			scene.free()
-			
 			components.append(component)
+	
+	_component_cache = components
 	
 	return components
 

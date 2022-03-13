@@ -143,6 +143,7 @@ func save(file_path: String) -> void:
 
 
 func _setup_preview() -> void:
+	print_debug("setting up preview...")
 	_node_selection.clear()
 	
 	var dialogue_view := get_dialogue_preview()
@@ -154,7 +155,6 @@ func _setup_preview() -> void:
 		var component_scene : PackedScene = component.scene
 		
 		var idx : int = _node_selection.get_item_count()
-		var gn : GDGraphNode = component_scene.instance()
 		
 		_node_selection.add_item(component.name)
 		_node_selection.set_item_metadata(idx, component_scene)
