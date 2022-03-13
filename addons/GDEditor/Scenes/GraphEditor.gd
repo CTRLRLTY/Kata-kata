@@ -15,6 +15,9 @@ onready var _state_tree := _main.find_node("ContextStateTree")
 
 
 func _ready() -> void:
+	if get_tree().edited_scene_root == self:
+		return
+	
 	var port_map : GDPortMap = get_dialogue_graph().port_map()
 	
 	if not dialogue_data:

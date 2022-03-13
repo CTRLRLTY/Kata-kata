@@ -11,6 +11,9 @@ onready var _character_selection : OptionButton = find_node("CharacterSelection"
 
 
 func _ready() -> void:
+	if get_tree().edited_scene_root == self:
+		return
+	
 	_character_selection.graph_node = self
 
 

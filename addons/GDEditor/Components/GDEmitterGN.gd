@@ -10,6 +10,9 @@ onready var _event_edit := find_node("EventEdit")
 
 
 func _ready() -> void:
+	if get_tree().edited_scene_root == self:
+		return
+	
 	_event_edit.text = s_event_name
 
 

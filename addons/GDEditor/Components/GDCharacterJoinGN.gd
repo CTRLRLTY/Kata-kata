@@ -26,6 +26,9 @@ onready var _vbox_expression := find_node("VBoxExpression")
 
 
 func _ready() -> void:
+	if get_tree().edited_scene_root == self:
+		return
+	
 	if get_dialogue_view():
 		if get_dialogue_view().get_class() == "GDStandardView":
 			find_node("OffsetBtn").hide()

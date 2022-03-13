@@ -16,6 +16,9 @@ onready var _expression_selection := find_node("ExpressionSelection")
 
 
 func _ready() -> void:
+	if get_tree().edited_scene_root == self:
+		return
+	
 	_message_edit.text = message
 	_character_selection.graph_node = self
 	_expression_selection.graph_node = self
