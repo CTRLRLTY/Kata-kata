@@ -27,8 +27,6 @@ func _ready() -> void:
 	if get_tree().edited_scene_root == self:
 		return
 	
-	print_debug(self, " using port_map", pt)
-	
 	popup_menu.connect("id_pressed", self, "_on_popup_menu_pressed")
 	rename_dialog.connect("node_rename", self, "_on_node_rename_confirmed")
 
@@ -51,7 +49,10 @@ func _ready() -> void:
 	add_valid_left_disconnect_type(PortRect.PortType.FLOW)
 	add_valid_left_disconnect_type(PortRect.PortType.UNIVERSAL)
 
-	pt = GDPortMap.create(pt)
+	if not pt:
+		pt = GDPortMap.new()
+	
+	print_debug(self, " using port_map", pt)
 	
 	port_map().connect("connected", self, "_on_node_connected")
 	port_map().connect("disconnected", self, "_on_node_disconnected")

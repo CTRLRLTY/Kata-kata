@@ -21,17 +21,25 @@ var _depth := 0
 
 
 func _ready() -> void:
+	if get_tree().edited_scene_root == self:
+		return
+	
 	if has_meta("GraphEditorPath"):
 		var GraphEditorPath = get_meta("GraphEditorPath")
 		
+		print_debug(self, " Metatada:GraphEditorPath ", GraphEditorPath)
+		
 		if GraphEditorPath is NodePath:
-			if not GraphEditorPath and has_node(GraphEditorPath):
+			if has_node(GraphEditorPath):
 				_graph_editor = get_node(GraphEditorPath)
+			
+				print_debug(self, " dependancy ", _graph_editor)
 	
-	if not has_meta("depth"):
-		set_meta("depth", _depth)
-	else:
+	if has_meta("depth"):
 		_depth = get_meta("depth")
+		print_debug(self, " Metadata:depth ", _depth)
+	else:
+		set_meta("depth", _depth)
 	
 	set_depth(get_meta("depth"))
 

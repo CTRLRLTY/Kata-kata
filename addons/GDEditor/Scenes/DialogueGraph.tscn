@@ -1,16 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/GDEditor/Scenes/DialogueGraph.gd" type="Script" id=1]
 [ext_resource path="res://addons/GDEditor/Scenes/DGPopupMenu.gd" type="Script" id=2]
-[ext_resource path="res://addons/GDEditor/Resources/Custom/GDPortMap.gd" type="Script" id=3]
 [ext_resource path="res://addons/GDEditor/Scenes/RenameDialog.gd" type="Script" id=4]
-
-[sub_resource type="Resource" id=1]
-script = ExtResource( 3 )
-table = {
-}
-depth = {
-}
 
 [node name="DialogueGraph" type="GraphEdit"]
 margin_left = 226.0
@@ -23,7 +15,6 @@ snap_distance = 5
 use_snap = false
 minimap_enabled = false
 script = ExtResource( 1 )
-pt = SubResource( 1 )
 
 [node name="DGPopupMenu" type="PopupMenu" parent="."]
 margin_right = 20.0
