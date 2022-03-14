@@ -11,9 +11,15 @@ onready var _tabs := find_node("Tabs")
 # Deleted soon
 onready var _graph_editor_container = null
 
-onready var _tools_container := find_node("ToolsContainer")
-onready var _left_dock := find_node("LeftDock")
-onready var _main := find_node("Main")
+onready var _top := find_node("Top")
+onready var _middle := find_node("Middle")
+onready var _bottom := find_node("Bottom")
+
+onready var _tab_menu := _top.find_node("TabMenuPopup")
+onready var _tools_container := _top.find_node("ToolsContainer")
+
+onready var _left_dock := _bottom.find_node("LeftDock")
+onready var _main := _bottom.find_node("Main")
 onready var _graphs := _main.get_node("Graphs")
 onready var _views := _main.get_node("Views")
 
@@ -89,10 +95,8 @@ func _on_new_dialogue(dialogue_name: String) -> void:
 
 
 func _on_preview_dialogue() -> void:
-	var dv : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
-	
-	dv.visible = not dv.visible
-	GDUtil.print([self, " tab(%d) preview visibile: " % _tabs.current_tab, dv.visible], 4)
+	_views.visible = not _views.visible
+	GDUtil.print([self, " tab(%d) preview visibile: " % _tabs.current_tab, _views.visible], GDUtil.PR_INFO, 2)
 
 
 func _on_open_dialogue(graph_editor: GDGraphEditor) -> void:
@@ -161,7 +165,7 @@ func _on_view_active(view: GDDialogueView) -> void:
 	
 	_tools_container.add_tools(view.get_tools())
 	
-	GDUtil.print([self, " setting up preview..."], GDUtil.PR_INFO, 3)
+	GDUtil.print([self, " populating node selections..."], GDUtil.PR_INFO, 3)
 	
 	var node_selection = _left_dock.get_node_selection()
 	node_selection.clear()
@@ -183,3 +187,10 @@ func _on_graph_active(graph: DialogueGraph) -> void:
 	GDUtil.print([self, " set active_graph: ", graph], GDUtil.PR_INFO, 4)
 	
 	active_graph = graph
+
+
+func _on_TabMenuPopup_about_to_show() -> void:
+	if _views.visible:
+		_tab_menu.set_item_text(_tab_menu.MENU_PREVIEW_DIALOGUE, "Preview [on]")
+	else:
+		_tab_menu.set_item_text(_tab_menu.MENU_PREVIEW_DIALOGUE, "Preview [off]")

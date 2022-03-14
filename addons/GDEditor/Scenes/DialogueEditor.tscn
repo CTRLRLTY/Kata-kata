@@ -298,9 +298,10 @@ script = ExtResource( 14 )
 
 [connection signal="pressed" from="VBoxContainer/Top/ViewBtn" to="VBoxContainer/Top/ViewBtn" method="_on_pressed"]
 [connection signal="pressed" from="VBoxContainer/Top/TabMenuBtn" to="VBoxContainer/Middle" method="_on_TabMenuBtn_pressed"]
-[connection signal="about_to_show" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" to="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" method="_on_about_to_show"]
+[connection signal="about_to_show" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" to="." method="_on_TabMenuPopup_about_to_show"]
 [connection signal="id_pressed" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" to="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" method="_on_id_pressed"]
 [connection signal="new_dialogue" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" to="." method="_on_new_dialogue"]
+[connection signal="preview_dialogue" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" to="." method="_on_preview_dialogue"]
 [connection signal="confirmed" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" to="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" method="_on_DialogueNamePrompt_confirmed"]
 [connection signal="pressed" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/CancelBtn" to="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_CancelBtn_pressed"]
 [connection signal="pressed" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/ConfirmBtn" to="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_ConfirmBtn_pressed"]

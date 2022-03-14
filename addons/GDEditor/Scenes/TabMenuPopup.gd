@@ -16,9 +16,6 @@ enum {
 	MENU_SAVE_DIALOGUE_AS,
 }
 
-# This variable is set externally, don't touch.
-var active_view: GDDialogueView
-
 
 func _ready() -> void:
 	# There exist a case where somehow an item 
@@ -49,13 +46,6 @@ func _on_id_pressed(id: int) -> void:
 
 func _on_DialogueNamePrompt_confirmed(dialogue_name) -> void:
 	emit_signal("new_dialogue", dialogue_name)
-
-
-func _on_about_to_show() -> void:
-	if active_view.visible:
-		set_item_text(MENU_PREVIEW_DIALOGUE, "Preview [on]")
-	else:
-		set_item_text(MENU_PREVIEW_DIALOGUE, "Preview [off]")
 
 
 func _on_DialogueQuickOpen_confirmed() -> void:
