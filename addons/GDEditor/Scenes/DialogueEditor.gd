@@ -156,7 +156,8 @@ func _on_view_active(view: GDDialogueView) -> void:
 	
 	# active_view must be set before adding tools. Because each add_tools invocation
 	# will set each ToolBtn dialogue_view, which uses the active_view.
-	propagate_call("set", ["active_view", view], true)
+	_tools_container.active_view = view
+	_main.active_view = view
 	
 	_tools_container.add_tools(view.get_tools())
 	

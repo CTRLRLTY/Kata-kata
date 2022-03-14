@@ -5,6 +5,15 @@ extends VSplitContainer
 onready var _views := $Views
 onready var _graphs := $Graphs
 
+
+####################################################
+#	External Variable
+####################################################
+# This variable is managed externally, don't touch..
+
+var active_view: GDDialogueView setget set_active_view
+####################################################
+
 var port_maps := []
 var dialogue_datas := []
 
@@ -49,6 +58,12 @@ func tab_save(index: int) -> void:
 	_graphs.save_graph(index, "res://addons/GDEditor/Saves/save.tscn")
 
 
+func set_active_view(view: GDDialogueView) -> void:
+	active_view = view
+	_graphs.active_view = view
+	_views.active_view = view
+
+
 func _on_graph_node_add(tab: int, gn: GDGraphNode) -> void:
 	pass # Replace with function body.
 
@@ -61,6 +76,6 @@ func _on_graph_node_removed(tab: int, gn: GDGraphNode) -> void:
 	pass # Replace with function body.
 
 
-func _on_graph_added(graph: DialogueGraph) -> void:	
+func _on_graph_added(graph: DialogueGraph) -> void:
 	dialogue_datas.append(GDDialogueData.new())
 	port_maps.append(graph.port_map())
