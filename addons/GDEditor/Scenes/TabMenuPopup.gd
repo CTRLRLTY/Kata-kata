@@ -17,7 +17,7 @@ enum {
 }
 
 # This variable is set externally, don't touch.
-var active_preview: GDDialogueView
+var active_view: GDDialogueView
 
 
 func _ready() -> void:
@@ -52,7 +52,7 @@ func _on_DialogueNamePrompt_confirmed(dialogue_name) -> void:
 
 
 func _on_about_to_show() -> void:
-	if active_preview.visible:
+	if active_view.visible:
 		set_item_text(MENU_PREVIEW_DIALOGUE, "Preview [on]")
 	else:
 		set_item_text(MENU_PREVIEW_DIALOGUE, "Preview [off]")
@@ -61,14 +61,17 @@ func _on_about_to_show() -> void:
 func _on_DialogueQuickOpen_confirmed() -> void:
 	var file_name = $DialogueQuickOpen.get_selected()
 	
-	print_debug(self, " DialogueQuickOpen Selected: %s" % file_name)
+	GDUtil.print([self, " DialogueQuickOpen Selected: %s" % file_name], GDUtil.PR_INFO, 2)
 	
 	if not file_name.empty():
 		var file_path : String = "res://" + file_name
 		
 		var graph_editor = load(file_path).instance()
-		print_debug(self, " Loading GDGraphEditor: %s" % file_path)
+		GDUtil.print([self, " Loading GDGraphEditor: %s" % file_path], GDUtil.PR_INFO, 5)
 		
 		if graph_editor is GDGraphEditor:
 			emit_signal("open_dialogue", graph_editor)
-			print_debug(self, " GDGraphEditor Loaded: ", graph_editor)
+			GDUtil.print([self, " GDGraphEditor Loaded: ", graph_editor], GDUtil.PR_INFO, 2)
+			
+		else:
+			graph_editor.free()

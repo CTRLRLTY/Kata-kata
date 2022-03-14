@@ -11,7 +11,7 @@ export var cursor : Resource = null
 
 onready var _main := $MainContainer
 onready var _node_selection := find_node("NodeSelection")
-onready var _state_tree := _main.find_node("ContextStateTree")
+#onready var _state_tree := _main.find_node("ContextStateTree")
 
 
 func _ready() -> void:
@@ -64,8 +64,8 @@ func get_dialogue_graph() -> DialogueGraph:
 	return gd
 
 
-func get_state_tree() -> GDContextStateTree:
-	return _state_tree as GDContextStateTree
+#func get_state_tree() -> GDContextStateTree:
+#	return _state_tree as GDContextStateTree
 
 
 func set_dialogue_graph(dgraph: DialogueGraph) -> void:

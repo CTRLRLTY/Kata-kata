@@ -1,6 +1,6 @@
 tool
 
-extends Control
+extends VSplitContainer
 
 
 class_name GDGraphEditorContainer

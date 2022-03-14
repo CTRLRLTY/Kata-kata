@@ -6,7 +6,9 @@ const DialogueEditorScene := preload("res://addons/GDEditor/Scenes/DialogueEdito
 var dialogue_editor : Control
 
 func _enter_tree() -> void:
-	GDUtil.set_editor_plugin(self)
+#	GDUtil.set_editor_plugin(self)
+#	GDUtil.set_debug(true)
+#	GDUtil.set_log_verbosity(4)
 	
 	dialogue_editor = DialogueEditorScene.instance()
 	get_editor_interface().get_editor_viewport().add_child(dialogue_editor)

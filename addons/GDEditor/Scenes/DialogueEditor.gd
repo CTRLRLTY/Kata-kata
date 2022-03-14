@@ -4,25 +4,34 @@ extends Control
 
 class_name GDDialogueEditor
 
+var active_graph: DialogueGraph
+var active_view: DialogueGraph
+
 onready var _tabs := find_node("Tabs")
-onready var _graph_editor_container := find_node("GraphEditorContainer")
+# Deleted soon
+onready var _graph_editor_container = null
+
 onready var _tools_container := find_node("ToolsContainer")
+onready var _left_dock := find_node("LeftDock")
+onready var _main := find_node("Main")
+onready var _graphs := _main.get_node("Graphs")
+onready var _views := _main.get_node("Views")
 
 
 func _ready() -> void:
 	if get_tree().edited_scene_root == self:
 		return
 	
+	GDUtil.set_debug(true)
+	GDUtil.set_log_verbosity(2)
+	
 	GDUtil.set_dialogue_editor(self)
+	add_empty_tab()
 	
 #	_add_graph_editor(load("res://addons/GDEditor/Saves/uwu.tscn").instance(), "test")
 #
-	if not _graph_editor_container.get_editor_count():
-		add_empty_tab()
-
-
-func get_graph_editor_container() -> GDGraphEditorContainer:
-	return _graph_editor_container as GDGraphEditorContainer
+#	if not _graph_editor_container.get_editor_count():
+#		add_empty_tab()
 
 
 func get_tabs() -> Tabs:
@@ -34,23 +43,18 @@ func get_tools_container() -> Control:
 
 
 func add_empty_tab() -> void:
-	_add_graph_editor(load(GDUtil.resolve("GraphEditor.tscn")).instance(), "[empty]")
+	add_tab("[empty]")
+
+
+func add_tab(tab_name: String) -> void:
+	_main.tab_add_empty()
+	_tabs.add_tab(tab_name)
 
 
 func change_tab(tab: int) -> void:
-	_tools_container.clear_tools()
+	GDUtil.print([self, " change to tab:", tab], GDUtil.PR_INFO, 2)
 	
-	_graph_editor_container.show_editor(tab)
-	
-	var dialogue_preview : GDDialogueView = _graph_editor_container.get_editor_preview(tab)
-	
-	print_debug(self, " set active_preview: ", dialogue_preview)
-	
-	# active_preview must be set before adding tools. Because each add_tools invocation
-	# will set each ToolBtn dialogue_preview, which uses the active_preview.
-	propagate_call("set", ["active_preview", dialogue_preview])
-	
-	_tools_container.add_tools(dialogue_preview.get_tools())
+	_main.tab_show(tab)
 
 
 func _add_graph_editor(graph_editor: GDGraphEditor, tab_name: String, tab_index := -1) -> void:
@@ -78,16 +82,17 @@ func _on_save_dialogue() -> void:
 		_graph_editor_container.save_editor(_tabs.current_tab, file_path)
 
 
-func _on_new_dialogue(dialogue_name) -> void:
-	_add_graph_editor(
-			load(GDUtil.resolve("GraphEditor.tscn")).instance(), dialogue_name)
+func _on_new_dialogue(dialogue_name: String) -> void:
+	add_tab(dialogue_name)
+#	_add_graph_editor(
+#			load(GDUtil.resolve("GraphEditor.tscn")).instance(), dialogue_name)
 
 
 func _on_preview_dialogue() -> void:
 	var dv : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
 	
 	dv.visible = not dv.visible
-	print_debug(self, " tab(%d) preview visibile: " % _tabs.current_tab, dv.visible)
+	GDUtil.print([self, " tab(%d) preview visibile: " % _tabs.current_tab, dv.visible], 4)
 
 
 func _on_open_dialogue(graph_editor: GDGraphEditor) -> void:
@@ -125,7 +130,7 @@ func _on_view_changed(dialogue_view: GDDialogueView) -> void:
 	var current_view : GDDialogueView = _graph_editor_container.get_editor_preview(_tabs.current_tab)
 	
 	if dialogue_view is current_view.get_script():
-		print_debug(self, " Selecting same view... No change.")
+		GDUtil.print([self, " Selecting same view... No change"], GDUtil.PR_INFO, 2)
 		return
 	
 	var graph_editor = _graph_editor_container.get_editor(_tabs.current_tab)
@@ -136,3 +141,41 @@ func _on_view_changed(dialogue_view: GDDialogueView) -> void:
 	graph_editor.set_dialogue_graph(dialogue_graph)
 	
 	_tools_container.set_tools(dialogue_view.get_tools())
+
+
+func _on_view_active(view: GDDialogueView) -> void:
+	# Called twice when adding a new tab... Issue?
+	
+	_tools_container.clear_tools()
+	
+	GDUtil.print([self, " set active_view: ", view], GDUtil.PR_INFO, 4)
+	
+	# active_view must be set before adding tools. Because each add_tools invocation
+	# will set each ToolBtn dialogue_view, which uses the active_view.
+	propagate_call("set", ["active_view", view], true)
+	
+	_tools_container.add_tools(view.get_tools())
+	
+	GDUtil.print([self, " setting up preview..."], GDUtil.PR_INFO, 2)
+	
+	var node_selection = _left_dock.get_node_selection()
+	node_selection.clear()
+	
+	for component in view.get_components():
+		var component_scene : PackedScene = component.scene
+		
+		var idx : int = node_selection.get_item_count()
+		
+		node_selection.add_item(component.name)
+		node_selection.set_item_metadata(idx, component_scene)
+
+
+func _on_view_active_next() -> void:
+	pass # Replace with function body.
+
+
+func _on_graph_active(graph: DialogueGraph) -> void:
+	GDUtil.print([self, " set active_graph: ", graph], GDUtil.PR_INFO, 4)
+	
+	active_graph = graph
+	propagate_call("set", ["active_graph", graph], true)

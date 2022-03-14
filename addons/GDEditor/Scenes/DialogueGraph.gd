@@ -52,7 +52,7 @@ func _ready() -> void:
 	if not pt:
 		pt = GDPortMap.new()
 	
-	print_debug(self, " using port_map", pt)
+	GDUtil.print([self, " using port_map", pt], GDUtil.PR_INFO, 4)
 	
 	port_map().connect("connected", self, "_on_node_connected")
 	port_map().connect("disconnected", self, "_on_node_disconnected")
@@ -177,7 +177,7 @@ func _on_popup_menu_pressed(id: int) -> void:
 			# deselect the selection group
 		
 			if _copy_buffer.empty():
-				print_debug(self, " nothing to paste...")
+				GDUtil.print([self, " nothing to paste..."], GDUtil.PR_WARN, 1)
 				return
 			
 			set_selected(null)
@@ -219,17 +219,17 @@ func _on_node_selected(node: Node) -> void:
 	_active_node = node
 	
 	if not _selected_nodes.has(node):
-		print_debug(self, " selected: ", node.name)
+		GDUtil.print([self, " selected: ", node.name], GDUtil.PR_INFO, 4)
 		_selected_nodes.append(node)
 	
-	print_debug(self, " active: ", node.name)
+	GDUtil.print([self, " active: ", node.name], GDUtil.PR_INFO, 2)
 	
 	
 func _on_node_unselected(node: Node) -> void:
 	if _active_node == node:
 		_active_node = null
 	
-	print_debug(self, " unselected: ", node.name)
+	GDUtil.print([self, " unselected: ", node.name], GDUtil.PR_INFO, 4)
 	_selected_nodes.erase(node)
 
 

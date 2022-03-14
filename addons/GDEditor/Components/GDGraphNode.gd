@@ -16,6 +16,16 @@ enum PortType {
 	FLOW = GDPortMap.PORT_FLOW
 }
 
+
+#######################################################
+#	EXTERNAL VARIABLES
+# #####################################################
+#	These variables are managed externally, don't touch...
+
+var __port_map__: GDPortMap
+var __dialogue_view__: Control
+#######################################################
+
 var _graph_editor : Control
 var _depth := 0
 
@@ -40,6 +50,10 @@ func _ready() -> void:
 		print_debug(self, " Metadata:depth ", _depth)
 	
 	set_depth(_depth)
+
+
+func update_value() -> void:
+	emit_signal("value_updated")
 
 
 func set_title(t: String) -> void:
@@ -71,14 +85,7 @@ func set_depth(num: int) -> void:
 
 
 func get_dialogue_view() -> Control:
-	if get_graph_editor():
-		return get_graph_editor().get_dialogue_preview()
-	
-	return null
-
-
-func get_graph_editor() -> Control:
-	return _graph_editor
+	return __dialogue_view__
 
 
 func set_graph_editor(ge: Control) -> void:
@@ -96,24 +103,8 @@ func get_readers() -> Array:
 	return []
 
 
-func get_dialogue_editor() -> Control:
-	return GDUtil.get_dialogue_editor()
-
-
-# Assumes dialogue_grapt is DialogueGraph
-func get_dialogue_graph() -> GraphEdit:
-	return get_parent() as GraphEdit
-
-
-func update_value() -> void:
-	emit_signal("value_updated")
-
-
 func port_map() -> GDPortMap:
-	if get_dialogue_graph():
-		return get_dialogue_graph().port_map()
-	
-	return GDPortMap.new()
+	return __port_map__
 
 
 func connection_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
@@ -130,11 +121,6 @@ func disconnection_from(graph_node: GDGraphNode, from_slot: int, to_slot: int) -
 
 func disconnection_to(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:
 	return _disconnection_to(graph_node, to_slot, from_slot)
-
-
-func disconnect_all_ports() -> void:
-	if get_dialogue_graph():
-		pass
 
 
 func get_ports(port_type: int, pos: int) -> Array:
@@ -199,7 +185,6 @@ func port2slot(port: int, pos: int) -> int:
 
 func get_save_data():
 	pass
-
 
 
 func _connection_from(graph_node: GDGraphNode, to_slot: int, from_slot: int) -> bool:

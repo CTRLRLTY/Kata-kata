@@ -2,9 +2,70 @@ extends Reference
 
 class_name GDUtil
 
+enum {
+	PR_ERR = 1,
+	PR_WARN = 2,
+	PR_INFO = 4,
+}
 
 const _state := {}
 const _resolved_path_cache := {}
+
+
+static func print(msgs: Array, level := PR_ERR, verbosity := 1) -> void:
+	if not get_debug():
+		return
+	
+	if get_log_cascade():
+		if verbosity > get_log_verbosity():
+			return
+	else:
+		if not verbosity == get_log_verbosity():
+			return
+	
+	var p : String
+	var m := ""
+	
+	for message in msgs:
+		if message is Object:
+			m += message.to_string()
+		else:
+			m += String(message)
+	
+	if level & get_log_level():
+		print(m)
+
+
+static func get_log_verbosity() -> int:
+	return _state.get("log_verbosity", 1)
+
+
+static func set_log_verbosity(n: int) -> void:
+	_state["log_verbosity"] = n
+
+
+static func get_log_level() -> int:
+	return _state.get("log_level", PR_INFO)
+
+
+static func get_log_cascade() -> bool:
+	return _state.get("log_cascade", true)
+
+
+static func set_log_cascade(cascade: bool) -> void:
+	_state["log_cascade"] = cascade
+
+
+static func set_debug(v: int) -> void:
+	_state["debug"] = v
+
+
+static func get_debug() -> bool:
+	return _state.get("debug", false)
+
+
+static func set_log_level(level_flag: int) -> void:
+	_state["log_level"] = level_flag
 
 
 static func get_characters_dir() -> String:

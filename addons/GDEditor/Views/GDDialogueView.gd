@@ -18,7 +18,6 @@ signal dialogue_end
 
 var _tools_tested := false
 var _component_cache : Array
-var _dgraph: GraphEdit
 
 var _blocked := false
 
@@ -78,7 +77,7 @@ func get_reader_table() -> Dictionary:
 
 func get_components() -> Array:
 	if _component_cache:
-		print_debug(self, " component chache hit!")
+		GDUtil.print([self, " component chache hit!"], GDUtil.PR_INFO, 4)
 		return _component_cache
 	
 	var components := []
@@ -129,14 +128,6 @@ func get_tools() -> Array:
 		_tools_tested = true
 	
 	return _tool_buttons()
-
-
-func get_dialogue_graph() -> GraphEdit:
-	return _dgraph
-
-
-func set_dialogue_graph(dgraph: GraphEdit) -> void:
-	_dgraph = dgraph
 
 
 func block_next(block: bool) -> void:

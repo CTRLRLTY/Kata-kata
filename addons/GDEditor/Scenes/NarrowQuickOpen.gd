@@ -43,7 +43,7 @@ func _update_search() -> void:
 	var fs := GDUtil.get_file_system()
 	
 	if not fs:
-		print_debug(self, " can't call get_file_system() when not running in Editor")
+		GDUtil.print([self, " can't call get_file_system() when not running in Editor"], GDUtil.PR_ERR, 0)
 		return
 	
 	var efsd := fs.get_filesystem_path(_search_path)
