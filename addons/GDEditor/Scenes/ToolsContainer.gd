@@ -15,7 +15,7 @@ func _exit_tree() -> void:
 
 
 func get_dialogue_editor() -> Control:
-	return GDUtil.get_dialogue_editor()
+	return GDutil.get_dialogue_editor()
 
 
 func set_tools(tools: Array) -> void:

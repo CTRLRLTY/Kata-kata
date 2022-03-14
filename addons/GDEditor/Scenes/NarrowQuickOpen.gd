@@ -40,10 +40,10 @@ func _update_search() -> void:
 	_search_options.clear()
 	var root := _search_options.create_item()
 	
-	var fs := GDUtil.get_file_system()
+	var fs := GDutil.get_file_system()
 	
 	if not fs:
-		GDUtil.print([self, " can't call get_file_system() when not running in Editor"], GDUtil.PR_ERR, 0)
+		GDutil.print([self, " can't call get_file_system() when not running in Editor"], GDutil.PR_ERR, 0)
 		return
 	
 	var efsd := fs.get_filesystem_path(_search_path)
@@ -58,7 +58,7 @@ func _update_search() -> void:
 		
 		if efsd.get_file_type(i) == _base_type and _search_box.text.is_subsequence_ofi(file):
 			var ti := _search_options.create_item(root)
-			var icon := GDUtil.get_icon(_base_type)
+			var icon := GDutil.get_icon(_base_type)
 			
 			ti.set_text(0, file)
 			ti.set_icon(0, icon)

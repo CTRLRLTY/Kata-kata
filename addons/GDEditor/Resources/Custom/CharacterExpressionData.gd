@@ -7,5 +7,5 @@ export(String) var expression_name
 
 
 func _init() -> void:
-	expression_texture = load(GDUtil.resolve("icon.png"))
+	expression_texture = load(GDutil.resolve("icon.png"))
 	expression_name = "owo"

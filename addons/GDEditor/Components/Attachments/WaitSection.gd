@@ -30,4 +30,4 @@ func _on_Timer_timeout() -> void:
 
 
 func _on_ValueEdit_focus_exited() -> void:
-	GDUtil.filter_edit(_float_filter, _value_edit)
+	GDutil.filter_edit(_float_filter, _value_edit)

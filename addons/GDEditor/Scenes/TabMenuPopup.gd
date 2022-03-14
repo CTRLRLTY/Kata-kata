@@ -41,7 +41,7 @@ func _on_id_pressed(id: int) -> void:
 		MENU_SAVE_DIALOGUE:
 			emit_signal("save_dialogue")
 		MENU_OPEN_DIALOGUE:
-			$DialogueQuickOpen.popup_dialog("PackedScene", GDUtil.get_save_dir())
+			$DialogueQuickOpen.popup_dialog("PackedScene", GDutil.get_save_dir())
 
 
 func _on_DialogueNamePrompt_confirmed(dialogue_name) -> void:
@@ -51,17 +51,17 @@ func _on_DialogueNamePrompt_confirmed(dialogue_name) -> void:
 func _on_DialogueQuickOpen_confirmed() -> void:
 	var file_name = $DialogueQuickOpen.get_selected()
 	
-	GDUtil.print([self, " DialogueQuickOpen Selected: %s" % file_name], GDUtil.PR_INFO, 2)
+	GDutil.print([self, " DialogueQuickOpen Selected: %s" % file_name], GDutil.PR_INFO, 2)
 	
 	if not file_name.empty():
 		var file_path : String = "res://" + file_name
 		
 		var graph_editor = load(file_path).instance()
-		GDUtil.print([self, " Loading GDGraphEditor: %s" % file_path], GDUtil.PR_INFO, 5)
+		GDutil.print([self, " Loading GDGraphEditor: %s" % file_path], GDutil.PR_INFO, 5)
 		
 		if graph_editor is GDGraphEditor:
 			emit_signal("open_dialogue", graph_editor)
-			GDUtil.print([self, " GDGraphEditor Loaded: ", graph_editor], GDUtil.PR_INFO, 2)
+			GDutil.print([self, " GDGraphEditor Loaded: ", graph_editor], GDutil.PR_INFO, 2)
 			
 		else:
 			graph_editor.free()

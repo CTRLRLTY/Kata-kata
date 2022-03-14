@@ -15,4 +15,4 @@ export(Array, Resource) var character_states
 
 func _init() -> void:
 	character_name = "Scr1pti3"
-	profile_texture = load(GDUtil.resolve("icon.png"))
+	profile_texture = load(GDutil.resolve("icon.png"))

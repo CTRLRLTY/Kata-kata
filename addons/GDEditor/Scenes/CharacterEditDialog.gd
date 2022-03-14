@@ -11,7 +11,7 @@ onready var _file_dialog := find_node("FileDialog")
 
 
 func add_expression(expression_data : CharacterExpressionData) -> void:
-	var item : Control = load(GDUtil.resolve("CharacterExpressionItem.tscn")).instance()
+	var item : Control = load(GDutil.resolve("CharacterExpressionItem.tscn")).instance()
 	var name_edit : LineEdit = item.get_name_edit()
 	
 	item.expression_data = expression_data

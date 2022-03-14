@@ -17,7 +17,7 @@ func get_quick_open() -> ConfirmationDialog:
 
 
 func _on_pressed() -> void:
-	_quick_open.popup_dialog("PackedScene", GDUtil.get_view_dir())
+	_quick_open.popup_dialog("PackedScene", GDutil.get_view_dir())
 
 
 func _on_quick_open_confirmed() -> void:

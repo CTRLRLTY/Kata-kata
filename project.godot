@@ -170,7 +170,7 @@ _global_script_classes=[ {
 "path": "res://addons/GDEditor/Readers/GDStartReader.gd"
 }, {
 "base": "Reference",
-"class": "GDUtil",
+"class": "GDutil",
 "language": "GDScript",
 "path": "res://addons/GDEditor/GDutil.gd"
 }, {
@@ -212,7 +212,7 @@ _global_script_class_icons={
 "GDStandardView": "",
 "GDStartGN": "",
 "GDStartReader": "",
-"GDUtil": "",
+"GDutil": "",
 "PortRect": ""
 }
 

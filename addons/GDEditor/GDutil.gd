@@ -1,6 +1,6 @@
 extends Reference
 
-class_name GDUtil
+class_name GDutil
 
 enum {
 	PR_ERR = 1,
@@ -16,11 +16,13 @@ static func print(msgs: Array, level := PR_ERR, verbosity := 1) -> void:
 	if not get_debug():
 		return
 	
+	var log_verbosity := get_log_verbosity()
+	
 	if get_log_cascade():
-		if verbosity > get_log_verbosity():
+		if verbosity > log_verbosity:
 			return
 	else:
-		if not verbosity == get_log_verbosity():
+		if not verbosity == log_verbosity:
 			return
 	
 	var p : String

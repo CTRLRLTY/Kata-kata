@@ -29,7 +29,7 @@ func _ready() -> void:
 		root.set_selectable(0, false)
 		root.disable_folding = true
 		root.set_text(0, StateColumnTitle)
-		root.add_button(0, GDUtil.get_icon("Add"))
+		root.add_button(0, GDutil.get_icon("Add"))
 		
 		
 func get_state_list() -> Array:

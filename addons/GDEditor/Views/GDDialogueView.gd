@@ -77,7 +77,7 @@ func get_reader_table() -> Dictionary:
 
 func get_components() -> Array:
 	if _component_cache:
-		GDUtil.print([self, " component chache hit!"], GDUtil.PR_INFO, 4)
+		GDutil.print([self, " component chache hit!"], GDutil.PR_INFO, 4)
 		return _component_cache
 	
 	var components := []

@@ -32,14 +32,14 @@ func _enter_tree() -> void:
 
 func _draw() -> void:
 	if _draw_guides and get_global_rect().has_point(get_global_mouse_position()):
-		var left := GDUtil.control_border_left(self)
-		var top := GDUtil.control_border_top(self)
-		var right := GDUtil.control_border_right(self)
-		var bottom := GDUtil.control_border_bottom(self)
+		var left := GDutil.control_border_left(self)
+		var top := GDutil.control_border_top(self)
+		var right := GDutil.control_border_right(self)
+		var bottom := GDutil.control_border_bottom(self)
 		
-		var top_distance := GDUtil.line_centroidv(top).distance_squared_to(get_local_mouse_position())
-		var bottom_distance := GDUtil.line_centroidv(bottom).distance_squared_to(get_local_mouse_position())
-		var center_distance := GDUtil.control_centroid(self).distance_squared_to(get_local_mouse_position())
+		var top_distance := GDutil.line_centroidv(top).distance_squared_to(get_local_mouse_position())
+		var bottom_distance := GDutil.line_centroidv(bottom).distance_squared_to(get_local_mouse_position())
+		var center_distance := GDutil.control_centroid(self).distance_squared_to(get_local_mouse_position())
 
 		
 		if bottom_distance < top_distance and bottom_distance < center_distance:		

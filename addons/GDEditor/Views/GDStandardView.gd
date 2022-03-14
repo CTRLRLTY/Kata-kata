@@ -21,7 +21,7 @@ onready var _joined := {}
 
 
 func _ready() -> void:
-	var file_system := GDUtil.get_file_system_dock()
+	var file_system := GDutil.get_file_system_dock()
 	
 	if file_system:
 		file_system.connect("file_removed", self, "_on_file_removed")
@@ -29,30 +29,30 @@ func _ready() -> void:
 
 func _dialogue_components() -> Array:
 	return [
-		load(GDUtil.resolve("GDStartGN.tscn")),
-		load(GDUtil.resolve("GDEndGN.tscn")),
+		load(GDutil.resolve("GDStartGN.tscn")),
+		load(GDutil.resolve("GDEndGN.tscn")),
 		{
-			"scene": load(GDUtil.resolve("GDMessageGN.tscn")),
+			"scene": load(GDutil.resolve("GDMessageGN.tscn")),
 			"readers": [GDMessageReader.new()]
 		},
 		{
-			"scene": load(GDUtil.resolve("GDChoiceGN.tscn")),
+			"scene": load(GDutil.resolve("GDChoiceGN.tscn")),
 			"readers": [GDChoiceReader.new()]
 		},
-		load(GDUtil.resolve("GDEmitterGN.tscn")),
+		load(GDutil.resolve("GDEmitterGN.tscn")),
 		{
-			"scene": load(GDUtil.resolve("GDCharacterJoinGN.tscn")),
+			"scene": load(GDutil.resolve("GDCharacterJoinGN.tscn")),
 			"readers": [GDCharacterJoinReader.new()]
 		},
 		{
-			"scene": load(GDUtil.resolve("GDCharacterLeftGN.tscn")),
+			"scene": load(GDutil.resolve("GDCharacterLeftGN.tscn")),
 			"readers": [GDCharacterLeftReader.new()]
 		}
 	]
 
 
 func _tool_buttons() -> Array:
-	return [load(GDUtil.resolve("ToolCharacterOpen.tscn"))]
+	return [load(GDutil.resolve("ToolCharacterOpen.tscn"))]
 
 
 func get_view_name() -> String:
@@ -78,13 +78,13 @@ func get_character_datas() -> Array:
 	var dir := Directory.new()
 	var ret := []
 	
-	if dir.dir_exists(GDUtil.get_characters_dir()):
-		dir.open(GDUtil.get_characters_dir())
+	if dir.dir_exists(GDutil.get_characters_dir()):
+		dir.open(GDutil.get_characters_dir())
 		dir.list_dir_begin(true, true)
 		var file_name := dir.get_next()
 		
 		while not file_name.empty():
-			var character_data : CharacterData = load(GDUtil.get_characters_dir() + file_name)
+			var character_data : CharacterData = load(GDutil.get_characters_dir() + file_name)
 			
 			if character_data:
 				ret.append(character_data)
@@ -178,7 +178,7 @@ func reset() -> void:
 
 
 func _on_file_removed(fname: String) -> void:
-	if fname.get_base_dir() + "/" == GDUtil.get_characters_dir():
+	if fname.get_base_dir() + "/" == GDutil.get_characters_dir():
 		emit_signal("character_file_deleted", fname)
 
 

@@ -34,7 +34,7 @@ func _choice_index(edit: LineEdit) -> int:
 
 
 func _add_choice(value := "") -> void:
-	var flowport : HBoxContainer = load(GDUtil.resolve("ChoiceFlowPort.tscn")).instance()
+	var flowport : HBoxContainer = load(GDutil.resolve("ChoiceFlowPort.tscn")).instance()
 	var edits := LineEdit.new()
 	
 	var index := s_choices.size()

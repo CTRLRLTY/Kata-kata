@@ -25,7 +25,7 @@ func _on_CharacterDefinitionPopup_about_to_show() -> void:
 
 func _on_CharacterDefinitionPopup_popup_hide() -> void:
 	var DIR := Directory.new()
-	var characters_dir := GDUtil.get_characters_dir()
+	var characters_dir := GDutil.get_characters_dir()
 	var resource_name_filter := RegEx.new()
 	resource_name_filter.compile("[:/\\\\?*\"|%<>]+")
 

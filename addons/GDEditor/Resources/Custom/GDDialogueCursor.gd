@@ -17,7 +17,7 @@ enum {
 
 
 static func create(cursor: Resource = null):
-	var script = load(GDUtil.resolve("GDDialogueCursor.gd"))
+	var script = load(GDutil.resolve("GDDialogueCursor.gd"))
 	
 	if not cursor:
 		return script.new()

@@ -118,7 +118,7 @@ func _on_ArraySize_value_changed(value: float) -> void:
 
 func _on_ValueEdit_focus_exited(edit : LineEdit) -> void:
 	if not edit.text.empty():
-		GDUtil.filter_edit(_edit_filter, edit, "")
+		GDutil.filter_edit(_edit_filter, edit, "")
 
 
 func _on_ValueArray_pressed() -> void:

@@ -25,7 +25,7 @@ func filter_items(filter: String) -> void:
 
 
 func add_item(character_data := CharacterData.new()) -> void:
-	var character_item : Control = load(GDUtil.get_scene_dir() +
+	var character_item : Control = load(GDutil.get_scene_dir() +
 										"CharacterItem.tscn").instance()
 	var character_names := []
 	

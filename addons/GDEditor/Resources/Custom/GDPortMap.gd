@@ -14,7 +14,7 @@ signal depth_set(node_name, depth)
 
 
 static func create(pm : Resource = null):
-	var script = load(GDUtil.resolve("GDPortMap.gd"))
+	var script = load(GDutil.resolve("GDPortMap.gd"))
 	
 	if not pm:
 		return script.new()
@@ -308,7 +308,7 @@ func right_connected_to(from: String, from_port: int, to: String) -> bool:
 
 
 func copy():
-	var pt = load(GDUtil.resolve("GDPortMap.gd")).new()
+	var pt = load(GDutil.resolve("GDPortMap.gd")).new()
 	pt.table = table.duplicate(true)
 	
 	return pt

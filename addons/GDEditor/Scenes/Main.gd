@@ -19,8 +19,8 @@ var dialogue_datas := []
 
 
 func tab_add_empty() -> void:
-	var dv = load(GDUtil.resolve("GDStandardView.tscn")).instance()
-	var graph = load(GDUtil.resolve("DialogueGraph.tscn")).instance()
+	var dv = load(GDutil.resolve("GDStandardView.tscn")).instance()
+	var graph = load(GDutil.resolve("DialogueGraph.tscn")).instance()
 	
 	_views.add_view(dv)
 	_graphs.add_graph(graph)

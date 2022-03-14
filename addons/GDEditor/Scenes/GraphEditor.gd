@@ -39,7 +39,7 @@ func _ready() -> void:
 	
 	if not get_dialogue_preview():
 		var standard_view : GDDialogueView = load(
-				GDUtil.resolve("GDStandardView.tscn")).instance()
+				GDutil.resolve("GDStandardView.tscn")).instance()
 		
 		set_dialogue_preview(standard_view)
 	else:
@@ -108,8 +108,8 @@ func set_dialogue_preview(dialogue_view: GDDialogueView) -> void:
 func save(file_path: String) -> void:
 	var d := Directory.new()
 	
-	if not d.dir_exists(GDUtil.get_save_dir()):
-		d.make_dir(GDUtil.get_save_dir())
+	if not d.dir_exists(GDutil.get_save_dir()):
+		d.make_dir(GDutil.get_save_dir())
 	
 	var packer := PackedScene.new()
 	var dv := get_dialogue_preview()
@@ -146,7 +146,7 @@ func save(file_path: String) -> void:
 	packer.pack(self)
 	
 	ResourceSaver.save(file_path, packer)
-#	ResourceSaver.save(GDUtil.get_save_dir()+"test.tres", dialogue_data)
+#	ResourceSaver.save(GDutil.get_save_dir()+"test.tres", dialogue_data)
 
 
 func _setup_preview() -> void:
