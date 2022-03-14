@@ -107,23 +107,27 @@ func _on_tab_changed(tab: int) -> void:
 
 
 func _on_tab_closed(tab) -> void:
-	var editor : GDGraphEditor = _graph_editor_container.get_editor(tab)
-	
-	_graph_editor_container.remove_editor(tab)
-	
-	# wait till editor is deleted
-	while is_instance_valid(editor):
-		yield(get_tree(), "idle_frame")
-	
-	
+	_main.tab_close(tab)
+#	var editor : GDGraphEditor = _graph_editor_container.get_editor(tab)
+#
+#	_graph_editor_container.remove_editor(tab)
+#
+#	# wait till editor is deleted
+#	while is_instance_valid(editor):
+#		yield(get_tree(), "idle_frame")
+#
+#
+#	if _tabs.get_tab_count() == 0:
+#		add_empty_tab()
+#
+#		# Wait till tab is added
+#		while _tabs.get_tab_count() == 0:
+#			yield(get_tree(), "idle_frame")
+#
 	if _tabs.get_tab_count() == 0:
 		add_empty_tab()
-		
-		# Wait till tab is added
-		while _tabs.get_tab_count() == 0:
-			yield(get_tree(), "idle_frame")
-	
-	change_tab(_tabs.current_tab)
+	else:
+		change_tab(_tabs.current_tab)
 
 
 func _on_view_changed(dialogue_view: GDDialogueView) -> void:
@@ -156,7 +160,7 @@ func _on_view_active(view: GDDialogueView) -> void:
 	
 	_tools_container.add_tools(view.get_tools())
 	
-	GDUtil.print([self, " setting up preview..."], GDUtil.PR_INFO, 2)
+	GDUtil.print([self, " setting up preview..."], GDUtil.PR_INFO, 3)
 	
 	var node_selection = _left_dock.get_node_selection()
 	node_selection.clear()
@@ -178,4 +182,3 @@ func _on_graph_active(graph: DialogueGraph) -> void:
 	GDUtil.print([self, " set active_graph: ", graph], GDUtil.PR_INFO, 4)
 	
 	active_graph = graph
-	propagate_call("set", ["active_graph", graph], true)

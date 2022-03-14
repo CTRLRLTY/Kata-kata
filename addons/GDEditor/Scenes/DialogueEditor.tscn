@@ -49,28 +49,28 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
 
-[node name="TopContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Top" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 1000.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 0, 26 )
 custom_constants/separation = 0
 alignment = 2
 
-[node name="ToolsContainer" type="HBoxContainer" parent="VBoxContainer/TopContainer"]
+[node name="ToolsContainer" type="HBoxContainer" parent="VBoxContainer/Top"]
 margin_left = 751.0
 margin_right = 751.0
 margin_bottom = 26.0
 custom_constants/separation = 5
 script = ExtResource( 12 )
 
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/TopContainer"]
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/Top"]
 margin_left = 751.0
 margin_right = 772.0
 margin_bottom = 26.0
 custom_constants/separation = 21
 custom_styles/separator = SubResource( 6 )
 
-[node name="ViewBtn" type="Button" parent="VBoxContainer/TopContainer"]
+[node name="ViewBtn" type="Button" parent="VBoxContainer/Top"]
 margin_left = 772.0
 margin_right = 972.0
 margin_bottom = 26.0
@@ -79,16 +79,16 @@ text = "Standard"
 clip_text = true
 script = ExtResource( 3 )
 
-[node name="QuickOpen" parent="VBoxContainer/TopContainer/ViewBtn" instance=ExtResource( 4 )]
+[node name="QuickOpen" parent="VBoxContainer/Top/ViewBtn" instance=ExtResource( 4 )]
 
-[node name="TabMenuBtn" type="ToolButton" parent="VBoxContainer/TopContainer"]
+[node name="TabMenuBtn" type="ToolButton" parent="VBoxContainer/Top"]
 margin_left = 972.0
 margin_right = 1000.0
 margin_bottom = 26.0
 custom_styles/focus = SubResource( 3 )
 icon = ExtResource( 8 )
 
-[node name="TabMenuPopup" type="PopupMenu" parent="VBoxContainer/TopContainer/TabMenuBtn"]
+[node name="TabMenuPopup" type="PopupMenu" parent="VBoxContainer/Top/TabMenuBtn"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -152.0
@@ -101,7 +101,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DialogueNamePrompt" type="WindowDialog" parent="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup"]
+[node name="DialogueNamePrompt" type="WindowDialog" parent="VBoxContainer/Top/TabMenuBtn/TabMenuPopup"]
 margin_left = 124.0
 margin_top = -12.0
 margin_right = 324.0
@@ -113,7 +113,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NameEdit" type="LineEdit" parent="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt"]
+[node name="NameEdit" type="LineEdit" parent="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -128,7 +128,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -140,7 +140,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CancelBtn" type="Button" parent="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer"]
+[node name="CancelBtn" type="Button" parent="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer"]
 margin_left = 17.0
 margin_right = 71.0
 margin_bottom = 21.0
@@ -149,26 +149,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ConfirmBtn" type="Button" parent="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer"]
+[node name="ConfirmBtn" type="Button" parent="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer"]
 margin_left = 121.0
 margin_right = 183.0
 margin_bottom = 21.0
 text = "Confirm"
 
-[node name="DialogueQuickOpen" parent="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" instance=ExtResource( 4 )]
+[node name="DialogueQuickOpen" parent="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" instance=ExtResource( 4 )]
 window_title = "Saved Dialogue Editor"
 
-[node name="TabContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Middle" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 36.0
 margin_right = 1000.0
 margin_bottom = 60.0
 mouse_filter = 2
 size_flags_horizontal = 3
 script = ExtResource( 9 )
-TabMenuPopupPath = NodePath("../TopContainer/TabMenuBtn/TabMenuPopup")
-TabMenuBtnPath = NodePath("../TopContainer/TabMenuBtn")
+TabMenuPopupPath = NodePath("../Top/TabMenuBtn/TabMenuPopup")
+TabMenuBtnPath = NodePath("../Top/TabMenuBtn")
 
-[node name="Tabs" type="Tabs" parent="VBoxContainer/TabContainer"]
+[node name="Tabs" type="Tabs" parent="VBoxContainer/Middle"]
 margin_right = 1000.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 120, 0 )
@@ -178,7 +178,7 @@ tab_close_display_policy = 1
 drag_to_rearrange_enabled = true
 script = ExtResource( 6 )
 
-[node name="NameEdit" type="LineEdit" parent="VBoxContainer/TabContainer/Tabs"]
+[node name="NameEdit" type="LineEdit" parent="VBoxContainer/Middle/Tabs"]
 visible = false
 margin_left = 934.0
 margin_right = 992.0
@@ -189,14 +189,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer"]
+[node name="Bottom" type="HSplitContainer" parent="VBoxContainer"]
 margin_top = 70.0
 margin_right = 1000.0
 margin_bottom = 576.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="LeftDock" type="PanelContainer" parent="VBoxContainer/HSplitContainer"]
+[node name="LeftDock" type="PanelContainer" parent="VBoxContainer/Bottom"]
 margin_right = 214.0
 margin_bottom = 506.0
 rect_min_size = Vector2( 200, 0 )
@@ -205,7 +205,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VSplitContainer" type="VSplitContainer" parent="VBoxContainer/HSplitContainer/LeftDock"]
+[node name="VSplitContainer" type="VSplitContainer" parent="VBoxContainer/Bottom/LeftDock"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 207.0
@@ -217,20 +217,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="UpperHalf" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer"]
+[node name="UpperHalf" type="VBoxContainer" parent="VBoxContainer/Bottom/LeftDock/VSplitContainer"]
 margin_right = 200.0
 margin_bottom = 178.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.6
 
-[node name="Section" type="Label" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/UpperHalf"]
+[node name="Section" type="Label" parent="VBoxContainer/Bottom/LeftDock/VSplitContainer/UpperHalf"]
 margin_right = 200.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Components"
 
-[node name="NodeSelection" type="ItemList" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/UpperHalf"]
+[node name="NodeSelection" type="ItemList" parent="VBoxContainer/Bottom/LeftDock/VSplitContainer/UpperHalf"]
 margin_top = 18.0
 margin_right = 200.0
 margin_bottom = 178.0
@@ -241,19 +241,19 @@ custom_styles/selected = SubResource( 2 )
 items = [ "Start", null, false, "End", null, false, "Message", null, false, "Choice", null, false, "Emitter", null, false, "Character Join", null, false, "Character Left", null, false ]
 script = ExtResource( 18 )
 
-[node name="LowerHalf" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer"]
+[node name="LowerHalf" type="VBoxContainer" parent="VBoxContainer/Bottom/LeftDock/VSplitContainer"]
 margin_top = 190.0
 margin_right = 200.0
 margin_bottom = 492.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Section" type="Label" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
+[node name="Section" type="Label" parent="VBoxContainer/Bottom/LeftDock/VSplitContainer/LowerHalf"]
 margin_right = 200.0
 margin_bottom = 14.0
 text = "Context State"
 
-[node name="LineEdit2" type="LineEdit" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/LowerHalf"]
+[node name="LineEdit2" type="LineEdit" parent="VBoxContainer/Bottom/LeftDock/VSplitContainer/LowerHalf"]
 margin_top = 18.0
 margin_right = 200.0
 margin_bottom = 44.0
@@ -264,14 +264,14 @@ placeholder_text = "Filter nodes"
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="ContextStateTree" parent="VBoxContainer/HSplitContainer/LeftDock/VSplitContainer/LowerHalf" instance=ExtResource( 21 )]
+[node name="ContextStateTree" parent="VBoxContainer/Bottom/LeftDock/VSplitContainer/LowerHalf" instance=ExtResource( 21 )]
 margin_top = 48.0
 margin_bottom = 302.0
 size_flags_vertical = 3
 select_mode = 1
 StateColumnTitle = "Dialogue States"
 
-[node name="Main" type="VSplitContainer" parent="VBoxContainer/HSplitContainer"]
+[node name="Main" type="VSplitContainer" parent="VBoxContainer/Bottom"]
 margin_left = 226.0
 margin_right = 1000.0
 margin_bottom = 506.0
@@ -279,7 +279,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 15 )
 
-[node name="Views" type="PanelContainer" parent="VBoxContainer/HSplitContainer/Main"]
+[node name="Views" type="PanelContainer" parent="VBoxContainer/Bottom/Main"]
 margin_right = 774.0
 margin_bottom = 247.0
 mouse_filter = 2
@@ -287,7 +287,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 1 )
 
-[node name="Graphs" type="PanelContainer" parent="VBoxContainer/HSplitContainer/Main"]
+[node name="Graphs" type="PanelContainer" parent="VBoxContainer/Bottom/Main"]
 margin_top = 259.0
 margin_right = 774.0
 margin_bottom = 506.0
@@ -296,23 +296,24 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 14 )
 
-[connection signal="pressed" from="VBoxContainer/TopContainer/ViewBtn" to="VBoxContainer/TopContainer/ViewBtn" method="_on_pressed"]
-[connection signal="pressed" from="VBoxContainer/TopContainer/TabMenuBtn" to="VBoxContainer/TabContainer" method="_on_TabMenuBtn_pressed"]
-[connection signal="about_to_show" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" method="_on_about_to_show"]
-[connection signal="id_pressed" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" method="_on_id_pressed"]
-[connection signal="new_dialogue" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" to="." method="_on_new_dialogue"]
-[connection signal="confirmed" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" method="_on_DialogueNamePrompt_confirmed"]
-[connection signal="pressed" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/CancelBtn" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_CancelBtn_pressed"]
-[connection signal="pressed" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/ConfirmBtn" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_ConfirmBtn_pressed"]
-[connection signal="confirmed" from="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup/DialogueQuickOpen" to="VBoxContainer/TopContainer/TabMenuBtn/TabMenuPopup" method="_on_DialogueQuickOpen_confirmed"]
-[connection signal="tab_changed" from="VBoxContainer/TabContainer/Tabs" to="." method="_on_tab_changed"]
-[connection signal="tab_close" from="VBoxContainer/TabContainer/Tabs" to="VBoxContainer/TabContainer/Tabs" method="_on_tab_close"]
-[connection signal="tab_closed" from="VBoxContainer/TabContainer/Tabs" to="." method="_on_tab_closed"]
-[connection signal="hide" from="VBoxContainer/TabContainer/Tabs/NameEdit" to="VBoxContainer/TabContainer/Tabs" method="_on_NameEdit_hide"]
-[connection signal="text_entered" from="VBoxContainer/TabContainer/Tabs/NameEdit" to="VBoxContainer/TabContainer/Tabs" method="_on_NameEdit_text_entered"]
-[connection signal="view_active" from="VBoxContainer/HSplitContainer/Main/Views" to="." method="_on_view_active"]
-[connection signal="view_active_next" from="VBoxContainer/HSplitContainer/Main/Views" to="." method="_on_view_active_next"]
-[connection signal="graph_active" from="VBoxContainer/HSplitContainer/Main/Graphs" to="." method="_on_graph_active"]
-[connection signal="graph_node_add" from="VBoxContainer/HSplitContainer/Main/Graphs" to="VBoxContainer/HSplitContainer/Main" method="_on_graph_node_add"]
-[connection signal="graph_node_added" from="VBoxContainer/HSplitContainer/Main/Graphs" to="VBoxContainer/HSplitContainer/Main" method="_on_graph_node_added"]
-[connection signal="graph_node_removed" from="VBoxContainer/HSplitContainer/Main/Graphs" to="VBoxContainer/HSplitContainer/Main" method="_on_graph_node_removed"]
+[connection signal="pressed" from="VBoxContainer/Top/ViewBtn" to="VBoxContainer/Top/ViewBtn" method="_on_pressed"]
+[connection signal="pressed" from="VBoxContainer/Top/TabMenuBtn" to="VBoxContainer/Middle" method="_on_TabMenuBtn_pressed"]
+[connection signal="about_to_show" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" to="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" method="_on_about_to_show"]
+[connection signal="id_pressed" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" to="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" method="_on_id_pressed"]
+[connection signal="new_dialogue" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" to="." method="_on_new_dialogue"]
+[connection signal="confirmed" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" to="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" method="_on_DialogueNamePrompt_confirmed"]
+[connection signal="pressed" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/CancelBtn" to="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_CancelBtn_pressed"]
+[connection signal="pressed" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt/HBoxContainer/ConfirmBtn" to="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueNamePrompt" method="_on_ConfirmBtn_pressed"]
+[connection signal="confirmed" from="VBoxContainer/Top/TabMenuBtn/TabMenuPopup/DialogueQuickOpen" to="VBoxContainer/Top/TabMenuBtn/TabMenuPopup" method="_on_DialogueQuickOpen_confirmed"]
+[connection signal="tab_changed" from="VBoxContainer/Middle/Tabs" to="." method="_on_tab_changed"]
+[connection signal="tab_close" from="VBoxContainer/Middle/Tabs" to="VBoxContainer/Middle/Tabs" method="_on_tab_close"]
+[connection signal="tab_closed" from="VBoxContainer/Middle/Tabs" to="." method="_on_tab_closed"]
+[connection signal="hide" from="VBoxContainer/Middle/Tabs/NameEdit" to="VBoxContainer/Middle/Tabs" method="_on_NameEdit_hide"]
+[connection signal="text_entered" from="VBoxContainer/Middle/Tabs/NameEdit" to="VBoxContainer/Middle/Tabs" method="_on_NameEdit_text_entered"]
+[connection signal="view_active" from="VBoxContainer/Bottom/Main/Views" to="." method="_on_view_active"]
+[connection signal="view_active_next" from="VBoxContainer/Bottom/Main/Views" to="." method="_on_view_active_next"]
+[connection signal="graph_active" from="VBoxContainer/Bottom/Main/Graphs" to="." method="_on_graph_active"]
+[connection signal="graph_added" from="VBoxContainer/Bottom/Main/Graphs" to="VBoxContainer/Bottom/Main" method="_on_graph_added"]
+[connection signal="graph_node_add" from="VBoxContainer/Bottom/Main/Graphs" to="VBoxContainer/Bottom/Main" method="_on_graph_node_add"]
+[connection signal="graph_node_added" from="VBoxContainer/Bottom/Main/Graphs" to="VBoxContainer/Bottom/Main" method="_on_graph_node_added"]
+[connection signal="graph_node_removed" from="VBoxContainer/Bottom/Main/Graphs" to="VBoxContainer/Bottom/Main" method="_on_graph_node_removed"]
