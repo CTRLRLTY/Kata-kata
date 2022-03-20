@@ -14,6 +14,10 @@ func tab_add_empty() -> void:
 	_graphs.add_graph(graph)
 
 
+func tab_open(tab: int, fn: String) -> void:
+	pass
+
+
 func tab_show(tab: int) -> void:
 	_views.show_view(tab)
 	_graphs.show_graph(tab)

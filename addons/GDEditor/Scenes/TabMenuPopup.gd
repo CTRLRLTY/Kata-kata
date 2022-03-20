@@ -5,7 +5,7 @@ extends PopupMenu
 signal preview_dialogue
 signal new_dialogue(dialogue_name)
 signal save_dialogue
-signal open_dialogue(graph_editor)
+signal open_dialogue(dialogue_path)
 
 
 enum {
@@ -56,12 +56,7 @@ func _on_DialogueQuickOpen_confirmed() -> void:
 	if not file_name.empty():
 		var file_path : String = "res://" + file_name
 		
-		var graph_editor = load(file_path).instance()
-		GDutil.print([self, " Loading GDGraphEditor: %s" % file_path], GDutil.PR_INFO, 5)
+		GDutil.print([self, " open " + file_path], GDutil.PR_INFO, 3)
 		
-		if graph_editor is GDGraphEditor:
-			GDutil.print([self, " GDGraphEditor Loaded: ", graph_editor], GDutil.PR_INFO, 2)
-			emit_signal("open_dialogue", graph_editor)
-			
-		else:
-			graph_editor.free()
+		emit_signal('open_dialogue', file_path)
+

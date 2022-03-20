@@ -71,9 +71,8 @@ func _on_preview_dialogue() -> void:
 	GDutil.print([self, " tab(%d) preview visibile: " % _tabs.current_tab, _views.visible], GDutil.PR_INFO, 2)
 
 
-func _on_open_dialogue(graph_editor: GDGraphEditor) -> void:
-	GDutil.print([self, " Opening dialogue file: %s" % graph_editor.filename], GDutil.PR_INFO, 2)
-	var tab_name : String = graph_editor.filename.get_file().get_basename()
+func _on_open_dialogue(dialogue_path: String) -> void:
+	pass
 
 
 func _on_tab_changed(tab: int) -> void:
