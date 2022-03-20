@@ -44,27 +44,37 @@ func reset() -> void:
 
 
 func forward(port: int) -> void:
-	print_debug(self, " forwarding %s" % current)
+	if not port_map().right_connected(current, port):
+		GDutil.print([self, " %s has no right connection on port %d" % [current, port]], GDutil.PR_WARN, 1)
+		
+		return
+	
+	GDutil.print([self, " forwarding %s" % current], GDutil.PR_INFO, 3)
+	
 	next(port)
 	emit_signal("forwarded")
 
 
 func end() -> void:
 	current = ""
-	print_debug(self, " Ending cursor...")
+	
+	GDutil.print([self, " Ending cursor..."], GDutil.PR_INFO, 3)
+	
 	emit_signal("end")
 
 
 func next(port : int) -> int:
 	if current.empty():
-		print_debug(self, " Cursor end reached...")
+		GDutil.print([self, " Cursor end reached..."], GDutil.PR_WARN, 1)
+		
 		end()
 		return ERR_END_REACHED
 	
 	var flow_ports := port_map().right_type_all_port(current, pt.PORT_FLOW)
 	
 	if flow_ports.empty():
-		print_debug(self, "%s has no flowport. Resetting..." % current)
+		GDutil.print([self, " %s has no flowport. Resetting" % current], GDutil.PR_WARN, 1)
+		
 		reset()
 		return ERR_NO_FLOWPORT
 	

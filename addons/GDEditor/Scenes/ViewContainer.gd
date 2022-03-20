@@ -2,21 +2,19 @@ tool
 
 extends PanelContainer
 
-signal view_added(view)
+signal view_add(view)
 signal view_active(view)
-signal view_active_next
+signal view_next(tab)
 signal view_removed
 
 
-####################################################
-#	External Variable
-####################################################
-# This variable is managed externally, don't touch..
-
 var active_view: GDDialogueView
-####################################################
 
 var _removing_view := false
+
+func get_view(tab: int) -> GDDialogueView:
+	return get_child(tab) as GDDialogueView
+
 
 func show_view(index: int) -> void:
 	while _removing_view:
@@ -25,18 +23,20 @@ func show_view(index: int) -> void:
 	for view in get_children():
 		if view.get_index() == index:
 			view.show()
-			emit_signal("view_active", view)
+			active_view = view
+			
+			emit_signal("view_active", active_view)
 		else:
 			view.hide()
 
 
 func add_view(view: GDDialogueView) -> void:
+	emit_signal("view_add", view)
+	
 	view.connect("next", self, "_on_view_next", [view])
 	
 	add_child(view)
 	show_view(view.get_index())
-	
-	emit_signal("view_added", view)
 
 
 func move_view(from: int, to: int) -> void:
@@ -57,5 +57,4 @@ func free_view(index: int) -> void:
 
 
 func _on_view_next(view: GDDialogueView) -> void:
-	if view == active_view:
-		emit_signal("view_active_next")
+	emit_signal("view_next", view.get_index())

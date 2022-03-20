@@ -17,6 +17,10 @@ static func print(msgs: Array, level := PR_ERR, verbosity := 1) -> void:
 		return
 	
 	var log_verbosity := get_log_verbosity()
+	var log_level := get_log_level()
+	
+	if not level & log_level:
+		return
 	
 	if get_log_cascade():
 		if verbosity > log_verbosity:
@@ -34,8 +38,7 @@ static func print(msgs: Array, level := PR_ERR, verbosity := 1) -> void:
 		else:
 			m += String(message)
 	
-	if level & get_log_level():
-		print(m)
+	print(m)
 
 
 static func get_log_verbosity() -> int:

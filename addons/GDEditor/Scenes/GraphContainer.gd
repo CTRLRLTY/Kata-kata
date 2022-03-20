@@ -2,31 +2,29 @@ tool
 
 extends PanelContainer
 
+signal graph_active(graph)
+signal graph_add(graph)
+
 signal graph_node_add(tab, gn)
 signal graph_node_added(tab, gn)
-signal graph_node_removed(tab, gn)
-signal graph_active(graph)
-signal graph_added(graph)
+signal graph_node_removed(tab, node_name)
 
 signal graph_removed
 
-####################################################
-#	External Variable
-####################################################
-# This variable is managed externally, don't touch..
-
-var active_view: GDDialogueView
-####################################################
-
 var _removing_graph := false
 
+func get_graph(tab: int) -> DialogueGraph:
+	return get_child(tab) as DialogueGraph
+
+
 func add_graph(graph: DialogueGraph) -> void:
+	emit_signal("graph_add", graph)
+	
 	graph.connect("graph_node_add", self, "_on_graph_node_add", [graph])
 	graph.connect("graph_node_added", self, "_on_graph_node_added", [graph])
 	graph.connect("graph_node_removed", self, "_on_graph_node_removed", [graph])
 	
 	add_child(graph)
-	emit_signal("graph_added", graph)
 	show_graph(graph.get_index())
 
 
@@ -69,9 +67,6 @@ func save_graph(index: int, path: String, data: GDDialogueData) -> void:
 
 
 func _on_graph_node_add(gn: GDGraphNode, graph: DialogueGraph) -> void:
-	gn.__dialogue_view__ = active_view
-	gn.__port_map__ = graph.port_map()
-	
 	emit_signal("graph_node_add", graph.get_index(), gn)
 
 
@@ -79,5 +74,5 @@ func _on_graph_node_added(gn: GDGraphNode, graph: DialogueGraph) -> void:
 	emit_signal("graph_node_added", graph.get_index(), gn)
 
 
-func _on_graph_node_removed(gn: GDGraphNode, graph: DialogueGraph) -> void:
-	emit_signal("graph_node_removed", graph.get_index(), gn)
+func _on_graph_node_removed(node_name: String, graph: DialogueGraph) -> void:
+	emit_signal("graph_node_removed", graph.get_index(), node_name)

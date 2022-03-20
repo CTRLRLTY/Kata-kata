@@ -4,7 +4,6 @@ extends Control
 
 class_name GDDialogueEditor
 
-var active_graph: DialogueGraph
 var active_view: DialogueGraph
 
 onready var _tabs := find_node("Tabs")
@@ -28,6 +27,7 @@ func _ready() -> void:
 	
 	GDutil.set_debug(true)
 	GDutil.set_log_verbosity(2)
+	GDutil.set_log_level(GDutil.PR_WARN | GDutil.PR_ERR | GDutil.PR_INFO)
 	
 	GDutil.set_dialogue_editor(self)
 	
@@ -96,7 +96,6 @@ func _on_view_changed(dv: GDDialogueView) -> void:
 	if dv is active_view.get_script():
 		GDutil.print([self, " Selecting same view... No change"], GDutil.PR_INFO, 2)
 		return
-	
 
 
 func _on_view_active(view: GDDialogueView) -> void:
@@ -109,7 +108,6 @@ func _on_view_active(view: GDDialogueView) -> void:
 	# active_view must be set before adding tools. Because each add_tools invocation
 	# will set each ToolBtn dialogue_view, which uses the active_view.
 	_tools_container.active_view = view
-	_main.active_view = view
 	
 	_tools_container.add_tools(view.get_tools())
 	
