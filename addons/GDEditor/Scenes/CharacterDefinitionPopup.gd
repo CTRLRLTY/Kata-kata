@@ -51,11 +51,6 @@ func add_item(character_data := CharacterData.new()) -> void:
 			
 	_character_item_container.add_child(character_item)
 
-	# Reorder AddCharacterBtn to last position
-	_character_item_container.move_child(
-			find_node("AddCharacterBtn"), 
-			_character_item_container.get_child_count()-1)
-
 
 func _on_CharacterItem_delete(character_item: Control) -> void:
 	# Prevent duplicated connection error
