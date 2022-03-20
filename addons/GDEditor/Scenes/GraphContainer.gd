@@ -56,11 +56,10 @@ func free_graph(index: int) -> void:
 	_removing_graph = false
 
 
-func save_graph(index: int, path: String, data: GDDialogueData) -> void:
+func save_graph(index: int, path: String) -> void:
 	var packed := PackedScene.new()
 	var graph: DialogueGraph = get_child(index)
 	
-	graph.set_meta("dialogue_data", data)
 	packed.pack(graph)
 	
 	ResourceSaver.save(path, packed)

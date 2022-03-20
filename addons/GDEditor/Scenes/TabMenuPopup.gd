@@ -60,8 +60,8 @@ func _on_DialogueQuickOpen_confirmed() -> void:
 		GDutil.print([self, " Loading GDGraphEditor: %s" % file_path], GDutil.PR_INFO, 5)
 		
 		if graph_editor is GDGraphEditor:
-			emit_signal("open_dialogue", graph_editor)
 			GDutil.print([self, " GDGraphEditor Loaded: ", graph_editor], GDutil.PR_INFO, 2)
+			emit_signal("open_dialogue", graph_editor)
 			
 		else:
 			graph_editor.free()
