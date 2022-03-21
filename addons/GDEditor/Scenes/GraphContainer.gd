@@ -54,6 +54,8 @@ func free_graph(index: int) -> void:
 		yield(graph, "tree_exited")
 	
 	_removing_graph = false
+	
+	emit_signal("graph_removed")
 
 
 func save_graph(index: int, path: String) -> void:

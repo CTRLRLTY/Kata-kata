@@ -54,6 +54,7 @@ func free_view(index: int) -> void:
 		yield(view, "tree_exited")
 	
 	_removing_view = false
+	emit_signal("view_removed")
 
 
 func _on_view_next(view: GDDialogueView) -> void:
