@@ -19,7 +19,7 @@ func _enter_tree() -> void:
 #			load("res://addons/GDEditor/Resources/Custom/ComponentData.gd"), 
 #			get_editor_interface().get_base_control().get_icon("ResourcePreloader", "EditorIcons"))
 #
-	add_autoload_singleton("Gaelog", GDutil.get_gaelog_path())
+	add_autoload_singleton("Kata2", GDutil.get_gaelog_path())
 	
 	# Prevent competing active main screen
 	make_visible(false)
@@ -29,7 +29,7 @@ func _exit_tree() -> void:
 	if dialogue_editor:
 		dialogue_editor.queue_free()
 	
-	remove_autoload_singleton("Gaelog")
+	remove_autoload_singleton("Kata2")
 		
 	GDutil.clear_state()
 
@@ -44,7 +44,7 @@ func make_visible(visible: bool) -> void:
 
 	
 func get_plugin_name() -> String:
-	return "Gaelog"
+	return "Kata-kata"
 	
 	
 func get_plugin_icon() -> Texture:

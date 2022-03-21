@@ -223,7 +223,7 @@ config/icon="res://addons/GDEditor/Resources/Icons/icon.png"
 
 [autoload]
 
-Gaelog="*res://addons/GDEditor/Gaelog.tscn"
+Kata2="*res://addons/GDEditor/Kata2.tscn"
 
 [editor_plugins]
 

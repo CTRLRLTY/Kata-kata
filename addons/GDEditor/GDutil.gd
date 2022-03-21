@@ -110,7 +110,11 @@ static func get_icon_dir() -> String:
 
 
 static func get_gaelog_path() -> String:
-	return "res://addons/GDEditor/Gaelog.tscn"
+	return "res://addons/GDEditor/Kata2.tscn"
+
+
+static func get_kata2_path() -> String:
+	return "res://addons/GDEditor/Kata2.tscn"
 
 
 static func get_icon(icon_name : String) -> Texture:
