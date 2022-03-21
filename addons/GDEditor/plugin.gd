@@ -6,9 +6,9 @@ const DialogueEditorScene := preload("res://addons/GDEditor/Scenes/DialogueEdito
 var dialogue_editor : Control
 
 func _enter_tree() -> void:
-#	GDutil.set_editor_plugin(self)
-#	GDutil.set_debug(true)
-#	GDutil.set_log_verbosity(4)
+	GDutil.set_editor_plugin(self)
+	GDutil.set_debug(true)
+	GDutil.set_log_verbosity(4)
 	
 	dialogue_editor = DialogueEditorScene.instance()
 	get_editor_interface().get_editor_viewport().add_child(dialogue_editor)
@@ -48,4 +48,4 @@ func get_plugin_name() -> String:
 	
 	
 func get_plugin_icon() -> Texture:
-	return get_editor_interface().get_base_control().get_icon("Node", "EditorIcons")
+	return load('res://test/PluginIcon.png') as Texture

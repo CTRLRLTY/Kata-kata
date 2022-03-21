@@ -12,7 +12,8 @@ enum {
 	OK = OK,
 	ERR_NO_FLOWPORT,
 	ERR_NO_CONNECTION,
-	ERR_END_REACHED
+	ERR_NO_DEPTH,
+	ERR_END_REACHED,
 }
 
 
@@ -44,14 +45,11 @@ func reset() -> void:
 
 
 func forward(port: int) -> void:
-	if not port_map().right_connected(current, port):
-		GDutil.print([self, " %s has no right connection on port %d" % [current, port]], GDutil.PR_WARN, 1)
-		
+	if not next(port) == OK:
 		return
 	
 	GDutil.print([self, " forwarding %s" % current], GDutil.PR_INFO, 3)
-	
-	next(port)
+		
 	emit_signal("forwarded")
 
 
@@ -70,10 +68,16 @@ func next(port : int) -> int:
 		end()
 		return ERR_END_REACHED
 	
+	if port_map().get_node_depth(current) == 0:
+		GDutil.print([self, " %s has zero depth. Resetting cursor..." % current], GDutil.PR_WARN, 1)
+		
+		reset()
+		return ERR_NO_DEPTH
+	
 	var flow_ports := port_map().right_type_all_port(current, pt.PORT_FLOW)
 	
 	if flow_ports.empty():
-		GDutil.print([self, " %s has no flowport. Resetting" % current], GDutil.PR_WARN, 1)
+		GDutil.print([self, " %s has no flowport. Resetting cursor..." % current], GDutil.PR_WARN, 1)
 		
 		reset()
 		return ERR_NO_FLOWPORT
@@ -92,14 +96,15 @@ func next(port : int) -> int:
 				port = p
 		
 		if port == -1:
-			print_debug(self, "%s has no output flowport connection. Resetting..." % current)
+			GDutil.print([self, "%s has no output flowport connection. Resetting cursor..." % current], GDutil.PR_WARN, 2)
+			
 			reset()
 			return ERR_NO_CONNECTION
 	
 	var nodes := port_map().right_type_port_connection(current, pt.PORT_FLOW, port).keys()
-	current = nodes.front() if nodes.front() else ""
+	var node_name: String = nodes.front() if nodes.front() else ""
 	
-	print_debug(self, "cursor current: %s" % current)
+	current = node_name
 	
 	return OK
 

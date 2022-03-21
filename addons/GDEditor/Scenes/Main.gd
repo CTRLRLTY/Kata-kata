@@ -54,6 +54,10 @@ func view_next(tab: int) -> void:
 	if not cursor.is_connected('end', self, "_on_cursor_end"):
 		cursor.connect('end', self, "_on_cursor_end", [tab])
 	
+	if not cursor.is_connected("reset", self, "_on_cursor_reset"):
+		cursor.connect("reset", self, "_on_cursor_reset", [tab])
+
+	
 	if cursor.root.empty():
 		for gn in graph.get_children():
 			if gn is GDStartGN:
@@ -89,6 +93,12 @@ func _on_cursor_end(tab: int) -> void:
 	
 	view.reset()
 	cursor.reset()
+
+
+func _on_cursor_reset(tab: int) -> void:
+	var view: GDDialogueView = _views.get_view(tab)
+	
+	view.reset()
 
 
 func _on_graph_node_add(tab: int, gn: GDGraphNode) -> void:
